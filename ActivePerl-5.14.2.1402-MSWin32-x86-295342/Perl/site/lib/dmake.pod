@@ -1,0 +1,21 @@
+=head1 NAME
+
+dmake - A utility to manage software builds
+
+=head1 DESCRIPTION
+
+The dmake PPM package installs the C<dmake> utility into the Perl tree
+at F<site/lib/auto/dmake>.  It also creates a link to F<dmake.exe>
+in the F<site/bin> diretory so that it can be found on the PATH.
+
+=head1 HISTORY
+
+The dmake files installed into F<site/lib/auto/dmake> have been
+extracted from the F<authors/id/S/SH/SHAY/dmake-4.11-20080107-SHAY.zip> file on CPAN.
+
+=head1 SEE ALSO
+
+L<MinGW>
+
+=cut
+

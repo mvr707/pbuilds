@@ -1,0 +1,50 @@
+---
+distribution: !!perl/hash:CPAN::Distribution
+  CALLED_FOR: LWPx::TimedHTTP
+  CHECKSUM_STATUS: OK
+  ID: S/SI/SIMONW/LWPx-TimedHTTP-1.8.tar.gz
+  RO:
+    CPAN_COMMENT: ~
+    CPAN_USERID: SIMONW
+  archived: tar
+  build_dir: C:\Perl\cpan\build\LWPx-TimedHTTP-1.8-iRWxhv
+  incommandcolor: 1
+  install: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 2
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338270177
+  localfile: C:\Perl\cpan\sources\authors\id\S\SI\SIMONW\LWPx-TimedHTTP-1.8.tar.gz
+  make: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 2
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338270175
+  negative_prefs_cache: 2
+  notest: 1
+  prefs:
+    install: {}
+  prereq_pm:
+    build_requires:
+      HTTP::Daemon: '0'
+      Test::More: '0'
+    requires:
+      LWP::UserAgent: '6'
+      Time::HiRes: '0'
+  reqtype: c
+  unwrapped: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 2
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338270170
+  writemakefile: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 2
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338270172
+perl:
+  $^X: C:\Perl\bin\perl.exe
+  mtime_$^X: 1318029070
+  mtime_dll: 0
+  sitearchexp: C:\Perl\site\lib
+time: 1338270177

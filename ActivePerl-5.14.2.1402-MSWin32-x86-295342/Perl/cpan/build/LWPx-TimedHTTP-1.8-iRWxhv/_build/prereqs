@@ -1,0 +1,13 @@
+do{ my $x = {
+       'build_requires' => {
+                             'Test::More' => 0,
+                             'HTTP::Daemon' => 0
+                           },
+       'conflicts' => {},
+       'requires' => {
+                       'LWP::UserAgent' => 6,
+                       'Time::HiRes' => 0
+                     },
+       'recommends' => {}
+     };
+$x; }

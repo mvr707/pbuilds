@@ -1,0 +1,158 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../scineplex.css">
+<title>LWPx::TimedHTTP - time the different stages of an HTTP request</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',3);</script>
+<h1><a>LWPx::TimedHTTP - time the different stages of an HTTP request</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#metrics">METRICS</a></li>
+	<ul>
+
+		<li><a href="#client_request_dns_time">Client-Request-Dns-Time</a></li>
+		<li><a href="#client_request_connect_time">Client-Request-Connect-Time</a></li>
+		<li><a href="#client_request_transmit_time">Client-Request-Transmit-Time</a></li>
+		<li><a href="#client_response_server_time">Client-Response-Server-Time</a></li>
+		<li><a href="#client_response_receive_time">Client-Response-Receive-Time</a></li>
+	</ul>
+
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copying">COPYING</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<hr />
+<h1><a name="name">NAME</a></h1>
+<p>LWPx::TimedHTTP - time the different stages of an HTTP request</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+    <span class="comment"># do the work for you</span>
+    <span class="keyword">use</span> <span class="variable">LWP::UserAgent</span><span class="operator">;</span>                                                                                                                 
+    <span class="keyword">use</span> <span class="variable">LWPx::TimedHTTP</span> <span class="string">qw(:autoinstall)</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="comment"># now just continue as normal                                                                                                               </span>
+    <span class="keyword">my</span> <span class="variable">$ua</span> <span class="operator">=</span> <span class="variable">LWP::UserAgent</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">;</span>                                                                                                        
+    <span class="keyword">my</span> <span class="variable">$response</span> <span class="operator">=</span> <span class="variable">$ua</span><span class="operator">-&gt;</span><span class="variable">get</span><span class="operator">(</span><span class="string">"http://thegestalt.org"</span><span class="operator">);</span>                                                                                   
+    <span class="comment"># ... with optional retrieving of metrics (in seconds)</span>
+    <span class="keyword">printf</span>  <span class="string">"%f\n"</span><span class="operator">,</span> <span class="variable">$response</span><span class="operator">-&gt;</span><span class="variable">header</span><span class="operator">(</span><span class="string">'Client-Request-Connect-Time'</span><span class="operator">);</span>
+</pre>
+<pre>
+    <span class="comment"># or if you don't like magic going on in the background</span>
+    <span class="keyword">use</span> <span class="variable">LWP::UserAgent</span><span class="operator">;</span>                                                                                                                 
+    <span class="keyword">use</span> <span class="variable">LWP::Protocol</span><span class="operator">;</span>                                                                                                                  
+    <span class="keyword">use</span> <span class="variable">LWPx::TimedHTTP</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="variable">LWP::Protocol::implementor</span><span class="operator">(</span><span class="string">'http'</span><span class="operator">,</span>  <span class="string">'LWPx::TimedHTTP'</span><span class="operator">);</span>
+</pre>
+<pre>
+    <span class="comment"># or for https ....</span>
+    <span class="variable">LWP::Protocol::implementor</span><span class="operator">(</span><span class="string">'https'</span><span class="operator">,</span> <span class="string">'LWPx::TimedHTTP::https'</span><span class="operator">);</span>
+</pre>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$ua</span> <span class="operator">=</span> <span class="variable">LWP::UserAgent</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">;</span>                                                                                                            
+    <span class="keyword">my</span> <span class="variable">$response</span> <span class="operator">=</span> <span class="variable">$ua</span><span class="operator">-&gt;</span><span class="variable">get</span><span class="operator">(</span><span class="string">"http://thegestalt.org"</span><span class="operator">);</span>                                                                                       
+    <span class="keyword">printf</span>  <span class="string">"%f\n"</span><span class="operator">,</span> <span class="variable">$response</span><span class="operator">-&gt;</span><span class="variable">header</span><span class="operator">(</span><span class="string">'Client-Request-Connect-Time'</span><span class="operator">);</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This module performs an HTTP request exactly the same 
+as <strong>LWP</strong> does normally except for the fact that it 
+times each stage of the request and then inserts the 
+results as header.</p>
+<p>It's useful for debugging where abouts in a connection slow downs 
+are occuring.</p>
+<p>
+</p>
+<hr />
+<h1><a name="metrics">METRICS</a></h1>
+<p>All times returned are in seconds</p>
+<p>
+</p>
+<h2><a name="client_request_dns_time">Client-Request-Dns-Time</a></h2>
+<p>The time it took to do a DNS lookup on the host.</p>
+<p><strong>NOTE:</strong> The value of this timing is NOT thread safe since it 
+has to smuggle the data back via a global variable.</p>
+<p>
+</p>
+<h2><a name="client_request_connect_time">Client-Request-Connect-Time</a></h2>
+<p>The time it took to connect to the remote server</p>
+<p>
+</p>
+<h2><a name="client_request_transmit_time">Client-Request-Transmit-Time</a></h2>
+<p>The time it took to transmit the request</p>
+<p>
+</p>
+<h2><a name="client_response_server_time">Client-Response-Server-Time</a></h2>
+<p>Time it took to respond to the request</p>
+<p>
+</p>
+<h2><a name="client_response_receive_time">Client-Response-Receive-Time</a></h2>
+<p>Time it took to get the data back</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Simon Wistow &lt;<a href="mailto:simon@thegestalt.org">simon@thegestalt.org</a>&gt;</p>
+<p>Based entirely on work by David Carter - 
+this module is a little light frobbing and some packaging of
+code he posted to the libwww-perl mailing list in response to
+one of my questions.</p>
+<p>His code was, in turn, based on <strong>LWP::Protocol::http</strong> by 
+Gisle Aas which is distributed as part of the <strong>libwww</strong> package.</p>
+<p>
+</p>
+<hr />
+<h1><a name="copying">COPYING</a></h1>
+<p>(c)opyright 2002, Simon Wistow</p>
+<p>Distributed under the same terms as Perl itself.</p>
+<p>This software is under no warranty and will probably ruin your life, kill your friends, burn your house and bring about the apocalypse</p>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p>None known</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../../lib/CPAN/LWP/UserAgent.html">the LWP::UserAgent manpage</a>, <a href="../../../lib/Time/HiRes.html">the Time::HiRes manpage</a></p>
+
+</body>
+
+</html>

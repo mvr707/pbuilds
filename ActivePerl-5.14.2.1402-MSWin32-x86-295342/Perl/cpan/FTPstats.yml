@@ -1,0 +1,57 @@
+---
+history:
+- attempts:
+  - method: dleasy
+    start: 1338270112.06658
+    url: &1 !!perl/hash:CPAN::URL
+      FROM: USER
+      TEXT: http://ppm.activestate.com/CPAN/
+  end: 1338270112.78418
+  file: authors/01mailrc.txt.gz
+  filesize: 193078
+  start: 1338270112.06543
+  thesiteurl: *1
+- attempts:
+  - method: dleasy
+    start: 1338270113.42542
+    url: &2 !!perl/hash:CPAN::URL
+      FROM: USER
+      TEXT: http://ppm.activestate.com/CPAN/
+  end: 1338270114.45605
+  file: modules/02packages.details.txt.gz
+  filesize: 1271821
+  start: 1338270113.4248
+  thesiteurl: *2
+- attempts:
+  - method: dleasy
+    start: 1338270124.98764
+    url: &3 !!perl/hash:CPAN::URL
+      FROM: USER
+      TEXT: http://ppm.activestate.com/CPAN/
+  end: 1338270125.4873
+  file: modules/03modlist.data.gz
+  filesize: 203985
+  start: 1338270124.9873
+  thesiteurl: *3
+- attempts:
+  - method: dleasy
+    start: 1338270169.9873
+    url: &4 !!perl/hash:CPAN::URL
+      FROM: USER
+      TEXT: http://ppm.activestate.com/CPAN/
+  end: 1338270170.14035
+  file: authors/id/S/SI/SIMONW/LWPx-TimedHTTP-1.8.tar.gz
+  filesize: 9291
+  start: 1338270169.9873
+  thesiteurl: *4
+- attempts:
+  - method: dleasy
+    start: 1338270170.15142
+    url: &5 !!perl/hash:CPAN::URL
+      FROM: USER
+      TEXT: http://ppm.activestate.com/CPAN/
+  end: 1338270170.6123
+  file: authors/id/S/SI/SIMONW/CHECKSUMS
+  filesize: 119118
+  start: 1338270170.14905
+  thesiteurl: *5
