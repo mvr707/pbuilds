@@ -4376,3 +4376,47 @@ C<EXE_FILES: >
 
 =back
 
+=head2 Thu May 31 13:41:28 2012: C<Module> L<FCGI|FCGI>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Perl\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.74>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu May 31 13:41:49 2012: C<Module> L<CGI|CGI>
+
+=over 4
+
+=item *
+
+C<installed into: C:\Perl\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 3.59>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+

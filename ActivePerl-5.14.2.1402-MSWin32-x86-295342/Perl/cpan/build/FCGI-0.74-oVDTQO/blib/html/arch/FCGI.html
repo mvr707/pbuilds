@@ -1,0 +1,232 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../displayToc.js"></script>
+<script language="JavaScript" src="../tocParas.js"></script>
+<script language="JavaScript" src="../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../scineplex.css">
+<title>FCGI - Fast CGI module</title>
+<link rel="stylesheet" href="../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',1);</script>
+<h1><a>FCGI - Fast CGI module</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<hr />
+<h1><a name="name">NAME</a></h1>
+<p>FCGI - Fast CGI module</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+    <span class="keyword">use</span> <span class="variable">FCGI</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$count</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+    <span class="keyword">my</span> <span class="variable">$request</span> <span class="operator">=</span> <span class="variable">FCGI::Request</span><span class="operator">();</span>
+</pre>
+<pre>
+    <span class="keyword">while</span><span class="operator">(</span><span class="variable">$request</span><span class="operator">-&gt;</span><span class="variable">Accept</span><span class="operator">()</span> <span class="operator">&gt;=</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">{</span>
+        <span class="keyword">print</span><span class="operator">(</span><span class="string">"Content-type: text/html\r\n\r\n"</span><span class="operator">,</span> <span class="operator">++</span><span class="variable">$count</span><span class="operator">);</span>
+    <span class="operator">}</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>Functions:</p>
+<dl>
+<dt><strong><a name="fcgi_request" class="item">FCGI::Request</a></strong></dt>
+
+<dd>
+<p>Creates a request handle. It has the following optional parameters:</p>
+<dl>
+<dt><strong><a name="handle" class="item">input perl file handle (default: \*STDIN)</a></strong></dt>
+
+<dt><strong>output perl file handle (default: \*STDOUT)</strong></dt>
+
+<dt><strong>error perl file handle (default: \*STDERR)</strong></dt>
+
+<dd>
+<p>These filehandles will be setup to act as input/output/error
+on successful Accept.</p>
+</dd>
+<dt><strong><a name="reference" class="item">environment hash reference (default: \%ENV)</a></strong></dt>
+
+<dd>
+<p>The hash will be populated with the environment.</p>
+</dd>
+<dt><strong><a name="socket" class="item">socket (default: 0)</a></strong></dt>
+
+<dd>
+<p>Socket to communicate with the server.
+Can be the result of the OpenSocket function.
+For the moment, it's the file descriptor of the socket
+that should be passed. This may change in the future.</p>
+<p>You should only use your own socket if your program
+is not started by a process manager such as mod_fastcgi
+(except for the FastCgiExternalServer case) or cgi-fcgi.
+If you use the option, you have to let your FastCGI
+server know which port (and possibly server) your program
+is listening on.
+See remote.pl for an example.</p>
+</dd>
+<dt><strong><a name="flags" class="item">flags (default: 0)</a></strong></dt>
+
+<dd>
+<p>Possible values:</p>
+<dl>
+<dt><strong><a name="fcgi_fail_accept_on_intr" class="item">FCGI::FAIL_ACCEPT_ON_INTR</a></strong></dt>
+
+<dd>
+<p>If set, Accept will fail if interrupted.
+It not set, it will just keep on waiting.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>Example usage:
+    my $req = FCGI::Request;</p>
+<p>or:
+    my %env;
+    my $in = new IO::Handle;
+    my $out = new IO::Handle;
+    my $err = new IO::Handle;
+    my $req = FCGI::Request($in, $out, $err, \%env);</p>
+</dd>
+<dt><strong><a name="opensocket" class="item">FCGI::OpenSocket(path, backlog)</a></strong></dt>
+
+<dd>
+<p>Creates a socket suitable to use as an argument to Request.</p>
+<dl>
+<dt><strong><a name="path" class="item">path</a></strong></dt>
+
+<dd>
+<p>Pathname of socket or colon followed by local tcp port.
+Note that some systems take file permissions into account
+on Unix domain sockets, so you'll have to make sure that
+the server can write to the created file, by changing
+the umask before the call and/or changing permissions and/or
+group of the file afterwards.</p>
+</dd>
+<dt><strong><a name="backlog" class="item">backlog</a></strong></dt>
+
+<dd>
+<p>Maximum length of the queue of pending connections.
+If a connection
+request arrives with the queue full the client may receive
+an  error  with  an  indication of ECONNREFUSED.</p>
+</dd>
+</dl>
+</dd>
+<dt><strong><a name="closesocket" class="item">FCGI::CloseSocket(socket)</a></strong></dt>
+
+<dd>
+<p>Close a socket opened with OpenSocket.</p>
+</dd>
+<dt><strong><a name="accept" class="item">$req-&gt;<code>Accept()</code></a></strong></dt>
+
+<dd>
+<p>Accepts a connection on $req, attaching the filehandles and
+populating the environment hash.
+Returns 0 on success.
+If a connection has been accepted before, the old
+one will be finished first.</p>
+<p>Note that unlike with the old interface, no die and warn
+handlers are installed by default. This means that if
+you are not running an sfio enabled perl, any warn or
+die message will not end up in the server's log by default.
+It is advised you set up die and warn handlers yourself.
+FCGI.pm contains an example of die and warn handlers.</p>
+</dd>
+<dt><strong><a name="finish" class="item">$req-&gt;<code>Finish()</code></a></strong></dt>
+
+<dd>
+<p>Finishes accepted connection.
+Also detaches filehandles.</p>
+</dd>
+<dt><strong><a name="flush" class="item">$req-&gt;<code>Flush()</code></a></strong></dt>
+
+<dd>
+<p>Flushes accepted connection.</p>
+</dd>
+<dt><strong><a name="detach" class="item">$req-&gt;<code>Detach()</code></a></strong></dt>
+
+<dd>
+<p>Temporarily detaches filehandles on an accepted connection.</p>
+</dd>
+<dt><strong><a name="attach" class="item">$req-&gt;<code>Attach()</code></a></strong></dt>
+
+<dd>
+<p>Re-attaches filehandles on an accepted connection.</p>
+</dd>
+<dt><strong><a name="lastcall" class="item">$req-&gt;<code>LastCall()</code></a></strong></dt>
+
+<dd>
+<p>Tells the library not to accept any more requests on this handle.
+It should be safe to call this method from signal handlers.</p>
+<p>Note that this method is still experimental and everything
+about it, including its name, is subject to change.</p>
+</dd>
+<dt><strong><a name="getenvironment" class="item">$env = $req-&gt;<code>GetEnvironment()</code></a></strong></dt>
+
+<dd>
+<p>Returns the environment parameter passed to FCGI::Request.</p>
+</dd>
+<dt><strong><a name="gethandles" class="item">($in, $out, $err) = $req-&gt;<code>GetHandles()</code></a></strong></dt>
+
+<dd>
+<p>Returns the file handle parameters passed to FCGI::Request.</p>
+</dd>
+<dt><strong><a name="isfastcgi" class="item">$isfcgi = $req-&gt;<code>IsFastCGI()</code></a></strong></dt>
+
+<dd>
+<p>Returns whether or not the program was run as a FastCGI.</p>
+</dd>
+</dl>
+<p>FCGI.pm isn't Unicode aware, only characters within the range 0x00-0xFF are 
+supported. Attempts to output strings containing characters above 0xFF results
+in a exception: (F) <code>Wide character in %s</code>.</p>
+<p>Users who wants the previous (FCGI.pm &lt;= 0.68) incorrect behavior can disable the
+exception by using the <a href="../lib/pods/perlrun.html#bytes"><code>bytes</code></a> pragma.</p>
+<pre>
+    <span class="operator">{</span>
+        <span class="keyword">use</span> <span class="variable">bytes</span><span class="operator">;</span>
+        <span class="keyword">print</span> <span class="string">"\x{263A}"</span><span class="operator">;</span>
+    <span class="operator">}</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Sven Verdoolaege &lt;<a href="mailto:skimo@kotnet.org">skimo@kotnet.org</a>&gt;</p>
+
+</body>
+
+</html>

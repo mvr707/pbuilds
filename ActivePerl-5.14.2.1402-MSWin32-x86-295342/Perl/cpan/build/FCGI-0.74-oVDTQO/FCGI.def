@@ -1,0 +1,4 @@
+EXPORTS
+  boot_FCGI
+  _boot_FCGI = boot_FCGI
+  

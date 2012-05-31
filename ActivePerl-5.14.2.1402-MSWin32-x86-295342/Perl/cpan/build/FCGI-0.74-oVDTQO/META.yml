@@ -1,0 +1,23 @@
+---
+abstract: 'Fast CGI module'
+author:
+  - 'Sven Verdoolaege (skimo@kotnet.org)'
+build_requires:
+  ExtUtils::MakeMaker: 0
+configure_requires:
+  ExtUtils::MakeMaker: 0
+dynamic_config: 1
+generated_by: 'ExtUtils::MakeMaker version 6.59, CPAN::Meta::Converter version 2.112150'
+license: unknown
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: FCGI
+no_index:
+  directory:
+    - t
+    - inc
+requires: {}
+resources:
+  repository: git://git.shadowcat.co.uk/catagits/fcgi2.git
+version: 0.74
