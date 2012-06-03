@@ -1,0 +1,13 @@
+2012/06/02 19:51:43    5 [N/A] INFO  a - should print for a, a.b, a.b.c
+2012/06/02 19:51:43    6 [N/A] INFO  a.b - should print for a, a.b, a.b.c
+2012/06/02 19:51:43    6 [N/A] INFO  a.b.c - should print for a, a.b, a.b.c
+2012/06/02 19:51:43    6 [N/A] WARN  a - should print for a, a.b, a.b.c, a.b.c.d, a.b.c.d.e
+2012/06/02 19:51:43    6 [N/A] WARN  a.b - should print for a, a.b, a.b.c, a.b.c.d, a.b.c.d.e
+2012/06/02 19:51:43    6 [N/A] WARN  a.b.c - should print for a, a.b, a.b.c, a.b.c.d, a.b.c.d.e
+2012/06/02 19:51:43    7 [N/A] WARN  a.b.c.d - should print for a, a.b, a.b.c, a.b.c.d, a.b.c.d.e
+2012/06/02 19:51:43    7 [N/A] WARN  a.b.c.d.e - should print for a, a.b, a.b.c, a.b.c.d, a.b.c.d.e
+2012/06/02 19:51:43    7 [N/A] FATAL a - should print for a, a.b, a.b.c, a.b.c.d, a.b.c.d.e
+2012/06/02 19:51:43    7 [N/A] FATAL a.b - should print for a, a.b, a.b.c, a.b.c.d, a.b.c.d.e
+2012/06/02 19:51:43    7 [N/A] FATAL a.b.c - should print for a, a.b, a.b.c, a.b.c.d, a.b.c.d.e
+2012/06/02 19:51:43    8 [N/A] FATAL a.b.c.d - should print for a, a.b, a.b.c, a.b.c.d, a.b.c.d.e
+2012/06/02 19:51:43    8 [N/A] FATAL a.b.c.d.e - should print for a, a.b, a.b.c, a.b.c.d, a.b.c.d.e

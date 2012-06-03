@@ -1,0 +1,105 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../scineplex.css">
+<title>Exporter::Declare::Export - Base class for all export objects.</title>
+<link rel="stylesheet" href="../../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',4);</script>
+<h1><a>Exporter::Declare::Export - Base class for all export objects.</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<li><a href="#authors">AUTHORS</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Exporter::Declare::Export - Base class for all export objects.</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>All exports are refs, and all are blessed. This class tracks some per-export
+information via an inside-out objects system. All things an export may need to
+do, such as inject itself into a package are handled here. This allows some
+complicated, or ugly logic to be abstracted out of the exporter and metadata
+classes.</p>
+<p>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<dl>
+<dt><strong><a name="new" class="item">$class-&gt;new( $ref, exported_by =&gt; $package, %data )</a></strong></dt>
+
+<dd>
+<p>Create a new export from $ref. You must specify the name of the class doing the
+exporting.</p>
+</dd>
+<dt><strong><a name="inject" class="item">$export-&gt;inject( $package, $name, @args )</a></strong></dt>
+
+<dd>
+<p>This will inject the export into $package under $name. @args are ignored in
+most cases. See <a href="../../../../Exporter/Declare/Export/Generator.html">the Exporter::Declare::Export::Generator manpage</a> for an example where
+they are used.</p>
+</dd>
+<dt><strong><a name="exported_by" class="item">$package = $export-&gt;<code>exported_by()</code></a></strong></dt>
+
+<dd>
+<p>Returns the name of the package from which this export was originally exported.</p>
+</dd>
+<dt><strong><a name="required_specs" class="item">@params = $export-&gt;<code>required_specs()</code></a></strong></dt>
+
+<dd>
+<p>Documented for subclassing purposes. This should always return a list of
+required parameters at construction time.</p>
+</dd>
+<dt><strong><a name="destroy" class="item">$export-&gt;<code>DESTROY()</code></a></strong></dt>
+
+<dd>
+<p>Documented for subclassing purposes. This takes care of cleanup related to
+storing data in an inside-out objects system.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="authors">AUTHORS</a></h1>
+<p>Chad Granum <em><a href="mailto:exodist7@gmail.com">exodist7@gmail.com</a></em></p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (C) 2010 Chad Granum</p>
+<p>Exporter-Declare is free software; Standard perl licence.</p>
+<p>Exporter-Declare is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the license for more details.</p>
+
+</body>
+
+</html>

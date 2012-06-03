@@ -1,0 +1,759 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../scineplex.css">
+<title>Scope::Upper - Act on upper scopes.</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',3);</script>
+<h1><a>Scope::Upper - Act on upper scopes.</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#version">VERSION</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#functions">FUNCTIONS</a></li>
+	<ul>
+
+		<li><a href="#reap__callback___context"><code>reap $callback, $context</code></a></li>
+		<li><a href="#localize__what___value___context"><code>localize $what, $value, $context</code></a></li>
+		<li><a href="#localize_elem__what___key___value___context"><code>localize_elem $what, $key, $value, $context</code></a></li>
+		<li><a href="#localize_delete__what___key___context"><code>localize_delete $what, $key, $context</code></a></li>
+		<li><a href="#unwind__values___context"><code>unwind @values, $context</code></a></li>
+		<li><a href="#want_at__context"><code>want_at $context</code></a></li>
+		<li><a href="#uplevel__code___args___context"><code>uplevel $code, @args, $context</code></a></li>
+		<li><a href="#uid__context"><code>uid $context</code></a></li>
+		<li><a href="#validate_uid__uid"><code>validate_uid $uid</code></a></li>
+	</ul>
+
+	<li><a href="#constants">CONSTANTS</a></li>
+	<ul>
+
+		<li><a href="#su_threadsafe"><code>SU_THREADSAFE</code></a></li>
+	</ul>
+
+	<li><a href="#words">WORDS</a></li>
+	<ul>
+
+		<li><a href="#constants">Constants</a></li>
+		<ul>
+
+			<li><a href="#top"><code>TOP</code></a></li>
+			<li><a href="#here"><code>HERE</code></a></li>
+		</ul>
+
+		<li><a href="#getting_a_context_from_a_context">Getting a context from a context</a></li>
+		<ul>
+
+			<li><a href="#up__from"><code>UP $from</code></a></li>
+			<li><a href="#sub__from"><code>SUB $from</code></a></li>
+			<li><a href="#eval__from"><code>EVAL $from</code></a></li>
+		</ul>
+
+		<li><a href="#getting_a_context_from_a_level">Getting a context from a level</a></li>
+		<ul>
+
+			<li><a href="#scope__level"><code>SCOPE $level</code></a></li>
+			<li><a href="#caller__level"><code>CALLER $level</code></a></li>
+		</ul>
+
+		<li><a href="#examples">Examples</a></li>
+	</ul>
+
+	<li><a href="#export">EXPORT</a></li>
+	<li><a href="#caveats">CAVEATS</a></li>
+	<li><a href="#dependencies">DEPENDENCIES</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+	<li><a href="#support">SUPPORT</a></li>
+	<li><a href="#acknowledgements">ACKNOWLEDGEMENTS</a></li>
+	<li><a href="#copyright___license">COPYRIGHT &amp; LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Scope::Upper - Act on upper scopes.</p>
+<p>
+</p>
+<hr />
+<h1><a name="version">VERSION</a></h1>
+<p>Version 0.18</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p><a href="#reap">reap</a>, <a href="#localize">localize</a>, <a href="#localize_elem">localize_elem</a>, <a href="#localize_delete">localize_delete</a> and <a href="#words">WORDS</a> :</p>
+<pre>
+    <span class="keyword">package</span> <span class="variable">Scope</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Scope::Upper</span> <span class="string">qw&lt;
+     reap localize localize_elem localize_delete
+     :words
+    &gt;</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">sub</span><span class="variable"> new </span><span class="operator">{</span>
+     <span class="keyword">my</span> <span class="operator">(</span><span class="variable">$class</span><span class="operator">,</span> <span class="variable">$name</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span>
+</pre>
+<pre>
+     <span class="variable">localize</span> <span class="string">'$tag'</span> <span class="operator">=&gt;</span> <span class="keyword">bless</span><span class="operator">(</span><span class="operator">{</span> <span class="string">name</span> <span class="operator">=&gt;</span> <span class="variable">$name</span> <span class="operator">}</span><span class="operator">,</span> <span class="variable">$class</span><span class="operator">)</span> <span class="operator">=&gt;</span> <span class="variable">UP</span><span class="operator">;</span>
+</pre>
+<pre>
+     <span class="variable">reap</span> <span class="operator">{</span> <span class="keyword">print</span> <span class="variable">Scope</span><span class="operator">-&gt;</span><span class="variable">tag</span><span class="operator">-&gt;</span><span class="variable">name</span><span class="operator">,</span> <span class="string">": end\n"</span> <span class="operator">}</span> <span class="variable">UP</span><span class="operator">;</span>
+         <span class="operator">}</span>
+</pre>
+<pre>
+    <span class="comment"># Get the tag stored in the caller namespace</span>
+    <span class="keyword">sub</span><span class="variable"> tag </span><span class="operator">{</span>
+     <span class="keyword">my</span> <span class="variable">$l</span>   <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+     <span class="keyword">my</span> <span class="variable">$pkg</span> <span class="operator">=</span> <span class="keyword">__PACKAGE__</span><span class="operator">;</span>
+     <span class="variable">$pkg</span>    <span class="operator">=</span> <span class="keyword">caller</span> <span class="variable">$l</span><span class="operator">++</span> <span class="keyword">while</span> <span class="variable">$pkg</span> <span class="keyword">eq</span> <span class="keyword">__PACKAGE__</span><span class="operator">;</span>
+</pre>
+<pre>
+     <span class="keyword">no</span> <span class="variable">strict</span> <span class="string">'refs'</span><span class="operator">;</span>
+     <span class="variable">$</span><span class="operator">{</span><span class="variable">$pkg</span> <span class="operator">.</span> <span class="string">'::tag'</span><span class="operator">}</span><span class="operator">;</span>
+         <span class="operator">}</span>
+</pre>
+<pre>
+    <span class="keyword">sub</span><span class="variable"> name </span><span class="operator">{</span> <span class="keyword">shift</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">name</span><span class="operator">}</span> <span class="operator">}</span>
+</pre>
+<pre>
+    <span class="comment"># Locally capture warnings and reprint them with the name prefixed</span>
+    <span class="keyword">sub</span><span class="variable"> catch </span><span class="operator">{</span>
+     <span class="variable">localize_elem</span> <span class="string">'%SIG'</span><span class="operator">,</span> <span class="string">'__WARN__'</span> <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+      <span class="keyword">print</span> <span class="variable">Scope</span><span class="operator">-&gt;</span><span class="variable">tag</span><span class="operator">-&gt;</span><span class="variable">name</span><span class="operator">,</span> <span class="string">': '</span><span class="operator">,</span> <span class="variable">@_</span><span class="operator">;</span>
+     <span class="operator">}</span> <span class="operator">=&gt;</span> <span class="variable">UP</span><span class="operator">;</span>
+    <span class="operator">}</span>
+</pre>
+<pre>
+    <span class="comment"># Locally clear @INC</span>
+    <span class="keyword">sub</span><span class="variable"> private </span><span class="operator">{</span>
+     <span class="keyword">for</span> <span class="operator">(</span><span class="keyword">reverse</span> <span class="number">0</span> <span class="operator">..</span> <span class="variable">$#INC</span><span class="operator">)</span> <span class="operator">{</span>
+      <span class="comment"># First UP is the for loop, second is the sub boundary</span>
+      <span class="variable">localize_delete</span> <span class="string">'@INC'</span><span class="operator">,</span> <span class="variable">$_</span> <span class="operator">=&gt;</span> <span class="variable">UP</span> <span class="variable">UP</span><span class="operator">;</span>
+     <span class="operator">}</span>
+    <span class="operator">}</span>
+</pre>
+<pre>
+    ...</pre>
+<pre>
+    <span class="keyword">package</span> <span class="variable">UserLand</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="operator">{</span>
+     <span class="variable">Scope</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="string">"top"</span><span class="operator">);</span>    <span class="comment"># initializes $UserLand::tag</span>
+</pre>
+<pre>
+     <span class="operator">{</span>
+      <span class="variable">Scope</span><span class="operator">-&gt;</span><span class="variable">catch</span><span class="operator">;</span>
+      <span class="keyword">my</span> <span class="variable">$one</span> <span class="operator">=</span> <span class="number">1</span> <span class="operator">+</span> <span class="keyword">undef</span><span class="operator">;</span> <span class="comment"># prints "top: Use of uninitialized value..."</span>
+</pre>
+<pre>
+      <span class="operator">{</span>
+       <span class="variable">Scope</span><span class="operator">-&gt;</span><span class="variable">private</span><span class="operator">;</span>
+       <span class="keyword">eval</span> <span class="operator">{</span> <span class="keyword">require</span> <span class="variable">Cwd</span> <span class="operator">};</span>
+       <span class="keyword">print</span> <span class="variable">$@</span><span class="operator">;</span>           <span class="comment"># prints "Can't locate Cwd.pm in @INC</span>
+      <span class="operator">}</span>                    <span class="comment">#         (@INC contains:) at..."</span>
+</pre>
+<pre>
+      <span class="keyword">require</span> <span class="variable">Cwd</span><span class="operator">;</span>         <span class="comment"># loads Cwd.pm</span>
+           <span class="operator">}</span>
+</pre>
+<pre>
+    }                      # prints &quot;top: done&quot;</pre>
+<p><a href="#unwind">unwind</a> and <a href="#want_at">want_at</a> :</p>
+<pre>
+    <span class="keyword">package</span> <span class="variable">Try</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Scope::Upper</span> <span class="string">qw&lt;unwind want_at :words&gt;</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">sub</span><span class="variable"> try </span><span class="operator">(</span>&amp;<span class="operator">)</span> <span class="operator">{</span>
+     <span class="keyword">my</span> <span class="variable">@result</span> <span class="operator">=</span> <span class="keyword">shift</span><span class="operator">-&gt;();</span>
+     <span class="keyword">my</span> <span class="variable">$cx</span> <span class="operator">=</span> <span class="variable">SUB</span> <span class="variable">UP</span><span class="operator">;</span> <span class="comment"># Point to the sub above this one</span>
+     <span class="variable">unwind</span> <span class="operator">+(</span><span class="variable">want_at</span><span class="operator">(</span><span class="variable">$cx</span><span class="operator">)</span> <span class="operator">?</span> <span class="variable">@result</span> <span class="operator">:</span> <span class="keyword">scalar</span> <span class="variable">@result</span><span class="operator">)</span> <span class="operator">=&gt;</span> <span class="variable">$cx</span><span class="operator">;</span>
+    <span class="operator">}</span>
+</pre>
+<pre>
+    ...</pre>
+<pre>
+    <span class="keyword">sub</span><span class="variable"> zap </span><span class="operator">{</span>
+     <span class="variable">try</span> <span class="operator">{</span>
+      <span class="keyword">my</span> <span class="variable">@things</span> <span class="operator">=</span> <span class="string">qw&lt;a b c&gt;</span><span class="operator">;</span>
+      <span class="keyword">return</span> <span class="variable">@things</span><span class="operator">;</span> <span class="comment"># returns to try() and then outside zap()</span>
+      <span class="comment"># not reached</span>
+     <span class="operator">};</span>
+     <span class="comment"># not reached</span>
+    <span class="operator">}</span>
+</pre>
+<pre>
+    <span class="keyword">my</span> <span class="variable">@stuff</span> <span class="operator">=</span> <span class="variable">zap</span><span class="operator">();</span> <span class="comment"># @stuff contains qw&lt;a b c&gt;</span>
+    <span class="keyword">my</span> <span class="variable">$stuff</span> <span class="operator">=</span> <span class="variable">zap</span><span class="operator">();</span> <span class="comment"># $stuff contains 3</span>
+</pre>
+<p><a href="#uplevel">uplevel</a> :</p>
+<pre>
+    <span class="keyword">package</span> <span class="variable">Uplevel</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Scope::Upper</span> <span class="string">qw&lt;uplevel CALLER&gt;</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">sub</span><span class="variable"> target </span><span class="operator">{</span>
+     <span class="variable">faker</span><span class="operator">(</span><span class="variable">@_</span><span class="operator">);</span>
+    <span class="operator">}</span>
+</pre>
+<pre>
+    <span class="keyword">sub</span><span class="variable"> faker </span><span class="operator">{</span>
+     <span class="variable">uplevel</span> <span class="operator">{</span>
+      <span class="keyword">my</span> <span class="variable">$sub</span> <span class="operator">=</span> <span class="operator">(</span><span class="keyword">caller</span> <span class="number">0</span><span class="operator">)</span><span class="operator">[</span><span class="number">3</span><span class="operator">]</span><span class="operator">;</span>
+      <span class="keyword">print</span> <span class="string">"</span><span class="variable">$_</span><span class="string">[0] from </span><span class="variable">$sub</span><span class="string">()"</span><span class="operator">;</span>
+     <span class="operator">}</span> <span class="variable">@_</span> <span class="operator">=&gt;</span> <span class="variable">CALLER</span><span class="operator">(</span><span class="number">1</span><span class="operator">);</span>
+    <span class="operator">}</span>
+</pre>
+<pre>
+    <span class="variable">target</span><span class="operator">(</span><span class="string">'hello'</span><span class="operator">);</span> <span class="comment"># "hello from Uplevel::target()"</span>
+</pre>
+<p><a href="#uid">uid</a> and <a href="#validate_uid">validate_uid</a> :</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Scope::Upper</span> <span class="string">qw&lt;uid validate_uid&gt;</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$uid</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="operator">{</span>
+     <span class="variable">$uid</span> <span class="operator">=</span> <span class="variable">uid</span><span class="operator">();</span>
+     <span class="operator">{</span>
+      <span class="keyword">if</span> <span class="operator">(</span><span class="variable">$uid</span> <span class="keyword">eq</span> <span class="variable">uid</span><span class="operator">(</span><span class="variable">UP</span><span class="operator">))</span> <span class="operator">{</span> <span class="comment"># yes</span>
+       <span class="operator">...</span>
+      <span class="operator">}</span>
+      <span class="keyword">if</span> <span class="operator">(</span><span class="variable">validate_uid</span><span class="operator">(</span><span class="variable">$uid</span><span class="operator">))</span> <span class="operator">{</span> <span class="comment"># yes</span>
+       <span class="operator">...</span>
+      <span class="operator">}</span>
+     <span class="operator">}</span>
+    <span class="operator">}</span>
+</pre>
+<pre>
+    <span class="keyword">if</span> <span class="operator">(</span><span class="variable">validate_uid</span><span class="operator">(</span><span class="variable">$uid</span><span class="operator">))</span> <span class="operator">{</span> <span class="comment"># no</span>
+     <span class="operator">...</span>
+    <span class="operator">}</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This module lets you defer actions <em>at run-time</em> that will take place when the control flow returns into an upper scope.
+Currently, you can:</p>
+<ul>
+<li>
+<p>hook an upper scope end with <a href="#reap">reap</a> ;</p>
+</li>
+<li>
+<p>localize variables, array/hash values or deletions of elements in higher contexts with respectively <a href="#localize">localize</a>, <a href="#localize_elem">localize_elem</a> and <a href="#localize_delete">localize_delete</a> ;</p>
+</li>
+<li>
+<p>return values immediately to an upper level with <a href="#unwind">unwind</a>, and know which context was in use then with <a href="#want_at">want_at</a> ;</p>
+</li>
+<li>
+<p>execute a subroutine in the setting of an upper subroutine stack frame with <a href="#uplevel">uplevel</a> ;</p>
+</li>
+<li>
+<p>uniquely identify contextes with <a href="#uid">uid</a> and <a href="#validate_uid">validate_uid</a>.</p>
+</li>
+</ul>
+<p>
+</p>
+<hr />
+<h1><a name="functions">FUNCTIONS</a></h1>
+<p>In all those functions, <code>$context</code> refers to the target scope.</p>
+<p>You have to use one or a combination of <a href="#words">WORDS</a> to build the <code>$context</code> passed to these functions.
+This is needed in order to ensure that the module still works when your program is ran in the debugger.
+The only thing you can assume is that it is an <em>absolute</em> indicator of the frame, which means that you can safely store it at some point and use it when needed, and it will still denote the original scope.</p>
+<p>
+</p>
+<h2><a name="reap__callback___context"><code>reap $callback, $context</code></a></h2>
+<p>Adds a destructor that calls <code>$callback</code> (in void context) when the upper scope represented by <code>$context</code> ends.</p>
+<p>
+</p>
+<h2><a name="localize__what___value___context"><code>localize $what, $value, $context</code></a></h2>
+<p>Introduces a <a href="../../../lib/pods/perlfunc.html#local"><code>local</code></a> delayed to the time of first return into the upper scope denoted by <code>$context</code>.
+<code>$what</code> can be :</p>
+<ul>
+<li>
+<p>A glob, in which case <code>$value</code> can either be a glob or a reference.
+<a href="#localize">localize</a> follows then the same syntax as <code>local *x = $value</code>.
+For example, if <code>$value</code> is a scalar reference, then the <code>SCALAR</code> slot of the glob will be set to <code>$$value</code> - just like <code>local *x = \1</code> sets <code>$x</code> to <code>1</code>.</p>
+</li>
+<li>
+<p>A string beginning with a sigil, representing the symbol to localize and to assign to.
+If the sigil is <code>'$'</code>, <a href="#localize">localize</a> follows the same syntax as <code>local $x = $value</code>, i.e. <code>$value</code> isn't dereferenced.
+For example,</p>
+<pre>
+    <span class="variable">localize</span> <span class="string">'$x'</span><span class="operator">,</span> <span class="operator">\</span><span class="string">'foo'</span> <span class="operator">=&gt;</span> <span class="variable">HERE</span><span class="operator">;</span>
+</pre>
+<p>will set <code>$x</code> to a reference to the string <code>'foo'</code>.
+Other sigils (<code>'@'</code>, <code>'%'</code>, <code>'&amp;'</code> and <code>'*'</code>) require <code>$value</code> to be a reference of the corresponding type.</p>
+<p>When the symbol is given by a string, it is resolved when the actual localization takes place and not when <a href="#localize">localize</a> is called.
+Thus, if the symbol name is not qualified, it will refer to the variable in the package where the localization actually takes place and not in the one where the <a href="#localize">localize</a> call was compiled.
+For example,</p>
+<pre>
+    <span class="operator">{</span>
+     <span class="keyword">package</span> <span class="variable">Scope</span><span class="operator">;</span>
+     <span class="keyword">sub</span><span class="variable"> new </span><span class="operator">{</span> <span class="variable">localize</span> <span class="string">'$tag'</span><span class="operator">,</span> <span class="variable">$_</span><span class="operator">[</span><span class="number">0</span><span class="operator">]</span> <span class="operator">=&gt;</span> <span class="variable">UP</span> <span class="operator">}</span>
+    <span class="operator">}</span>
+</pre>
+<pre>
+    <span class="operator">{</span>
+     <span class="keyword">package</span> <span class="variable">Tool</span><span class="operator">;</span>
+     <span class="operator">{</span>
+      <span class="variable">Scope</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">;</span>
+      <span class="operator">...</span>
+     <span class="operator">}</span>
+    <span class="operator">}</span>
+</pre>
+<p>will localize <code>$Tool::tag</code> and not <code>$Scope::tag</code>.
+If you want the other behaviour, you just have to specify <code>$what</code> as a glob or a qualified name.</p>
+<p>Note that if <code>$what</code> is a string denoting a variable that wasn't declared beforehand, the relevant slot will be vivified as needed and won't be deleted from the glob when the localization ends.
+This situation never arises with <a href="../../../lib/pods/perlfunc.html#local"><code>local</code></a> because it only compiles when the localized variable is already declared.
+Although I believe it shouldn't be a problem as glob slots definedness is pretty much an implementation detail, this behaviour may change in the future if proved harmful.</p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="localize_elem__what___key___value___context"><code>localize_elem $what, $key, $value, $context</code></a></h2>
+<p>Introduces a <code>local $what[$key] = $value</code> or <code>local $what{$key} = $value</code> delayed to the time of first return into the upper scope denoted by <code>$context</code>.
+Unlike <a href="#localize">localize</a>, <code>$what</code> must be a string and the type of localization is inferred from its sigil.
+The two only valid types are array and hash ; for anything besides those, <a href="#localize_elem">localize_elem</a> will throw an exception.
+<code>$key</code> is either an array index or a hash key, depending of which kind of variable you localize.</p>
+<p>If <code>$what</code> is a string pointing to an undeclared variable, the variable will be vivified as soon as the localization occurs and emptied when it ends, although it will still exist in its glob.</p>
+<p>
+</p>
+<h2><a name="localize_delete__what___key___context"><code>localize_delete $what, $key, $context</code></a></h2>
+<p>Introduces the deletion of a variable or an array/hash element delayed to the time of first return into the upper scope denoted by <code>$context</code>.
+<code>$what</code> can be:</p>
+<ul>
+<li>
+<p>A glob, in which case <code>$key</code> is ignored and the call is equivalent to <code>local *x</code>.</p>
+</li>
+<li>
+<p>A string beginning with <code>'@'</code> or <code>'%'</code>, for which the call is equivalent to respectiveley <code>local $a[$key]; delete $a[$key]</code> and <code>local $h{$key}; delete $h{$key}</code>.</p>
+</li>
+<li>
+<p>A string beginning with <code>'&amp;'</code>, which more or less does <code>undef &amp;func</code> in the upper scope.
+It's actually more powerful, as <code>&amp;func</code> won't even <a href="../../../lib/pods/perlfunc.html#exists"><code>exists</code></a> anymore.
+<code>$key</code> is ignored.</p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="unwind__values___context"><code>unwind @values, $context</code></a></h2>
+<p>Returns <code>@values</code> <em>from</em> the context pointed by <code>$context</code>, i.e. from the subroutine, eval or format at or just above <code>$context</code>, and immediately restart the program flow at this point - thus effectively returning to an upper scope.</p>
+<p>The upper context isn't coerced onto <code>@values</code>, which is hence always evaluated in list context.
+This means that</p>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$num</span> <span class="operator">=</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+     <span class="keyword">my</span> <span class="variable">@a</span> <span class="operator">=</span> <span class="operator">(</span><span class="string">'a'</span> <span class="operator">..</span> <span class="string">'z'</span><span class="operator">);</span>
+     <span class="variable">unwind</span> <span class="variable">@a</span> <span class="operator">=&gt;</span> <span class="variable">HERE</span><span class="operator">;</span>
+     <span class="comment"># not reached</span>
+    <span class="operator">}-&gt;();</span>
+</pre>
+<p>will set <code>$num</code> to <code>'z'</code>.
+You can use <a href="#want_at">want_at</a> to handle these cases.</p>
+<p>
+</p>
+<h2><a name="want_at__context"><code>want_at $context</code></a></h2>
+<p>Like <a href="../../../lib/pods/perlfunc.html#wantarray"><code>wantarray</code></a>, but for the subroutine/eval/format at or just above <code>$context</code>.</p>
+<p>The previous example can then be &quot;corrected&quot; :</p>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$num</span> <span class="operator">=</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+     <span class="keyword">my</span> <span class="variable">@a</span> <span class="operator">=</span> <span class="operator">(</span><span class="string">'a'</span> <span class="operator">..</span> <span class="string">'z'</span><span class="operator">);</span>
+     <span class="variable">unwind</span> <span class="operator">+(</span><span class="variable">want_at</span><span class="operator">(</span><span class="variable">HERE</span><span class="operator">)</span> <span class="operator">?</span> <span class="variable">@a</span> <span class="operator">:</span> <span class="keyword">scalar</span> <span class="variable">@a</span><span class="operator">)</span> <span class="operator">=&gt;</span> <span class="variable">HERE</span><span class="operator">;</span>
+     <span class="comment"># not reached</span>
+    <span class="operator">}-&gt;();</span>
+</pre>
+<p>will rightfully set <code>$num</code> to <code>26</code>.</p>
+<p>
+</p>
+<h2><a name="uplevel__code___args___context"><code>uplevel $code, @args, $context</code></a></h2>
+<p>Executes the code reference <code>$code</code> with arguments <code>@args</code> as if it were located at the subroutine stack frame pointed by <code>$context</code>, effectively fooling <a href="../../../lib/pods/perlfunc.html#caller"><code>caller</code></a> and <a href="../../../lib/pods/perlfunc.html#die"><code>die</code></a> into believing that the call actually happened higher in the stack.
+The code is executed in the context of the <code>uplevel</code> call, and what it returns is returned as-is by <code>uplevel</code>.</p>
+<pre>
+    <span class="keyword">sub</span><span class="variable"> target </span><span class="operator">{</span>
+     <span class="variable">faker</span><span class="operator">(</span><span class="variable">@_</span><span class="operator">);</span>
+    <span class="operator">}</span>
+</pre>
+<pre>
+    <span class="keyword">sub</span><span class="variable"> faker </span><span class="operator">{</span>
+     <span class="variable">uplevel</span> <span class="operator">{</span>
+      <span class="keyword">map</span> <span class="operator">{</span> <span class="number">1</span> <span class="operator">/</span> <span class="variable">$_</span> <span class="operator">}</span> <span class="variable">@_</span><span class="operator">;</span>
+     <span class="operator">}</span> <span class="variable">@_</span> <span class="operator">=&gt;</span> <span class="variable">CALLER</span><span class="operator">(</span><span class="number">1</span><span class="operator">);</span>
+    <span class="operator">}</span>
+</pre>
+<pre>
+    <span class="keyword">my</span> <span class="variable">@inverses</span> <span class="operator">=</span> <span class="variable">target</span><span class="operator">(</span><span class="number">1</span><span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> <span class="number">4</span><span class="operator">);</span> <span class="comment"># @inverses contains (0, 0.5, 0.25)</span>
+    <span class="keyword">my</span> <span class="variable">$count</span>    <span class="operator">=</span> <span class="variable">target</span><span class="operator">(</span><span class="number">1</span><span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> <span class="number">4</span><span class="operator">);</span> <span class="comment"># $count is 3</span>
+</pre>
+<p><a href="../../../lib/Sub/Uplevel.html">the Sub::Uplevel manpage</a> also implements a pure-Perl version of <code>uplevel</code>.
+Both are identical, with the following caveats :</p>
+<ul>
+<li>
+<p>The <a href="../../../lib/Sub/Uplevel.html">the Sub::Uplevel manpage</a> implementation of <code>uplevel</code> may execute a code reference in the context of <strong>any</strong> upper stack frame.
+The <a href="../../../cpan/build/Scope-Upper-0.18-XIZuY5/blib/html/site/lib/Scope/Upper.html">the Scope::Upper manpage</a> version can only uplevel to a <strong>subroutine</strong> stack frame, and will croak if you try to target an <a href="../../../lib/pods/perlfunc.html#eval"><code>eval</code></a> or a format.</p>
+</li>
+<li>
+<p>Exceptions thrown from the code called by this version of <code>uplevel</code> will not be caught by <a href="../../../lib/pods/perlfunc.html#eval"><code>eval</code></a> blocks between the target frame and the uplevel call, while they will for <a href="../../../lib/Sub/Uplevel.html">the Sub::Uplevel manpage</a>'s version.
+This means that :</p>
+<pre>
+    <span class="keyword">eval</span> <span class="operator">{</span>
+     <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+      <span class="keyword">local</span> <span class="variable">$@</span><span class="operator">;</span>
+      <span class="keyword">eval</span> <span class="operator">{</span>
+       <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+        <span class="variable">uplevel</span> <span class="operator">{</span> <span class="keyword">die</span> <span class="string">'wut'</span> <span class="operator">}</span> <span class="variable">CALLER</span><span class="operator">(</span><span class="number">2</span><span class="operator">);</span> <span class="comment"># for Scope::Upper</span>
+        <span class="comment"># uplevel(3, sub { die 'wut' })  # for Sub::Uplevel</span>
+       <span class="operator">}-&gt;();</span>
+      <span class="operator">};</span>
+      <span class="keyword">print</span> <span class="string">"inner block: $@"</span><span class="operator">;</span>
+      <span class="variable">$@</span> <span class="keyword">and</span> <span class="keyword">exit</span><span class="operator">;</span>
+     <span class="operator">}-&gt;();</span>
+    <span class="operator">};</span>
+    <span class="keyword">print</span> <span class="string">"outer block: $@"</span><span class="operator">;</span>
+</pre>
+<p>will print &quot;inner block: wut...&quot; with <a href="../../../lib/Sub/Uplevel.html">the Sub::Uplevel manpage</a> and &quot;outer block: wut...&quot; with <a href="../../../cpan/build/Scope-Upper-0.18-XIZuY5/blib/html/site/lib/Scope/Upper.html">the Scope::Upper manpage</a>.</p>
+</li>
+<li>
+<p><a href="../../../lib/Sub/Uplevel.html">the Sub::Uplevel manpage</a> globally overrides the Perl keyword <a href="../../../lib/pods/perlfunc.html#caller"><code>caller</code></a>, while <a href="../../../cpan/build/Scope-Upper-0.18-XIZuY5/blib/html/site/lib/Scope/Upper.html">the Scope::Upper manpage</a> does not.</p>
+</li>
+</ul>
+<p>A simple wrapper lets you mimic the interface of <a href="../../../lib/Sub/Uplevel.html#uplevel">uplevel in the Sub::Uplevel manpage</a> :</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Scope::Upper</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">sub</span><span class="variable"> uplevel </span><span class="operator">{</span>
+     <span class="keyword">my</span> <span class="variable">$frame</span> <span class="operator">=</span> <span class="keyword">shift</span><span class="operator">;</span>
+     <span class="keyword">my</span> <span class="variable">$code</span>  <span class="operator">=</span> <span class="keyword">shift</span><span class="operator">;</span>
+     <span class="keyword">my</span> <span class="variable">$cxt</span>   <span class="operator">=</span> <span class="variable">Scope::Upper::CALLER</span><span class="operator">(</span><span class="variable">$frame</span><span class="operator">);</span>
+     <span class="operator">&amp;</span><span class="variable">Scope::Upper::uplevel</span><span class="operator">(</span><span class="variable">$code</span> <span class="operator">=&gt;</span> <span class="variable">@_</span> <span class="operator">=&gt;</span> <span class="variable">$cxt</span><span class="operator">);</span>
+    <span class="operator">}</span>
+</pre>
+<p>Albeit the three exceptions listed above, it passes all the tests of <a href="../../../lib/Sub/Uplevel.html">the Sub::Uplevel manpage</a>.</p>
+<p>
+</p>
+<h2><a name="uid__context"><code>uid $context</code></a></h2>
+<p>Returns an unique identifier (UID) for the context (or dynamic scope) pointed by <code>$context</code>, or for the current context if <code>$context</code> is omitted.
+This UID will only be valid for the life time of the context it represents, and another UID will be generated next time the same scope is executed.</p>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$uid</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="operator">{</span>
+     <span class="variable">$uid</span> <span class="operator">=</span> <span class="variable">uid</span><span class="operator">;</span>
+     <span class="keyword">if</span> <span class="operator">(</span><span class="variable">$uid</span> <span class="keyword">eq</span> <span class="variable">uid</span><span class="operator">())</span> <span class="operator">{</span> <span class="comment"># yes, this is the same context</span>
+      <span class="operator">...</span>
+     <span class="operator">}</span>
+     <span class="operator">{</span>
+      <span class="keyword">if</span> <span class="operator">(</span><span class="variable">$uid</span> <span class="keyword">eq</span> <span class="variable">uid</span><span class="operator">())</span> <span class="operator">{</span> <span class="comment"># no, we are one scope below</span>
+       <span class="operator">...</span>
+      <span class="operator">}</span>
+      <span class="keyword">if</span> <span class="operator">(</span><span class="variable">$uid</span> <span class="keyword">eq</span> <span class="variable">uid</span><span class="operator">(</span><span class="variable">UP</span><span class="operator">))</span> <span class="operator">{</span> <span class="comment"># yes, UP points to the same scope as $uid</span>
+       <span class="operator">...</span>
+      <span class="operator">}</span>
+     <span class="operator">}</span>
+    <span class="operator">}</span>
+</pre>
+<pre>
+    <span class="comment"># $uid is now invalid</span>
+</pre>
+<pre>
+    <span class="operator">{</span>
+     <span class="keyword">if</span> <span class="operator">(</span><span class="variable">$uid</span> <span class="keyword">eq</span> <span class="variable">uid</span><span class="operator">())</span> <span class="operator">{</span> <span class="comment"># no, this is another block</span>
+      <span class="operator">...</span>
+     <span class="operator">}</span>
+    <span class="operator">}</span>
+</pre>
+<p>For example, each loop iteration gets its own UID :</p>
+<pre>
+    <span class="keyword">my</span> <span class="variable">%uids</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">for</span> <span class="operator">(</span><span class="number">1</span> <span class="operator">..</span> <span class="number">5</span><span class="operator">)</span> <span class="operator">{</span>
+     <span class="keyword">my</span> <span class="variable">$uid</span> <span class="operator">=</span> <span class="variable">uid</span><span class="operator">;</span>
+     <span class="variable">$uids</span><span class="operator">{</span><span class="variable">$uid</span><span class="operator">}</span> <span class="operator">=</span> <span class="variable">$_</span><span class="operator">;</span>
+    <span class="operator">}</span>
+</pre>
+<pre>
+    <span class="comment"># %uids has 5 entries</span>
+</pre>
+<p>The UIDs are not guaranteed to be numbers, so you must use the <code>eq</code> operator to compare them.</p>
+<p>To check whether a given UID is valid, you can use the <a href="#validate_uid">validate_uid</a> function.</p>
+<p>
+</p>
+<h2><a name="validate_uid__uid"><code>validate_uid $uid</code></a></h2>
+<p>Returns true if and only if <code>$uid</code> is the UID of a currently valid context (that is, it designates a scope that is higher than the current one in the call stack).</p>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$uid</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="operator">{</span>
+     <span class="variable">$uid</span> <span class="operator">=</span> <span class="variable">uid</span><span class="operator">();</span>
+     <span class="keyword">if</span> <span class="operator">(</span><span class="variable">validate_uid</span><span class="operator">(</span><span class="variable">$uid</span><span class="operator">))</span> <span class="operator">{</span> <span class="comment"># yes</span>
+      <span class="operator">...</span>
+     <span class="operator">}</span>
+     <span class="operator">{</span>
+      <span class="keyword">if</span> <span class="operator">(</span><span class="variable">validate_uid</span><span class="operator">(</span><span class="variable">$uid</span><span class="operator">))</span> <span class="operator">{</span> <span class="comment"># yes</span>
+       <span class="operator">...</span>
+      <span class="operator">}</span>
+     <span class="operator">}</span>
+    <span class="operator">}</span>
+</pre>
+<pre>
+    <span class="keyword">if</span> <span class="operator">(</span><span class="variable">validate_uid</span><span class="operator">(</span><span class="variable">$uid</span><span class="operator">))</span> <span class="operator">{</span> <span class="comment"># no</span>
+     <span class="operator">...</span>
+    <span class="operator">}</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="constants">CONSTANTS</a></h1>
+<p>
+</p>
+<h2><a name="su_threadsafe"><code>SU_THREADSAFE</code></a></h2>
+<p>True iff the module could have been built when thread-safety features.</p>
+<p>
+</p>
+<hr />
+<h1><a name="words">WORDS</a></h1>
+<p>
+</p>
+<h2><a name="constants">Constants</a></h2>
+<p>
+</p>
+<h3><a name="top"><code>TOP</code></a></h3>
+<p>Returns the context that currently represents the highest scope.</p>
+<p>
+</p>
+<h3><a name="here"><code>HERE</code></a></h3>
+<p>The context of the current scope.</p>
+<p>
+</p>
+<h2><a name="getting_a_context_from_a_context">Getting a context from a context</a></h2>
+<p>For any of those functions, <code>$from</code> is expected to be a context.
+When omitted, it defaults to the the current context.</p>
+<p>
+</p>
+<h3><a name="up__from"><code>UP $from</code></a></h3>
+<p>The context of the scope just above <code>$from</code>.</p>
+<p>
+</p>
+<h3><a name="sub__from"><code>SUB $from</code></a></h3>
+<p>The context of the closest subroutine above <code>$from</code>.
+Note that <code>$from</code> is returned if it is already a subroutine context ; hence <code>SUB SUB == SUB</code>.</p>
+<p>
+</p>
+<h3><a name="eval__from"><code>EVAL $from</code></a></h3>
+<p>The context of the closest eval above <code>$from</code>.
+Note that <code>$from</code> is returned if it is already an eval context ; hence <code>EVAL EVAL == EVAL</code>.</p>
+<p>
+</p>
+<h2><a name="getting_a_context_from_a_level">Getting a context from a level</a></h2>
+<p>Here, <code>$level</code> should denote a number of scopes above the current one.
+When omitted, it defaults to <code>0</code> and those functions return the same context as <a href="#here">HERE</a>.</p>
+<p>
+</p>
+<h3><a name="scope__level"><code>SCOPE $level</code></a></h3>
+<p>The <code>$level</code>-th upper context, regardless of its type.</p>
+<p>
+</p>
+<h3><a name="caller__level"><code>CALLER $level</code></a></h3>
+<p>The context of the <code>$level</code>-th upper subroutine/eval/format.
+It kind of corresponds to the context represented by <code>caller $level</code>, but while e.g. <code>caller 0</code> refers to the caller context, <code>CALLER 0</code> will refer to the top scope in the current context.</p>
+<p>
+</p>
+<h2><a name="examples">Examples</a></h2>
+<p>Where <a href="#reap">reap</a> fires depending on the <code>$cxt</code> :</p>
+<pre>
+    <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+     <span class="keyword">eval</span> <span class="operator">{</span>
+      <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+       <span class="operator">{</span>
+        <span class="variable">reap</span> <span class="operator">\&amp;</span><span class="string">cleanup</span> <span class="operator">=&gt;</span> <span class="variable">$cxt</span><span class="operator">;</span>
+        <span class="operator">...</span>
+       <span class="operator">}</span>     <span class="comment"># $cxt = SCOPE(0) = HERE</span>
+       <span class="operator">...</span>
+      <span class="operator">}-&gt;();</span> <span class="comment"># $cxt = SCOPE(1) = UP = SUB = CALLER(0)</span>
+      <span class="operator">...</span>
+     <span class="operator">};</span>      <span class="comment"># $cxt = SCOPE(2) = UP UP =  UP SUB = EVAL = CALLER(1)</span>
+     <span class="operator">...</span>
+    <span class="operator">}-&gt;();</span>   <span class="comment"># $cxt = SCOPE(3) = SUB UP SUB = SUB EVAL = CALLER(2)</span>
+    <span class="operator">...</span>
+</pre>
+<p>Where <a href="#localize">localize</a>, <a href="#localize_elem">localize_elem</a> and <a href="#localize_delete">localize_delete</a> act depending on the <code>$cxt</code> :</p>
+<pre>
+    <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+     <span class="keyword">eval</span> <span class="operator">{</span>
+      <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+       <span class="operator">{</span>
+        <span class="variable">localize</span> <span class="string">'$x'</span> <span class="operator">=&gt;</span> <span class="number">1</span> <span class="operator">=&gt;</span> <span class="variable">$cxt</span><span class="operator">;</span>
+        <span class="comment"># $cxt = SCOPE(0) = HERE</span>
+        <span class="operator">...</span>
+       <span class="operator">}</span>
+       <span class="comment"># $cxt = SCOPE(1) = UP = SUB = CALLER(0)</span>
+       <span class="operator">...</span>
+      <span class="operator">}-&gt;();</span>
+      <span class="comment"># $cxt = SCOPE(2) = UP UP = UP SUB = EVAL = CALLER(1)</span>
+      <span class="operator">...</span>
+     <span class="operator">};</span>
+     <span class="comment"># $cxt = SCOPE(3) = SUB UP SUB = SUB EVAL = CALLER(2)</span>
+     <span class="operator">...</span>
+    <span class="operator">}-&gt;();</span>
+    <span class="comment"># $cxt = SCOPE(4), UP SUB UP SUB = UP SUB EVAL = UP CALLER(2) = TOP</span>
+    <span class="operator">...</span>
+</pre>
+<p>Where <a href="#unwind">unwind</a>, <a href="#want_at">want_at</a> and <a href="#uplevel">uplevel</a> point to depending on the <code>$cxt</code>:</p>
+<pre>
+    <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+     <span class="keyword">eval</span> <span class="operator">{</span>
+      <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+       <span class="operator">{</span>
+        <span class="variable">unwind</span> <span class="variable">@things</span> <span class="operator">=&gt;</span> <span class="variable">$cxt</span><span class="operator">;</span>   <span class="comment"># or uplevel { ... } $cxt;</span>
+        <span class="operator">...</span>
+       <span class="operator">}</span>
+       <span class="operator">...</span>
+      <span class="operator">}-&gt;();</span> <span class="comment"># $cxt = SCOPE(0) = SCOPE(1) = HERE = UP = SUB = CALLER(0)</span>
+      <span class="operator">...</span>
+     <span class="operator">};</span>      <span class="comment"># $cxt = SCOPE(2) = UP UP = UP SUB = EVAL = CALLER(1) (*)</span>
+     <span class="operator">...</span>
+    <span class="operator">}-&gt;();</span>   <span class="comment"># $cxt = SCOPE(3) = SUB UP SUB = SUB EVAL = CALLER(2)</span>
+    <span class="operator">...</span>
+</pre>
+<pre>
+    <span class="comment"># (*) Note that uplevel() will croak if you pass that scope frame,</span>
+    <span class="comment">#     because it cannot target eval scopes.</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="export">EXPORT</a></h1>
+<p>The functions <a href="#reap">reap</a>, <a href="#localize">localize</a>, <a href="#localize_elem">localize_elem</a>, <a href="#localize_delete">localize_delete</a>,  <a href="#unwind">unwind</a>, <a href="#want_at">want_at</a> and <a href="#uplevel">uplevel</a> are only exported on request, either individually or by the tags <code>':funcs'</code> and <code>':all'</code>.</p>
+<p>The constant <a href="#su_threadsafe">SU_THREADSAFE</a> is also only exported on request, individually or by the tags <code>':consts'</code> and <code>':all'</code>.</p>
+<p>Same goes for the words <a href="#top">TOP</a>, <a href="#here">HERE</a>, <a href="#up">UP</a>, <a href="#sub">SUB</a>, <a href="#eval">EVAL</a>, <a href="#scope">SCOPE</a> and <a href="#caller">CALLER</a> that are only exported on request, individually or by the tags <code>':words'</code> and <code>':all'</code>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="caveats">CAVEATS</a></h1>
+<p>Be careful that local variables are restored in the reverse order in which they were localized.
+Consider those examples:</p>
+<pre>
+    <span class="keyword">local</span> <span class="variable">$x</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+    <span class="operator">{</span>
+     <span class="variable">reap</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="keyword">print</span> <span class="variable">$x</span> <span class="operator">}</span> <span class="operator">=&gt;</span> <span class="variable">HERE</span><span class="operator">;</span>
+     <span class="keyword">local</span> <span class="variable">$x</span> <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+     <span class="operator">...</span>
+    <span class="operator">}</span>
+    <span class="comment"># prints '0'</span>
+    <span class="operator">...</span>
+    <span class="operator">{</span>
+     <span class="keyword">local</span> <span class="variable">$x</span> <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+     <span class="variable">reap</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="variable">$x</span> <span class="operator">=</span> <span class="number">2</span> <span class="operator">}</span> <span class="operator">=&gt;</span> <span class="variable">HERE</span><span class="operator">;</span>
+     <span class="operator">...</span>
+    <span class="operator">}</span>
+    <span class="comment"># $x is 0</span>
+</pre>
+<p>The first case is &quot;solved&quot; by moving the <a href="../../../lib/pods/perlfunc.html#local"><code>local</code></a> before the <code>reap</code>, and the second by using <a href="#localize">localize</a> instead of <a href="#reap">reap</a>.</p>
+<p>The effects of <a href="#reap">reap</a>, <a href="#localize">localize</a> and <a href="#localize_elem">localize_elem</a> can't cross <code>BEGIN</code> blocks, hence calling those functions in <a href="../../../lib/pods/perlfunc.html#import"><code>import</code></a> is deemed to be useless.
+This is an hopeless case because <code>BEGIN</code> blocks are executed once while localizing constructs should do their job at each run.
+However, it's possible to hook the end of the current scope compilation with <a href="../../../site/lib/B/Hooks/EndOfScope.html">the B::Hooks::EndOfScope manpage</a>.</p>
+<p>Some rare oddities may still happen when running inside the debugger.
+It may help to use a perl higher than 5.8.9 or 5.10.0, as they contain some context-related fixes.</p>
+<p>Calling <a href="../../../lib/pods/perlfunc.html#goto"><code>goto</code></a> to replace an <a href="#uplevel">uplevel</a>'d code frame does not work :</p>
+<ul>
+<li>
+<p>for a <code>perl</code> older than the 5.8 series ;</p>
+</li>
+<li>
+<p>for a <code>DEBUGGING</code> <code>perl</code> run with debugging flags set (as in <code>perl -D ...</code>) ;</p>
+</li>
+<li>
+<p>when the runloop callback is replaced by another module.</p>
+</li>
+</ul>
+<p>In those three cases, <a href="#uplevel">uplevel</a> will look for a <code>goto &amp;sub</code> statement in its callback and, if there is one, throw an exception before executing the code.</p>
+<p>Moreover, in order to handle <a href="../../../lib/pods/perlfunc.html#goto"><code>goto</code></a> statements properly, <a href="#uplevel">uplevel</a> currently has to suffer a run-time overhead proportional to the size of the the callback in every case (with a small ratio), and proportional to the size of <strong>all</strong> the code executed as the result of the <a href="#uplevel">uplevel</a> call (including subroutine calls inside the callback) when a <a href="../../../lib/pods/perlfunc.html#goto"><code>goto</code></a> statement is found in the <a href="#uplevel">uplevel</a> callback.
+Despite this shortcoming, this XS version of <a href="#uplevel">uplevel</a> should still run way faster than the pure-Perl version from <a href="../../../lib/Sub/Uplevel.html">the Sub::Uplevel manpage</a>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="dependencies">DEPENDENCIES</a></h1>
+<p><a href="../../../lib/XSLoader.html">the XSLoader manpage</a> (standard since perl 5.006).</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../../lib/pods/perlfunc.html#local">local in the perlfunc manpage</a>, <a href="../../../lib/pods/perlsub.html#temporary_values_via_local__">Temporary Values via local() in the perlsub manpage</a>.</p>
+<p><a href="../../../lib/Encode/Alias.html">the Alias manpage</a>, <a href="../../../Hook/Scope.html">the Hook::Scope manpage</a>, <a href="../../../lib/Scope/Guard.html">the Scope::Guard manpage</a>, <a href="../../../lib/Scope/Guard.html">the Guard manpage</a>.</p>
+<p><a href="../../../lib/Sub/Uplevel.html">the Sub::Uplevel manpage</a>.</p>
+<p><a href="../../../Continuation/Escape.html">the Continuation::Escape manpage</a> is a thin wrapper around <a href="../../../cpan/build/Scope-Upper-0.18-XIZuY5/blib/html/site/lib/Scope/Upper.html">the Scope::Upper manpage</a> that gives you a continuation passing style interface to <a href="#unwind">unwind</a>.
+It's easier to use, but it requires you to have control over the scope where you want to return.</p>
+<p><a href="../../../Scope/Escape.html">the Scope::Escape manpage</a>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Vincent Pit, <code>&lt;perl at profvince.com&gt;</code>, <a href="http://www.profvince.com">http://www.profvince.com</a>.</p>
+<p>You can contact me by mail or on <code>irc.perl.org</code> (vincent).</p>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p>Please report any bugs or feature requests to <code>bug-scope-upper at rt.cpan.org</code>, or through the web interface at <a href="http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Scope-Upper">http://rt.cpan.org/NoAuth/ReportBug.html</a>.
+I will be notified, and then you'll automatically be notified of progress on your bug as I make changes.</p>
+<p>
+</p>
+<hr />
+<h1><a name="support">SUPPORT</a></h1>
+<p>You can find documentation for this module with the perldoc command.</p>
+<pre>
+    <a href="../../../lib/pods/perldoc.html">perldoc</a> Scope::Upper</pre>
+<p>Tests code coverage report is available at <a href="http://www.profvince.com/perl/cover/Scope-Upper">http://www.profvince.com/perl/cover/Scope-Upper</a>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="acknowledgements">ACKNOWLEDGEMENTS</a></h1>
+<p>Inspired by Ricardo Signes.</p>
+<p>Thanks to Shawn M. Moore for motivation.</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright___license">COPYRIGHT &amp; LICENSE</a></h1>
+<p>Copyright 2008,2009,2010,2011 Vincent Pit, all rights reserved.</p>
+<p>This program is free software; you can redistribute it and/or modify it under the same terms as Perl itself.</p>
+
+</body>
+
+</html>

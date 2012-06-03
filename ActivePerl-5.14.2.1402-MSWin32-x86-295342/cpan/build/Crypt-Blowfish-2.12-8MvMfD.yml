@@ -1,0 +1,52 @@
+---
+distribution: !!perl/hash:CPAN::Distribution
+  CALLED_FOR: Crypt::Blowfish
+  CHECKSUM_STATUS: OK
+  ID: D/DP/DPARIS/Crypt-Blowfish-2.12.tar.gz
+  RO:
+    CPAN_COMMENT: ~
+    CPAN_USERID: DPARIS
+  archived: tar
+  build_dir: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\build\Crypt-Blowfish-2.12-8MvMfD
+  incommandcolor: 1
+  install: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 5
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338700854
+  localfile: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\sources\authors\id\D\DP\DPARIS\Crypt-Blowfish-2.12.tar.gz
+  make: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 5
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338700848
+  make_test: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 5
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338700851
+  negative_prefs_cache: 5
+  prefs:
+    install: {}
+  prereq_pm:
+    build_requires:
+      ExtUtils::MakeMaker: '0'
+    requires: {}
+  reqtype: c
+  sponsored_mods: {}
+  unwrapped: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 5
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338700831
+  writemakefile: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 5
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338700832
+perl:
+  $^X: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\bin\perl.exe
+  mtime_$^X: 1318029070
+  mtime_dll: 0
+  sitearchexp: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib
+time: 1338700854

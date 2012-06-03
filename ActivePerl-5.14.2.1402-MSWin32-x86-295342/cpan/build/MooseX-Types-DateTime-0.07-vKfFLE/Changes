@@ -1,0 +1,31 @@
+0.07    2011-12-12 12:58:19 Europe/London
+
+        - Provide optimize_as for pre-2.0100 Moose versions
+        - Bump MooseX::Types version requirement (RT#73188)
+        - Add missing dependencies
+        - Enforce version dependencies at runtime (RT#73189)
+
+0.06
+        - Use inline_as instead of the deprecated optimize_as
+
+0.05
+		- Merged the two 0.04 releases
+
+0.04 (NUFFIN)
+        - Remove DateTimeX::Easy support, this is in its own distribution now
+
+0.04 (FLORA)
+        - Depend on DateTime::TimeZone 0.95 to avoid test failures due to
+          broken, older versions.
+
+0.03
+        - more explicit versions for dependencies
+		- removed a test that doesn't seem to cleanly pass in all timezones
+
+0.02
+        - Use namespace::clean in some places
+        - Try to skip out of the test suite gracefully when bad crap happens
+          (too much DWIM--)
+
+0.01
+        - Initial version

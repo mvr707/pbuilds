@@ -1,0 +1,441 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../displayToc.js"></script>
+<script language="JavaScript" src="../tocParas.js"></script>
+<script language="JavaScript" src="../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../scineplex.css">
+<title>cpanm - get, unpack build and install modules from CPAN</title>
+<link rel="stylesheet" href="../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',1);</script>
+<h1><a>cpanm - get, unpack build and install modules from CPAN</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#commands">COMMANDS</a></li>
+	<li><a href="#options">OPTIONS</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>cpanm - get, unpack build and install modules from CPAN</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  cpanm Test::More                                 # install Test::More
+  cpanm MIYAGAWA/Plack-0.99_05.tar.gz              # full distribution path
+  cpanm <a href="http://example.org/LDS/CGI.pm-3.20.tar.gz">http://example.org/LDS/CGI.pm-3.20.tar.gz</a>  # install from URL
+  cpanm ~/dists/MyCompany-Enterprise-1.00.tar.gz   # install from a local file
+  cpanm --interactive Task::Kensho                 # Configure interactively
+  cpanm .                                          # install from local directory
+  cpanm --installdeps .                            # install all the deps for the current directory
+  cpanm -L extlib Plack                            # install Plack and all non-core deps into extlib
+  cpanm --mirror <a href="http://cpan.cpantesters.org/">http://cpan.cpantesters.org/</a> DBI  # use the fast-syncing mirror
+  cpanm --scandeps Moose                           # See what modules will be installed for Moose
+
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="commands">COMMANDS</a></h1>
+<dl>
+<dt><strong><a name="i_install" class="item">-i, --install</a></strong></dt>
+
+<dd>
+<p>Installs the modules. This is a default behavior and this is just a
+compatibility option to make it work like <a href="../lib/LWP/Protocol/cpan.html">the cpan manpage</a> or <a href="../bin/cpanp.html">the cpanp manpage</a>.</p>
+</dd>
+<dt><strong><a name="self_upgrade" class="item">--self-upgrade</a></strong></dt>
+
+<dd>
+<p>Upgrades itself. It's just an alias for:</p>
+<pre>
+  cpanm App::cpanminus
+
+</pre>
+</dd>
+<dt><strong><a name="info" class="item">--info</a></strong></dt>
+
+<dd>
+<p>Displays the distribution information in
+<code>AUTHOR/Dist-Name-ver.tar.gz</code> format in the standard out.</p>
+</dd>
+<dt><strong><a name="installdeps" class="item">--installdeps</a></strong></dt>
+
+<dd>
+<p>Installs the dependencies of the target distribution but won't build
+itself. Handy if you want to try the application from a version
+controlled repository such as git.</p>
+<pre>
+  cpanm --installdeps .
+
+</pre>
+</dd>
+<dt><strong><a name="look" class="item">--look</a></strong></dt>
+
+<dd>
+<p>Download and unpack the distribution and then open the directory with
+your shell. Handy to poke around the source code or do manual
+testing.</p>
+</dd>
+<dt><strong><a name="h_help" class="item">-h, --help</a></strong></dt>
+
+<dd>
+<p>Displays the help message.</p>
+</dd>
+<dt><strong><a name="v_version" class="item">-V, --version</a></strong></dt>
+
+<dd>
+<p>Displays the version number.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="options">OPTIONS</a></h1>
+<p>You can specify the default options in <code>PERL_CPANM_OPT</code> environment variable.</p>
+<dl>
+<dt><strong><a name="f_force" class="item">-f, --force</a></strong></dt>
+
+<dd>
+<p>Force install modules even when testing failed.</p>
+</dd>
+<dt><strong><a name="n_notest" class="item">-n, --notest</a></strong></dt>
+
+<dd>
+<p>Skip the testing of modules. Use this only when you just want to save
+time for installing hundreds of distributions to the same perl and
+architecture you've already tested to make sure it builds fine.</p>
+<p>Defaults to false, and you can say <code>--no-notest</code> to override when it
+is set in the default options in <code>PERL_CPANM_OPT</code>.</p>
+</dd>
+<dt><strong><a name="test_only" class="item">--test-only</a></strong></dt>
+
+<dd>
+<p>Run the tests only, and do not install the specified module or
+distributions. Handy if you want to verify the new (or even old)
+releases pass its unit tests without installing the module.</p>
+<p>Note that if you specify this option with a module or distribution
+that has dependencies, these dependencies will be installed if you
+don't currently have them.</p>
+</dd>
+<dt><strong><a name="s_sudo" class="item">-S, --sudo</a></strong></dt>
+
+<dd>
+<p>Switch to the root user with <code>sudo</code> when installing modules. Use this
+if you want to install modules to the system perl include path.</p>
+<p>Defaults to false, and you can say <code>--no-sudo</code> to override when it is
+set in the default options in <code>PERL_CPANM_OPT</code>.</p>
+</dd>
+<dt><strong><a name="v_verbose" class="item">-v, --verbose</a></strong></dt>
+
+<dd>
+<p>Makes the output verbose. It also enables the interactive
+configuration. (See --interactive)</p>
+</dd>
+<dt><strong><a name="q_quiet" class="item">-q, --quiet</a></strong></dt>
+
+<dd>
+<p>Makes the output even more quiet than the default. It doesn't print
+anything to the STDERR.</p>
+</dd>
+<dt><strong><a name="l_local_lib" class="item">-l, --local-lib</a></strong></dt>
+
+<dd>
+<p>Sets the <a href="../site/lib/local/lib.html">the local::lib manpage</a> compatible path to install modules to. You
+don't need to set this if you already configure the shell environment
+variables using <a href="../site/lib/local/lib.html">the local::lib manpage</a>, but this can be used to override that
+as well.</p>
+</dd>
+<dt><strong><a name="l_local_lib_contained" class="item">-L, --local-lib-contained</a></strong></dt>
+
+<dd>
+<p>Same with <code>--local-lib</code> but when examining the dependencies, it
+assumes no non-core modules are installed on the system. It's handy if
+you want to bundle application dependencies in one directory so you
+can distribute to other machines.</p>
+<p>For instance,</p>
+<pre>
+  cpanm -L extlib Plack
+
+</pre>
+<p>would install Plack and all of its non-core dependencies into the
+directory <code>extlib</code>, which can be loaded from your application with:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">local::lib</span> <span class="string">'/path/to/extlib'</span><span class="operator">;</span>
+</pre>
+</dd>
+<dt><strong><a name="mirror" class="item">--mirror</a></strong></dt>
+
+<dd>
+<p>Specifies the base URL for the CPAN mirror to use, such as
+<code>http://cpan.cpantesters.org/</code> (you can omit the trailing slash). You
+can specify multiple mirror URLs by repeating the command line option.</p>
+<p>Defaults to <code>http://search.cpan.org/CPAN</code> which is a geo location
+aware redirector.</p>
+</dd>
+<dt><strong><a name="mirror_only" class="item">--mirror-only</a></strong></dt>
+
+<dd>
+<p>Download the mirror's 02packages.details.txt.gz index file instead of
+querying the CPAN Meta DB.</p>
+<p>Select this option if you are using a local mirror of CPAN, such as
+minicpan when you're offline, or your own CPAN index (a.k.a darkpan).</p>
+<p><strong>Tip:</strong> It might be useful if you name these mirror options with your
+shell aliases, like:</p>
+<pre>
+  alias minicpanm='cpanm --mirror ~/minicpan --mirror-only'
+  alias darkpan='cpanm --mirror <a href="http://mycompany.example.com/DPAN">http://mycompany.example.com/DPAN</a> --mirror-only'
+
+</pre>
+</dd>
+<dt><strong><a name="mirror_index" class="item">--mirror-index</a></strong></dt>
+
+<dd>
+<p><strong>EXPERIMENTAL</strong>: Specifies the file path to <code>02packages.details.txt</code>
+for module search index.</p>
+</dd>
+<dt><strong><a name="metacpan" class="item">--metacpan</a></strong></dt>
+
+<dd>
+<p><strong>EXPERIMENTAL</strong>: Use <a href="http://api.metacpan.org/">http://api.metacpan.org/</a> API for module lookup instead of
+<a href="http://cpanmetadb.plackperl.org/">http://cpanmetadb.plackperl.org/</a>.
+    
+=item --prompt</p>
+<p>Prompts when a test fails so that you can skip, force install, retry
+or look in the shell to see what's going wrong. It also prompts when
+one of the dependency failed if you want to proceed the installation.</p>
+<p>Defaults to false, and you can say <code>--no-prompt</code> to override if it's
+set in the default options in <code>PERL_CPANM_OPT</code>.</p>
+</dd>
+<dt><strong><a name="reinstall" class="item">--reinstall</a></strong></dt>
+
+<dd>
+<p>cpanm, when given a module name in the command line (i.e. <code>cpanm
+Plack</code>), checks the locally installed version first and skips if it is
+already installed. This option makes it skip the check, so:</p>
+<pre>
+  cpanm --reinstall Plack
+
+</pre>
+<p>would reinstall <em>Plack</em> even if your locally installed version is
+latest, or even newer (which would happen if you install a developer
+release from version control repositories).</p>
+<p>Defaults to false.</p>
+</dd>
+<dt><strong><a name="interactive" class="item">--interactive</a></strong></dt>
+
+<dd>
+<p>Makes the configuration (such as <code>Makefile.PL</code> and <code>Build.PL</code>)
+interactive, so you can answer questions in the distribution that
+requires custom configuration or Task:: distributions.</p>
+<p>Defaults to false, and you can say <code>--no-interactive</code> to override
+when it's set in the default options in <code>PERL_CPANM_OPT</code>.</p>
+</dd>
+<dt><strong><a name="scandeps" class="item">--scandeps</a></strong></dt>
+
+<dd>
+<p>Scans the depencencies of given modules and output the tree in a text
+format. (See <a href="#format"><code>--format</code></a> below for more options)</p>
+<p>Because this command doesn't actually install any distributions, it
+will be useful that by typing:</p>
+<pre>
+  cpanm --scandeps Catalyst::Runtime
+
+</pre>
+<p>you can make sure what modules will be installed.</p>
+<p>This command takes into account which modules you already have
+installed in your system. If you want to see what modules will be
+installed against a vanilla perl installation, you might want to
+combine it with <code>-L</code> option.</p>
+</dd>
+<dt><strong><a name="format" class="item">--format</a></strong></dt>
+
+<dd>
+<p>Determines what format to display the scanned dependency
+tree. Available options are <a href="#tree"><code>tree</code></a>, <code>json</code>, <code>yaml</code> and <a href="#dists"><code>dists</code></a>.</p>
+<dl>
+<dt><strong><a name="tree" class="item">tree</a></strong></dt>
+
+<dd>
+<p>Displays the tree in a plain text format. This is the default value.</p>
+</dd>
+<dt><strong><a name="json_yaml" class="item">json, yaml</a></strong></dt>
+
+<dd>
+<p>Outputs the tree in a JSON or YAML format. <a href="../lib/JSON.html">the JSON manpage</a> and <a href="../lib/CPAN/Meta/YAML.html">the YAML manpage</a> modules
+need to be installed respectively. The output tree is represented as a
+recursive tuple of:</p>
+<pre>
+  [ distribution, dependencies ]
+
+</pre>
+<p>and the container is an array containing the root elements. Note that
+there may be multiple root nodes, since you can give multiple modules
+to the <a href="#scandeps"><code>--scandeps</code></a> command.</p>
+</dd>
+<dt><strong><a name="dists" class="item">dists</a></strong></dt>
+
+<dd>
+<p><a href="#dists"><code>dists</code></a> is a special output format, where it prints the distribution
+filename in the <em>depth first order</em> after the dependency resolution,
+like:</p>
+<pre>
+  GAAS/MIME-Base64-3.13.tar.gz
+  GAAS/URI-1.58.tar.gz
+  PETDANCE/HTML-Tagset-3.20.tar.gz
+  GAAS/HTML-Parser-3.68.tar.gz
+  GAAS/libwww-perl-5.837.tar.gz
+
+</pre>
+<p>which means you can install these distributions in this order without
+extra dependencies. When combined with <code>-L</code> option, it will be useful
+to replay installations on other machines.</p>
+</dd>
+</dl>
+</dd>
+<dt><strong><a name="save_dists" class="item">--save-dists</a></strong></dt>
+
+<dd>
+<p>Specifies the optional directory path to copy downloaded tarballs in
+the CPAN mirror compatible directory structure
+i.e. <em>authors/id/A/AU/AUTHORS/Foo-Bar-version.tar.gz</em></p>
+</dd>
+<dt><strong><a name="uninst_shadows" class="item">--uninst-shadows</a></strong></dt>
+
+<dd>
+<p>Uninstalls the shadow files of the distribution that you're
+installing. This eliminates the confusion if you're trying to install
+core (dual-life) modules from CPAN against perl 5.10 or older, or
+modules that used to be XS-based but switched to pure perl at some
+version.</p>
+<p>If you run cpanm as root and use <code>INSTALL_BASE</code> or equivalent to
+specify custom installation path, you SHOULD disable this option so
+you won't accidentally uninstall dual-life modules from the core
+include path.</p>
+<p>Defaults to true if your perl version is smaller than 5.12, and you
+can disable that with <code>--no-uninst-shadows</code>.</p>
+<p><strong>NOTE</strong>: Since version 1.3000 this flag is turned off by default for
+perl newer than 5.12, since with 5.12 @INC contains site_perl directory
+<em>before</em> the perl core library path, and uninstalling shadows is not
+necessary anymore and does more harm by deleting files from the core
+library path.</p>
+</dd>
+<dt><strong><a name="cascade_search" class="item">--cascade-search</a></strong></dt>
+
+<dd>
+<p><strong>EXPERIMENTAL</strong>: Specifies whether to cascade search when you specify
+multiple mirrors and a mirror doesn't have a module or has a lower
+version of the module than requested. Defaults to false.</p>
+</dd>
+<dt><strong><a name="skip_installed" class="item">--skip-installed</a></strong></dt>
+
+<dd>
+<p>Specifies whether a module given in the command line is skipped if its latest
+version is already installed. Defaults to true.</p>
+<p><strong>NOTE</strong>: The <a href="../lib/pods/perlrun.html#perl5lib"><code>PERL5LIB</code></a> environment variable have to be correctly set for this
+to work with modules installed using <a href="../site/lib/local/lib.html">the local::lib manpage</a>.</p>
+</dd>
+<dt><strong><a name="skip_satisfied" class="item">--skip-satisfied</a></strong></dt>
+
+<dd>
+<p><strong>EXPERIMENTAL</strong>: Specifies whether a module (and version) given in the
+command line is skipped if it's already installed.</p>
+<p>If you run:</p>
+<pre>
+  cpanm --skip-satisfied CGI DBI~1.2
+
+</pre>
+<p>cpanm won't install them if you already have CGI (for whatever
+versions) or have DBI with version higher than 1.2. It is similar to
+<a href="#skip_installed"><code>--skip-installed</code></a> but while <a href="#skip_installed"><code>--skip-installed</code></a> checks if the
+<em>latest</em> version of CPAN is installed, <a href="#skip_satisfied"><code>--skip-satisfied</code></a> checks if
+a requested version (or not, which means any version) is installed.</p>
+<p>Defaults to false for bare module names, but if you specify versions
+with <code>~</code>, it will always skip satisfied requirements.</p>
+</dd>
+<dt><strong><a name="auto_cleanup" class="item">--auto-cleanup</a></strong></dt>
+
+<dd>
+<p>Specifies the number of days in which cpanm's work directories
+expire. Defaults to 7, which means old work directories will be
+cleaned up in one week.</p>
+<p>You can set the value to <code>0</code> to make cpan never cleanup those
+directories.</p>
+</dd>
+<dt><strong><a name="man_pages" class="item">--man-pages</a></strong></dt>
+
+<dd>
+<p>Generates man pages for executables (man1) and libraries (man3).</p>
+<p>Defaults to false (no man pages generated) if
+<a href="#l_local_lib_contained"><code>-L|--local-lib-contained</code></a> option is supplied. Otherwise, defaults to
+true, and you can disable it with <code>--no-man-pages</code>.</p>
+</dd>
+<dt><strong><a name="lwp" class="item">--lwp</a></strong></dt>
+
+<dd>
+<p>Uses <a href="../lib/LWP.html">the LWP manpage</a> module to download stuff over HTTP. Defaults to true, and
+you can say <code>--no-lwp</code> to disable using LWP, when you want to upgrade
+LWP from CPAN on some broken perl systems.</p>
+</dd>
+<dt><strong><a name="wget" class="item">--wget</a></strong></dt>
+
+<dd>
+<p>Uses GNU Wget (if available) to download stuff. Defaults to true, and
+you can say <code>--no-wget</code> to disable using Wget (versions of Wget older
+than 1.9 don't support the <code>--retry-connrefused</code> option used by cpanm).</p>
+</dd>
+<dt><strong><a name="curl" class="item">--curl</a></strong></dt>
+
+<dd>
+<p>Uses cURL (if available) to download stuff. Defaults to true, and
+you can say <code>--no-curl</code> to disable using cURL.</p>
+<p>Normally with <a href="#lwp"><code>--lwp</code></a>, <a href="#wget"><code>--wget</code></a> and <a href="#curl"><code>--curl</code></a> options set to true
+(which is the default) cpanm tries <a href="../lib/LWP.html">the LWP manpage</a>, Wget, cURL and <a href="../lib/HTTP/Tiny.html">the HTTP::Tiny manpage</a>
+(in that order) and uses the first one available.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../cpan/build/App-cpanminus-1.5013-0afsXJ/blib/html/site/lib/App/cpanminus.html">the App::cpanminus manpage</a></p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright 2010 Tatsuhiko Miyagawa.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Tatsuhiko Miyagawa</p>
+
+</body>
+
+</html>

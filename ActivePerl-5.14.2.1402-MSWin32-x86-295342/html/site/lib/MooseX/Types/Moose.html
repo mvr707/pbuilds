@@ -1,0 +1,132 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../scineplex.css">
+<title>MooseX::Types::Moose - Type exports that match the types shipped with L&lt;Moose&gt;</title>
+<link rel="stylesheet" href="../../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',4);</script>
+<h1><a>MooseX::Types::Moose - Type exports that match the types shipped with L&lt;Moose&gt;</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#version">VERSION</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<ul>
+
+		<li><a href="#type_storage">type_storage</a></li>
+	</ul>
+
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#license">LICENSE</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright_and_license">COPYRIGHT AND LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>MooseX::Types::Moose - Type exports that match the types shipped with <a href="../../../../cpan/build/MooseX-Types-0.35-0YdK7U/blib/html/site/lib/MooseX/Types/Moose.html">the Moose manpage</a></p>
+<p>
+</p>
+<hr />
+<h1><a name="version">VERSION</a></h1>
+<p>version 0.35</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  <span class="keyword">package</span> <span class="variable">Foo</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">Moose</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">MooseX::Types::Moose</span> <span class="string">qw( ArrayRef Int Str )</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">Carp</span> <span class="string">qw( croak )</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="variable">has</span> <span class="string">'name'</span><span class="operator">,</span>
+    <span class="string">is</span>  <span class="operator">=&gt;</span> <span class="string">'rw'</span><span class="operator">,</span>
+    <span class="string">isa</span> <span class="operator">=&gt;</span> <span class="variable">Str</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="variable">has</span> <span class="string">'ids'</span><span class="operator">,</span>
+    <span class="string">is</span>  <span class="operator">=&gt;</span> <span class="string">'rw'</span><span class="operator">,</span>
+    <span class="string">isa</span> <span class="operator">=&gt;</span> <span class="variable">ArrayRef</span><span class="operator">[</span><span class="variable">Int</span><span class="operator">]</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">sub</span><span class="variable"> add </span><span class="operator">{</span>
+      <span class="keyword">my</span> <span class="operator">(</span><span class="variable">$self</span><span class="operator">,</span> <span class="variable">$x</span><span class="operator">,</span> <span class="variable">$y</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span>
+      <span class="variable">croak</span> <span class="string">'First arg not an Int'</span>  <span class="keyword">unless</span> <span class="variable">is_Int</span><span class="operator">(</span><span class="variable">$x</span><span class="operator">);</span>
+      <span class="variable">croak</span> <span class="string">'Second arg not an Int'</span> <span class="keyword">unless</span> <span class="variable">is_Int</span><span class="operator">(</span><span class="variable">$y</span><span class="operator">);</span>
+      <span class="keyword">return</span> <span class="variable">$x</span> <span class="operator">+</span> <span class="variable">$y</span><span class="operator">;</span>
+  <span class="operator">}</span>
+</pre>
+<pre>
+  <span class="number">1</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This package contains a virtual library for <a href="../../../../cpan/build/MooseX-Types-0.35-0YdK7U/blib/html/site/lib/MooseX/Types.html">the MooseX::Types manpage</a> that
+is able to export all types known to <a href="../../../../cpan/build/MooseX-Types-0.35-0YdK7U/blib/html/site/lib/MooseX/Types/Moose.html">the Moose manpage</a>. See <a href="../../../../cpan/build/MooseX-Types-0.35-0YdK7U/blib/html/site/lib/MooseX/Types.html">the MooseX::Types manpage</a>
+for general usage information.</p>
+<p>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<p>
+</p>
+<h2><a name="type_storage">type_storage</a></h2>
+<p>Overrides <a href="../../../../cpan/build/MooseX-Types-0.35-0YdK7U/blib/html/site/lib/MooseX/Types/Base.html">the MooseX::Types::Base manpage</a>' <code>type_storage</code> to provide a hash
+reference containing all built-in <a href="../../../../cpan/build/MooseX-Types-0.35-0YdK7U/blib/html/site/lib/MooseX/Types/Moose.html">the Moose manpage</a> types.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../../../cpan/build/MooseX-Types-0.35-0YdK7U/blib/html/site/lib/MooseX/Types/Moose.html">the MooseX::Types::Moose manpage</a>,
+<a href="../../../../cpan/build/MooseX-Types-0.35-0YdK7U/blib/html/site/lib/MooseX/Types/Moose.html">the Moose manpage</a>, 
+<a href="../../../../lib/Moose/Util/TypeConstraints.html">the Moose::Util::TypeConstraints manpage</a></p>
+<p>
+</p>
+<hr />
+<h1><a name="license">LICENSE</a></h1>
+<p>This program is free software; you can redistribute it and/or modify
+it under the same terms as perl itself.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Robert &quot;phaylon&quot; Sedlacek &lt;<a href="mailto:rs@474.at">rs@474.at</a>&gt;</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright_and_license">COPYRIGHT AND LICENSE</a></h1>
+<p>This software is copyright (c) 2012 by Robert &quot;phaylon&quot; Sedlacek.</p>
+<p>This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.</p>
+
+</body>
+
+</html>

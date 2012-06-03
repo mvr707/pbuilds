@@ -1,0 +1,26 @@
+---
+abstract: 'A glimpse at an Enlightened Perl (Logging modules).'
+author:
+  - 'Chris Prather <chris@prather.org>'
+build_requires:
+  ExtUtils::MakeMaker: 6.42
+configure_requires:
+  ExtUtils::MakeMaker: 6.42
+distribution_type: module
+generated_by: 'Module::Install version 1.00'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Task-Kensho-Logging
+no_index:
+  directory:
+    - inc
+    - t
+requires:
+  Log::Contextual: 0
+  Log::Dispatch: 0
+  Log::Log4perl: 0
+resources:
+  license: http://dev.perl.org/licenses/
+version: 0.01

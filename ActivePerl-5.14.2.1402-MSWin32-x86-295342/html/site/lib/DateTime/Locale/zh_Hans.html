@@ -1,0 +1,826 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../scineplex.css">
+<title>C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\build\DateTime-Locale-0.45-rbrrCe\blib/lib/DateTime/Locale/zh_Hans.pm</title>
+<link rel="stylesheet" href="../../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',4);</script>
+<h1><a>C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\build\DateTime-Locale-0.45-rbrrCe\blib/lib/DateTime/Locale/zh_Hans.pm</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#data">DATA</a></li>
+	<ul>
+
+		<li><a href="#days">Days</a></li>
+		<ul>
+
+			<li><a href="#wide__format_">Wide (format)</a></li>
+			<li><a href="#abbreviated__format_">Abbreviated (format)</a></li>
+			<li><a href="#narrow__format_">Narrow (format)</a></li>
+			<li><a href="#wide__stand_alone_">Wide (stand-alone)</a></li>
+			<li><a href="#abbreviated__stand_alone_">Abbreviated (stand-alone)</a></li>
+			<li><a href="#narrow__stand_alone_">Narrow (stand-alone)</a></li>
+		</ul>
+
+		<li><a href="#months">Months</a></li>
+		<ul>
+
+			<li><a href="#wide__format_">Wide (format)</a></li>
+			<li><a href="#abbreviated__format_">Abbreviated (format)</a></li>
+			<li><a href="#narrow__format_">Narrow (format)</a></li>
+			<li><a href="#wide__stand_alone_">Wide (stand-alone)</a></li>
+			<li><a href="#abbreviated__stand_alone_">Abbreviated (stand-alone)</a></li>
+			<li><a href="#narrow__stand_alone_">Narrow (stand-alone)</a></li>
+		</ul>
+
+		<li><a href="#quarters">Quarters</a></li>
+		<ul>
+
+			<li><a href="#wide__format_">Wide (format)</a></li>
+			<li><a href="#abbreviated__format_">Abbreviated (format)</a></li>
+			<li><a href="#narrow__format_">Narrow (format)</a></li>
+			<li><a href="#wide__stand_alone_">Wide (stand-alone)</a></li>
+			<li><a href="#abbreviated__stand_alone_">Abbreviated (stand-alone)</a></li>
+			<li><a href="#narrow__stand_alone_">Narrow (stand-alone)</a></li>
+		</ul>
+
+		<li><a href="#eras">Eras</a></li>
+		<ul>
+
+			<li><a href="#wide">Wide</a></li>
+			<li><a href="#abbreviated">Abbreviated</a></li>
+			<li><a href="#narrow">Narrow</a></li>
+		</ul>
+
+		<li><a href="#date_formats">Date Formats</a></li>
+		<ul>
+
+			<li><a href="#full">Full</a></li>
+			<li><a href="#long">Long</a></li>
+			<li><a href="#medium">Medium</a></li>
+			<li><a href="#short">Short</a></li>
+			<li><a href="#default">Default</a></li>
+		</ul>
+
+		<li><a href="#time_formats">Time Formats</a></li>
+		<ul>
+
+			<li><a href="#full">Full</a></li>
+			<li><a href="#long">Long</a></li>
+			<li><a href="#medium">Medium</a></li>
+			<li><a href="#short">Short</a></li>
+			<li><a href="#default">Default</a></li>
+		</ul>
+
+		<li><a href="#datetime_formats">Datetime Formats</a></li>
+		<ul>
+
+			<li><a href="#full">Full</a></li>
+			<li><a href="#long">Long</a></li>
+			<li><a href="#medium">Medium</a></li>
+			<li><a href="#short">Short</a></li>
+			<li><a href="#default">Default</a></li>
+		</ul>
+
+		<li><a href="#available_formats">Available Formats</a></li>
+		<ul>
+
+			<li><a href="#d__d�___">d (d日)</a></li>
+			<li><a href="#ed__d�__e_">Ed (d日E)</a></li>
+			<li><a href="#eeed__d_eee_">EEEd (d EEE)</a></li>
+			<li><a href="#h__h�___">H (H时)</a></li>
+			<li><a href="#hhmmss__hh_mm_ss_">HHmmss (HH:mm:ss)</a></li>
+			<li><a href="#hm__h_mm_">Hm (H:mm)</a></li>
+			<li><a href="#hm__ah_mm_">hm (ah:mm)</a></li>
+			<li><a href="#hms__h_mm_ss_">Hms (H:mm:ss)</a></li>
+			<li><a href="#hms__ah_mm_ss_">hms (ah:mm:ss)</a></li>
+			<li><a href="#m__l_">M (L)</a></li>
+			<li><a href="#md__m_d_">Md (M-d)</a></li>
+			<li><a href="#med__m_de_">MEd (M-dE)</a></li>
+			<li><a href="#mmdd__mm_dd_">MMdd (MM-dd)</a></li>
+			<li><a href="#mmm__lll_">MMM (LLL)</a></li>
+			<li><a href="#mmmd__mmmd�___">MMMd (MMMd日)</a></li>
+			<li><a href="#mmmed__mmmd�__e_">MMMEd (MMMd日E)</a></li>
+			<li><a href="#mmmmd__mmmmd�___">MMMMd (MMMMd日)</a></li>
+			<li><a href="#mmmmdd__mmmmdd�___">MMMMdd (MMMMdd日)</a></li>
+			<li><a href="#mmmmed__mmmmd�__e_">MMMMEd (MMMMd日E)</a></li>
+			<li><a href="#ms__mm_ss_">ms (mm:ss)</a></li>
+			<li><a href="#y__y�__">y (y年)</a></li>
+			<li><a href="#ym__yyyy_m_">yM (yyyy-M)</a></li>
+			<li><a href="#ymed__y�_m�_d�__�_�e_">yMEd (y年M月d日，E)</a></li>
+			<li><a href="#ymmm__y�_mmm_">yMMM (y年MMM)</a></li>
+			<li><a href="#ymmmd__y�_mmmd�___">yMMMd (y年MMMd日)</a></li>
+			<li><a href="#ymmmed__y�_mmmd�__eee_">yMMMEd (y年MMMd日EEE)</a></li>
+			<li><a href="#ymmmm__y�_mmmm_">yMMMM (y年MMMM)</a></li>
+			<li><a href="#yq__y�_qqq_">yQ (y年QQQ)</a></li>
+			<li><a href="#yqqq__y�_qqq_">yQQQ (y年QQQ)</a></li>
+			<li><a href="#yymm__yy_mm_">yyMM (yy-MM)</a></li>
+			<li><a href="#yymmm__yy�_mmm_">yyMMM (yy年MMM)</a></li>
+			<li><a href="#yyq__yy�_�__q�__�__">yyQ (yy年第Q季度)</a></li>
+			<li><a href="#yyyy__y�__">yyyy (y年)</a></li>
+			<li><a href="#yyyym__y�_m�__">yyyyM (y年M月)</a></li>
+			<li><a href="#yyyymmmm__y�_mmmm_">yyyyMMMM (y年MMMM)</a></li>
+		</ul>
+
+		<li><a href="#miscellaneous">Miscellaneous</a></li>
+		<ul>
+
+			<li><a href="#prefers_24_hour_time">Prefers 24 hour time?</a></li>
+			<li><a href="#local_first_day_of_the_week">Local first day of the week</a></li>
+		</ul>
+
+	</ul>
+
+	<li><a href="#support">SUPPORT</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<hr />
+<h1><a name="name">NAME</a></h1>
+<p>DateTime::Locale::zh_Hans</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  <span class="keyword">use</span> <span class="variable">DateTime</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$dt</span> <span class="operator">=</span> <span class="variable">DateTime</span><span class="operator">-&gt;</span><span class="variable">now</span><span class="operator">(</span> <span class="string">locale</span> <span class="operator">=&gt;</span> <span class="string">'zh_Hans'</span> <span class="operator">);</span>
+  <span class="keyword">print</span> <span class="variable">$dt</span><span class="operator">-&gt;</span><span class="variable">month_name</span><span class="operator">();</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This is the DateTime locale package for Chinese Simplified Han.</p>
+<p>
+</p>
+<hr />
+<h1><a name="data">DATA</a></h1>
+<p>This locale inherits from the <a href="../../../../cpan/build/DateTime-Locale-0.45-rbrrCe/blib/html/site/lib/DateTime/Locale/zh.html">the DateTime::Locale::zh manpage</a> locale.</p>
+<p>It contains the following data.</p>
+<p>
+</p>
+<h2><a name="days">Days</a></h2>
+<p>
+</p>
+<h3><a name="wide__format_">Wide (format)</a></h3>
+<pre>
+  星期一
+  星期二
+  星期三
+  星期四
+  星期五
+  星期六
+  星期日</pre>
+<p>
+</p>
+<h3><a name="abbreviated__format_">Abbreviated (format)</a></h3>
+<pre>
+  周一
+  周二
+  周三
+  周四
+  周五
+  周六
+  周日</pre>
+<p>
+</p>
+<h3><a name="narrow__format_">Narrow (format)</a></h3>
+<pre>
+  一
+  二
+  三
+  四
+  五
+  六
+  日</pre>
+<p>
+</p>
+<h3><a name="wide__stand_alone_">Wide (stand-alone)</a></h3>
+<pre>
+  星期一
+  星期二
+  星期三
+  星期四
+  星期五
+  星期六
+  星期日</pre>
+<p>
+</p>
+<h3><a name="abbreviated__stand_alone_">Abbreviated (stand-alone)</a></h3>
+<pre>
+  周一
+  周二
+  周三
+  周四
+  周五
+  周六
+  周日</pre>
+<p>
+</p>
+<h3><a name="narrow__stand_alone_">Narrow (stand-alone)</a></h3>
+<pre>
+  一
+  二
+  三
+  四
+  五
+  六
+  日</pre>
+<p>
+</p>
+<h2><a name="months">Months</a></h2>
+<p>
+</p>
+<h3><a name="wide__format_">Wide (format)</a></h3>
+<pre>
+  1月
+  2月
+  3月
+  4月
+  5月
+  6月
+  7月
+  8月
+  9月
+  10月
+  11月
+  12月</pre>
+<p>
+</p>
+<h3><a name="abbreviated__format_">Abbreviated (format)</a></h3>
+<pre>
+  1月
+  2月
+  3月
+  4月
+  5月
+  6月
+  7月
+  8月
+  9月
+  10月
+  11月
+  12月</pre>
+<p>
+</p>
+<h3><a name="narrow__format_">Narrow (format)</a></h3>
+<pre>
+  1月
+  2月
+  3月
+  4月
+  5月
+  6月
+  7月
+  8月
+  9月
+  10月
+  11月
+  12月</pre>
+<p>
+</p>
+<h3><a name="wide__stand_alone_">Wide (stand-alone)</a></h3>
+<pre>
+  一月
+  二月
+  三月
+  四月
+  五月
+  六月
+  七月
+  八月
+  九月
+  十月
+  十一月
+  十二月</pre>
+<p>
+</p>
+<h3><a name="abbreviated__stand_alone_">Abbreviated (stand-alone)</a></h3>
+<pre>
+  一月
+  二月
+  三月
+  四月
+  五月
+  六月
+  七月
+  八月
+  九月
+  十月
+  十一月
+  十二月</pre>
+<p>
+</p>
+<h3><a name="narrow__stand_alone_">Narrow (stand-alone)</a></h3>
+<pre>
+  1月
+  2月
+  3月
+  4月
+  5月
+  6月
+  7月
+  8月
+  9月
+  10月
+  11月
+  12月</pre>
+<p>
+</p>
+<h2><a name="quarters">Quarters</a></h2>
+<p>
+</p>
+<h3><a name="wide__format_">Wide (format)</a></h3>
+<pre>
+  第1季度
+  第2季度
+  第3季度
+  第4季度</pre>
+<p>
+</p>
+<h3><a name="abbreviated__format_">Abbreviated (format)</a></h3>
+<pre>
+  1季
+  2季
+  3季
+  4季</pre>
+<p>
+</p>
+<h3><a name="narrow__format_">Narrow (format)</a></h3>
+<pre>
+  1
+  2
+  3
+  4</pre>
+<p>
+</p>
+<h3><a name="wide__stand_alone_">Wide (stand-alone)</a></h3>
+<pre>
+  第1季度
+  第2季度
+  第3季度
+  第4季度</pre>
+<p>
+</p>
+<h3><a name="abbreviated__stand_alone_">Abbreviated (stand-alone)</a></h3>
+<pre>
+  1季
+  2季
+  3季
+  4季</pre>
+<p>
+</p>
+<h3><a name="narrow__stand_alone_">Narrow (stand-alone)</a></h3>
+<pre>
+  1
+  2
+  3
+  4</pre>
+<p>
+</p>
+<h2><a name="eras">Eras</a></h2>
+<p>
+</p>
+<h3><a name="wide">Wide</a></h3>
+<pre>
+  公元前
+  公元</pre>
+<p>
+</p>
+<h3><a name="abbreviated">Abbreviated</a></h3>
+<pre>
+  公元前
+  公元</pre>
+<p>
+</p>
+<h3><a name="narrow">Narrow</a></h3>
+<pre>
+  公元前
+  公元</pre>
+<p>
+</p>
+<h2><a name="date_formats">Date Formats</a></h2>
+<p>
+</p>
+<h3><a name="full">Full</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2008年2月5日星期二
+   1995-12-22T09:05:02 = 1995年12月22日星期五
+  -0010-09-15T04:44:23 = -10年9月15日星期六</pre>
+<p>
+</p>
+<h3><a name="long">Long</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2008年2月5日
+   1995-12-22T09:05:02 = 1995年12月22日
+  -0010-09-15T04:44:23 = -10年9月15日</pre>
+<p>
+</p>
+<h3><a name="medium">Medium</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2008-2-5
+   1995-12-22T09:05:02 = 1995-12-22
+  -0010-09-15T04:44:23 = -010-9-15</pre>
+<p>
+</p>
+<h3><a name="short">Short</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 08-2-5
+   1995-12-22T09:05:02 = 95-12-22
+  -0010-09-15T04:44:23 = -10-9-15</pre>
+<p>
+</p>
+<h3><a name="default">Default</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2008-2-5
+   1995-12-22T09:05:02 = 1995-12-22
+  -0010-09-15T04:44:23 = -010-9-15</pre>
+<p>
+</p>
+<h2><a name="time_formats">Time Formats</a></h2>
+<p>
+</p>
+<h3><a name="full">Full</a></h3>
+<pre>
+   2008-02-05T18:30:30 = UTC下午6时30分30秒
+   1995-12-22T09:05:02 = UTC上午9时05分02秒
+  -0010-09-15T04:44:23 = UTC上午4时44分23秒</pre>
+<p>
+</p>
+<h3><a name="long">Long</a></h3>
+<pre>
+   2008-02-05T18:30:30 = UTC下午6时30分30秒
+   1995-12-22T09:05:02 = UTC上午9时05分02秒
+  -0010-09-15T04:44:23 = UTC上午4时44分23秒</pre>
+<p>
+</p>
+<h3><a name="medium">Medium</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 下午06:30:30
+   1995-12-22T09:05:02 = 上午09:05:02
+  -0010-09-15T04:44:23 = 上午04:44:23</pre>
+<p>
+</p>
+<h3><a name="short">Short</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 下午6:30
+   1995-12-22T09:05:02 = 上午9:05
+  -0010-09-15T04:44:23 = 上午4:44</pre>
+<p>
+</p>
+<h3><a name="default">Default</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 下午06:30:30
+   1995-12-22T09:05:02 = 上午09:05:02
+  -0010-09-15T04:44:23 = 上午04:44:23</pre>
+<p>
+</p>
+<h2><a name="datetime_formats">Datetime Formats</a></h2>
+<p>
+</p>
+<h3><a name="full">Full</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2008年2月5日星期二UTC下午6时30分30秒
+   1995-12-22T09:05:02 = 1995年12月22日星期五UTC上午9时05分02秒
+  -0010-09-15T04:44:23 = -10年9月15日星期六UTC上午4时44分23秒</pre>
+<p>
+</p>
+<h3><a name="long">Long</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2008年2月5日UTC下午6时30分30秒
+   1995-12-22T09:05:02 = 1995年12月22日UTC上午9时05分02秒
+  -0010-09-15T04:44:23 = -10年9月15日UTC上午4时44分23秒</pre>
+<p>
+</p>
+<h3><a name="medium">Medium</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2008-2-5下午06:30:30
+   1995-12-22T09:05:02 = 1995-12-22上午09:05:02
+  -0010-09-15T04:44:23 = -010-9-15上午04:44:23</pre>
+<p>
+</p>
+<h3><a name="short">Short</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 08-2-5下午6:30
+   1995-12-22T09:05:02 = 95-12-22上午9:05
+  -0010-09-15T04:44:23 = -10-9-15上午4:44</pre>
+<p>
+</p>
+<h3><a name="default">Default</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2008-2-5下午06:30:30
+   1995-12-22T09:05:02 = 1995-12-22上午09:05:02
+  -0010-09-15T04:44:23 = -010-9-15上午04:44:23</pre>
+<p>
+</p>
+<h2><a name="available_formats">Available Formats</a></h2>
+<p>
+</p>
+<h3><a name="d__d�___">d (d日)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 5日
+   1995-12-22T09:05:02 = 22日
+  -0010-09-15T04:44:23 = 15日</pre>
+<p>
+</p>
+<h3><a name="ed__d�__e_">Ed (d日E)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 5日周二
+   1995-12-22T09:05:02 = 22日周五
+  -0010-09-15T04:44:23 = 15日周六</pre>
+<p>
+</p>
+<h3><a name="eeed__d_eee_">EEEd (d EEE)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 5 周二
+   1995-12-22T09:05:02 = 22 周五
+  -0010-09-15T04:44:23 = 15 周六</pre>
+<p>
+</p>
+<h3><a name="h__h�___">H (H时)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 18时
+   1995-12-22T09:05:02 = 9时
+  -0010-09-15T04:44:23 = 4时</pre>
+<p>
+</p>
+<h3><a name="hhmmss__hh_mm_ss_">HHmmss (HH:mm:ss)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 18:30:30
+   1995-12-22T09:05:02 = 09:05:02
+  -0010-09-15T04:44:23 = 04:44:23</pre>
+<p>
+</p>
+<h3><a name="hm__h_mm_">Hm (H:mm)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 18:30
+   1995-12-22T09:05:02 = 9:05
+  -0010-09-15T04:44:23 = 4:44</pre>
+<p>
+</p>
+<h3><a name="hm__ah_mm_">hm (ah:mm)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 下午6:30
+   1995-12-22T09:05:02 = 上午9:05
+  -0010-09-15T04:44:23 = 上午4:44</pre>
+<p>
+</p>
+<h3><a name="hms__h_mm_ss_">Hms (H:mm:ss)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 18:30:30
+   1995-12-22T09:05:02 = 9:05:02
+  -0010-09-15T04:44:23 = 4:44:23</pre>
+<p>
+</p>
+<h3><a name="hms__ah_mm_ss_">hms (ah:mm:ss)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 下午6:30:30
+   1995-12-22T09:05:02 = 上午9:05:02
+  -0010-09-15T04:44:23 = 上午4:44:23</pre>
+<p>
+</p>
+<h3><a name="m__l_">M (L)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2
+   1995-12-22T09:05:02 = 12
+  -0010-09-15T04:44:23 = 9</pre>
+<p>
+</p>
+<h3><a name="md__m_d_">Md (M-d)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2-5
+   1995-12-22T09:05:02 = 12-22
+  -0010-09-15T04:44:23 = 9-15</pre>
+<p>
+</p>
+<h3><a name="med__m_de_">MEd (M-dE)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2-5周二
+   1995-12-22T09:05:02 = 12-22周五
+  -0010-09-15T04:44:23 = 9-15周六</pre>
+<p>
+</p>
+<h3><a name="mmdd__mm_dd_">MMdd (MM-dd)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 02-05
+   1995-12-22T09:05:02 = 12-22
+  -0010-09-15T04:44:23 = 09-15</pre>
+<p>
+</p>
+<h3><a name="mmm__lll_">MMM (LLL)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 二月
+   1995-12-22T09:05:02 = 十二月
+  -0010-09-15T04:44:23 = 九月</pre>
+<p>
+</p>
+<h3><a name="mmmd__mmmd�___">MMMd (MMMd日)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2月5日
+   1995-12-22T09:05:02 = 12月22日
+  -0010-09-15T04:44:23 = 9月15日</pre>
+<p>
+</p>
+<h3><a name="mmmed__mmmd�__e_">MMMEd (MMMd日E)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2月5日周二
+   1995-12-22T09:05:02 = 12月22日周五
+  -0010-09-15T04:44:23 = 9月15日周六</pre>
+<p>
+</p>
+<h3><a name="mmmmd__mmmmd�___">MMMMd (MMMMd日)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2月5日
+   1995-12-22T09:05:02 = 12月22日
+  -0010-09-15T04:44:23 = 9月15日</pre>
+<p>
+</p>
+<h3><a name="mmmmdd__mmmmdd�___">MMMMdd (MMMMdd日)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2月05日
+   1995-12-22T09:05:02 = 12月22日
+  -0010-09-15T04:44:23 = 9月15日</pre>
+<p>
+</p>
+<h3><a name="mmmmed__mmmmd�__e_">MMMMEd (MMMMd日E)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2月5日周二
+   1995-12-22T09:05:02 = 12月22日周五
+  -0010-09-15T04:44:23 = 9月15日周六</pre>
+<p>
+</p>
+<h3><a name="ms__mm_ss_">ms (mm:ss)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 30:30
+   1995-12-22T09:05:02 = 05:02
+  -0010-09-15T04:44:23 = 44:23</pre>
+<p>
+</p>
+<h3><a name="y__y�__">y (y年)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2008年
+   1995-12-22T09:05:02 = 1995年
+  -0010-09-15T04:44:23 = -10年</pre>
+<p>
+</p>
+<h3><a name="ym__yyyy_m_">yM (yyyy-M)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2008-2
+   1995-12-22T09:05:02 = 1995-12
+  -0010-09-15T04:44:23 = -010-9</pre>
+<p>
+</p>
+<h3><a name="ymed__y�_m�_d�__�_�e_">yMEd (y年M月d日，E)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2008年2月5日，周二
+   1995-12-22T09:05:02 = 1995年12月22日，周五
+  -0010-09-15T04:44:23 = -10年9月15日，周六</pre>
+<p>
+</p>
+<h3><a name="ymmm__y�_mmm_">yMMM (y年MMM)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2008年2月
+   1995-12-22T09:05:02 = 1995年12月
+  -0010-09-15T04:44:23 = -10年9月</pre>
+<p>
+</p>
+<h3><a name="ymmmd__y�_mmmd�___">yMMMd (y年MMMd日)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2008年2月5日
+   1995-12-22T09:05:02 = 1995年12月22日
+  -0010-09-15T04:44:23 = -10年9月15日</pre>
+<p>
+</p>
+<h3><a name="ymmmed__y�_mmmd�__eee_">yMMMEd (y年MMMd日EEE)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2008年2月5日周二
+   1995-12-22T09:05:02 = 1995年12月22日周五
+  -0010-09-15T04:44:23 = -10年9月15日周六</pre>
+<p>
+</p>
+<h3><a name="ymmmm__y�_mmmm_">yMMMM (y年MMMM)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2008年2月
+   1995-12-22T09:05:02 = 1995年12月
+  -0010-09-15T04:44:23 = -10年9月</pre>
+<p>
+</p>
+<h3><a name="yq__y�_qqq_">yQ (y年QQQ)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2008年1季
+   1995-12-22T09:05:02 = 1995年4季
+  -0010-09-15T04:44:23 = -10年3季</pre>
+<p>
+</p>
+<h3><a name="yqqq__y�_qqq_">yQQQ (y年QQQ)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2008年1季
+   1995-12-22T09:05:02 = 1995年4季
+  -0010-09-15T04:44:23 = -10年3季</pre>
+<p>
+</p>
+<h3><a name="yymm__yy_mm_">yyMM (yy-MM)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 08-02
+   1995-12-22T09:05:02 = 95-12
+  -0010-09-15T04:44:23 = -10-09</pre>
+<p>
+</p>
+<h3><a name="yymmm__yy�_mmm_">yyMMM (yy年MMM)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 08年2月
+   1995-12-22T09:05:02 = 95年12月
+  -0010-09-15T04:44:23 = -10年9月</pre>
+<p>
+</p>
+<h3><a name="yyq__yy�_�__q�__�__">yyQ (yy年第Q季度)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 08年第1季度
+   1995-12-22T09:05:02 = 95年第4季度
+  -0010-09-15T04:44:23 = -10年第3季度</pre>
+<p>
+</p>
+<h3><a name="yyyy__y�__">yyyy (y年)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2008年
+   1995-12-22T09:05:02 = 1995年
+  -0010-09-15T04:44:23 = -10年</pre>
+<p>
+</p>
+<h3><a name="yyyym__y�_m�__">yyyyM (y年M月)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2008年2月
+   1995-12-22T09:05:02 = 1995年12月
+  -0010-09-15T04:44:23 = -10年9月</pre>
+<p>
+</p>
+<h3><a name="yyyymmmm__y�_mmmm_">yyyyMMMM (y年MMMM)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2008年2月
+   1995-12-22T09:05:02 = 1995年12月
+  -0010-09-15T04:44:23 = -10年9月</pre>
+<p>
+</p>
+<h2><a name="miscellaneous">Miscellaneous</a></h2>
+<p>
+</p>
+<h3><a name="prefers_24_hour_time">Prefers 24 hour time?</a></h3>
+<p>No</p>
+<p>
+</p>
+<h3><a name="local_first_day_of_the_week">Local first day of the week</a></h3>
+<p>星期一</p>
+<p>
+</p>
+<hr />
+<h1><a name="support">SUPPORT</a></h1>
+<p>See <a href="../../../../cpan/build/DateTime-Locale-0.45-rbrrCe/blib/html/site/lib/DateTime/Locale.html">the DateTime::Locale manpage</a>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Dave Rolsky &lt;<a href="mailto:autarch@urth.org">autarch@urth.org</a>&gt;</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (c) 2008 David Rolsky. All rights reserved. This program is
+free software; you can redistribute it and/or modify it under the same
+terms as Perl itself.</p>
+<p>This module was generated from data provided by the CLDR project, see
+the LICENSE.cldr in this distribution for details on the CLDR data's
+license.</p>
+
+</body>
+
+</html>

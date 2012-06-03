@@ -1,0 +1,156 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../scineplex.css">
+<title>MooseX::Types::Base - Type library base class</title>
+<link rel="stylesheet" href="../../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',4);</script>
+<h1><a>MooseX::Types::Base - Type library base class</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#version">VERSION</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<ul>
+
+		<li><a href="#import">import</a></li>
+		<li><a href="#get_type">get_type</a></li>
+		<li><a href="#type_names">type_names</a></li>
+		<li><a href="#add_type">add_type</a></li>
+		<li><a href="#has_type">has_type</a></li>
+		<li><a href="#type_storage">type_storage</a></li>
+		<li><a href="#registered_class_types">registered_class_types</a></li>
+		<li><a href="#register_class_type">register_class_type</a></li>
+		<li><a href="#get_registered_class_type">get_registered_class_type</a></li>
+		<li><a href="#registered_role_types">registered_role_types</a></li>
+		<li><a href="#register_role_type">register_role_type</a></li>
+		<li><a href="#get_registered_role_type">get_registered_role_type</a></li>
+	</ul>
+
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#license">LICENSE</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright_and_license">COPYRIGHT AND LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>MooseX::Types::Base - Type library base class</p>
+<p>
+</p>
+<hr />
+<h1><a name="version">VERSION</a></h1>
+<p>version 0.35</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>You normally won't need to interact with this class by yourself. It is
+merely a collection of functionality that type libraries need to 
+interact with moose and the rest of the <a href="../../../../cpan/build/MooseX-Types-0.35-0YdK7U/blib/html/site/lib/MooseX/Types.html">the MooseX::Types manpage</a> module.</p>
+<p>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<p>
+</p>
+<h2><a name="import">import</a></h2>
+<p>Provides the import mechanism for your library. See 
+<a href="../../../../cpan/build/MooseX-Types-0.35-0YdK7U/blib/html/site/lib/MooseX/Types.html#library_usage">LIBRARY USAGE in the MooseX::Types manpage</a> for syntax details on this.</p>
+<p>
+</p>
+<h2><a name="get_type">get_type</a></h2>
+<p>This returns a type from the library's store by its name.</p>
+<p>
+</p>
+<h2><a name="type_names">type_names</a></h2>
+<p>Returns a list of all known types by their name.</p>
+<p>
+</p>
+<h2><a name="add_type">add_type</a></h2>
+<p>Adds a new type to the library.</p>
+<p>
+</p>
+<h2><a name="has_type">has_type</a></h2>
+<p>Returns true or false depending on if this library knows a type by that
+name.</p>
+<p>
+</p>
+<h2><a name="type_storage">type_storage</a></h2>
+<p>Returns the library's type storage hash reference. You shouldn't use this
+method directly unless you know what you are doing. It is not an internal
+method because overriding it makes virtual libraries very easy.</p>
+<p>
+</p>
+<h2><a name="registered_class_types">registered_class_types</a></h2>
+<p>Returns the class types registered within this library. Don't use directly.</p>
+<p>
+</p>
+<h2><a name="register_class_type">register_class_type</a></h2>
+<p>Register a <code>class_type</code> for use in this library by class name.</p>
+<p>
+</p>
+<h2><a name="get_registered_class_type">get_registered_class_type</a></h2>
+<p>Get a <code>class_type</code> registered in this library by name.</p>
+<p>
+</p>
+<h2><a name="registered_role_types">registered_role_types</a></h2>
+<p>Returns the role types registered within this library. Don't use directly.</p>
+<p>
+</p>
+<h2><a name="register_role_type">register_role_type</a></h2>
+<p>Register a <code>role_type</code> for use in this library by role name.</p>
+<p>
+</p>
+<h2><a name="get_registered_role_type">get_registered_role_type</a></h2>
+<p>Get a <code>role_type</code> registered in this library by role name.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../../../cpan/build/MooseX-Types-0.35-0YdK7U/blib/html/site/lib/MooseX/Types/Moose.html">the MooseX::Types::Moose manpage</a></p>
+<p>
+</p>
+<hr />
+<h1><a name="license">LICENSE</a></h1>
+<p>This program is free software; you can redistribute it and/or modify
+it under the same terms as perl itself.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Robert &quot;phaylon&quot; Sedlacek &lt;<a href="mailto:rs@474.at">rs@474.at</a>&gt;</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright_and_license">COPYRIGHT AND LICENSE</a></h1>
+<p>This software is copyright (c) 2012 by Robert &quot;phaylon&quot; Sedlacek.</p>
+<p>This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.</p>
+
+</body>
+
+</html>

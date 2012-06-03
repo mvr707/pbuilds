@@ -1,0 +1,26 @@
+Changes
+inc/Module/Install.pm
+inc/Module/Install/Base.pm
+inc/Module/Install/Can.pm
+inc/Module/Install/Fetch.pm
+inc/Module/Install/Makefile.pm
+inc/Module/Install/Metadata.pm
+inc/Module/Install/Win32.pm
+inc/Module/Install/WriteAll.pm
+lib/Log/Contextual.pm
+lib/Log/Contextual/SimpleLogger.pm
+lib/Log/Contextual/TeeLogger.pm
+lib/Log/Contextual/WarnLogger.pm
+Makefile.PL
+MANIFEST			This list of files
+META.yml
+t/base.t
+t/default_logger.t
+t/dlog.t
+t/lib/BaseLogger.pm
+t/log.t
+t/log4perl.conf
+t/log4perl.t
+t/package_logger.t
+t/simplelogger.t
+t/warnlogger.t

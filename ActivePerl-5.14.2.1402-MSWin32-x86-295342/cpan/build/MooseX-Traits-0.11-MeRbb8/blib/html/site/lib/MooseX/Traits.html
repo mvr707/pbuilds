@@ -1,0 +1,187 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../scineplex.css">
+<title>MooseX::Traits - automatically apply roles at object creation time</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',3);</script>
+<h1><a>MooseX::Traits - automatically apply roles at object creation time</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<li><a href="#attributes_your_class_gets">ATTRIBUTES YOUR CLASS GETS</a></li>
+	<ul>
+
+		<li><a href="#_trait_namespace">_trait_namespace</a></li>
+	</ul>
+
+	<li><a href="#authors_and_contributors">AUTHORS and CONTRIBUTORS</a></li>
+	<li><a href="#copyright_and_license">COPYRIGHT AND LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>MooseX::Traits - automatically apply roles at object creation time</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>Given some roles:</p>
+<pre>
+  <span class="keyword">package</span> <span class="variable">Role</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">Moose::Role</span><span class="operator">;</span>
+  <span class="variable">has</span> <span class="string">foo</span> <span class="operator">=&gt;</span> <span class="operator">(</span> <span class="string">is</span> <span class="operator">=&gt;</span> <span class="string">'ro'</span><span class="operator">,</span> <span class="string">isa</span> <span class="operator">=&gt;</span> <span class="string">'Int'</span> <span class="string">required</span> <span class="operator">=&gt;</span> <span class="number">1</span> <span class="operator">);</span>
+</pre>
+<p>And a class:</p>
+<pre>
+  <span class="keyword">package</span> <span class="variable">Class</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">Moose</span><span class="operator">;</span>
+  <span class="variable">with</span> <span class="string">'MooseX::Traits'</span><span class="operator">;</span>
+</pre>
+<p>Apply the roles to the class at <code>new</code> time:</p>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$class</span> <span class="operator">=</span> <span class="variable">Class</span><span class="operator">-&gt;</span><span class="variable">with_traits</span><span class="operator">(</span><span class="string">'Role'</span><span class="operator">)-&gt;</span><span class="variable">new</span><span class="operator">(</span> <span class="string">foo</span> <span class="operator">=&gt;</span> <span class="number">42</span> <span class="operator">);</span>
+</pre>
+<p>Then use your customized class:</p>
+<pre>
+  <span class="variable">$class</span><span class="operator">-&gt;</span><span class="variable">isa</span><span class="operator">(</span><span class="string">'Class'</span><span class="operator">);</span> <span class="comment"># true</span>
+  <span class="variable">$class</span><span class="operator">-&gt;</span><span class="variable">does</span><span class="operator">(</span><span class="string">'Role'</span><span class="operator">);</span> <span class="comment"># true</span>
+  <span class="variable">$class</span><span class="operator">-&gt;</span><span class="variable">foo</span><span class="operator">;</span> <span class="comment"># 42</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>Often you want to create components that can be added to a class
+arbitrarily.  This module makes it easy for the end user to use these
+components.  Instead of requiring the user to create a named class
+with the desired roles applied, or apply roles to the instance
+one-by-one, he can just create a new class from yours with
+<a href="#with_traits"><code>with_traits</code></a>, and then instantiate that.</p>
+<p>There is also <a href="#new_with_traits"><code>new_with_traits</code></a>, which exists for compatibility
+reasons.  It accepts a <code>traits</code> parameter, creates a new class with
+those traits, and then insantiates it.</p>
+<pre>
+   Class-&gt;new_with_traits( traits =&gt; [qw/Foo Bar/], foo =&gt; 42, bar =&gt; 1 )</pre>
+<p>returns exactly the same object as</p>
+<pre>
+   Class-&gt;with_traits(qw/Foo Bar/)-&gt;new( foo =&gt; 42, bar =&gt; 1 )</pre>
+<p>would.  But you can also store the result of <a href="#with_traits"><code>with_traits</code></a>, and call
+other methods:</p>
+<pre>
+   <span class="keyword">my</span> <span class="variable">$c</span> <span class="operator">=</span> <span class="variable">Class</span><span class="operator">-&gt;</span><span class="variable">with_traits</span><span class="operator">(</span><span class="string">qw/Foo Bar/</span><span class="operator">);</span>
+   <span class="variable">$c</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span> <span class="string">foo</span> <span class="operator">=&gt;</span> <span class="number">42</span> <span class="operator">);</span>
+   <span class="variable">$c</span><span class="operator">-&gt;</span><span class="variable">whatever</span><span class="operator">(</span> <span class="string">foo</span> <span class="operator">=&gt;</span> <span class="number">1234</span> <span class="operator">);</span>
+</pre>
+<p>And so on.</p>
+<p>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<dl>
+<dt><strong><a name="with_traits" class="item"><strong>$class-</strong>with_traits( @traits ) &gt;&gt;</a></strong></dt>
+
+<dd>
+<p>Return a new class with the traits applied.  Use like:</p>
+</dd>
+<dt><strong><a name="new_with_traits" class="item"><strong>$class-</strong>new_with_traits(%args, traits =&gt; \@traits) &gt;&gt;</a></strong></dt>
+
+<dd>
+<p><a href="#new_with_traits"><code>new_with_traits</code></a> can also take a hashref, e.g.:</p>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$instance</span> <span class="operator">=</span> <span class="variable">$class</span><span class="operator">-&gt;</span><span class="variable">new_with_traits</span><span class="operator">(</span><span class="operator">{</span> <span class="string">traits</span> <span class="operator">=&gt;</span> <span class="operator">\</span><span class="variable">@traits</span><span class="operator">,</span> <span class="string">foo</span> <span class="operator">=&gt;</span> <span class="string">'bar'</span> <span class="operator">}</span><span class="operator">);</span>
+</pre>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="attributes_your_class_gets">ATTRIBUTES YOUR CLASS GETS</a></h1>
+<p>This role will add the following attributes to the consuming class.</p>
+<p>
+</p>
+<h2><a name="_trait_namespace">_trait_namespace</a></h2>
+<p>You can override the value of this attribute with <a href="../../../lib/pods/perlfunc.html#default"><code>default</code></a> to
+automatically prepend a namespace to the supplied traits.  (This can
+be overridden by prefixing the trait name with <code>+</code>.)</p>
+<p>Example:</p>
+<pre>
+  <span class="keyword">package</span> <span class="variable">Another::Trait</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">Moose::Role</span><span class="operator">;</span>
+  <span class="variable">has</span> <span class="string">'bar'</span> <span class="operator">=&gt;</span> <span class="operator">(</span>
+      <span class="string">is</span>       <span class="operator">=&gt;</span> <span class="string">'ro'</span><span class="operator">,</span>
+      <span class="string">isa</span>      <span class="operator">=&gt;</span> <span class="string">'Str'</span><span class="operator">,</span>
+      <span class="string">required</span> <span class="operator">=&gt;</span> <span class="number">1</span><span class="operator">,</span>
+  <span class="operator">);</span>
+</pre>
+<pre>
+  <span class="keyword">package</span> <span class="variable">Another::Class</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">Moose</span><span class="operator">;</span>
+  <span class="variable">with</span> <span class="string">'MooseX::Traits'</span><span class="operator">;</span>
+  <span class="variable">has</span> <span class="string">'+_trait_namespace'</span> <span class="operator">=&gt;</span> <span class="operator">(</span> <span class="string">default</span> <span class="operator">=&gt;</span> <span class="string">'Another'</span> <span class="operator">);</span>
+</pre>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$instance</span> <span class="operator">=</span> <span class="variable">Another::Class</span><span class="operator">-&gt;</span><span class="variable">new_with_traits</span><span class="operator">(</span>
+      <span class="string">traits</span> <span class="operator">=&gt;</span> <span class="operator">[</span><span class="string">'Trait'</span><span class="operator">]</span><span class="operator">,</span> <span class="comment"># "Another::Trait", not "Trait"</span>
+      <span class="string">bar</span>    <span class="operator">=&gt;</span> <span class="string">'bar'</span><span class="operator">,</span>
+  <span class="operator">);</span>
+  <span class="variable">$instance</span><span class="operator">-&gt;</span><span class="variable">does</span><span class="operator">(</span><span class="string">'Trait'</span><span class="operator">)</span>          <span class="comment"># false</span>
+  <span class="variable">$instance</span><span class="operator">-&gt;</span><span class="variable">does</span><span class="operator">(</span><span class="string">'Another::Trait'</span><span class="operator">)</span> <span class="comment"># true</span>
+</pre>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$instance2</span> <span class="operator">=</span> <span class="variable">Another::Class</span><span class="operator">-&gt;</span><span class="variable">new_with_traits</span><span class="operator">(</span>
+      <span class="string">traits</span> <span class="operator">=&gt;</span> <span class="operator">[</span><span class="string">'+Trait'</span><span class="operator">]</span><span class="operator">,</span> <span class="comment"># "Trait", not "Another::Trait"</span>
+  <span class="operator">);</span>
+  <span class="variable">$instance2</span><span class="operator">-&gt;</span><span class="variable">does</span><span class="operator">(</span><span class="string">'Trait'</span><span class="operator">)</span>          <span class="comment"># true</span>
+  <span class="variable">$instance2</span><span class="operator">-&gt;</span><span class="variable">does</span><span class="operator">(</span><span class="string">'Another::Trait'</span><span class="operator">)</span> <span class="comment"># false</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="authors_and_contributors">AUTHORS and CONTRIBUTORS</a></h1>
+<p>Jonathan Rockway <code>&lt;jrockway@cpan.org&gt;</code></p>
+<p>Stevan Little <code>&lt;stevan.little@iinteractive.com&gt;</code></p>
+<p>Tomas Doran <code>&lt;bobtfish@bobtfish.net&gt;</code></p>
+<p>Matt S. Trout <code>&lt;mst@shadowcatsystems.co.uk&gt;</code></p>
+<p>Jesse Luehrs <code>&lt;doy at tozt dot net&gt;</code></p>
+<p>Shawn Moore <code>&lt;sartak@bestpractical.com&gt;</code></p>
+<p>Florian Ragwitz <code>&lt;rafl@debian.org&gt;</code></p>
+<p>Chris Prather <code>&lt;chris@prather.org&gt;</code></p>
+<p>Yuval Kogman <code>&lt;nothingmuch@woobling.org&gt;</code></p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright_and_license">COPYRIGHT AND LICENSE</a></h1>
+<p>Copyright 2008 Infinity Interactive, Inc.</p>
+<p><a href="http://www.iinteractive.com">http://www.iinteractive.com</a></p>
+<p>This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.</p>
+
+</body>
+
+</html>

@@ -1,0 +1,210 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../scineplex.css">
+<title>Test::Pod::Coverage - Check for pod coverage in your distribution.</title>
+<link rel="stylesheet" href="../../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',4);</script>
+<h1><a>Test::Pod::Coverage - Check for pod coverage in your distribution.</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#version">VERSION</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#functions">FUNCTIONS</a></li>
+	<ul>
+
+		<li><a href="#all_pod_coverage_ok____parms_____msg__">all_pod_coverage_ok( [$parms, ] $msg )</a></li>
+		<li><a href="#pod_coverage_ok___module____parms_____msg__">pod_coverage_ok( $module, [$parms, ] $msg )</a></li>
+		<li><a href="#all_modules____dirs___">all_modules( [@dirs] )</a></li>
+	</ul>
+
+	<li><a href="#bugs">BUGS</a></li>
+	<li><a href="#support">SUPPORT</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#acknowledgements">ACKNOWLEDGEMENTS</a></li>
+	<li><a href="#copyright___license">COPYRIGHT &amp; LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Test::Pod::Coverage - Check for pod coverage in your distribution.</p>
+<p>
+</p>
+<hr />
+<h1><a name="version">VERSION</a></h1>
+<p>Version 1.08</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>Checks for POD coverage in files for your distribution.</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Test::Pod::Coverage</span> <span class="string">tests</span><span class="operator">=&gt;</span><span class="number">1</span><span class="operator">;</span>
+    <span class="variable">pod_coverage_ok</span><span class="operator">(</span> <span class="string">"Foo::Bar"</span><span class="operator">,</span> <span class="string">"Foo::Bar is covered"</span> <span class="operator">);</span>
+</pre>
+<p>Can also be called with <a href="../../../../cpan/build/Test-Pod-Coverage-1.08-FEaPNV/blib/html/site/lib/Test/Pod/Coverage.html">the Pod::Coverage manpage</a> parms.</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Test::Pod::Coverage</span> <span class="string">tests</span><span class="operator">=&gt;</span><span class="number">1</span><span class="operator">;</span>
+    <span class="variable">pod_coverage_ok</span><span class="operator">(</span>
+        <span class="string">"Foo::Bar"</span><span class="operator">,</span>
+        <span class="operator">{</span> <span class="string">also_private</span> <span class="operator">=&gt;</span> <span class="operator">[</span> <span class="string">qr/^[A-Z_]+$/</span> <span class="operator">]</span><span class="operator">,</span> <span class="operator">}</span><span class="operator">,</span>
+        <span class="string">"Foo::Bar, with all-caps functions as privates"</span><span class="operator">,</span>
+    <span class="operator">);</span>
+</pre>
+<p>The <a href="../../../../cpan/build/Test-Pod-Coverage-1.08-FEaPNV/blib/html/site/lib/Test/Pod/Coverage.html">the Pod::Coverage manpage</a> parms are also useful for subclasses that don't
+re-document the parent class's methods.  Here's an example from
+<a href="../../../../Mail/SRS.html">the Mail::SRS manpage</a>.</p>
+<pre>
+    <span class="variable">pod_coverage_ok</span><span class="operator">(</span> <span class="string">"Mail::SRS"</span> <span class="operator">);</span> <span class="comment"># No exceptions</span>
+</pre>
+<pre>
+    <span class="comment"># Define the three overridden methods.</span>
+    <span class="keyword">my</span> <span class="variable">$trustme</span> <span class="operator">=</span> <span class="operator">{</span> <span class="string">trustme</span> <span class="operator">=&gt;</span> <span class="operator">[</span><span class="string">qr/^(new|parse|compile)$/</span><span class="operator">]</span> <span class="operator">}</span><span class="operator">;</span>
+    <span class="variable">pod_coverage_ok</span><span class="operator">(</span> <span class="string">"Mail::SRS::DB"</span><span class="operator">,</span> <span class="variable">$trustme</span> <span class="operator">);</span>
+    <span class="variable">pod_coverage_ok</span><span class="operator">(</span> <span class="string">"Mail::SRS::Guarded"</span><span class="operator">,</span> <span class="variable">$trustme</span> <span class="operator">);</span>
+    <span class="variable">pod_coverage_ok</span><span class="operator">(</span> <span class="string">"Mail::SRS::Reversable"</span><span class="operator">,</span> <span class="variable">$trustme</span> <span class="operator">);</span>
+    <span class="variable">pod_coverage_ok</span><span class="operator">(</span> <span class="string">"Mail::SRS::Shortcut"</span><span class="operator">,</span> <span class="variable">$trustme</span> <span class="operator">);</span>
+</pre>
+<p>Alternately, you could use <a href="../../../../site/lib/Pod/Coverage/CountParents.html">the Pod::Coverage::CountParents manpage</a>, which always allows
+a subclass to reimplement its parents' methods without redocumenting them.  For
+example:</p>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$trustparents</span> <span class="operator">=</span> <span class="operator">{</span> <span class="string">coverage_class</span> <span class="operator">=&gt;</span> <span class="string">'Pod::Coverage::CountParents'</span> <span class="operator">}</span><span class="operator">;</span>
+    <span class="variable">pod_coverage_ok</span><span class="operator">(</span> <span class="string">"IO::Handle::Frayed"</span><span class="operator">,</span> <span class="variable">$trustparents</span> <span class="operator">);</span>
+</pre>
+<p>(The <code>coverage_class</code> parameter is not passed to the coverage class with other
+parameters.)</p>
+<p>If you want POD coverage for your module, but don't want to make
+Test::Pod::Coverage a prerequisite for installing, create the following
+as your <em class="file">t/pod-coverage.t</em> file:</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Test::More</span><span class="operator">;</span>
+    <span class="keyword">eval</span> <span class="string">"use Test::Pod::Coverage"</span><span class="operator">;</span>
+    <span class="variable">plan</span> <span class="string">skip_all</span> <span class="operator">=&gt;</span> <span class="string">"Test::Pod::Coverage required for testing pod coverage"</span> <span class="keyword">if</span> <span class="variable">$@</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="variable">plan</span> <span class="string">tests</span> <span class="operator">=&gt;</span> <span class="number">1</span><span class="operator">;</span>
+    <span class="variable">pod_coverage_ok</span><span class="operator">(</span> <span class="string">"Pod::Master::Html"</span><span class="operator">);</span>
+</pre>
+<p>Finally, Module authors can include the following in a <em class="file">t/pod-coverage.t</em>
+file and have <code>Test::Pod::Coverage</code> automatically find and check all
+modules in the module distribution:</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Test::More</span><span class="operator">;</span>
+    <span class="keyword">eval</span> <span class="string">"use Test::Pod::Coverage 1.00"</span><span class="operator">;</span>
+    <span class="variable">plan</span> <span class="string">skip_all</span> <span class="operator">=&gt;</span> <span class="string">"Test::Pod::Coverage 1.00 required for testing POD coverage"</span> <span class="keyword">if</span> <span class="variable">$@</span><span class="operator">;</span>
+    <span class="variable">all_pod_coverage_ok</span><span class="operator">();</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="functions">FUNCTIONS</a></h1>
+<p>All functions listed below are exported to the calling namespace.</p>
+<p>
+</p>
+<h2><a name="all_pod_coverage_ok____parms_____msg__">all_pod_coverage_ok( [$parms, ] $msg )</a></h2>
+<p>Checks that the POD code in all modules in the distro have proper POD
+coverage.</p>
+<p>If the <em>$parms</em> hashref if passed in, they're passed into the
+<code>Pod::Coverage</code> object that the function uses.  Check the
+<a href="../../../../cpan/build/Test-Pod-Coverage-1.08-FEaPNV/blib/html/site/lib/Test/Pod/Coverage.html">the Pod::Coverage manpage</a> manual for what those can be.</p>
+<p>The exception is the <code>coverage_class</code> parameter, which specifies a class to
+use for coverage testing.  It defaults to <code>Pod::Coverage</code>.</p>
+<p>
+</p>
+<h2><a name="pod_coverage_ok___module____parms_____msg__">pod_coverage_ok( $module, [$parms, ] $msg )</a></h2>
+<p>Checks that the POD code in <em>$module</em> has proper POD coverage.</p>
+<p>If the <em>$parms</em> hashref if passed in, they're passed into the
+<code>Pod::Coverage</code> object that the function uses.  Check the
+<a href="../../../../cpan/build/Test-Pod-Coverage-1.08-FEaPNV/blib/html/site/lib/Test/Pod/Coverage.html">the Pod::Coverage manpage</a> manual for what those can be.</p>
+<p>The exception is the <code>coverage_class</code> parameter, which specifies a class to
+use for coverage testing.  It defaults to <code>Pod::Coverage</code>.</p>
+<p>
+</p>
+<h2><a name="all_modules____dirs___">all_modules( [@dirs] )</a></h2>
+<p>Returns a list of all modules in <em>$dir</em> and in directories below. If
+no directories are passed, it defaults to <em class="file">blib</em> if <em class="file">blib</em> exists,
+or <em class="file">lib</em> if not.</p>
+<p>Note that the modules are as &quot;Foo::Bar&quot;, not &quot;Foo/Bar.pm&quot;.</p>
+<p>The order of the files returned is machine-dependent.  If you want them
+sorted, you'll have to sort them yourself.</p>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p>Please report any bugs or feature requests to
+<code>bug-test-pod-coverage at rt.cpan.org</code>, or through the web interface at
+<a href="http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Test-Pod-Coverage">http://rt.cpan.org/NoAuth/ReportBug.html</a>.
+I will be notified, and then you'll automatically be notified of progress on
+your bug as I make changes.</p>
+<p>
+</p>
+<hr />
+<h1><a name="support">SUPPORT</a></h1>
+<p>You can find documentation for this module with the perldoc command.</p>
+<pre>
+    <a href="../../../../lib/pods/perldoc.html">perldoc</a> Test::Pod::Coverage</pre>
+<p>You can also look for information at:</p>
+<ul>
+<li><strong><a name="annocpan_annotated_cpan_documentation" class="item">AnnoCPAN: Annotated CPAN documentation</a></strong>
+
+<p><a href="http://annocpan.org/dist/Test-Pod-Coverage">http://annocpan.org/dist/Test-Pod-Coverage</a></p>
+</li>
+<li><strong><a name="cpan_ratings" class="item">CPAN Ratings</a></strong>
+
+<p><a href="http://cpanratings.perl.org/d/Test-Pod-Coverage">http://cpanratings.perl.org/d/Test-Pod-Coverage</a></p>
+</li>
+<li><strong><a name="rt_cpan_s_request_tracker" class="item">RT: CPAN's request tracker</a></strong>
+
+<p><a href="http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test-Pod-Coverage">http://rt.cpan.org/NoAuth/Bugs.html</a></p>
+</li>
+<li><strong><a name="search_cpan" class="item">Search CPAN</a></strong>
+
+<p><a href="http://search.cpan.org/dist/Test-Pod-Coverage">http://search.cpan.org/dist/Test-Pod-Coverage</a></p>
+</li>
+</ul>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Written by Andy Lester, <code>&lt;andy at petdance.com&gt;</code>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="acknowledgements">ACKNOWLEDGEMENTS</a></h1>
+<p>Thanks to Ricardo Signes for patches, and Richard Clamp for
+writing Pod::Coverage.</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright___license">COPYRIGHT &amp; LICENSE</a></h1>
+<p>Copyright 2006, Andy Lester, All Rights Reserved.</p>
+<p>You may use, modify, and distribute this package under the
+same terms as Perl itself.</p>
+
+</body>
+
+</html>

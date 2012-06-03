@@ -1,0 +1,503 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../scineplex.css">
+<title>Exporter::Declare - Exporting done right</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',3);</script>
+<h1><a>Exporter::Declare - Exporting done right</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#features">FEATURES</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<ul>
+
+		<li><a href="#exporter">EXPORTER</a></li>
+		<li><a href="#importer">IMPORTER</a></li>
+	</ul>
+
+	<li><a href="#import_interface">IMPORT INTERFACE</a></li>
+	<ul>
+
+		<li><a href="#selecting_items_to_import">SELECTING ITEMS TO IMPORT</a></li>
+		<li><a href="#tags">TAGS</a></li>
+		<li><a href="#renaming_imported_items">RENAMING IMPORTED ITEMS</a></li>
+		<li><a href="#options">OPTIONS</a></li>
+		<li><a href="#arguments">ARGUMENTS</a></li>
+		<li><a href="#providing_arguments_for_generated_items">PROVIDING ARGUMENTS FOR GENERATED ITEMS</a></li>
+	</ul>
+
+	<li><a href="#primary_export_api">PRIMARY EXPORT API</a></li>
+	<li><a href="#extended_export_api">EXTENDED EXPORT API</a></li>
+	<li><a href="#magic">MAGIC</a></li>
+	<li><a href="#internal_api">INTERNAL API</a></li>
+	<li><a href="#meta_class">META CLASS</a></li>
+	<li><a href="#authors">AUTHORS</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Exporter::Declare - Exporting done right</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>Exporter::Declare is a meta-driven exporting tool. Exporter::Declare tries to
+adopt all the good features of other exporting tools, while throwing away
+horrible interfaces. Exporter::Declare also provides hooks that allow you to add
+options and arguments for import. Finally, Exporter::Declare's meta-driven
+system allows for top-notch introspection.</p>
+<p>
+</p>
+<hr />
+<h1><a name="features">FEATURES</a></h1>
+<dl>
+<dt><strong><a name="exporting" class="item">Declarative exporting (like <a href="../../../lib/Moose.html">the Moose manpage</a> for exporting)</a></strong></dt>
+
+<dt><strong><a name="meta_driven_for_introspection" class="item">Meta-driven for introspection</a></strong></dt>
+
+<dt><strong><a name="import" class="item">Customizable <code>import()</code> method</a></strong></dt>
+
+<dt><strong><a name="groups" class="item">Export groups (tags)</a></strong></dt>
+
+<dt><strong><a name="export_generators_for_subs_and_variables" class="item">Export generators for subs and variables</a></strong></dt>
+
+<dt><strong><a name="clear_and_concise_oo_api" class="item">Clear and concise OO API</a></strong></dt>
+
+<dt><strong><a name="exports_are_blessed_allowing_for_more_introspection" class="item">Exports are blessed, allowing for more introspection</a></strong></dt>
+
+<dt><strong><a name="import_syntax_based_off_of_sub_exporter" class="item">Import syntax based off of <a href="../../../lib/Sub/Exporter.html">the Sub::Exporter manpage</a></a></strong></dt>
+
+<dt><strong><a name="packages_export_aliases" class="item">Packages export aliases</a></strong></dt>
+
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>
+</p>
+<h2><a name="exporter">EXPORTER</a></h2>
+<pre>
+    <span class="keyword">package</span> <span class="variable">Some::Exporter</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">Exporter::Declare</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="variable">default_exports</span> <span class="string">qw/ do_the_thing /</span><span class="operator">;</span>
+    <span class="variable">exports</span> <span class="string">qw/ subA subB $SCALAR @ARRAY %HASH /</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="comment"># Create a couple tags (import lists)</span>
+    <span class="variable">export_tag</span> <span class="string">subs</span> <span class="operator">=&gt;</span> <span class="string">qw/ subA subB do_the_thing /</span><span class="operator">;</span>
+    <span class="variable">export_tag</span> <span class="string">vars</span> <span class="operator">=&gt;</span> <span class="string">qw/ $SCALAR @ARRAY %HASH /</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="comment"># These are simple boolean options, pass '-optionA' to enable it.</span>
+    <span class="variable">import_options</span>   <span class="string">qw/ optionA optionB /</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="comment"># These are options which slurp in the next argument as their value, pass</span>
+    <span class="comment"># '-optionC' =&gt; 'foo' to give it a value.</span>
+    <span class="variable">import_arguments</span> <span class="string">qw/ optionC optionD /</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="variable">export</span> <span class="string">anon_export</span> <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="operator">...</span> <span class="operator">};</span>
+    <span class="variable">export</span> <span class="string">'@anon_var'</span> <span class="operator">=&gt;</span> <span class="operator">[</span><span class="operator">...</span><span class="operator">]</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="variable">default_export</span> <span class="string">a_default</span> <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="string">'default!'</span> <span class="operator">}</span>
+</pre>
+<pre>
+    <span class="keyword">our</span> <span class="variable">$X</span> <span class="operator">=</span> <span class="string">"x"</span><span class="operator">;</span>
+    <span class="variable">default_export</span> <span class="string">'$X'</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$iterator</span> <span class="operator">=</span> <span class="string">'a'</span><span class="operator">;</span>
+    <span class="variable">gen_export</span> <span class="string">unique_class_id</span> <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+        <span class="keyword">my</span> <span class="variable">$current</span> <span class="operator">=</span> <span class="variable">$iterator</span><span class="operator">++;</span>
+        <span class="keyword">return</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="variable">$current</span> <span class="operator">};</span>
+    <span class="operator">};</span>
+</pre>
+<pre>
+    <span class="variable">gen_default_export</span> <span class="string">'$my_letter'</span> <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+        <span class="keyword">my</span> <span class="variable">$letter</span> <span class="operator">=</span> <span class="variable">$iterator</span><span class="operator">++;</span>
+        <span class="keyword">return</span> <span class="operator">\</span><span class="variable">$letter</span><span class="operator">;</span>
+    <span class="operator">};</span>
+</pre>
+<pre>
+    <span class="comment"># You can create a function to mangle the arguments before they are</span>
+    <span class="comment"># parsed into a Exporter::Declare::Spec object.</span>
+    <span class="keyword">sub</span><span class="variable"> alter_import_args </span><span class="operator">{</span>
+       <span class="keyword">my</span> <span class="operator">(</span><span class="variable">$class</span><span class="operator">,</span> <span class="variable">$args</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span>
+</pre>
+<pre>
+       <span class="comment"># fiddle with args before importing routines are called</span>
+       <span class="variable">@$args</span> <span class="operator">=</span> <span class="keyword">grep</span> <span class="operator">{</span> <span class="operator">!</span><span class="regex">/^skip_/</span> <span class="operator">}</span> <span class="variable">@$args</span>
+           <span class="operator">}</span>
+</pre>
+<pre>
+    <span class="comment"># There is no need to fiddle with import() or do any wrapping.</span>
+    <span class="comment"># the $specs data structure means you generally do not need to parse</span>
+    <span class="comment"># arguments yourself (but you can if you want using alter_import_args())</span>
+</pre>
+<pre>
+    <span class="comment"># Change the spec object before export occurs</span>
+    <span class="keyword">sub</span><span class="variable"> before_import </span><span class="operator">{</span>
+        <span class="keyword">my</span> <span class="variable">$class</span> <span class="operator">=</span> <span class="keyword">shift</span><span class="operator">;</span>
+        <span class="keyword">my</span> <span class="operator">(</span> <span class="variable">$importer</span><span class="operator">,</span> <span class="variable">$specs</span> <span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span>
+</pre>
+<pre>
+        <span class="keyword">if</span> <span class="operator">(</span><span class="variable">$specs</span><span class="operator">-&gt;</span><span class="variable">config</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">optionA</span><span class="operator">}</span><span class="operator">)</span> <span class="operator">{</span>
+            <span class="comment"># Modify $spec attributes accordingly</span>
+        <span class="operator">}</span>
+            <span class="operator">}</span>
+</pre>
+<pre>
+    <span class="comment"># Use spec object after export occurs</span>
+    <span class="keyword">sub</span><span class="variable"> after_import </span><span class="operator">{</span>
+        <span class="keyword">my</span> <span class="variable">$class</span> <span class="operator">=</span> <span class="keyword">shift</span><span class="operator">;</span>
+        <span class="keyword">my</span> <span class="operator">(</span> <span class="variable">$importer</span><span class="operator">,</span> <span class="variable">$specs</span> <span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span>
+</pre>
+<pre>
+        <span class="variable">do_option_a</span><span class="operator">()</span> <span class="keyword">if</span> <span class="variable">$specs</span><span class="operator">-&gt;</span><span class="variable">config</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">optionA</span><span class="operator">}</span><span class="operator">;</span>
+</pre>
+<pre>
+        <span class="variable">do_option_c</span><span class="operator">(</span> <span class="variable">$specs</span><span class="operator">-&gt;</span><span class="variable">config</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">optionC</span><span class="operator">}</span> <span class="operator">)</span>
+            <span class="keyword">if</span> <span class="variable">$specs</span><span class="operator">-&gt;</span><span class="variable">config</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">optionC</span><span class="operator">}</span><span class="operator">;</span>
+</pre>
+<pre>
+        <span class="keyword">print</span> <span class="string">"-subs tag was used\n"</span>
+            <span class="keyword">if</span> <span class="variable">$specs</span><span class="operator">-&gt;</span><span class="variable">config</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">subs</span><span class="operator">}</span><span class="operator">;</span>
+</pre>
+<pre>
+        <span class="keyword">print</span> <span class="string">"exported 'subA'\n"</span>
+            <span class="keyword">if</span> <span class="variable">$specs</span><span class="operator">-&gt;</span><span class="variable">exports</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">subA</span><span class="operator">}</span><span class="operator">;</span>
+            <span class="operator">}</span>
+</pre>
+<pre>
+    ...</pre>
+<p>
+</p>
+<h2><a name="importer">IMPORTER</a></h2>
+<pre>
+    <span class="keyword">package</span> <span class="variable">Some::Importer</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">Some::Exporter</span> <span class="string">qw/ subA $SCALAR !%HASH /</span><span class="operator">,</span>
+                        <span class="string">-default</span> <span class="operator">=&gt;</span> <span class="operator">{</span> <span class="string">-prefix</span> <span class="operator">=&gt;</span> <span class="string">'my_'</span> <span class="operator">}</span><span class="operator">,</span>
+                        <span class="string">qw/ -optionA !-optionB /</span><span class="operator">,</span>
+                        <span class="string">subB</span> <span class="operator">=&gt;</span> <span class="operator">{</span> <span class="string">-as</span> <span class="operator">=&gt;</span> <span class="string">'sub_b'</span> <span class="operator">}</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="variable">subA</span><span class="operator">();</span>
+    <span class="keyword">print</span> <span class="variable">$SCALAR</span><span class="operator">;</span>
+    <span class="variable">sub_b</span><span class="operator">();</span>
+    <span class="variable">my_do_the_thing</span><span class="operator">();</span>
+</pre>
+<pre>
+    ...</pre>
+<p>
+</p>
+<hr />
+<h1><a name="import_interface">IMPORT INTERFACE</a></h1>
+<p>Importing from a package that uses Exporter::Declare will be familiar to anyone
+who has imported from modules before. Arguments are all assumed to be export
+names, unless prefixed with <code>-</code> or <code>:</code> In which case they may be a tag or an
+option. Exports without a sigil are assumed to be code exports, variable
+exports must be listed with their sigil.</p>
+<p>Items prefixed with the <code>!</code> symbol are forcfully excluded, regardless of any
+listed item that may normally include them. Tags can also be excluded, this
+will effectively exclude everything in the tag.</p>
+<p>Tags are simply lists of exports, the exporting class may define any number of
+tags. Exporter::Declare also has the concept of options, they have the same
+syntax as tags. Options may be boolean or argument based. Boolean options are
+actually 3 value, undef, false <code>!</code>, or true. Argument based options will grab
+the next value in the arguments list as their own, regardless of what type of
+value it is.</p>
+<p>When you use the module, or call <a href="#import"><code>import()</code></a>, all the arguments are transformed
+into an <a href="../../../Exporter/Declare/Specs.html">the Exporter::Declare::Specs manpage</a> object. Arguments are parsed for you into a
+list of imports, and a configuration hash in which tags/options are keys. Tags
+are listed in the config hash as true, false, or undef depending on if they
+were included, negated, or unlisted. Boolean options will be treated in the
+same way as tags. Options that take arguments will have the argument as their
+value.</p>
+<p>
+</p>
+<h2><a name="selecting_items_to_import">SELECTING ITEMS TO IMPORT</a></h2>
+<p>Exports can be subs, or package variables (scalar, hash, array). For subs
+simply ask for the sub by name, you may optionally prefix the subs name with
+the sub sigil <code>&amp;</code>. For variables list the variable name along with its sigil
+<a href="../../../lib/pods/perlvar.html#__"><code>$, %, or @</code></a>.</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Some::Exporter</span> <span class="string">qw/ somesub $somescalar %somehash @somearray /</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<h2><a name="tags">TAGS</a></h2>
+<p>Every exporter automatically has the following 3 tags, in addition they may
+define any number of custom tags. Tags can be specified by their name prefixed
+by either <code>-</code> or <code>:</code>.</p>
+<dl>
+<dt><strong><a name="all" class="item">-all</a></strong></dt>
+
+<dd>
+<p>This tag may be used to import everything the exporter provides.</p>
+</dd>
+<dt><strong><a name="default" class="item">-default</a></strong></dt>
+
+<dd>
+<p>This tag is used to import the default items exported. This will be used when
+no argument is provided to import.</p>
+</dd>
+<dt><strong><a name="alias" class="item">-alias</a></strong></dt>
+
+<dd>
+<p>Every package has an alias that it can export. This is the last segmant of the
+packages namespace. IE <code>My::Long::Package::Name::Foo</code> could export the <code>Foo()</code>
+function. These alias functionis simply return the full package name as a
+string, in this case <code>'My::Long::Package::Name::Foo'</code>. This is similar to
+<a href="../../../site/lib/aliased.html">the aliased manpage</a>.</p>
+<p>The -alias tag is a shortcut so that you do not need to think about what the
+alias name would be when adding it to the import arguments.</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">My::Long::Package::Name::Foo</span> <span class="operator">-</span><span class="variable">alias</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$foo</span> <span class="operator">=</span> <span class="variable">Foo</span><span class="operator">()-&gt;</span><span class="variable">new</span><span class="operator">(...);</span>
+</pre>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="renaming_imported_items">RENAMING IMPORTED ITEMS</a></h2>
+<p>You can prefix, suffix, or completely rename the items you import. Whenever an
+item is followed by a hash in the import list, that hash will be used for
+configuration. Configuration items always start with a dash <code>-</code>.</p>
+<p>The 3 available configuration options that effect import names are <code>-prefix</code>,
+<code>-suffix</code>, and <code>-as</code>. If <code>-as</code> is seen it will be used as is. If prefix or
+suffix are seen they will be attached to the original name (unless -as is
+present in which case they are ignored).</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Some::Exporter</span> <span class="string">subA</span> <span class="operator">=&gt;</span> <span class="operator">{</span> <span class="string">-as</span> <span class="operator">=&gt;</span> <span class="string">'DoThing'</span> <span class="operator">}</span><span class="operator">,</span>
+                       <span class="string">subB</span> <span class="operator">=&gt;</span> <span class="operator">{</span> <span class="string">-prefix</span> <span class="operator">=&gt;</span> <span class="string">'my_'</span><span class="operator">,</span> <span class="string">-suffix</span> <span class="operator">=&gt;</span> <span class="string">'_ok'</span> <span class="operator">}</span><span class="operator">;</span>
+</pre>
+<p>The example above will import <code>subA()</code> under the name <code>DoThing()</code>. It will
+also import <code>subB()</code> under the name <code>my_subB_ok()</code>.</p>
+<p>You may als specify a prefix and/or suffix for tags. The following example will
+import all the default exports with 'my_' prefixed to each name.</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Some::Exporter</span> <span class="operator">-</span><span class="string">default</span> <span class="operator">=&gt;</span> <span class="operator">{</span> <span class="string">-prefix</span> <span class="operator">=&gt;</span> <span class="string">'my_'</span> <span class="operator">}</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<h2><a name="options">OPTIONS</a></h2>
+<p>Some exporters will recognise options. Options look just like tags, and are
+specified the same way. What options do, and how they effect things is
+exporter-dependant.</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Some::Exporter</span> <span class="string">qw/ -optionA -optionB /</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<h2><a name="arguments">ARGUMENTS</a></h2>
+<p>Some options require an argument. These options are just like other
+tags/options except that the next item in the argument list is slurped in as
+the option value.</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Some::Exporter</span> <span class="operator">-</span><span class="string">ArgOption</span>    <span class="operator">=&gt;</span> <span class="string">'Value, not an export'</span><span class="operator">,</span>
+                       <span class="string">-ArgTakesHash</span> <span class="operator">=&gt;</span> <span class="operator">{</span> <span class="operator">...</span> <span class="operator">}</span><span class="operator">;</span>
+</pre>
+<p>Once again available options are exporter specific.</p>
+<p>
+</p>
+<h2><a name="providing_arguments_for_generated_items">PROVIDING ARGUMENTS FOR GENERATED ITEMS</a></h2>
+<p>Some items are generated at import time. These items may accept arguments.
+There are 3 ways to provide arguments, and they may all be mixed (though that
+is not recommended).</p>
+<p>As a hash</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Some::Exporter</span> <span class="string">generated</span> <span class="operator">=&gt;</span> <span class="operator">{</span> <span class="string">key</span> <span class="operator">=&gt;</span> <span class="string">'val'</span><span class="operator">,</span> <span class="operator">...</span> <span class="operator">}</span><span class="operator">;</span>
+</pre>
+<p>As an array</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Some::Exporter</span> <span class="string">generated</span> <span class="operator">=&gt;</span> <span class="operator">[</span> <span class="string">'Arg1'</span><span class="operator">,</span> <span class="string">'Arg2'</span><span class="operator">,</span> <span class="operator">...</span> <span class="operator">]</span><span class="operator">;</span>
+</pre>
+<p>As an array in a config hash</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Some::Exporter</span> <span class="string">generated</span> <span class="operator">=&gt;</span> <span class="operator">{</span> <span class="string">-as</span> <span class="operator">=&gt;</span> <span class="string">'my_gen'</span><span class="operator">,</span> <span class="string">-args</span> <span class="operator">=&gt;</span> <span class="operator">[</span> <span class="string">'arg1'</span><span class="operator">,</span> <span class="operator">...</span> <span class="operator">]}</span><span class="operator">;</span>
+</pre>
+<p>You can use all three at once, but this is really a bad idea, documented for completeness:</p>
+<pre>
+    use Some::Exporter generated =&gt; { -as =&gt; 'my_gen, key =&gt; 'value', -args =&gt; [ 'arg1', 'arg2' ]}
+                       generated =&gt; [ 'arg3', 'arg4' ];</pre>
+<p>The example above will work fine, all the arguments will make it into the
+generator. The only valid reason for this to work is that you may provide
+arguments such as <code>-prefix</code> to a tag that brings in <code>generator()</code>, while also
+desiring to give arguments to <code>generator()</code> independantly.</p>
+<p>
+</p>
+<hr />
+<h1><a name="primary_export_api">PRIMARY EXPORT API</a></h1>
+<p>With the exception of <a href="#import"><code>import()</code></a>, all the following work equally well as
+functions or class methods.</p>
+<dl>
+<dt><strong>import( @args )</strong></dt>
+
+<dd>
+<p>The <a href="#import"><code>import()</code></a> class method. This turns the @args list into an
+<a href="../../../Exporter/Declare/Specs.html">the Exporter::Declare::Specs manpage</a> object.</p>
+</dd>
+<dt><strong><a name="exports" class="item">exports( @add_items )</a></strong></dt>
+
+<dd>
+<p>Add items to be exported.</p>
+</dd>
+<dt><strong>@list = <code>exports()</code></strong></dt>
+
+<dd>
+<p>Retrieve list of exports.</p>
+</dd>
+<dt><strong><a name="default_exports" class="item">default_exports( @add_items )</a></strong></dt>
+
+<dd>
+<p>Add items to be exported, and add them to the -default tag.</p>
+</dd>
+<dt><strong>@list = <code>default_exports()</code></strong></dt>
+
+<dd>
+<p>List of exports in the -default tag</p>
+</dd>
+<dt><strong><a name="import_options" class="item"><code>import_options(@add_items)</code></a></strong></dt>
+
+<dd>
+<p>Specify boolean options that should be accepted at import time.</p>
+</dd>
+<dt><strong><a name="import_arguments" class="item"><code>import_arguments(@add_items)</code></a></strong></dt>
+
+<dd>
+<p>Specify options that should be accepted at import that take arguments.</p>
+</dd>
+<dt><strong><a name="export_tag" class="item">export_tag( $name, @add_items );</a></strong></dt>
+
+<dd>
+<p>Define an export tag, or add items to an existing tag.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="extended_export_api">EXTENDED EXPORT API</a></h1>
+<p>These all work fine in function or method form, however the syntax sugar will
+only work in function form.</p>
+<dl>
+<dt><strong><a name="reexport" class="item">reexport( $package )</a></strong></dt>
+
+<dd>
+<p>Make this exporter inherit all the exports and tags of $package. Works for
+Exporter::Declare or Exporter.pm based exporters. Re-Exporting of
+<a href="../../../lib/Sub/Exporter.html">the Sub::Exporter manpage</a> based classes is not currently supported.</p>
+</dd>
+<dt><strong><a name="export_to" class="item">export_to( $package, @args )</a></strong></dt>
+
+<dd>
+<p>Export to the specified class.</p>
+</dd>
+<dt><strong><a name="export" class="item">export( $name )</a></strong></dt>
+
+<dt><strong>export( $name, $ref )</strong></dt>
+
+<dd>
+<p>export is a keyword that lets you export any 1 item at a time. The item can be
+exported by name, or name + ref. When a ref is provided, the export is created,
+but there is no corresponding variable/sub in the packages namespace.</p>
+</dd>
+<dt><strong><a name="default_export" class="item">default_export( $name )</a></strong></dt>
+
+<dt><strong>default_export( $name, $ref )</strong></dt>
+
+<dt><strong><a name="gen_export" class="item">gen_export( $name )</a></strong></dt>
+
+<dt><strong>gen_export( $name, $ref )</strong></dt>
+
+<dt><strong><a name="gen_default_export" class="item">gen_default_export( $name )</a></strong></dt>
+
+<dt><strong>gen_default_export( $name, $ref )</strong></dt>
+
+<dd>
+<p>These all act just like <a href="#export"><code>export()</code></a>, except that they add subrefs as generators,
+and/or add exports to the -default tag.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="magic">MAGIC</a></h1>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Exporter::Declare</span> <span class="string">'-magic'</span><span class="operator">;</span>
+</pre>
+<p>This adds <a href="../../../site/lib/Devel/Declare.html">the Devel::Declare manpage</a> magic to several functions. It also allows you to
+easily create or use parsers on your own exports. See
+<a href="../../../Exporter/Declare/Magic.html">the Exporter::Declare::Magic manpage</a> for more details.</p>
+<p>You can also provide import arguments to <a href="../../../Devel/Declare/Magic.html">the Devel::Declare::Magic manpage</a></p>
+<pre>
+    <span class="comment"># Arguments to -magic must be in an arrayref, not a hashref.</span>
+    <span class="keyword">use</span> <span class="variable">Exporter::Declare</span> <span class="operator">-</span><span class="string">magic</span> <span class="operator">=&gt;</span> <span class="operator">[</span> <span class="string">'-default'</span><span class="operator">,</span> <span class="string">'!export'</span><span class="operator">,</span> <span class="string">-prefix</span> <span class="operator">=&gt;</span> <span class="string">'magic_'</span> <span class="operator">]</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="internal_api">INTERNAL API</a></h1>
+<p>Exporter/Declare.pm does not have much logic to speak of. Rather
+Exporter::Declare is sugar on top of class meta data stored in
+<a href="../../../Exporter/Declare/Meta.html">the Exporter::Declare::Meta manpage</a> objects. Arguments are parsed via
+<a href="../../../Exporter/Declare/Specs.html">the Exporter::Declare::Specs manpage</a>, and also turned into objects. Even exports are
+blessed references to the exported item itself, and handle the injection on
+their own (See <a href="../../../Exporter/Declare/Export.html">the Exporter::Declare::Export manpage</a>).</p>
+<p>
+</p>
+<hr />
+<h1><a name="meta_class">META CLASS</a></h1>
+<p>All exporters have a meta class, the only way to get the meta object is to call
+the <code>exporter_meta()</code> method on the class/object that is an exporter. Any class
+that uses Exporter::Declare gets this method, and a meta-object.</p>
+<p>
+</p>
+<hr />
+<h1><a name="authors">AUTHORS</a></h1>
+<p>Chad Granum <em><a href="mailto:exodist7@gmail.com">exodist7@gmail.com</a></em></p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (C) 2010 Chad Granum</p>
+<p>Exporter-Declare is free software; Standard perl licence.</p>
+<p>Exporter-Declare is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the license for more details.</p>
+
+</body>
+
+</html>

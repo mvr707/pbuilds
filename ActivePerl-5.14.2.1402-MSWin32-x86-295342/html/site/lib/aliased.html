@@ -1,0 +1,271 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../displayToc.js"></script>
+<script language="JavaScript" src="../../tocParas.js"></script>
+<script language="JavaScript" src="../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../scineplex.css">
+<title>aliased - Use shorter versions of class names.</title>
+<link rel="stylesheet" href="../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',2);</script>
+<h1><a>aliased - Use shorter versions of class names.</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#version">VERSION</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#implicit_aliasing">Implicit Aliasing</a></li>
+		<li><a href="#explicit_aliasing">Explicit Aliasing</a></li>
+		<li><a href="#import_lists">Import Lists</a></li>
+		<li><a href="#alias__"><code>alias()</code></a></li>
+		<li><a href="#why_oo_only">Why OO Only?</a></li>
+	</ul>
+
+	<li><a href="#export">EXPORT</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#thanks">THANKS</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright_and_license">COPYRIGHT AND LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>aliased - Use shorter versions of class names.</p>
+<p>
+</p>
+<hr />
+<h1><a name="version">VERSION</a></h1>
+<p>0.30</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  <span class="comment"># Class name interface</span>
+  <span class="keyword">use</span> <span class="variable">aliased</span> <span class="string">'My::Company::Namespace::Customer'</span><span class="operator">;</span>
+  <span class="keyword">my</span> <span class="variable">$cust</span> <span class="operator">=</span> <span class="variable">Customer</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">use</span> <span class="variable">aliased</span> <span class="string">'My::Company::Namespace::Preferred::Customer'</span> <span class="operator">=&gt;</span> <span class="string">'Preferred'</span><span class="operator">;</span>
+  <span class="keyword">my</span> <span class="variable">$pref</span> <span class="operator">=</span> <span class="variable">Preferred</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="comment"># Variable interface</span>
+  <span class="keyword">use</span> <span class="variable">aliased</span><span class="operator">;</span>
+  <span class="keyword">my</span> <span class="variable">$Customer</span>  <span class="operator">=</span> <span class="variable">alias</span> <span class="string">"My::Other::Namespace::Customer"</span><span class="operator">;</span>
+  <span class="keyword">my</span> <span class="variable">$cust</span>      <span class="operator">=</span> <span class="variable">$Customer</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$Preferred</span> <span class="operator">=</span> <span class="variable">alias</span> <span class="string">"My::Other::Namespace::Preferred::Customer"</span><span class="operator">;</span>
+  <span class="keyword">my</span> <span class="variable">$pref</span>      <span class="operator">=</span> <span class="variable">$Preferred</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><code>aliased</code> is simple in concept but is a rather handy module.  It loads the
+class you specify and exports into your namespace a subroutine that returns
+the class name.  You can explicitly alias the class to another name or, if you
+prefer, you can do so implicitly.  In the latter case, the name of the
+subroutine is the last part of the class name.  Thus, it does something
+similar to the following:</p>
+<pre>
+  <span class="comment">#use aliased 'Some::Annoyingly::Long::Module::Name::Customer';</span>
+</pre>
+<pre>
+  <span class="keyword">use</span> <span class="variable">Some::Annoyingly::Long::Module::Name::Customer</span><span class="operator">;</span>
+  <span class="keyword">sub</span><span class="variable"> Customer </span><span class="operator">{</span>
+    <span class="keyword">return</span> <span class="string">'Some::Annoyingly::Long::Module::Name::Customer'</span><span class="operator">;</span>
+  <span class="operator">}</span>
+  <span class="keyword">my</span> <span class="variable">$cust</span> <span class="operator">=</span> <span class="variable">Customer</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">;</span>
+</pre>
+<p>This module is useful if you prefer a shorter name for a class.  It's also
+handy if a class has been renamed.</p>
+<p>(Some may object to the term &quot;aliasing&quot; because we're not aliasing one
+namespace to another, but it's a handy term.  Just keep in mind that this is
+done with a subroutine and not with typeglobs and weird namespace munging.)</p>
+<p>Note that this is <strong>only</strong> for <a href="../../lib/pods/perlfunc.html#use"><code>use</code></a>ing OO modules.  You cannot use this to
+load procedural modules.  See the <a href="#why_oo_only">Why OO Only?</a> section.  Also,
+don't let the version number fool you.  This code is ridiculously simple and
+is just fine for most use.</p>
+<p>
+</p>
+<h2><a name="implicit_aliasing">Implicit Aliasing</a></h2>
+<p>The most common use of this module is:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">aliased</span> <span class="string">'Some::Module::name'</span><span class="operator">;</span>
+</pre>
+<p><code>aliased</code> will  allow you to reference the class by the last part of the
+class name.  Thus, <code>Really::Long::Name</code> becomes <code>Name</code>.  It does this by
+exporting a subroutine into your namespace with the same name as the aliased
+name.  This subroutine returns the original class name.</p>
+<p>For example:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">aliased</span> <span class="string">"Acme::Company::Customer"</span><span class="operator">;</span>
+  <span class="keyword">my</span> <span class="variable">$cust</span> <span class="operator">=</span> <span class="variable">Customer</span><span class="operator">-&gt;</span><span class="variable">find</span><span class="operator">(</span><span class="variable">$id</span><span class="operator">);</span>
+</pre>
+<p>Note that any class method can be called on the shorter version of the class
+name, not just the constructor.</p>
+<p>
+</p>
+<h2><a name="explicit_aliasing">Explicit Aliasing</a></h2>
+<p>Sometimes two class names can cause a conflict (they both end with <code>Customer</code>
+for example), or you already have a subroutine with the same name as the
+aliased name.  In that case, you can make an explicit alias by stating the
+name you wish to alias to:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">aliased</span> <span class="string">'Original::Module::Name'</span> <span class="operator">=&gt;</span> <span class="string">'NewName'</span><span class="operator">;</span>
+</pre>
+<p>Here's how we use <code>aliased</code> to avoid conflicts:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">aliased</span> <span class="string">"Really::Long::Name"</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">aliased</span> <span class="string">"Another::Really::Long::Name"</span> <span class="operator">=&gt;</span> <span class="string">"Aname"</span><span class="operator">;</span>
+  <span class="keyword">my</span> <span class="variable">$name</span>  <span class="operator">=</span> <span class="variable">Name</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">;</span>
+  <span class="keyword">my</span> <span class="variable">$aname</span> <span class="operator">=</span> <span class="variable">Aname</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">;</span>
+</pre>
+<p>You can even alias to a different package:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">aliased</span> <span class="string">"Another::Really::Long::Name"</span> <span class="operator">=&gt;</span> <span class="string">"Another::Name"</span><span class="operator">;</span>
+  <span class="keyword">my</span> <span class="variable">$aname</span> <span class="operator">=</span> <span class="variable">Another::Name</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">;</span>
+</pre>
+<p>Messing around with different namespaces is a really bad idea and you probably
+don't want to do this.  However, it might prove handy if the module you are
+using has been renamed.  If the interface has not changed, this allows you to
+use the new module by only changing one line of code.</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">aliased</span> <span class="string">"New::Module::Name"</span> <span class="operator">=&gt;</span> <span class="string">"Old::Module::Name"</span><span class="operator">;</span>
+  <span class="keyword">my</span> <span class="variable">$thing</span> <span class="operator">=</span> <span class="variable">Old::Module::Name</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<h2><a name="import_lists">Import Lists</a></h2>
+<p>Sometimes, even with an OO module, you need to specify extra arguments when
+using the module.  When this happens, simply use <a href="#explicit_aliasing">Explicit Aliasing</a> followed
+by the import list:</p>
+<p>Snippet 1:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">Some::Module::Name</span> <span class="string">qw/foo bar/</span><span class="operator">;</span>
+  <span class="keyword">my</span> <span class="variable">$o</span> <span class="operator">=</span> <span class="variable">Some::Module::Name</span><span class="operator">-&gt;</span><span class="variable">some_class_method</span><span class="operator">;</span>
+</pre>
+<p>Snippet 2 (equivalent to snippet 1):</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">aliased</span> <span class="string">'Some::Module::Name'</span> <span class="operator">=&gt;</span> <span class="string">'Name'</span><span class="operator">,</span> <span class="string">qw/foo bar/</span><span class="operator">;</span>
+  <span class="keyword">my</span> <span class="variable">$o</span> <span class="operator">=</span> <span class="variable">Name</span><span class="operator">-&gt;</span><span class="variable">some_class_method</span><span class="operator">;</span>
+</pre>
+<p><strong>Note</strong>:  remember, you cannot use import lists with <a href="#implicit_aliasing">Implicit Aliasing</a>.  As
+a result, you may simply prefer to only use <a href="#explicit_aliasing">Explicit Aliasing</a> as a matter
+of style.</p>
+<p>
+</p>
+<h2><a name="alias__"><code>alias()</code></a></h2>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$alias</span> <span class="operator">=</span> <span class="variable">alias</span><span class="operator">(</span><span class="variable">$class</span><span class="operator">);</span>
+    <span class="keyword">my</span> <span class="variable">$alias</span> <span class="operator">=</span> <span class="variable">alias</span><span class="operator">(</span><span class="variable">$class</span><span class="operator">,</span> <span class="variable">@imports</span><span class="operator">);</span>
+</pre>
+<p><code>alias()</code> is an alternative to <code>use aliased ...</code> which uses less magic and
+avoids some of the ambiguities.</p>
+<p>Like <code>use aliased</code> it <a href="../../lib/pods/perlfunc.html#use"><code>use</code></a>s the $class (pass in @imports, if given) but
+instead of providing an <code>Alias</code> constant it simply returns a scalar set to
+the $class name.</p>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$thing</span> <span class="operator">=</span> <span class="variable">alias</span><span class="operator">(</span><span class="string">"Some::Thing::With::A::Long::Name"</span><span class="operator">);</span>
+</pre>
+<pre>
+    <span class="comment"># Just like Some::Thing::With::A::Long::Name-&gt;method</span>
+    <span class="variable">$thing</span><span class="operator">-&gt;</span><span class="variable">method</span><span class="operator">;</span>
+</pre>
+<p>The use of a scalar instead of a constant avoids any possible ambiguity
+when aliasing two similar names:</p>
+<pre>
+    <span class="comment"># No ambiguity despite the fact that they both end with "Name"</span>
+    <span class="keyword">my</span> <span class="variable">$thing</span> <span class="operator">=</span> <span class="variable">alias</span><span class="operator">(</span><span class="string">"Some::Thing::With::A::Long::Name"</span><span class="operator">);</span>
+    <span class="keyword">my</span> <span class="variable">$other</span> <span class="operator">=</span> <span class="variable">alias</span><span class="operator">(</span><span class="string">"Some::Other::Thing::With::A::Long::Name"</span><span class="operator">);</span>
+</pre>
+<p>and there is no magic constant exported into your namespace.</p>
+<p>The only caveat is loading of the $class happens at run time.  If $class
+exports anything you might want to ensure it is loaded at compile time with:</p>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$thing</span><span class="operator">;</span>
+    <span class="keyword">BEGIN</span> <span class="operator">{</span> <span class="variable">$thing</span> <span class="operator">=</span> <span class="variable">alias</span><span class="operator">(</span><span class="string">"Some::Thing"</span><span class="operator">);</span> <span class="operator">}</span>
+</pre>
+<p>However, since OO classes rarely export this should not be necessary.</p>
+<p>
+</p>
+<h2><a name="why_oo_only">Why OO Only?</a></h2>
+<p>Some people have asked why this code only support object-oriented modules
+(OO).  If I were to support normal subroutines, I would have to allow the
+following syntax:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">aliased</span> <span class="string">'Some::Really::Long::Module::Name'</span><span class="operator">;</span>
+  <span class="keyword">my</span> <span class="variable">$data</span> <span class="operator">=</span> <span class="variable">Name::data</span><span class="operator">();</span>
+</pre>
+<p>That causes a serious problem.  The only (reasonable) way it can be done is to
+handle the aliasing via typeglobs.  Thus, instead of a subroutine that
+provides the class name, we alias one package to another (as the
+<em>namespace</em> module does.)  However, we really don't want to simply
+alias one package to another and wipe out namespaces willy-nilly.  By merely
+exporting a single subroutine to a namespace, we minimize the issue.</p>
+<p>Fortunately, this doesn't seem to be that much of a problem.  Non-OO modules
+generally support exporting of the functions you need and this eliminates the
+need for a module such as this.</p>
+<p>
+</p>
+<hr />
+<h1><a name="export">EXPORT</a></h1>
+<p>This modules exports a subroutine with the same name as the &quot;aliased&quot; name.</p>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p>There are no known bugs in this module, but feel free to email me reports.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p>The <em>namespace</em> module.</p>
+<p>
+</p>
+<hr />
+<h1><a name="thanks">THANKS</a></h1>
+<p>Many thanks to Rentrak, Inc. (http://www.rentrak.com/) for graciously allowing
+me to replicate the functionality of some of their internal code.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Curtis Poe, <code>ovid [at] cpan [dot] org</code></p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright_and_license">COPYRIGHT AND LICENSE</a></h1>
+<p>Copyright (C) 2005 by Curtis &quot;Ovid&quot; Poe</p>
+<p>This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.8.5 or,
+at your option, any later version of Perl 5 you may have available.</p>
+
+</body>
+
+</html>

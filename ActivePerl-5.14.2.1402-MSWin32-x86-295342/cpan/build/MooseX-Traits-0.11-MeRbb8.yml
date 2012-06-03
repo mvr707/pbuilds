@@ -1,0 +1,62 @@
+---
+distribution: !!perl/hash:CPAN::Distribution
+  CALLED_FOR: F/FL/FLORA/MooseX-Traits-0.11.tar.gz
+  CHECKSUM_STATUS: OK
+  ID: F/FL/FLORA/MooseX-Traits-0.11.tar.gz
+  RO:
+    CPAN_COMMENT: ~
+    CPAN_USERID: FLORA
+  archived: tar
+  build_dir: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\build\MooseX-Traits-0.11-MeRbb8
+  incommandcolor: 2
+  install: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691627
+  localfile: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\sources\authors\id\F\FL\FLORA\MooseX-Traits-0.11.tar.gz
+  make: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691617
+  make_test: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691621
+  negative_prefs_cache: 4
+  prefs:
+    install: {}
+  prereq_pm:
+    build_requires:
+      ExtUtils::MakeMaker: '6.42'
+      Moose: '0'
+      Test::Exception: '0'
+      Test::More: '0'
+      ok: '0'
+    requires:
+      Class::MOP: '0.84'
+      Moose: '0.84'
+      Moose::Role: '0'
+      Sub::Exporter: '0'
+      namespace::autoclean: '0'
+  reqtype: r
+  sponsored_mods:
+    namespace::autoclean: 1
+  unwrapped: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691595
+  writemakefile: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691595
+perl:
+  $^X: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\bin\perl.exe
+  mtime_$^X: 1318029070
+  mtime_dll: 0
+  sitearchexp: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib
+time: 1338691627

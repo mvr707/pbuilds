@@ -1,0 +1,17 @@
+do{ my $x = {
+       'build_requires' => {
+                             'Test::Exception' => '0.29',
+                             'Fennec::Lite' => '0.004',
+                             'Test::Simple' => '0.88'
+                           },
+       'conflicts' => {},
+       'requires' => {
+                       'Scalar::Util' => 0,
+                       'perl' => '5.8.0',
+                       'aliased' => 0,
+                       'Meta::Builder' => '0.003',
+                       'Carp' => 0
+                     },
+       'recommends' => {}
+     };
+$x; }

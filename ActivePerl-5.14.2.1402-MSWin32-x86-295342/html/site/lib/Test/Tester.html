@@ -1,0 +1,414 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../scineplex.css">
+<title>Test::Tester - Ease testing test modules built with Test::Builder</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',3);</script>
+<h1><a>Test::Tester - Ease testing test modules built with Test::Builder</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#how_to_use__the_easy_way_">HOW TO USE (THE EASY WAY)</a></li>
+	<li><a href="#how_to_use__the_hard_way_">HOW TO USE (THE HARD WAY)</a></li>
+	<li><a href="#test_results">TEST RESULTS</a></li>
+	<li><a href="#spaces_and_tabs">SPACES AND TABS</a></li>
+	<li><a href="#colour">COLOUR</a></li>
+	<li><a href="#exported_functions">EXPORTED FUNCTIONS</a></li>
+	<ul>
+
+		<ul>
+
+			<li><a href="#__premature___results____run_tests___test_sub_">($premature, @results) = run_tests(\&amp;test_sub)</a></li>
+			<li><a href="#cmp_result___result____expect___name_">cmp_result(\%result, \%expect, $name)</a></li>
+			<li><a href="#cmp_results___results____expects___name_">cmp_results(\@results, \@expects, $name)</a></li>
+			<li><a href="#__premature___results____check_tests___test_sub____expects___name_">($premature, @results) = check_tests(\&amp;test_sub, \@expects, $name)</a></li>
+			<li><a href="#__premature___results____check_test___test_sub____expect___name_">($premature, @results) = check_test(\&amp;test_sub, \%expect, $name)</a></li>
+			<li><a href="#show_space__"><code>show_space()</code></a></li>
+		</ul>
+
+	</ul>
+
+	<li><a href="#how_it_works">HOW IT WORKS</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#license">LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Test::Tester - Ease testing test modules built with Test::Builder</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  <span class="keyword">use</span> <span class="variable">Test::Tester</span> <span class="string">tests</span> <span class="operator">=&gt;</span> <span class="number">6</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">use</span> <span class="variable">Test::MyStyle</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="variable">check_test</span><span class="operator">(</span>
+    <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+      <span class="variable">is_mystyle_eq</span><span class="operator">(</span><span class="string">"this"</span><span class="operator">,</span> <span class="string">"that"</span><span class="operator">,</span> <span class="string">"not eq"</span><span class="operator">);</span>
+    <span class="operator">},</span>
+    <span class="operator">{</span>
+      <span class="string">ok</span> <span class="operator">=&gt;</span> <span class="number">0</span><span class="operator">,</span> <span class="comment"># expect this to fail</span>
+      <span class="string">name</span> <span class="operator">=&gt;</span> <span class="string">"not eq"</span><span class="operator">,</span>
+      <span class="string">diag</span> <span class="operator">=&gt;</span> <span class="string">"Expected: 'this'\nGot: 'that'"</span><span class="operator">,</span>
+    <span class="operator">}</span>
+  <span class="operator">);</span>
+</pre>
+<p>or</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">Test::Tester</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">use</span> <span class="variable">Test::More</span> <span class="string">tests</span> <span class="operator">=&gt;</span> <span class="number">3</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">Test::MyStyle</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">my</span> <span class="operator">(</span><span class="variable">$premature</span><span class="operator">,</span> <span class="variable">@results</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">run_tests</span><span class="operator">(</span>
+    <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+      <span class="variable">is_database_alive</span><span class="operator">(</span><span class="string">"dbname"</span><span class="operator">);</span>
+    <span class="operator">}</span>
+  <span class="operator">);</span>
+</pre>
+<pre>
+  <span class="comment"># now use Test::More::like to check the diagnostic output</span>
+</pre>
+<pre>
+  <span class="variable">like</span><span class="operator">(</span><span class="variable">$results</span><span class="operator">[</span><span class="number">0</span><span class="operator">]</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">diag</span><span class="operator">}</span><span class="operator">,</span> <span class="string">"/^Database ping took \\d+ seconds$"</span><span class="operator">/,</span> <span class="string">"diag"</span><span class="operator">);</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>If you have written a test module based on Test::Builder then Test::Tester
+allows you to test it with the minimum of effort.</p>
+<p>
+</p>
+<hr />
+<h1><a name="how_to_use__the_easy_way_">HOW TO USE (THE EASY WAY)</a></h1>
+<p>From version 0.08 Test::Tester no longer requires you to included anything
+special in your test modules. All you need to do is</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">Test::Tester</span><span class="operator">;</span>
+</pre>
+<p>in your test script <strong>before</strong> any other Test::Builder based modules and away
+you go.</p>
+<p>Other modules based on Test::Builder can be used to help with the
+testing.  In fact you can even use functions from your module to test
+other functions from the same module (while this is possible it is
+probably not a good idea, if your module has bugs, then
+using it to test itself may give the wrong answers).</p>
+<p>The easiest way to test is to do something like</p>
+<pre>
+  <span class="variable">check_test</span><span class="operator">(</span>
+    <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="variable">is_mystyle_eq</span><span class="operator">(</span><span class="string">"this"</span><span class="operator">,</span> <span class="string">"that"</span><span class="operator">,</span> <span class="string">"not eq"</span><span class="operator">)</span> <span class="operator">},</span>
+    <span class="operator">{</span>
+      <span class="string">ok</span> <span class="operator">=&gt;</span> <span class="number">0</span><span class="operator">,</span> <span class="comment"># we expect the test to fail</span>
+      <span class="string">name</span> <span class="operator">=&gt;</span> <span class="string">"not eq"</span><span class="operator">,</span>
+      <span class="string">diag</span> <span class="operator">=&gt;</span> <span class="string">"Expected: 'this'\nGot: 'that'"</span><span class="operator">,</span>
+    <span class="operator">}</span>
+  <span class="operator">);</span>
+</pre>
+<p>this will execute the is_mystyle_eq test, capturing it's results and
+checking that they are what was expected.</p>
+<p>You may need to examine the test results in a more flexible way, for
+example, the diagnostic output may be quite long or complex or it may involve
+something that you cannot predict in advance like a timestamp. In this case
+you can get direct access to the test results:</p>
+<pre>
+  <span class="keyword">my</span> <span class="operator">(</span><span class="variable">$premature</span><span class="operator">,</span> <span class="variable">@results</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">run_tests</span><span class="operator">(</span>
+    <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+      <span class="variable">is_database_alive</span><span class="operator">(</span><span class="string">"dbname"</span><span class="operator">);</span>
+    <span class="operator">}</span>
+  <span class="operator">);</span>
+</pre>
+<pre>
+  <span class="variable">like</span><span class="operator">(</span><span class="variable">$result</span><span class="operator">[</span><span class="number">0</span><span class="operator">]</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">diag</span><span class="operator">}</span><span class="operator">,</span> <span class="string">"/^Database ping took \\d+ seconds$"</span><span class="operator">/,</span> <span class="string">"diag"</span><span class="operator">);</span>
+</pre>
+<p>We cannot predict how long the database ping will take so we use
+Test::More's <code>like()</code> test to check that the diagnostic string is of the right
+form.</p>
+<p>
+</p>
+<hr />
+<h1><a name="how_to_use__the_hard_way_">HOW TO USE (THE HARD WAY)</a></h1>
+<p><em>This is here for backwards compatibility only</em></p>
+<p>Make your module use the Test::Tester::Capture object instead of the
+Test::Builder one. How to do this depends on your module but assuming that
+your module holds the Test::Builder object in $Test and that all your test
+routines access it through $Test then providing a function something like this</p>
+<pre>
+  <span class="keyword">sub</span><span class="variable"> set_builder
+  </span><span class="operator">{</span>
+    <span class="variable">$Test</span> <span class="operator">=</span> <span class="keyword">shift</span><span class="operator">;</span>
+  <span class="operator">}</span>
+</pre>
+<p>should allow your test scripts to do</p>
+<pre>
+  <span class="variable">Test::YourModule::set_builder</span><span class="operator">(</span><span class="variable">Test::Tester</span><span class="operator">-&gt;</span><span class="variable">capture</span><span class="operator">);</span>
+</pre>
+<p>and after that any tests inside your module will captured.</p>
+<p>
+</p>
+<hr />
+<h1><a name="test_results">TEST RESULTS</a></h1>
+<p>The result of each test is captured in a hash. These hashes are the same as
+the hashes returned by Test::Builder-&gt;details but with a couple of extra
+fields.</p>
+<p>These fields are documented in <a href="../../../lib/Test/Builder.html">the Test::Builder manpage</a> in the <code>details()</code> function</p>
+<dl>
+<dt><strong><a name="ok" class="item">ok</a></strong></dt>
+
+<dd>
+<p>Did the test pass?</p>
+</dd>
+<dt><strong><a name="actual_ok" class="item">actual_ok</a></strong></dt>
+
+<dd>
+<p>Did the test really pass? That is, did the pass come from
+Test::Builder-&gt;<a href="#ok"><code>ok()</code></a> or did it pass because it was a TODO test?</p>
+</dd>
+<dt><strong><a name="name" class="item">name</a></strong></dt>
+
+<dd>
+<p>The name supplied for the test.</p>
+</dd>
+<dt><strong><a name="type" class="item">type</a></strong></dt>
+
+<dd>
+<p>What kind of test? Possibilities include, skip, todo etc. See
+<a href="../../../lib/Test/Builder.html">the Test::Builder manpage</a> for more details.</p>
+</dd>
+<dt><strong><a name="reason" class="item">reason</a></strong></dt>
+
+<dd>
+<p>The reason for the skip, todo etc. See <a href="../../../lib/Test/Builder.html">the Test::Builder manpage</a> for more details.</p>
+</dd>
+</dl>
+<p>These fields are exclusive to Test::Tester.</p>
+<dl>
+<dt><strong><a name="diag" class="item">diag</a></strong></dt>
+
+<dd>
+<p>Any diagnostics that were output for the test. This only includes
+diagnostics output <strong>after</strong> the test result is declared.</p>
+<p>Note that Test::Builder ensures that any diagnostics end in a \n and
+it in earlier versions of Test::Tester it was essential that you have
+the final \n in your expected diagnostics. From version 0.10 onwards,
+Test::Tester will add the \n if you forgot it. It will not add a \n if
+you are expecting no diagnostics. See below for help tracking down
+hard to find space and tab related problems.</p>
+</dd>
+<dt><strong><a name="depth" class="item">depth</a></strong></dt>
+
+<dd>
+<p>This allows you to check that your test module is setting the correct value
+for $Test::Builder::Level and thus giving the correct file and line number
+when a test fails. It is calculated by looking at <a href="../../../lib/pods/perlfunc.html#caller"><code>caller()</code></a> and
+$Test::Builder::Level. It should count how many subroutines there are before
+jumping into the function you are testing. So for example in</p>
+<pre>
+  <span class="variable">run_tests</span><span class="operator">(</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="variable">my_test_function</span><span class="operator">(</span><span class="string">"a"</span><span class="operator">,</span> <span class="string">"b"</span><span class="operator">)</span> <span class="operator">}</span> <span class="operator">);</span>
+</pre>
+<p>the depth should be 1 and in</p>
+<pre>
+  <span class="keyword">sub</span><span class="variable"> deeper </span><span class="operator">{</span> <span class="variable">my_test_function</span><span class="operator">(</span><span class="string">"a"</span><span class="operator">,</span> <span class="string">"b"</span><span class="operator">)</span> <span class="operator">}</span>
+</pre>
+<pre>
+  <span class="variable">run_tests</span><span class="operator">(</span><span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="variable">deeper</span><span class="operator">()</span> <span class="operator">});</span>
+</pre>
+<p>depth should be 2, that is 1 for the sub {} and one for <code>deeper()</code>. This
+might seem a little complex but if your tests look like the simple
+examples in this doc then you don't need to worry as the depth will
+always be 1 and that's what Test::Tester expects by default.</p>
+<p><strong>Note</strong>: if you do not specify a value for depth in <code>check_test()</code> then it
+automatically compares it against 1, if you really want to skip the depth
+test then pass in undef.</p>
+<p><strong>Note</strong>: depth will not be correctly calculated for tests that run from a
+signal handler or an END block or anywhere else that hides the call stack.</p>
+</dd>
+</dl>
+<p>Some of Test::Tester's functions return arrays of these hashes, just
+like Test::Builder-&gt;details. That is, the hash for the first test will
+be array element 1 (not 0). Element 0 will not be a hash it will be a
+string which contains any diagnostic output that came before the first
+test. This should usually be empty, if it's not, it means something
+output diagnostics before any test results showed up.</p>
+<p>
+</p>
+<hr />
+<h1><a name="spaces_and_tabs">SPACES AND TABS</a></h1>
+<p>Appearances can be deceptive, especially when it comes to emptiness. If you
+are scratching your head trying to work out why Test::Tester is saying that
+your diagnostics are wrong when they look perfectly right then the answer is
+probably whitespace. From version 0.10 on, Test::Tester surrounds the
+expected and got diag values with single quotes to make it easier to spot
+trailing whitesapce. So in this example</p>
+<pre>
+  <span class="comment"># Got diag (5 bytes):</span>
+  <span class="comment"># 'abcd '</span>
+  <span class="comment"># Expected diag (4 bytes):</span>
+  <span class="comment"># 'abcd'</span>
+</pre>
+<p>it is quite clear that there is a space at the end of the first string.
+Another way to solve this problem is to use colour and inverse video on an
+ANSI terminal, see below COLOUR below if you want this.</p>
+<p>Unfortunately this is sometimes not enough, neither colour nor quotes will
+help you with problems involving tabs, other non-printing characters and
+certain kinds of problems inherent in Unicode. To deal with this, you can
+switch Test::Tester into a mode whereby all &quot;tricky&quot; characters are shown as
+\{xx}. Tricky characters are those with ASCII code less than 33 or higher
+than 126. This makes the output more difficult to read but much easier to
+find subtle differences between strings. To turn on this mode either call
+<code>show_space()</code> in your test script or set the TESTTESTERSPACE environment
+variable to be a true value. The example above would then look like</p>
+<pre>
+  <span class="comment"># Got diag (5 bytes):</span>
+  <span class="comment"># abcd\x{20}</span>
+  <span class="comment"># Expected diag (4 bytes):</span>
+  <span class="comment"># abcd</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="colour">COLOUR</a></h1>
+<p>If you prefer to use colour as a means of finding tricky whitespace
+characters then you can set the TESTTESTCOLOUR environment variable to a
+comma separated pair of colours, the first for the foreground, the second
+for the background. For example &quot;white,red&quot; will print white text on a red
+background. This requires the Term::ANSIColor module. You can specify any
+colour that would be acceptable to the Term::ANSIColor::color function.</p>
+<p>If you spell colour differently, that's no problem. The TESTTESTERCOLOR
+variable also works (if both are set then the British spelling wins out).</p>
+<p>
+</p>
+<hr />
+<h1><a name="exported_functions">EXPORTED FUNCTIONS</a></h1>
+<p>
+</p>
+<h3><a name="__premature___results____run_tests___test_sub_">($premature, @results) = run_tests(\&amp;test_sub)</a></h3>
+<p>\&amp;test_sub is a reference to a subroutine.</p>
+<p>run_tests runs the subroutine in $test_sub and captures the results of any
+tests inside it. You can run more than 1 test inside this subroutine if you
+like.</p>
+<p>$premature is a string containing any diagnostic output from before
+the first test.</p>
+<p>@results is an array of test result hashes.</p>
+<p>
+</p>
+<h3><a name="cmp_result___result____expect___name_">cmp_result(\%result, \%expect, $name)</a></h3>
+<p>\%result is a ref to a test result hash.</p>
+<p>\%expect is a ref to a hash of expected values for the test result.</p>
+<p>cmp_result compares the result with the expected values. If any differences
+are found it outputs diagnostics. You may leave out any field from the
+expected result and cmp_result will not do the comparison of that field.</p>
+<p>
+</p>
+<h3><a name="cmp_results___results____expects___name_">cmp_results(\@results, \@expects, $name)</a></h3>
+<p>\@results is a ref to an array of test results.</p>
+<p>\@expects is a ref to an array of hash refs.</p>
+<p>cmp_results checks that the results match the expected results and if any
+differences are found it outputs diagnostics. It first checks that the
+number of elements in \@results and \@expects is the same. Then it goes
+through each result checking it against the expected result as in
+<code>cmp_result()</code> above.</p>
+<p>
+</p>
+<h3><a name="__premature___results____check_tests___test_sub____expects___name_">($premature, @results) = check_tests(\&amp;test_sub, \@expects, $name)</a></h3>
+<p>\&amp;test_sub is a reference to a subroutine.</p>
+<p>\@expect is a ref to an array of hash refs which are expected test results.</p>
+<p>check_tests combines run_tests and cmp_tests into a single call. It also
+checks if the tests died at any stage.</p>
+<p>It returns the same values as run_tests, so you can further examine the test
+results if you need to.</p>
+<p>
+</p>
+<h3><a name="__premature___results____check_test___test_sub____expect___name_">($premature, @results) = check_test(\&amp;test_sub, \%expect, $name)</a></h3>
+<p>\&amp;test_sub is a reference to a subroutine.</p>
+<p>\%expect is a ref to an hash of expected values for the test result.</p>
+<p>check_test is a wrapper around check_tests. It combines run_tests and
+cmp_tests into a single call, checking if the test died. It assumes
+that only a single test is run inside \&amp;test_sub and include a test to
+make sure this is true.</p>
+<p>It returns the same values as run_tests, so you can further examine the test
+results if you need to.</p>
+<p>
+</p>
+<h3><a name="show_space__"><code>show_space()</code></a></h3>
+<p>Turn on the escaping of characters as described in the SPACES AND TABS
+section.</p>
+<p>
+</p>
+<hr />
+<h1><a name="how_it_works">HOW IT WORKS</a></h1>
+<p>Normally, a test module (let's call it Test:MyStyle) calls
+Test::Builder-&gt;new to get the Test::Builder object. Test::MyStyle calls
+methods on this object to record information about test results. When
+Test::Tester is loaded, it replaces Test::Builder's <code>new()</code> method with one
+which returns a Test::Tester::Delegate object. Most of the time this object
+behaves as the real Test::Builder object. Any methods that are called are
+delegated to the real Test::Builder object so everything works perfectly.
+However once we go into test mode, the method calls are no longer passed to
+the real Test::Builder object, instead they go to the Test::Tester::Capture
+object. This object seems exactly like the real Test::Builder object,
+except, instead of outputting test results and diagnostics, it just records
+all the information for later analysis.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../../lib/Test/Builder.html">the Test::Builder manpage</a> the source of testing goodness. <a href="../../../lib/Test/Builder/Tester.html">the Test::Builder::Tester manpage</a>
+for an alternative approach to the problem tackled by Test::Tester -
+captures the strings output by Test::Builder. This means you cannot get
+separate access to the individual pieces of information and you must predict
+<strong>exactly</strong> what your test will output.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>This module is copyright 2005 Fergal Daly &lt;<a href="mailto:fergal@esatclear.ie">fergal@esatclear.ie</a>&gt;, some parts
+are based on other people's work.</p>
+<p>Plan handling lifted from Test::More. written by Michael G Schwern
+&lt;<a href="mailto:schwern@pobox.com">schwern@pobox.com</a>&gt;.</p>
+<p>Test::Tester::Capture is a cut down and hacked up version of Test::Builder.
+Test::Builder was written by chromatic &lt;<a href="mailto:chromatic@wgz.org">chromatic@wgz.org</a>&gt; and Michael G
+Schwern &lt;<a href="mailto:schwern@pobox.com">schwern@pobox.com</a>&gt;.</p>
+<p>
+</p>
+<hr />
+<h1><a name="license">LICENSE</a></h1>
+<p>Under the same license as Perl itself</p>
+<p>See <a href="http://www.perl.com/perl/misc/Artistic.html">http://www.perl.com/perl/misc/Artistic.html</a></p>
+
+</body>
+
+</html>

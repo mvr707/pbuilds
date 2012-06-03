@@ -1,0 +1,57 @@
+---
+distribution: !!perl/hash:CPAN::Distribution
+  CALLED_FOR: A/AP/APEIRON/Task-Kensho-0.31.tar.gz
+  CHECKSUM_STATUS: OK
+  ID: A/AP/APEIRON/Task-Kensho-0.31.tar.gz
+  RO:
+    CPAN_COMMENT: ~
+    CPAN_USERID: APEIRON
+  archived: tar
+  badtestcnt: 0
+  build_dir: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\build\Task-Kensho-0.31-CBEGi1
+  incommandcolor: 1
+  localfile: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\sources\authors\id\A\AP\APEIRON\Task-Kensho-0.31.tar.gz
+  make: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691951
+  make_test: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: 1
+    TEXT: NO 2 dependencies missing (Task::Kensho::Exceptions,Task::Kensho::Testing)
+    TIME: 1338691952
+  negative_prefs_cache: 4
+  prefs: {}
+  prereq_pm:
+    build_requires:
+      ExtUtils::MakeMaker: '6.42'
+    requires:
+      Task::Kensho::Exceptions: '0'
+      Task::Kensho::Logging: '0'
+      Task::Kensho::OOP: '0'
+      Task::Kensho::Testing: '0'
+      Task::Kensho::Toolchain: '0'
+  reqtype: c
+  sponsored_mods:
+    Task::Kensho::Exceptions: 2
+    Task::Kensho::Logging: 1
+    Task::Kensho::OOP: 1
+    Task::Kensho::Testing: 2
+    Task::Kensho::Toolchain: 1
+  unwrapped: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338689889
+  writemakefile: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338689889
+perl:
+  $^X: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\bin\perl.exe
+  mtime_$^X: 1318029070
+  mtime_dll: 0
+  sitearchexp: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib
+time: 1338691952

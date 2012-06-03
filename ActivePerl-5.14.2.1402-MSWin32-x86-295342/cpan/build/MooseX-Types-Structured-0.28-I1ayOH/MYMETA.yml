@@ -1,0 +1,39 @@
+---
+abstract: 'MooseX::Types::Structured - Structured Type Constraints for Moose'
+author:
+  - 'John Napiorkowski <jjnapiork@cpan.org>, Florian Ragwitz <rafl@debian.org>, Yuval Kogman <nothingmuch@woobling.org>, Tomas Doran <bobtfish@bobtfish.net>, Robert Sedlacek <rs@474.at>'
+build_requires:
+  Data::Dumper: 0
+  DateTime: 0
+  MooseX::Types::DateTime: 0
+  MooseX::Types::Moose: 0
+  Test::Fatal: 0
+  Test::More: 0.94
+  strict: 0
+  warnings: 0
+configure_requires:
+  ExtUtils::MakeMaker: 6.30
+distribution_type: module
+dynamic_config: 0
+generated_by: 'ExtUtils::MakeMaker version 6.57_05'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: MooseX-Types-Structured
+no_index:
+  directory:
+    - t
+    - inc
+requires:
+  Devel::PartialDump: 0.13
+  Moose: 1.08
+  Moose::Meta::TypeCoercion: 0
+  Moose::Meta::TypeConstraint: 0
+  Moose::Meta::TypeConstraint::Parameterizable: 0
+  Moose::Util::TypeConstraints: 1.06
+  MooseX::Types: 0.22
+  Scalar::Util: 0
+  Sub::Exporter: 0.982
+  overload: 0
+version: 0.28

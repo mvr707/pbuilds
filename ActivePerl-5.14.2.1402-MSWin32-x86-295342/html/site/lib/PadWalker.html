@@ -1,0 +1,181 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../displayToc.js"></script>
+<script language="JavaScript" src="../../tocParas.js"></script>
+<script language="JavaScript" src="../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../scineplex.css">
+<title>PadWalker - play with other peoples' lexical variables</title>
+<link rel="stylesheet" href="../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',2);</script>
+<h1><a>PadWalker - play with other peoples' lexical variables</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>PadWalker - play with other peoples' lexical variables</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  <span class="keyword">use</span> <span class="variable">PadWalker</span> <span class="string">qw(peek_my peek_our peek_sub closed_over)</span><span class="operator">;</span>
+  <span class="operator">...</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>PadWalker is a module which allows you to inspect (and even change!)
+lexical variables in any subroutine which called you. It will only
+show those variables which are in scope at the point of the call.</p>
+<p>PadWalker is particularly useful for debugging. It's even
+used by Perl's built-in debugger. (It can also be used
+for evil, of course.)</p>
+<p>I wouldn't recommend using PadWalker directly in production
+code, but it's your call. Some of the modules that use
+PadWalker internally are certainly safe for and useful
+in production.</p>
+<dl>
+<dt><strong><a name="peek_my" class="item">peek_my LEVEL</a></strong></dt>
+
+<dt><strong><a name="peek_our" class="item">peek_our LEVEL</a></strong></dt>
+
+<dd>
+<p>The LEVEL argument is interpreted just like the argument to <a href="../../lib/pods/perlfunc.html#caller"><code>caller</code></a>.
+So <a href="#peek_my"><code>peek_my(0)</code></a> returns a reference to a hash of all the <a href="../../lib/pods/perlfunc.html#my"><code>my</code></a>
+variables that are currently in scope;
+<a href="#peek_my"><code>peek_my(1)</code></a> returns a reference to a hash of all the <a href="../../lib/pods/perlfunc.html#my"><code>my</code></a>
+variables that are in scope at the point where the current
+sub was called, and so on.</p>
+<p><a href="#peek_our"><code>peek_our</code></a> works in the same way, except that it lists
+the <a href="../../lib/pods/perlfunc.html#our"><code>our</code></a> variables rather than the <a href="../../lib/pods/perlfunc.html#my"><code>my</code></a> variables.</p>
+<p>The hash associates each variable name with a reference
+to its value. The variable names include the sigil, so
+the variable $x is represented by the string '$x'.</p>
+<p>For example:</p>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$x</span> <span class="operator">=</span> <span class="number">12</span><span class="operator">;</span>
+  <span class="keyword">my</span> <span class="variable">$h</span> <span class="operator">=</span> <span class="variable">peek_my</span> <span class="operator">(</span><span class="number">0</span><span class="operator">);</span>
+  <span class="variable">$</span><span class="operator">{</span><span class="variable">$h</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">'$x'</span><span class="operator">}}</span><span class="operator">++;</span>
+</pre>
+<pre>
+  <span class="keyword">print</span> <span class="variable">$x</span><span class="operator">;</span>  <span class="comment"># prints 13</span>
+</pre>
+<p>Or a more complex example:</p>
+<pre>
+  <span class="keyword">sub</span><span class="variable"> increment_my_x </span><span class="operator">{</span>
+    <span class="keyword">my</span> <span class="variable">$h</span> <span class="operator">=</span> <span class="variable">peek_my</span> <span class="operator">(</span><span class="number">1</span><span class="operator">);</span>
+    <span class="variable">$</span><span class="operator">{</span><span class="variable">$h</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">'$x'</span><span class="operator">}}</span><span class="operator">++;</span>
+  <span class="operator">}</span>
+</pre>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$x</span><span class="operator">=</span><span class="number">5</span><span class="operator">;</span>
+  <span class="variable">increment_my_x</span><span class="operator">;</span>
+  <span class="keyword">print</span> <span class="variable">$x</span><span class="operator">;</span>  <span class="comment"># prints 6</span>
+</pre>
+</dd>
+<dt><strong><a name="peek_sub" class="item">peek_sub SUB</a></strong></dt>
+
+<dd>
+<p>The <a href="#peek_sub"><code>peek_sub</code></a> routine takes a coderef as its argument, and returns a hash
+of the <a href="../../lib/pods/perlfunc.html#my"><code>my</code></a> variables used in that sub. The values will usually be undefined
+unless the sub is in use (i.e. in the call-chain) at the time. On the other
+hand:</p>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$x</span> <span class="operator">=</span> <span class="string">"Hello!"</span><span class="operator">;</span>
+  <span class="keyword">my</span> <span class="variable">$r</span> <span class="operator">=</span> <span class="variable">peek_sub</span><span class="operator">(</span><span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span><span class="variable">$x</span><span class="operator">})-&gt;</span><span class="operator">{</span><span class="string">'$x'</span><span class="operator">}</span><span class="operator">;</span>
+  <span class="keyword">print</span> <span class="string">"$</span><span class="variable">$r</span><span class="string">\n"</span><span class="operator">;</span>        <span class="comment"># prints 'Hello!'</span>
+</pre>
+<p>If the sub defines several <a href="../../lib/pods/perlfunc.html#my"><code>my</code></a> variables with the same name, you'll get the
+last one. I don't know of any use for <a href="#peek_sub"><code>peek_sub</code></a> that isn't broken as a result
+of this, and it will probably be deprecated in a future version in favour of
+some alternative interface.</p>
+</dd>
+<dt><strong><a name="closed_over" class="item">closed_over SUB</a></strong></dt>
+
+<dd>
+<p><a href="#closed_over"><code>closed_over</code></a> is similar to <a href="#peek_sub"><code>peek_sub</code></a>, except that it only lists
+the <a href="../../lib/pods/perlfunc.html#my"><code>my</code></a> variables which are used in the subroutine but defined outside:
+in other words, the variables which it closes over. This <em>does</em> have
+reasonable uses: see <a href="../../Data/Dump/Streamer.html">the Data::Dump::Streamer manpage</a>, for example (a future version
+of which may in fact use <a href="#closed_over"><code>closed_over</code></a>).</p>
+</dd>
+<dt><strong><a name="set_closed_over_sub_hash_ref" class="item">set_closed_over SUB, HASH_REF</a></strong></dt>
+
+<dd>
+<p><code>set_closed_over</code> reassigns the pad variables that are closed over by the subroutine.</p>
+<p>The second argument is a hash of references, much like the one returned from <a href="#closed_over"><code>closed_over</code></a>.</p>
+</dd>
+<dt><strong><a name="var_name_level_var_ref" class="item">var_name LEVEL, VAR_REF</a></strong></dt>
+
+<dt><strong><a name="var_name_sub_var_ref" class="item">var_name SUB,   VAR_REF</a></strong></dt>
+
+<dd>
+<p><code>var_name(sub, var_ref)</code> returns the name of the variable referred to
+by <code>var_ref</code>, provided it is a <a href="../../lib/pods/perlfunc.html#my"><code>my</code></a> variable used in the sub. The <a href="../../lib/pods/perlfunc.html#sub"><code>sub</code></a>
+parameter can be either a CODE reference or a number. If it's a number,
+it's treated the same way as the argument to <a href="#peek_my"><code>peek_my</code></a>.</p>
+<p>For example,</p>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$foo</span><span class="operator">;</span>
+  <span class="keyword">print</span> <span class="variable">var_name</span><span class="operator">(</span><span class="number">0</span><span class="operator">,</span> <span class="operator">\</span><span class="variable">$foo</span><span class="operator">);</span>    <span class="comment"># prints '$foo'</span>
+  
+  <span class="keyword">sub</span><span class="variable"> my_name </span><span class="operator">{</span>
+    <span class="keyword">return</span> <span class="variable">var_name</span><span class="operator">(</span><span class="number">1</span><span class="operator">,</span> <span class="keyword">shift</span><span class="operator">);</span>
+  <span class="operator">}</span>
+  <span class="keyword">print</span> <span class="variable">my_name</span><span class="operator">(\</span><span class="variable">$foo</span><span class="operator">);</span>        <span class="comment"># ditto</span>
+</pre>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Robin Houston &lt;<a href="mailto:robin@cpan.org">robin@cpan.org</a>&gt;</p>
+<p>With contributions from Richard Soberberg, Jesse Luehrs and
+Yuval Kogman, bug-spotting from Peter Scott, Dave Mitchell and
+Goro Fuji, and suggestions from demerphq.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p>Devel::LexAlias, Devel::Caller, Sub::Parameters</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (c) 2000-2009, Robin Houston. All Rights Reserved.
+This module is free software. It may be used, redistributed
+and/or modified under the same terms as Perl itself.</p>
+
+</body>
+
+</html>

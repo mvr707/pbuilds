@@ -4376,3 +4376,1125 @@ C<EXE_FILES: >
 
 =back
 
+=head2 Sat Jun  2 18:59:20 2012: C<Module> L<LWP|LWP>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 6.04>
+
+=item *
+
+C<EXE_FILES: bin/lwp-request bin/lwp-mirror bin/lwp-download bin/lwp-dump>
+
+=back
+
+=head2 Sat Jun  2 19:00:03 2012: C<Module> L<HTTP::Server::Simple|HTTP::Server::Simple>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.44>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:00:07 2012: C<Module> L<HTTP::Server::Simple|HTTP::Server::Simple>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.44>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:00:18 2012: C<Module> L<Tree::DAG_Node|Tree::DAG_Node>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.06>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:00:42 2012: C<Module> L<Test::Warn|Test::Warn>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.24>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:08:20 2012: C<Module> L<WWW::Mechanize|WWW::Mechanize>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.72>
+
+=item *
+
+C<EXE_FILES: bin/mech-dump>
+
+=back
+
+=head2 Sat Jun  2 19:18:22 2012: C<Module> L<Task::Moose|Task::Moose>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.03>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:18:34 2012: C<Module> L<Task::Kensho::OOP|Task::Kensho::OOP>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.28>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:18:54 2012: C<Module> L<PadWalker|PadWalker>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.93>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:19:07 2012: C<Module> L<Devel::Cycle|Devel::Cycle>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.11>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:19:19 2012: C<Module> L<Test::Memory::Cycle|Test::Memory::Cycle>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.04>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:19:33 2012: C<Module> L<Test::Pod|Test::Pod>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.45>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:19:52 2012: C<Module> L<Test::Tester|Test::Tester>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.108>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:20:04 2012: C<Module> L<Test::NoWarnings|Test::NoWarnings>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.04>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:20:22 2012: C<Module> L<Test::Deep|Test::Deep>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.109>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:20:39 2012: C<Module> L<Test::Most|Test::Most>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.25>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:20:54 2012: C<Module> L<Devel::Symdump|Devel::Symdump>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.08>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:21:08 2012: C<Module> L<Pod::Coverage|Pod::Coverage>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.22>
+
+=item *
+
+C<EXE_FILES: bin/pod_cover>
+
+=back
+
+=head2 Sat Jun  2 19:21:22 2012: C<Module> L<Test::Pod::Coverage|Test::Pod::Coverage>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.08>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:22:27 2012: C<Module> L<local::lib|local::lib>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.008004>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:22:41 2012: C<Module> L<App::cpanminus|App::cpanminus>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.5013>
+
+=item *
+
+C<EXE_FILES: bin/cpanm>
+
+=back
+
+=head2 Sat Jun  2 19:22:52 2012: C<Module> L<Task::Kensho::Toolchain|Task::Kensho::Toolchain>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.28>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:36:28 2012: C<Module> L<ExtUtils::Depends|ExtUtils::Depends>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.304>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:38:15 2012: C<Module> L<B::Hooks::OP::Check|B::Hooks::OP::Check>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.19>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:38:32 2012: C<Module> L<B::Hooks::OP::PPAddr|B::Hooks::OP::PPAddr>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.03>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:39:50 2012: C<Module> L<Test::Requires|Test::Requires>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.06>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:40:03 2012: C<Module> L<Test::Fatal|Test::Fatal>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.010>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:40:27 2012: C<Module> L<Variable::Magic|Variable::Magic>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.48>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:40:40 2012: C<Module> L<B::Hooks::EndOfScope|B::Hooks::EndOfScope>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.11>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:40:59 2012: C<Module> L<namespace::clean|namespace::clean>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.23>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:41:23 2012: C<Module> L<MooseX::Types|MooseX::Types>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.35>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:42:21 2012: C<Module> L<Module::Implementation|Module::Implementation>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.06>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:43:44 2012: C<Module> L<DateTime::Locale|DateTime::Locale>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.45>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:44:09 2012: C<Module> L<Test::Output|Test::Output>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.01>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:44:25 2012: C<Module> L<Class::Load|Class::Load>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.19>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:44:38 2012: C<Module> L<Class::Singleton|Class::Singleton>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.4>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:44:50 2012: C<Module> L<Math::Round|Math::Round>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.06>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:45:32 2012: C<Module> L<Test::use::ok|Test::use::ok>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.02>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:45:53 2012: C<Module> L<Devel::PartialDump|Devel::PartialDump>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.15>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:46:32 2012: C<Module> L<aliased|aliased>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.30>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:46:49 2012: C<Module> L<namespace::autoclean|namespace::autoclean>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.13>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:47:05 2012: C<Module> L<MooseX::Traits|MooseX::Traits>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.11>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:50:04 2012: C<Module> L<ExtUtils::MakeMaker|ExtUtils::MakeMaker>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 6.62>
+
+=item *
+
+C<EXE_FILES: bin/instmodsh>
+
+=back
+
+=head2 Sat Jun  2 19:50:21 2012: C<Module> L<Devel::Declare|Devel::Declare>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.006011>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:50:46 2012: C<Module> L<Data::Dumper::Concise|Data::Dumper::Concise>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.020>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:51:24 2012: C<Module> L<Log::Contextual|Log::Contextual>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.004100>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:51:32 2012: C<Module> L<Log::Dispatch|Log::Dispatch>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.32>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 19:52:20 2012: C<Module> L<Log::Log4perl|Log::Log4perl>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.37>
+
+=item *
+
+C<EXE_FILES: eg/l4p-tmpl>
+
+=back
+
+=head2 Sat Jun  2 19:52:24 2012: C<Module> L<Task::Kensho::Logging|Task::Kensho::Logging>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.01>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 22:20:54 2012: C<Module> L<Crypt::Blowfish|Crypt::Blowfish>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.12>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Jun  2 22:25:08 2012: C<Module> L<DBI|DBI>
+
+=over 4
+
+=item *
+
+C<installed into: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.621>
+
+=item *
+
+C<EXE_FILES: dbiproxy dbiprof dbilogstrip>
+
+=back
+

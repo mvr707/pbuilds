@@ -1,0 +1,51 @@
+---
+distribution: !!perl/hash:CPAN::Distribution
+  CALLED_FOR: A/AP/APEIRON/Task-Kensho-Exceptions-0.28.tar.gz
+  CHECKSUM_STATUS: OK
+  ID: A/AP/APEIRON/Task-Kensho-Exceptions-0.28.tar.gz
+  RO:
+    CPAN_COMMENT: ~
+    CPAN_USERID: APEIRON
+  archived: tar
+  badtestcnt: 0
+  build_dir: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\build\Task-Kensho-Exceptions-0.28-Cf3ph1
+  incommandcolor: 2
+  localfile: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\sources\authors\id\A\AP\APEIRON\Task-Kensho-Exceptions-0.28.tar.gz
+  make: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691837
+  make_test: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: 1
+    TEXT: NO one dependency not OK (TryCatch)
+    TIME: 1338691838
+  negative_prefs_cache: 4
+  prefs: {}
+  prereq_pm:
+    build_requires:
+      ExtUtils::MakeMaker: '6.42'
+    requires:
+      Try::Tiny: '0'
+      TryCatch: '0'
+      autodie: '0'
+  reqtype: r
+  sponsored_mods:
+    TryCatch: 2
+  unwrapped: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338690174
+  writemakefile: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338690175
+perl:
+  $^X: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\bin\perl.exe
+  mtime_$^X: 1318029070
+  mtime_dll: 0
+  sitearchexp: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib
+time: 1338691838

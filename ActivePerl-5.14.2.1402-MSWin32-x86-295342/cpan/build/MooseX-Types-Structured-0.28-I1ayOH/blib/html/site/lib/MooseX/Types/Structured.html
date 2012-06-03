@@ -1,0 +1,831 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../scineplex.css">
+<title>MooseX::Types::Structured - MooseX::Types::Structured - Structured Type Constraints for Moose</title>
+<link rel="stylesheet" href="../../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',4);</script>
+<h1><a>MooseX::Types::Structured - MooseX::Types::Structured - Structured Type Constraints for Moose</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#comparing_parameterized_types_to_structured_types">Comparing Parameterized types to Structured types</a></li>
+		<li><a href="#alternatives">Alternatives</a></li>
+		<li><a href="#subtyping_a_structured_type_constraint">Subtyping a Structured type constraint</a></li>
+		<li><a href="#coercions">Coercions</a></li>
+		<li><a href="#recursion">Recursion</a></li>
+	</ul>
+
+	<li><a href="#type_constraints">TYPE CONSTRAINTS</a></li>
+	<ul>
+
+		<li><a href="#tuple__constraints_">Tuple[@constraints]</a></li>
+		<li><a href="#dict__constraints_">Dict[%constraints]</a></li>
+		<li><a href="#map___key_constraint___value_constraint__">Map[ $key_constraint, $value_constraint ]</a></li>
+		<li><a href="#optional__constraint_">Optional[$constraint]</a></li>
+	</ul>
+
+	<li><a href="#exportable_subroutines">EXPORTABLE SUBROUTINES</a></li>
+	<ul>
+
+		<li><a href="#slurpy">slurpy</a></li>
+	</ul>
+
+	<li><a href="#error_messages">ERROR MESSAGES</a></li>
+	<li><a href="#examples">EXAMPLES</a></li>
+	<ul>
+
+		<li><a href="#normalize_a_hashref">Normalize a HashRef</a></li>
+	</ul>
+
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#authors">AUTHORS</a></li>
+	<li><a href="#copyright_and_license">COPYRIGHT AND LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<hr />
+<h1><a name="name">NAME</a></h1>
+<p>MooseX::Types::Structured - MooseX::Types::Structured - Structured Type Constraints for Moose</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>The following is example usage for this module.</p>
+<pre>
+    <span class="keyword">package</span> <span class="variable">Person</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Moose</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">MooseX::Types::Moose</span> <span class="string">qw(Str Int HashRef)</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">MooseX::Types::Structured</span> <span class="string">qw(Dict Tuple Optional)</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="comment">## A name has a first and last part, but middle names are not required</span>
+    <span class="variable">has</span> <span class="string">name</span> <span class="operator">=&gt;</span> <span class="operator">(</span>
+        <span class="string">isa</span><span class="operator">=&gt;</span><span class="variable">Dict</span><span class="operator">[</span>
+            <span class="string">first</span> <span class="operator">=&gt;</span> <span class="variable">Str</span><span class="operator">,</span>
+            <span class="string">last</span> <span class="operator">=&gt;</span> <span class="variable">Str</span><span class="operator">,</span>
+            <span class="string">middle</span> <span class="operator">=&gt;</span> <span class="variable">Optional</span><span class="operator">[</span><span class="variable">Str</span><span class="operator">]</span><span class="operator">,</span>
+        <span class="operator">]</span><span class="operator">,</span>
+    <span class="operator">);</span>
+</pre>
+<pre>
+    <span class="comment">## description is a string field followed by a HashRef of tagged data.</span>
+    <span class="variable">has</span> <span class="string">description</span> <span class="operator">=&gt;</span> <span class="operator">(</span>
+      <span class="string">isa</span><span class="operator">=&gt;</span><span class="variable">Tuple</span><span class="operator">[</span>
+        <span class="variable">Str</span><span class="operator">,</span>
+        <span class="variable">Optional</span><span class="operator">[</span><span class="variable">HashRef</span><span class="operator">]</span><span class="operator">,</span>
+     <span class="operator">]</span><span class="operator">,</span>
+    <span class="operator">);</span>
+</pre>
+<pre>
+    <span class="comment">## Remainder of your class attributes and methods</span>
+</pre>
+<p>Then you can instantiate this class with something like:</p>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$john</span> <span class="operator">=</span> <span class="variable">Person</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span>
+        <span class="string">name</span> <span class="operator">=&gt;</span> <span class="operator">{</span>
+            <span class="string">first</span> <span class="operator">=&gt;</span> <span class="string">'John'</span><span class="operator">,</span>
+            <span class="string">middle</span> <span class="operator">=&gt;</span> <span class="string">'James'</span>
+            <span class="string">last</span> <span class="operator">=&gt;</span> <span class="string">'Napiorkowski'</span><span class="operator">,</span>
+        <span class="operator">}</span><span class="operator">,</span>
+        <span class="string">description</span> <span class="operator">=&gt;</span> <span class="operator">[</span>
+            <span class="string">'A cool guy who loves Perl and Moose.'</span><span class="operator">,</span> <span class="operator">{</span>
+                <span class="string">married_to</span> <span class="operator">=&gt;</span> <span class="string">'Vanessa Li'</span><span class="operator">,</span>
+                <span class="string">born_in</span> <span class="operator">=&gt;</span> <span class="string">'USA'</span><span class="operator">,</span>
+            <span class="operator">}</span><span class="operator">;</span>
+        <span class="operator">]</span>
+    <span class="operator">);</span>
+</pre>
+<p>Or with:</p>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$vanessa</span> <span class="operator">=</span> <span class="variable">Person</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span>
+        <span class="string">name</span> <span class="operator">=&gt;</span> <span class="operator">{</span>
+            <span class="string">first</span> <span class="operator">=&gt;</span> <span class="string">'Vanessa'</span><span class="operator">,</span>
+            <span class="string">last</span> <span class="operator">=&gt;</span> <span class="string">'Li'</span>
+        <span class="operator">}</span><span class="operator">,</span>
+        <span class="string">description</span> <span class="operator">=&gt;</span> <span class="operator">[</span><span class="string">'A great student!'</span><span class="operator">]</span><span class="operator">,</span>
+    <span class="operator">);</span>
+</pre>
+<p>But all of these would cause a constraint error for the 'name' attribute:</p>
+<pre>
+    <span class="comment">## Value for 'name' not a HashRef</span>
+    <span class="variable">Person</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span> <span class="string">name</span> <span class="operator">=&gt;</span> <span class="string">'John'</span> <span class="operator">);</span>
+</pre>
+<pre>
+    <span class="comment">## Value for 'name' has incorrect hash key and missing required keys</span>
+    <span class="variable">Person</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span> <span class="string">name</span> <span class="operator">=&gt;</span> <span class="operator">{</span>
+        <span class="string">first_name</span> <span class="operator">=&gt;</span> <span class="string">'John'</span>
+    <span class="operator">}</span><span class="operator">);</span>
+</pre>
+<pre>
+    <span class="comment">## Also incorrect keys</span>
+    <span class="variable">Person</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span> <span class="string">name</span> <span class="operator">=&gt;</span> <span class="operator">{</span>
+        <span class="string">first_name</span> <span class="operator">=&gt;</span> <span class="string">'John'</span><span class="operator">,</span>
+        <span class="string">age</span> <span class="operator">=&gt;</span> <span class="number">39</span><span class="operator">,</span>
+    <span class="operator">}</span><span class="operator">);</span>
+</pre>
+<pre>
+    <span class="comment">## key 'middle' incorrect type, should be a Str not a ArrayRef</span>
+    <span class="variable">Person</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span> <span class="string">name</span> <span class="operator">=&gt;</span> <span class="operator">{</span>
+        <span class="string">first</span> <span class="operator">=&gt;</span> <span class="string">'Vanessa'</span><span class="operator">,</span>
+        <span class="string">middle</span> <span class="operator">=&gt;</span> <span class="operator">[</span><span class="number">1</span><span class="operator">,</span><span class="number">2</span><span class="operator">]</span><span class="operator">,</span>
+        <span class="string">last</span> <span class="operator">=&gt;</span> <span class="string">'Li'</span><span class="operator">,</span>
+    <span class="operator">}</span><span class="operator">);</span>
+</pre>
+<p>And these would cause a constraint error for the 'description' attribute:</p>
+<pre>
+    <span class="comment">## Should be an ArrayRef</span>
+    <span class="variable">Person</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span> <span class="string">description</span> <span class="operator">=&gt;</span> <span class="string">'Hello I am a String'</span> <span class="operator">);</span>
+</pre>
+<pre>
+    <span class="comment">## First element must be a string not a HashRef.</span>
+    <span class="variable">Person</span><span class="operator">-&gt;</span><span class="variable">new</span> <span class="operator">(</span><span class="string">description</span> <span class="operator">=&gt;</span> <span class="operator">[{</span>
+        <span class="string">tag1</span> <span class="operator">=&gt;</span> <span class="string">'value1'</span><span class="operator">,</span>
+        <span class="string">tag2</span> <span class="operator">=&gt;</span> <span class="string">'value2'</span>
+    <span class="operator">}]</span><span class="operator">);</span>
+</pre>
+<p>Please see the test cases for more examples.</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>A structured type constraint is a standard container <a href="../../../../lib/Moose.html">the Moose manpage</a> type constraint,
+such as an ArrayRef or HashRef, which has been enhanced to allow you to
+explicitly name all the allowed type constraints inside the structure.  The
+generalized form is:</p>
+<pre>
+    TypeConstraint[@TypeParameters or %TypeParameters]</pre>
+<p>Where 'TypeParameters' is an array reference or hash references of
+<a href="../../../../lib/Moose/Meta/TypeConstraint.html">the Moose::Meta::TypeConstraint manpage</a> objects.</p>
+<p>This type library enables structured type constraints. It is built on top of the
+<a href="../../../../site/lib/MooseX/Types.html">the MooseX::Types manpage</a> library system, so you should review the documentation for that
+if you are not familiar with it.</p>
+<p>
+</p>
+<h2><a name="comparing_parameterized_types_to_structured_types">Comparing Parameterized types to Structured types</a></h2>
+<p>Parameterized constraints are built into core Moose and you are probably already
+familiar with the type constraints 'HashRef' and 'ArrayRef'.  Structured types
+have similar functionality, so their syntax is likewise similar. For example,
+you could define a parameterized constraint like:</p>
+<pre>
+    <span class="variable">subtype</span> <span class="variable">ArrayOfInts</span><span class="operator">,</span>
+     <span class="variable">as</span> <span class="variable">ArrayRef</span><span class="operator">[</span><span class="variable">Int</span><span class="operator">]</span><span class="operator">;</span>
+</pre>
+<p>which would constrain a value to something like [1,2,3,...] and so on.  On the
+other hand, a structured type constraint explicitly names all it's allowed
+'internal' type parameter constraints.  For the example:</p>
+<pre>
+    <span class="variable">subtype</span> <span class="variable">StringFollowedByInt</span><span class="operator">,</span>
+     <span class="variable">as</span> <span class="variable">Tuple</span><span class="operator">[</span><span class="variable">Str</span><span class="operator">,</span><span class="variable">Int</span><span class="operator">]</span><span class="operator">;</span>
+</pre>
+<p>would constrain it's value to things like ['hello', 111] but ['hello', 'world']
+would fail, as well as ['hello', 111, 'world'] and so on.  Here's another
+example:</p>
+<pre>
+        <span class="keyword">package</span> <span class="variable">MyApp::Types</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">use</span> <span class="variable">MooseX::Types</span> <span class="operator">-</span><span class="variable">declare</span> <span class="operator">[</span><span class="string">qw(StringIntOptionalHashRef)</span><span class="operator">]</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">MooseX::Types::Moose</span> <span class="string">qw(Str Int)</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">MooseX::Types::Structured</span> <span class="string">qw(Tuple Optional)</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="variable">subtype</span> <span class="variable">StringIntOptionalHashRef</span><span class="operator">,</span>
+     <span class="variable">as</span> <span class="variable">Tuple</span><span class="operator">[</span>
+        <span class="variable">Str</span><span class="operator">,</span> <span class="variable">Int</span><span class="operator">,</span>
+        <span class="variable">Optional</span><span class="operator">[</span><span class="variable">HashRef</span><span class="operator">]</span>
+     <span class="operator">]</span><span class="operator">;</span>
+</pre>
+<p>This defines a type constraint that validates values like:</p>
+<pre>
+    <span class="operator">[</span><span class="string">'Hello'</span><span class="operator">,</span> <span class="number">100</span><span class="operator">,</span> <span class="operator">{</span><span class="string">key1</span> <span class="operator">=&gt;</span> <span class="string">'value1'</span><span class="operator">,</span> <span class="string">key2</span> <span class="operator">=&gt;</span> <span class="string">'value2'</span><span class="operator">}]</span><span class="operator">;</span>
+    <span class="operator">[</span><span class="string">'World'</span><span class="operator">,</span> <span class="number">200</span><span class="operator">]</span><span class="operator">;</span>
+</pre>
+<p>Notice that the last type constraint in the structure is optional.  This is
+enabled via the helper Optional type constraint, which is a variation of the
+core Moose type constraint 'Maybe'.  The main difference is that Optional type
+constraints are required to validate if they exist, while 'Maybe' permits
+undefined values.  So the following example would not validate:</p>
+<pre>
+    <span class="variable">StringIntOptionalHashRef</span><span class="operator">-&gt;</span><span class="variable">validate</span><span class="operator">(</span><span class="operator">[</span><span class="string">'Hello Undefined'</span><span class="operator">,</span> <span class="number">1000</span><span class="operator">,</span> <span class="keyword">undef</span><span class="operator">]</span><span class="operator">);</span>
+</pre>
+<p>Please note the subtle difference between undefined and null.  If you wish to
+allow both null and undefined, you should use the core Moose 'Maybe' type
+constraint instead:</p>
+<pre>
+    <span class="keyword">package</span> <span class="variable">MyApp::Types</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">use</span> <span class="variable">MooseX::Types</span> <span class="operator">-</span><span class="variable">declare</span> <span class="operator">[</span><span class="string">qw(StringIntMaybeHashRef)</span><span class="operator">]</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">MooseX::Types::Moose</span> <span class="string">qw(Str Int Maybe)</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">MooseX::Types::Structured</span> <span class="string">qw(Tuple)</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="variable">subtype</span> <span class="variable">StringIntMaybeHashRef</span><span class="operator">,</span>
+     <span class="variable">as</span> <span class="variable">Tuple</span><span class="operator">[</span>
+        <span class="variable">Str</span><span class="operator">,</span> <span class="variable">Int</span><span class="operator">,</span> <span class="variable">Maybe</span><span class="operator">[</span><span class="variable">HashRef</span><span class="operator">]</span>
+     <span class="operator">]</span><span class="operator">;</span>
+</pre>
+<p>This would validate the following:</p>
+<pre>
+    <span class="operator">[</span><span class="string">'Hello'</span><span class="operator">,</span> <span class="number">100</span><span class="operator">,</span> <span class="operator">{</span><span class="string">key1</span> <span class="operator">=&gt;</span> <span class="string">'value1'</span><span class="operator">,</span> <span class="string">key2</span> <span class="operator">=&gt;</span> <span class="string">'value2'</span><span class="operator">}]</span><span class="operator">;</span>
+    <span class="operator">[</span><span class="string">'World'</span><span class="operator">,</span> <span class="number">200</span><span class="operator">,</span> <span class="keyword">undef</span><span class="operator">]</span><span class="operator">;</span>
+    <span class="operator">[</span><span class="string">'World'</span><span class="operator">,</span> <span class="number">200</span><span class="operator">]</span><span class="operator">;</span>
+</pre>
+<p>Structured constraints are not limited to arrays.  You can define a structure
+against a HashRef with the 'Dict' type constaint as in this example:</p>
+<pre>
+    <span class="variable">subtype</span> <span class="variable">FirstNameLastName</span><span class="operator">,</span>
+     <span class="variable">as</span> <span class="variable">Dict</span><span class="operator">[</span>
+        <span class="string">firstname</span> <span class="operator">=&gt;</span> <span class="variable">Str</span><span class="operator">,</span>
+        <span class="string">lastname</span> <span class="operator">=&gt;</span> <span class="variable">Str</span><span class="operator">,</span>
+     <span class="operator">]</span><span class="operator">;</span>
+</pre>
+<p>This would constrain a HashRef that validates something like:</p>
+<pre>
+    <span class="operator">{</span><span class="string">firstname</span> <span class="operator">=&gt;</span> <span class="string">'Christopher'</span><span class="operator">,</span> <span class="string">lastname</span> <span class="operator">=&gt;</span> <span class="string">'Parsons'</span><span class="operator">};</span>
+</pre>
+<p>but all the following would fail validation:</p>
+<pre>
+    <span class="comment">## Incorrect keys</span>
+    <span class="operator">{</span><span class="string">first</span> <span class="operator">=&gt;</span> <span class="string">'Christopher'</span><span class="operator">,</span> <span class="string">last</span> <span class="operator">=&gt;</span> <span class="string">'Parsons'</span><span class="operator">};</span>
+</pre>
+<pre>
+    <span class="comment">## Too many keys</span>
+    <span class="operator">{</span><span class="string">firstname</span> <span class="operator">=&gt;</span> <span class="string">'Christopher'</span><span class="operator">,</span> <span class="string">lastname</span> <span class="operator">=&gt;</span> <span class="string">'Parsons'</span><span class="operator">,</span> <span class="string">middlename</span> <span class="operator">=&gt;</span> <span class="string">'Allen'</span><span class="operator">};</span>
+</pre>
+<pre>
+    <span class="comment">## Not a HashRef</span>
+    <span class="operator">[</span><span class="string">'Christopher'</span><span class="operator">,</span> <span class="string">'Parsons'</span><span class="operator">]</span><span class="operator">;</span>
+</pre>
+<p>These structures can be as simple or elaborate as you wish.  You can even
+combine various structured, parameterized and simple constraints all together:</p>
+<pre>
+    <span class="variable">subtype</span> <span class="variable">Crazy</span><span class="operator">,</span>
+     <span class="variable">as</span> <span class="variable">Tuple</span><span class="operator">[</span>
+        <span class="variable">Int</span><span class="operator">,</span>
+        <span class="variable">Dict</span><span class="operator">[</span><span class="string">name</span><span class="operator">=&gt;</span><span class="variable">Str</span><span class="operator">,</span> <span class="string">age</span><span class="operator">=&gt;</span><span class="variable">Int</span><span class="operator">]</span><span class="operator">,</span>
+        <span class="variable">ArrayRef</span><span class="operator">[</span><span class="variable">Int</span><span class="operator">]</span>
+     <span class="operator">]</span><span class="operator">;</span>
+</pre>
+<p>Which would match:</p>
+<pre>
+    <span class="operator">[</span><span class="number">1</span><span class="operator">,</span> <span class="operator">{</span><span class="string">name</span><span class="operator">=&gt;</span><span class="string">'John'</span><span class="operator">,</span> <span class="string">age</span><span class="operator">=&gt;</span><span class="number">25</span><span class="operator">}</span><span class="operator">,</span><span class="operator">[</span><span class="number">10</span><span class="operator">,</span><span class="number">11</span><span class="operator">,</span><span class="number">12</span><span class="operator">]]</span><span class="operator">;</span>
+</pre>
+<p>Please notice how the type parameters can be visually arranged to your liking
+and to improve the clarity of your meaning.  You don't need to run then
+altogether onto a single line.  Additionally, since the 'Dict' type constraint
+defines a hash constraint, the key order is not meaningful.  For example:</p>
+<pre>
+    <span class="variable">subtype</span> <span class="variable">AnyKeyOrder</span><span class="operator">,</span>
+      <span class="variable">as</span> <span class="variable">Dict</span><span class="operator">[</span>
+        <span class="string">key1</span><span class="operator">=&gt;</span><span class="variable">Int</span><span class="operator">,</span>
+        <span class="string">key2</span><span class="operator">=&gt;</span><span class="variable">Str</span><span class="operator">,</span>
+        <span class="string">key3</span><span class="operator">=&gt;</span><span class="variable">Int</span><span class="operator">,</span>
+     <span class="operator">]</span><span class="operator">;</span>
+</pre>
+<p>Would validate both:</p>
+<pre>
+    <span class="operator">{</span><span class="string">key1</span> <span class="operator">=&gt;</span> <span class="number">1</span><span class="operator">,</span> <span class="string">key2</span> <span class="operator">=&gt;</span> <span class="string">"Hi!"</span><span class="operator">,</span> <span class="string">key3</span> <span class="operator">=&gt;</span> <span class="number">2</span><span class="operator">};</span>
+    <span class="operator">{</span><span class="string">key2</span> <span class="operator">=&gt;</span> <span class="string">"Hi!"</span><span class="operator">,</span> <span class="string">key1</span> <span class="operator">=&gt;</span> <span class="number">100</span><span class="operator">,</span> <span class="string">key3</span> <span class="operator">=&gt;</span> <span class="number">300</span><span class="operator">};</span>
+</pre>
+<p>As you would expect, since underneath its just a plain old Perl hash at work.</p>
+<p>
+</p>
+<h2><a name="alternatives">Alternatives</a></h2>
+<p>You should exercise some care as to whether or not your complex structured
+constraints would be better off contained by a real object as in the following
+example:</p>
+<pre>
+    <span class="keyword">package</span> <span class="variable">MyApp::MyStruct</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">Moose</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="comment">## lazy way to make a bunch of attributes</span>
+    <span class="variable">has</span> <span class="variable">$_</span> <span class="keyword">for</span> <span class="string">qw(full_name age_in_years)</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">package</span> <span class="variable">MyApp::MyClass</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">Moose</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="variable">has</span> <span class="string">person</span> <span class="operator">=&gt;</span> <span class="operator">(</span><span class="string">isa</span> <span class="operator">=&gt;</span> <span class="string">'MyApp::MyStruct'</span><span class="operator">);</span>
+</pre>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$instance</span> <span class="operator">=</span> <span class="variable">MyApp::MyClass</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span>
+        <span class="string">person</span><span class="operator">=&gt;</span><span class="variable">MyApp::MyStruct</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span>
+            <span class="string">full_name</span> <span class="operator">=&gt;</span> <span class="string">'John'</span><span class="operator">,</span>
+            <span class="string">age_in_years</span> <span class="operator">=&gt;</span> <span class="number">39</span><span class="operator">,</span>
+        <span class="operator">),</span>
+    <span class="operator">);</span>
+</pre>
+<p>This method may take some additional time to setup but will give you more
+flexibility.  However, structured constraints are highly compatible with this
+method, granting some interesting possibilities for coercion.  Try:</p>
+<pre>
+    <span class="keyword">package</span> <span class="variable">MyApp::MyClass</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Moose</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">MyApp::MyStruct</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="comment">## It's recommended your type declarations live in a separate class in order</span>
+    <span class="comment">## to promote reusability and clarity.  Inlined here for brevity.</span>
+</pre>
+<pre>
+    <span class="keyword">use</span> <span class="variable">MooseX::Types::DateTime</span> <span class="string">qw(DateTime)</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">MooseX::Types</span> <span class="operator">-</span><span class="variable">declare</span> <span class="operator">[</span><span class="string">qw(MyStruct)</span><span class="operator">]</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">MooseX::Types::Moose</span> <span class="string">qw(Str Int)</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">MooseX::Types::Structured</span> <span class="string">qw(Dict)</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="comment">## Use class_type to create an ISA type constraint if your object doesn't</span>
+    <span class="comment">## inherit from Moose::Object.</span>
+    <span class="variable">class_type</span> <span class="string">'MyApp::MyStruct'</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="comment">## Just a shorter version really.</span>
+    <span class="variable">subtype</span> <span class="variable">MyStruct</span><span class="operator">,</span>
+     <span class="variable">as</span> <span class="string">'MyApp::MyStruct'</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="comment">## Add the coercions.</span>
+    <span class="variable">coerce</span> <span class="variable">MyStruct</span><span class="operator">,</span>
+     <span class="variable">from</span> <span class="variable">Dict</span><span class="operator">[</span>
+        <span class="string">full_name</span><span class="operator">=&gt;</span><span class="variable">Str</span><span class="operator">,</span>
+        <span class="string">age_in_years</span><span class="operator">=&gt;</span><span class="variable">Int</span>
+     <span class="operator">]</span><span class="operator">,</span> <span class="variable">via</span> <span class="operator">{</span>
+        <span class="variable">MyApp::MyStruct</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="variable">%$_</span><span class="operator">);</span>
+     <span class="operator">},</span>
+     <span class="variable">from</span> <span class="variable">Dict</span><span class="operator">[</span>
+        <span class="string">lastname</span><span class="operator">=&gt;</span><span class="variable">Str</span><span class="operator">,</span>
+        <span class="string">firstname</span><span class="operator">=&gt;</span><span class="variable">Str</span><span class="operator">,</span>
+        <span class="string">dob</span><span class="operator">=&gt;</span><span class="variable">DateTime</span>
+     <span class="operator">]</span><span class="operator">,</span> <span class="variable">via</span> <span class="operator">{</span>
+        <span class="keyword">my</span> <span class="variable">$name</span> <span class="operator">=</span> <span class="variable">$_</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">firstname</span><span class="operator">}</span> <span class="operator">.</span><span class="string">' '</span><span class="operator">.</span> <span class="variable">$_</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">lastname</span><span class="operator">}</span><span class="operator">;</span>
+        <span class="keyword">my</span> <span class="variable">$age</span> <span class="operator">=</span> <span class="variable">DateTime</span><span class="operator">-&gt;</span><span class="variable">now</span> <span class="operator">-</span> <span class="variable">$_</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">dob</span><span class="operator">}</span><span class="operator">;</span>
+</pre>
+<pre>
+        <span class="variable">MyApp::MyStruct</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span>
+            <span class="string">full_name</span><span class="operator">=&gt;</span><span class="variable">$name</span><span class="operator">,</span>
+            <span class="string">age_in_years</span><span class="operator">=&gt;</span><span class="variable">$age</span><span class="operator">-&gt;</span><span class="variable">years</span><span class="operator">,</span>
+        <span class="operator">);</span>
+             <span class="operator">};</span>
+</pre>
+<pre>
+    <span class="variable">has</span> <span class="string">person</span> <span class="operator">=&gt;</span> <span class="operator">(</span><span class="string">isa</span><span class="operator">=&gt;</span><span class="variable">MyStruct</span><span class="operator">);</span>
+</pre>
+<p>This would allow you to instantiate with something like:</p>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$obj</span> <span class="operator">=</span> <span class="variable">MyApp::MyClass</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span> <span class="string">person</span> <span class="operator">=&gt;</span> <span class="operator">{</span>
+        <span class="string">full_name</span><span class="operator">=&gt;</span><span class="string">'John Napiorkowski'</span><span class="operator">,</span>
+        <span class="string">age_in_years</span><span class="operator">=&gt;</span><span class="number">39</span><span class="operator">,</span>
+    <span class="operator">}</span><span class="operator">);</span>
+</pre>
+<p>Or even:</p>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$obj</span> <span class="operator">=</span> <span class="variable">MyApp::MyClass</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span> <span class="string">person</span> <span class="operator">=&gt;</span> <span class="operator">{</span>
+        <span class="string">lastname</span><span class="operator">=&gt;</span><span class="string">'John'</span><span class="operator">,</span>
+        <span class="string">firstname</span><span class="operator">=&gt;</span><span class="string">'Napiorkowski'</span><span class="operator">,</span>
+        <span class="string">dob</span><span class="operator">=&gt;</span><span class="variable">DateTime</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="string">year</span><span class="operator">=&gt;</span><span class="number">1969</span><span class="operator">),</span>
+    <span class="operator">}</span><span class="operator">);</span>
+</pre>
+<p>If you are not familiar with how coercions work, check out the <a href="../../../../lib/Moose.html">the Moose manpage</a> cookbook
+entry <a href="../../../../Moose/Cookbook/Recipe5.html">the Moose::Cookbook::Recipe5 manpage</a> for an explanation.  The section <a href="#coercions">Coercions</a>
+has additional examples and discussion.</p>
+<p>
+</p>
+<h2><a name="subtyping_a_structured_type_constraint">Subtyping a Structured type constraint</a></h2>
+<p>You need to exercise some care when you try to subtype a structured type as in
+this example:</p>
+<pre>
+    <span class="variable">subtype</span> <span class="variable">Person</span><span class="operator">,</span>
+     <span class="variable">as</span> <span class="variable">Dict</span><span class="operator">[</span><span class="string">name</span> <span class="operator">=&gt;</span> <span class="variable">Str</span><span class="operator">]</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="variable">subtype</span> <span class="variable">FriendlyPerson</span><span class="operator">,</span>
+     <span class="variable">as</span> <span class="variable">Person</span><span class="operator">[</span>
+        <span class="string">name</span> <span class="operator">=&gt;</span> <span class="variable">Str</span><span class="operator">,</span>
+        <span class="string">total_friends</span> <span class="operator">=&gt;</span> <span class="variable">Int</span><span class="operator">,</span>
+     <span class="operator">]</span><span class="operator">;</span>
+</pre>
+<p>This will actually work BUT you have to take care that the subtype has a
+structure that does not contradict the structure of it's parent.  For now the
+above works, but I will clarify the syntax for this at a future point, so
+it's recommended to avoid (should not really be needed so much anyway).  For
+now this is supported in an EXPERIMENTAL way.  Your thoughts, test cases and
+patches are welcomed for discussion.  If you find a good use for this, please
+let me know.</p>
+<p>
+</p>
+<h2><a name="coercions">Coercions</a></h2>
+<p>Coercions currently work for 'one level' deep.  That is you can do:</p>
+<pre>
+    <span class="variable">subtype</span> <span class="variable">Person</span><span class="operator">,</span>
+     <span class="variable">as</span> <span class="variable">Dict</span><span class="operator">[</span>
+        <span class="string">name</span> <span class="operator">=&gt;</span> <span class="variable">Str</span><span class="operator">,</span>
+        <span class="string">age</span> <span class="operator">=&gt;</span> <span class="variable">Int</span>
+    <span class="operator">]</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="variable">subtype</span> <span class="variable">Fullname</span><span class="operator">,</span>
+     <span class="variable">as</span> <span class="variable">Dict</span><span class="operator">[</span>
+        <span class="string">first</span> <span class="operator">=&gt;</span> <span class="variable">Str</span><span class="operator">,</span>
+        <span class="string">last</span> <span class="operator">=&gt;</span> <span class="variable">Str</span>
+     <span class="operator">]</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="variable">coerce</span> <span class="variable">Person</span><span class="operator">,</span>
+     <span class="comment">## Coerce an object of a particular class</span>
+     <span class="variable">from</span> <span class="variable">BlessedPersonObject</span><span class="operator">,</span> <span class="variable">via</span> <span class="operator">{</span>
+        <span class="operator">+{</span>
+            <span class="string">name</span><span class="operator">=&gt;</span><span class="variable">$_</span><span class="operator">-&gt;</span><span class="variable">name</span><span class="operator">,</span>
+            <span class="string">age</span><span class="operator">=&gt;</span><span class="variable">$_</span><span class="operator">-&gt;</span><span class="variable">age</span><span class="operator">,</span>
+        <span class="operator">};</span>
+     <span class="operator">},</span>
+</pre>
+<pre>
+     <span class="comment">## Coerce from [$name, $age]</span>
+     <span class="variable">from</span> <span class="variable">ArrayRef</span><span class="operator">,</span> <span class="variable">via</span> <span class="operator">{</span>
+        <span class="operator">+{</span>
+            <span class="string">name</span><span class="operator">=&gt;</span><span class="variable">$_</span><span class="operator">-&gt;</span><span class="operator">[</span><span class="number">0</span><span class="operator">]</span><span class="operator">,</span>
+            <span class="string">age</span><span class="operator">=&gt;</span><span class="variable">$_</span><span class="operator">-&gt;</span><span class="operator">[</span><span class="number">1</span><span class="operator">]</span><span class="operator">,</span>
+        <span class="operator">},</span>
+     <span class="operator">},</span>
+     <span class="comment">## Coerce from {fullname=&gt;{first=&gt;...,last=&gt;...}, dob=&gt;$DateTimeObject}</span>
+     <span class="variable">from</span> <span class="variable">Dict</span><span class="operator">[</span><span class="string">fullname</span><span class="operator">=&gt;</span><span class="variable">Fullname</span><span class="operator">,</span> <span class="string">dob</span><span class="operator">=&gt;</span><span class="variable">DateTime</span><span class="operator">]</span><span class="operator">,</span> <span class="variable">via</span> <span class="operator">{</span>
+        <span class="keyword">my</span> <span class="variable">$age</span> <span class="operator">=</span> <span class="variable">$_</span><span class="operator">-&gt;</span><span class="variable">dob</span> <span class="operator">-</span> <span class="variable">DateTime</span><span class="operator">-&gt;</span><span class="variable">now</span><span class="operator">;</span>
+        <span class="keyword">my</span> <span class="variable">$firstn</span> <span class="operator">=</span> <span class="variable">$_</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">fullname</span><span class="operator">}</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">first</span><span class="operator">}</span><span class="operator">;</span>
+        <span class="keyword">my</span> <span class="variable">$lastn</span> <span class="operator">=</span> <span class="variable">$_</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">fullname</span><span class="operator">}</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">last</span><span class="operator">}</span>
+        <span class="operator">+</span><span class="operator">{</span>
+            <span class="string">name</span> <span class="operator">=&gt;</span> <span class="variable">$_</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">fullname</span><span class="operator">}</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">first</span><span class="operator">}</span> <span class="operator">.</span><span class="string">' '</span><span class="operator">.</span> <span class="operator">,</span>
+            <span class="string">age</span> <span class="operator">=&gt;</span><span class="variable">$age</span><span class="operator">-&gt;</span><span class="variable">years</span>
+        <span class="operator">}</span>
+     <span class="operator">};</span>
+</pre>
+<p>And that should just work as expected.  However, if there are any 'inner'
+coercions, such as a coercion on 'Fullname' or on 'DateTime', that coercion
+won't currently get activated.</p>
+<p>Please see the test '07-coerce.t' for a more detailed example.  Discussion on
+extending coercions to support this welcome on the Moose development channel or
+mailing list.</p>
+<p>
+</p>
+<h2><a name="recursion">Recursion</a></h2>
+<p>Newer versions of <a href="../../../../site/lib/MooseX/Types.html">the MooseX::Types manpage</a> support recursive type constraints.  That is
+you can include a type constraint as a contained type constraint of itself.  For
+example:</p>
+<pre>
+    <span class="variable">subtype</span> <span class="variable">Person</span><span class="operator">,</span>
+     <span class="variable">as</span> <span class="variable">Dict</span><span class="operator">[</span>
+         <span class="string">name</span><span class="operator">=&gt;</span><span class="variable">Str</span><span class="operator">,</span>
+         <span class="string">friends</span><span class="operator">=&gt;</span><span class="variable">Optional</span><span class="operator">[</span>
+             <span class="variable">ArrayRef</span><span class="operator">[</span><span class="variable">Person</span><span class="operator">]</span>
+         <span class="operator">]</span><span class="operator">,</span>
+     <span class="operator">]</span><span class="operator">;</span>
+</pre>
+<p>This would declare a Person subtype that contains a name and an optional
+ArrayRef of Persons who are friends as in:</p>
+<pre>
+    <span class="operator">{</span>
+        <span class="string">name</span> <span class="operator">=&gt;</span> <span class="string">'Mike'</span><span class="operator">,</span>
+        <span class="string">friends</span> <span class="operator">=&gt;</span> <span class="operator">[</span>
+            <span class="operator">{</span> <span class="string">name</span> <span class="operator">=&gt;</span> <span class="string">'John'</span> <span class="operator">}</span><span class="operator">,</span>
+            <span class="operator">{</span> <span class="string">name</span> <span class="operator">=&gt;</span> <span class="string">'Vincent'</span> <span class="operator">}</span><span class="operator">,</span>
+            <span class="operator">{</span>
+                <span class="string">name</span> <span class="operator">=&gt;</span> <span class="string">'Tracey'</span><span class="operator">,</span>
+                <span class="string">friends</span> <span class="operator">=&gt;</span> <span class="operator">[</span>
+                    <span class="operator">{</span> <span class="string">name</span> <span class="operator">=&gt;</span> <span class="string">'Stephenie'</span> <span class="operator">}</span><span class="operator">,</span>
+                    <span class="operator">{</span> <span class="string">name</span> <span class="operator">=&gt;</span> <span class="string">'Ilya'</span> <span class="operator">}</span><span class="operator">,</span>
+                <span class="operator">]</span><span class="operator">,</span>
+            <span class="operator">}</span><span class="operator">,</span>
+        <span class="operator">]</span><span class="operator">,</span>
+    <span class="operator">};</span>
+</pre>
+<p>Please take care to make sure the recursion node is either Optional, or declare
+a Union with an non recursive option such as:</p>
+<pre>
+    <span class="variable">subtype</span> <span class="variable">Value</span>
+     <span class="variable">as</span> <span class="variable">Tuple</span><span class="operator">[</span>
+         <span class="variable">Str</span><span class="operator">,</span>
+         <span class="variable">Str</span><span class="operator">|</span><span class="variable">Tuple</span><span class="operator">,</span>
+     <span class="operator">]</span><span class="operator">;</span>
+</pre>
+<p>Which validates:</p>
+<pre>
+    <span class="operator">[</span>
+        <span class="string">'Hello'</span><span class="operator">,</span> <span class="operator">[</span>
+            <span class="string">'World'</span><span class="operator">,</span> <span class="operator">[</span>
+                <span class="string">'Is'</span><span class="operator">,</span> <span class="operator">[</span>
+                    <span class="string">'Getting'</span><span class="operator">,</span>
+                    <span class="string">'Old'</span><span class="operator">,</span>
+                <span class="operator">]</span><span class="operator">,</span>
+            <span class="operator">]</span><span class="operator">,</span>
+        <span class="operator">]</span><span class="operator">,</span>
+    <span class="operator">]</span><span class="operator">;</span>
+</pre>
+<p>Otherwise you will define a subtype thatis impossible to validate since it is
+infinitely recursive.  For more information about defining recursive types,
+please see the documentation in <a href="../../../../site/lib/MooseX/Types.html">the MooseX::Types manpage</a> and the test cases.</p>
+<p>
+</p>
+<hr />
+<h1><a name="type_constraints">TYPE CONSTRAINTS</a></h1>
+<p>This type library defines the following constraints.</p>
+<p>
+</p>
+<h2><a name="tuple__constraints_">Tuple[@constraints]</a></h2>
+<p>This defines an ArrayRef based constraint which allows you to validate a specific
+list of contained constraints.  For example:</p>
+<pre>
+    <span class="variable">Tuple</span><span class="operator">[</span><span class="variable">Int</span><span class="operator">,</span><span class="variable">Str</span><span class="operator">]</span><span class="operator">;</span> <span class="comment">## Validates [1,'hello']</span>
+    <span class="variable">Tuple</span><span class="operator">[</span><span class="variable">Str</span><span class="operator">|</span><span class="variable">Object</span><span class="operator">,</span> <span class="variable">Int</span><span class="operator">]</span><span class="operator">;</span> <span class="comment">## Validates ['hello', 1] or [$object, 2]</span>
+</pre>
+<p>The Values of @constraints should ideally be <a href="../../../../site/lib/MooseX/Types.html">the MooseX::Types manpage</a> declared type
+constraints.  We do support 'old style' <a href="../../../../lib/Moose.html">the Moose manpage</a> string based constraints to a
+limited degree but these string type constraints are considered deprecated.
+There will be limited support for bugs resulting from mixing string and
+<a href="../../../../site/lib/MooseX/Types.html">the MooseX::Types manpage</a> in your structures.  If you encounter such a bug and really
+need it fixed, we will required a detailed test case at the minimum.</p>
+<p>
+</p>
+<h2><a name="dict__constraints_">Dict[%constraints]</a></h2>
+<p>This defines a HashRef based constraint which allowed you to validate a specific
+hashref.  For example:</p>
+<pre>
+    <span class="variable">Dict</span><span class="operator">[</span><span class="string">name</span><span class="operator">=&gt;</span><span class="variable">Str</span><span class="operator">,</span> <span class="string">age</span><span class="operator">=&gt;</span><span class="variable">Int</span><span class="operator">]</span><span class="operator">;</span> <span class="comment">## Validates {name=&gt;'John', age=&gt;39}</span>
+</pre>
+<p>The keys in %constraints follow the same rules as @constraints in the above
+section.</p>
+<p>
+</p>
+<h2><a name="map___key_constraint___value_constraint__">Map[ $key_constraint, $value_constraint ]</a></h2>
+<p>This defines a HashRef based constraint in which both the keys and values are
+required to meet certain constraints.  For example, to map hostnames to IP
+addresses, you might say:</p>
+<pre>
+  Map[ HostName, IPAddress ]</pre>
+<p>The type constraint would only be met if every key was a valid HostName and
+every value was a valid IPAddress.</p>
+<p>
+</p>
+<h2><a name="optional__constraint_">Optional[$constraint]</a></h2>
+<p>This is primarily a helper constraint for Dict and Tuple type constraints.  What
+this allows is for you to assert that a given type constraint is allowed to be
+null (but NOT undefined).  If the value is null, then the type constraint passes
+but if the value is defined it must validate against the type constraint.  This
+makes it easy to make a Dict where one or more of the keys doesn't have to exist
+or a tuple where some of the values are not required.  For example:</p>
+<pre>
+    <span class="variable">subtype</span> <span class="variable">Name</span><span class="operator">()</span> <span class="operator">=&gt;</span> <span class="variable">as</span> <span class="variable">Dict</span><span class="operator">[</span>
+        <span class="string">first</span><span class="operator">=&gt;</span><span class="variable">Str</span><span class="operator">,</span>
+        <span class="string">last</span><span class="operator">=&gt;</span><span class="variable">Str</span><span class="operator">,</span>
+        <span class="string">middle</span><span class="operator">=&gt;</span><span class="variable">Optional</span><span class="operator">[</span><span class="variable">Str</span><span class="operator">]</span><span class="operator">,</span>
+    <span class="operator">]</span><span class="operator">;</span>
+</pre>
+<p>Creates a constraint that validates against a hashref with the keys 'first' and
+'last' being strings and required while an optional key 'middle' is must be a
+string if it appears but doesn't have to appear.  So in this case both the
+following are valid:</p>
+<pre>
+    <span class="operator">{</span><span class="string">first</span><span class="operator">=&gt;</span><span class="string">'John'</span><span class="operator">,</span> <span class="string">middle</span><span class="operator">=&gt;</span><span class="string">'James'</span><span class="operator">,</span> <span class="string">last</span><span class="operator">=&gt;</span><span class="string">'Napiorkowski'</span><span class="operator">}</span>
+    <span class="operator">{</span><span class="string">first</span><span class="operator">=&gt;</span><span class="string">'Vanessa'</span><span class="operator">,</span> <span class="string">last</span><span class="operator">=&gt;</span><span class="string">'Li'</span><span class="operator">}</span>
+</pre>
+<p>If you use the 'Maybe' type constraint instead, your values will also validate
+against 'undef', which may be incorrect for you.</p>
+<p>
+</p>
+<hr />
+<h1><a name="exportable_subroutines">EXPORTABLE SUBROUTINES</a></h1>
+<p>This type library makes available for export the following subroutines</p>
+<p>
+</p>
+<h2><a name="slurpy">slurpy</a></h2>
+<p>Structured type constraints by their nature are closed; that is validation will
+depend on an exact match between your structure definition and the arguments to
+be checked.  Sometimes you might wish for a slightly looser amount of validation.
+For example, you may wish to validate the first 3 elements of an array reference
+and allow for an arbitrary number of additional elements.  At first thought you
+might think you could do it this way:</p>
+<pre>
+    <span class="comment">#  I want to validate stuff like: [1,"hello", $obj, 2,3,4,5,6,...]</span>
+    <span class="variable">subtype</span> <span class="variable">AllowTailingArgs</span><span class="operator">,</span>
+     <span class="variable">as</span> <span class="variable">Tuple</span><span class="operator">[</span>
+       <span class="variable">Int</span><span class="operator">,</span>
+       <span class="variable">Str</span><span class="operator">,</span>
+       <span class="variable">Object</span><span class="operator">,</span>
+       <span class="variable">ArrayRef</span><span class="operator">[</span><span class="variable">Int</span><span class="operator">]</span><span class="operator">,</span>
+     <span class="operator">]</span><span class="operator">;</span>
+</pre>
+<p>However what this will actually validate are structures like this:</p>
+<pre>
+    <span class="operator">[</span><span class="number">10</span><span class="operator">,</span><span class="string">"Hello"</span><span class="operator">,</span> <span class="variable">$obj</span><span class="operator">,</span> <span class="operator">[</span><span class="number">11</span><span class="operator">,</span><span class="number">12</span><span class="operator">,</span><span class="number">13</span><span class="operator">,...</span><span class="operator">]</span> <span class="operator">]</span><span class="operator">;</span> <span class="comment"># Notice element 4 is an ArrayRef</span>
+</pre>
+<p>In order to allow structured validation of, &quot;and then some&quot;, arguments, you can
+use the <a href="#slurpy">slurpy</a> method against a type constraint.  For example:</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">MooseX::Types::Structured</span> <span class="string">qw(Tuple slurpy)</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="variable">subtype</span> <span class="variable">AllowTailingArgs</span><span class="operator">,</span>
+     <span class="variable">as</span> <span class="variable">Tuple</span><span class="operator">[</span>
+       <span class="variable">Int</span><span class="operator">,</span>
+       <span class="variable">Str</span><span class="operator">,</span>
+       <span class="variable">Object</span><span class="operator">,</span>
+       <span class="variable">slurpy</span> <span class="variable">ArrayRef</span><span class="operator">[</span><span class="variable">Int</span><span class="operator">]</span><span class="operator">,</span>
+     <span class="operator">]</span><span class="operator">;</span>
+</pre>
+<p>This will now work as expected, validating ArrayRef structures such as:</p>
+<pre>
+    [1,&quot;hello&quot;, $obj, 2,3,4,5,6,...]</pre>
+<p>A few caveats apply.  First, the slurpy type constraint must be the last one in
+the list of type constraint parameters.  Second, the parent type of the slurpy
+type constraint must match that of the containing type constraint.  That means
+that a Tuple can allow a slurpy ArrayRef (or children of ArrayRefs, including
+another Tuple) and a Dict can allow a slurpy HashRef (or children/subtypes of
+HashRef, also including other Dict constraints).</p>
+<p>Please note the the technical way this works 'under the hood' is that the
+slurpy keyword transforms the target type constraint into a coderef.  Please do
+not try to create your own custom coderefs; always use the slurpy method.  The
+underlying technology may change in the future but the slurpy keyword will be
+supported.</p>
+<p>
+</p>
+<hr />
+<h1><a name="error_messages">ERROR MESSAGES</a></h1>
+<p>Error reporting has been improved to return more useful debugging messages. Now
+I will stringify the incoming check value with <a href="../../../../site/lib/Devel/PartialDump.html">the Devel::PartialDump manpage</a> so that you
+can see the actual structure that is tripping up validation.  Also, I report the
+'internal' validation error, so that if a particular element inside the
+Structured Type is failing validation, you will see that.  There's a limit to
+how deep this internal reporting goes, but you shouldn't see any of the &quot;failed
+with ARRAY(XXXXXX)&quot; that we got with earlier versions of this module.</p>
+<p>This support is continuing to expand, so it's best to use these messages for
+debugging purposes and not for creating messages that 'escape into the wild'
+such as error messages sent to the user.</p>
+<p>Please see the test '12-error.t' for a more lengthy example.  Your thoughts and
+preferable tests or code patches very welcome!</p>
+<p>
+</p>
+<hr />
+<h1><a name="examples">EXAMPLES</a></h1>
+<p>Here are some additional example usage for structured types.  All examples can
+be found also in the 't/examples.t' test.  Your contributions are also welcomed.</p>
+<p>
+</p>
+<h2><a name="normalize_a_hashref">Normalize a HashRef</a></h2>
+<p>You need a hashref to conform to a canonical structure but are required accept a
+bunch of different incoming structures.  You can normalize using the Dict type
+constraint and coercions.  This example also shows structured types mixed which
+other MooseX::Types libraries.</p>
+<pre>
+    <span class="keyword">package</span> <span class="variable">Test::MooseX::Meta::TypeConstraint::Structured::Examples::Normalize</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Moose</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">DateTime</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">use</span> <span class="variable">MooseX::Types::Structured</span> <span class="string">qw(Dict Tuple)</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">MooseX::Types::DateTime</span> <span class="string">qw(DateTime)</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">MooseX::Types::Moose</span> <span class="string">qw(Int Str Object)</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">MooseX::Types</span> <span class="operator">-</span><span class="string">declare</span> <span class="operator">=&gt;</span> <span class="operator">[</span><span class="string">qw(Name Age Person)</span><span class="operator">]</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="variable">subtype</span> <span class="variable">Person</span><span class="operator">,</span>
+     <span class="variable">as</span> <span class="variable">Dict</span><span class="operator">[</span>
+         <span class="string">name</span><span class="operator">=&gt;</span><span class="variable">Str</span><span class="operator">,</span>
+         <span class="string">age</span><span class="operator">=&gt;</span><span class="variable">Int</span><span class="operator">,</span>
+     <span class="operator">]</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="variable">coerce</span> <span class="variable">Person</span><span class="operator">,</span>
+     <span class="variable">from</span> <span class="variable">Dict</span><span class="operator">[</span>
+         <span class="string">first</span><span class="operator">=&gt;</span><span class="variable">Str</span><span class="operator">,</span>
+         <span class="string">last</span><span class="operator">=&gt;</span><span class="variable">Str</span><span class="operator">,</span>
+         <span class="string">years</span><span class="operator">=&gt;</span><span class="variable">Int</span><span class="operator">,</span>
+     <span class="operator">]</span><span class="operator">,</span> <span class="variable">via</span> <span class="operator">{</span> <span class="operator">+{</span>
+        <span class="string">name</span> <span class="operator">=&gt;</span> <span class="string">"</span><span class="variable">$_</span><span class="string">-&gt;{first} </span><span class="variable">$_</span><span class="string">-&gt;{last}"</span><span class="operator">,</span>
+        <span class="string">age</span> <span class="operator">=&gt;</span> <span class="variable">$_</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">years</span><span class="operator">}</span><span class="operator">,</span>
+     <span class="operator">}},</span>
+     <span class="variable">from</span> <span class="variable">Dict</span><span class="operator">[</span>
+         <span class="string">fullname</span><span class="operator">=&gt;</span><span class="variable">Dict</span><span class="operator">[</span>
+             <span class="string">last</span><span class="operator">=&gt;</span><span class="variable">Str</span><span class="operator">,</span>
+             <span class="string">first</span><span class="operator">=&gt;</span><span class="variable">Str</span><span class="operator">,</span>
+         <span class="operator">]</span><span class="operator">,</span>
+         <span class="string">dob</span><span class="operator">=&gt;</span><span class="variable">DateTime</span><span class="operator">,</span>
+     <span class="operator">]</span><span class="operator">,</span>
+     <span class="comment">## DateTime needs to be inside of single quotes here to disambiguate the</span>
+     <span class="comment">## class package from the DataTime type constraint imported via the</span>
+     <span class="comment">## line "use MooseX::Types::DateTime qw(DateTime);"</span>
+     <span class="variable">via</span> <span class="operator">{</span> <span class="operator">+{</span>
+        <span class="string">name</span> <span class="operator">=&gt;</span> <span class="string">"</span><span class="variable">$_</span><span class="string">-&gt;{fullname}{first} </span><span class="variable">$_</span><span class="string">-&gt;{fullname}{last}"</span><span class="operator">,</span>
+        <span class="string">age</span> <span class="operator">=&gt;</span> <span class="operator">(</span><span class="variable">$_</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">dob</span><span class="operator">}</span> <span class="operator">-</span> <span class="string">'DateTime'</span><span class="operator">-&gt;</span><span class="variable">now</span><span class="operator">)-&gt;</span><span class="variable">years</span><span class="operator">,</span>
+     <span class="operator">}};</span>
+</pre>
+<pre>
+    <span class="variable">has</span> <span class="string">person</span> <span class="operator">=&gt;</span> <span class="operator">(</span><span class="string">is</span><span class="operator">=&gt;</span><span class="string">'rw'</span><span class="operator">,</span> <span class="string">isa</span><span class="operator">=&gt;</span><span class="variable">Person</span><span class="operator">,</span> <span class="string">coerce</span><span class="operator">=&gt;</span><span class="number">1</span><span class="operator">);</span>
+</pre>
+<p>And now you can instantiate with all the following:</p>
+<pre>
+    <span class="keyword">__PACKAGE__</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span>
+        <span class="string">person</span><span class="operator">=&gt;</span><span class="operator">{</span>
+            <span class="string">name</span><span class="operator">=&gt;</span><span class="string">'John Napiorkowski'</span><span class="operator">,</span>
+            <span class="string">age</span><span class="operator">=&gt;</span><span class="number">39</span><span class="operator">,</span>
+        <span class="operator">}</span><span class="operator">,</span>
+    <span class="operator">);</span>
+</pre>
+<pre>
+    <span class="keyword">__PACKAGE__</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span>
+        <span class="string">person</span><span class="operator">=&gt;</span><span class="operator">{</span>
+            <span class="string">first</span><span class="operator">=&gt;</span><span class="string">'John'</span><span class="operator">,</span>
+            <span class="string">last</span><span class="operator">=&gt;</span><span class="string">'Napiorkowski'</span><span class="operator">,</span>
+            <span class="string">years</span><span class="operator">=&gt;</span><span class="number">39</span><span class="operator">,</span>
+        <span class="operator">}</span><span class="operator">,</span>
+    <span class="operator">);</span>
+</pre>
+<pre>
+    <span class="keyword">__PACKAGE__</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span>
+        <span class="string">person</span><span class="operator">=&gt;</span><span class="operator">{</span>
+            <span class="string">fullname</span> <span class="operator">=&gt;</span> <span class="operator">{</span>
+                <span class="string">first</span><span class="operator">=&gt;</span><span class="string">'John'</span><span class="operator">,</span>
+                <span class="string">last</span><span class="operator">=&gt;</span><span class="string">'Napiorkowski'</span>
+            <span class="operator">}</span><span class="operator">,</span>
+            <span class="string">dob</span> <span class="operator">=&gt;</span> <span class="string">'DateTime'</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span>
+                <span class="string">year</span><span class="operator">=&gt;</span><span class="number">1969</span><span class="operator">,</span>
+                <span class="string">month</span><span class="operator">=&gt;</span><span class="number">2</span><span class="operator">,</span>
+                <span class="string">day</span><span class="operator">=&gt;</span><span class="number">13</span>
+            <span class="operator">),</span>
+        <span class="operator">}</span><span class="operator">,</span>
+    <span class="operator">);</span>
+</pre>
+<p>This technique is a way to support various ways to instantiate your class in a
+clean and declarative way.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p>The following modules or resources may be of interest.</p>
+<p><a href="../../../../lib/Moose.html">the Moose manpage</a>, <a href="../../../../site/lib/MooseX/Types.html">the MooseX::Types manpage</a>, <a href="../../../../lib/Moose/Meta/TypeConstraint.html">the Moose::Meta::TypeConstraint manpage</a>,
+<a href="../../../../cpan/build/MooseX-Types-Structured-0.28-I1ayOH/blib/lib/MooseX/Meta/TypeConstraint/Structured.html">the MooseX::Meta::TypeConstraint::Structured manpage</a></p>
+<p>
+</p>
+<hr />
+<h1><a name="authors">AUTHORS</a></h1>
+<ul>
+<li>
+<p>John Napiorkowski &lt;<a href="mailto:jjnapiork@cpan.org">jjnapiork@cpan.org</a>&gt;</p>
+</li>
+<li>
+<p>Florian Ragwitz &lt;<a href="mailto:rafl@debian.org">rafl@debian.org</a>&gt;</p>
+</li>
+<li>
+<p>Yuval Kogman &lt;<a href="mailto:nothingmuch@woobling.org">nothingmuch@woobling.org</a>&gt;</p>
+</li>
+<li>
+<p>Tomas Doran &lt;<a href="mailto:bobtfish@bobtfish.net">bobtfish@bobtfish.net</a>&gt;</p>
+</li>
+<li>
+<p>Robert Sedlacek &lt;<a href="mailto:rs@474.at">rs@474.at</a>&gt;</p>
+</li>
+</ul>
+<p>
+</p>
+<hr />
+<h1><a name="copyright_and_license">COPYRIGHT AND LICENSE</a></h1>
+<p>This software is copyright (c) 2011 by John Napiorkowski.</p>
+<p>This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.</p>
+
+</body>
+
+</html>

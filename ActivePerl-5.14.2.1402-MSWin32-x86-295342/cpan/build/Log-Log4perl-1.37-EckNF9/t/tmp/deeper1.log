@@ -1,0 +1,14 @@
+2012/06/02 19:51:43    4 [N/A] INFO  plant N/A - info message 1 
+2012/06/02 19:51:43    4 [N/A] WARN  plant N/A - warning message 1 
+2012/06/02 19:51:43    5 [N/A] FATAL plant N/A - fatal message 1 
+2012/06/02 19:51:43    5 [N/A] DEBUG animal.dog N/A - debugging message 2 
+2012/06/02 19:51:43    5 [N/A] INFO  animal.dog N/A - info message 2 
+2012/06/02 19:51:43    5 [N/A] WARN  animal.dog N/A - warning message 2 
+2012/06/02 19:51:43    5 [N/A] FATAL animal.dog N/A - fatal message 2 
+2012/06/02 19:51:43    6 [N/A] INFO  animal N/A - info message 3 
+2012/06/02 19:51:43    6 [N/A] WARN  animal N/A - warning message 3 
+2012/06/02 19:51:43    6 [N/A] FATAL animal N/A - fatal message 3 
+2012/06/02 19:51:43    6 [N/A] DEBUG animal.dog.leg.toenail N/A - debug message
+2012/06/02 19:51:43    6 [N/A] INFO  animal N/A - info message
+2012/06/02 19:51:43    7 [N/A] WARN  animal.dog.leg.toenail N/A - warning message
+2012/06/02 19:51:43    7 [N/A] FATAL animal N/A - fatal message

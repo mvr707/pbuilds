@@ -1,0 +1,250 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../scineplex.css">
+<title>Test::NoWarnings - Make sure you didn't emit any warnings while testing</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',3);</script>
+<h1><a>Test::NoWarnings - Make sure you didn't emit any warnings while testing</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#usage">USAGE</a></li>
+	<ul>
+
+		<li><a href="#use_vs_require">use vs require</a></li>
+		<li><a href="#output">Output</a></li>
+		<li><a href="#the__early_pragma">The :early pragma</a></li>
+	</ul>
+
+	<li><a href="#functions">FUNCTIONS</a></li>
+	<ul>
+
+		<li><a href="#had_no_warnings">had_no_warnings</a></li>
+		<li><a href="#clear_warnings">clear_warnings</a></li>
+		<li><a href="#warnings">warnings</a></li>
+	</ul>
+
+	<li><a href="#pitfalls">PITFALLS</a></li>
+	<li><a href="#support">SUPPORT</a></li>
+	<li><a href="#history">HISTORY</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#authors">AUTHORS</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<hr />
+<h1><a name="name">NAME</a></h1>
+<p>Test::NoWarnings - Make sure you didn't emit any warnings while testing</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>For scripts that have no plan</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">Test::NoWarnings</span><span class="operator">;</span>
+</pre>
+<p>that's it, you don't need to do anything else</p>
+<p>For scripts that look like</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">Test::More</span> <span class="string">tests</span> <span class="operator">=&gt;</span> <span class="operator">x;</span>
+</pre>
+<p>change to</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">Test::More</span> <span class="string">tests</span> <span class="operator">=&gt;</span> <span class="operator">x</span> <span class="operator">+</span> <span class="number">1</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">Test::NoWarnings</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>In general, your tests shouldn't produce warnings. This modules causes any
+warnings to be captured and stored. It automatically adds an extra test that
+will run when your script ends to check that there were no warnings. If
+there were any warings, the test will give a &quot;not ok&quot; and diagnostics of
+where, when and what the warning was, including a stack trace of what was
+going on when the it occurred.</p>
+<p>If some of your tests <strong>are supposed to</strong> produce warnings then you should be
+capturing and checking them with <a href="../../../site/lib/Test/Warn.html">the Test::Warn manpage</a>, that way <a href="../../../cpan/build/Test-NoWarnings-1.04-jWxVEO/blib/html/site/lib/Test/NoWarnings.html">the Test::NoWarnings manpage</a>
+will not see them and so not complain.</p>
+<p>The test is run by an <a href="../../../lib/pods/perlvar.html#end"><code>END</code></a> block in Test::NoWarnings. It will not be run
+when any forked children exit.</p>
+<p>
+</p>
+<hr />
+<h1><a name="usage">USAGE</a></h1>
+<p>Simply by using the module, you automatically get an extra test at the end
+of your script that checks that no warnings were emitted. So just stick</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">Test::NoWarnings</span><span class="operator">;</span>
+</pre>
+<p>at the top of your script and continue as normal.</p>
+<p>If you want more control you can invoke the test manually at any time with
+<code>had_no_warnings</code>.</p>
+<p>The warnings your test has generated so far are stored in an array. You can
+look inside and clear this whenever you want with <code>warnings()</code> and
+<code>clear_warnings</code>, however, if you are doing this sort of thing then you
+probably want to use <a href="../../../site/lib/Test/Warn.html">the Test::Warn manpage</a> in combination with <a href="../../../cpan/build/Test-NoWarnings-1.04-jWxVEO/blib/html/site/lib/Test/NoWarnings.html">the Test::NoWarnings manpage</a>.</p>
+<p>
+</p>
+<h2><a name="use_vs_require">use vs require</a></h2>
+<p>You will almost always want to do</p>
+<pre>
+  use Test::NoWarnings</pre>
+<p>If you do a <a href="../../../lib/pods/perlfunc.html#require"><code>require</code></a> rather than a <a href="../../../lib/pods/perlfunc.html#use"><code>use</code></a>, then there will be no automatic
+test at the end of your script.</p>
+<p>
+</p>
+<h2><a name="output">Output</a></h2>
+<p>If warning is captured during your test then the details will output as part
+of the diagnostics. You will get:</p>
+<dl>
+<dt><strong><a name="o" class="item">o</a></strong></dt>
+
+<dd>
+<p>the number and name of the test that was executed just before the warning
+(if no test had been executed these will be 0 and '')</p>
+</dd>
+<dt><strong>o</strong></dt>
+
+<dd>
+<p>the message passed to <a href="../../../lib/pods/perlfunc.html#warn"><code>warn</code></a>,</p>
+</dd>
+<dt><strong>o</strong></dt>
+
+<dd>
+<p>a full dump of the stack when warn was called, courtesy of the <code>Carp</code>
+module</p>
+</dd>
+</dl>
+<p>By default, all warning messages will be emitted in one block at the end of
+your test script.</p>
+<p>
+</p>
+<h2><a name="the__early_pragma">The :early pragma</a></h2>
+<p>One common complaint from people using Test::NoWarnings is that all of the
+warnings are emitted in one go at the end. While this is the safest and
+most correct time to emit these diagnostics, it can make debugging these
+warnings difficult.</p>
+<p>As of Test::NoWarnings 1.04 you can provide an experimental <code>:early</code> pragma
+when loading the module to force warnings to be thrown via diag at the time
+that they actually occur.</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">Test::NoWarnings</span> <span class="string">':early'</span><span class="operator">;</span>
+</pre>
+<p>As this will cause the diag to be emitted against the previous test and not
+the one in which the warning actually occurred it is recommended that the
+pragma be turned on only for debugging and left off when not needed.</p>
+<p>
+</p>
+<hr />
+<h1><a name="functions">FUNCTIONS</a></h1>
+<p>
+</p>
+<h2><a name="had_no_warnings">had_no_warnings</a></h2>
+<p>This checks that there have been warnings emitted by your test scripts.
+Usually you will not call this explicitly as it is called automatically when
+your script finishes.</p>
+<p>
+</p>
+<h2><a name="clear_warnings">clear_warnings</a></h2>
+<p>This will clear the array of warnings that have been captured. If the array
+is empty then a call to <code>had_no_warnings()</code> will produce a pass result.</p>
+<p>
+</p>
+<h2><a name="warnings">warnings</a></h2>
+<p>This will return the array of warnings captured so far. Each element of this
+array is an object containing information about the warning. The following
+methods are available on these object.</p>
+<ul>
+<li>
+<p>$warn-&gt;getMessage</p>
+<p>Get the message that would been printed by the warning.</p>
+</li>
+<li>
+<p>$warn-&gt;getCarp</p>
+<p>Get a stack trace of what was going on when the warning happened, this stack
+trace is just a string generated by the <a href="../../../lib/Carp.html">the Carp manpage</a> module.</p>
+</li>
+<li>
+<p>$warn-&gt;getTrace</p>
+<p>Get a stack trace object generated by the <a href="../../../lib/Devel/StackTrace.html">the Devel::StackTrace manpage</a> module. This
+will return undef if <a href="../../../lib/Devel/StackTrace.html">the Devel::StackTrace manpage</a> is not installed.</p>
+</li>
+<li>
+<p>$warn-&gt;getTest</p>
+<p>Get the number of the test that executed before the warning was emitted.</p>
+</li>
+<li>
+<p>$warn-&gt;getTestName</p>
+<p>Get the name of the test that executed before the warning was emitted.</p>
+</li>
+</ul>
+<p>
+</p>
+<hr />
+<h1><a name="pitfalls">PITFALLS</a></h1>
+<p>When counting your tests for the plan, don't forget to include the test that
+runs automatically when your script ends.</p>
+<p>
+</p>
+<hr />
+<h1><a name="support">SUPPORT</a></h1>
+<p>Bugs should be reported via the CPAN bug tracker at</p>
+<p><a href="http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Test-NoWarnings">http://rt.cpan.org/NoAuth/ReportBug.html</a></p>
+<p>For other issues, contact the author.</p>
+<p>
+</p>
+<hr />
+<h1><a name="history">HISTORY</a></h1>
+<p>This was previously known as <a href="../../../Test/Warn/None.html">the Test::Warn::None manpage</a></p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../../lib/Test/Builder.html">the Test::Builder manpage</a>, <a href="../../../site/lib/Test/Warn.html">the Test::Warn manpage</a></p>
+<p>
+</p>
+<hr />
+<h1><a name="authors">AUTHORS</a></h1>
+<p>Fergal Daly &lt;<a href="mailto:fergal@esatclear.ie">fergal@esatclear.ie</a>&gt;</p>
+<p>Adam Kennedy &lt;<a href="mailto:adamk@cpan.org">adamk@cpan.org</a>&gt;</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright 2003 - 2007 Fergal Daly.</p>
+<p>Some parts copyright 2010 - 2011 Adam Kennedy.</p>
+<p>This program is free software and comes with no warranty. It is distributed
+under the LGPL license</p>
+<p>See the file <em class="file">LGPL</em> included in this distribution or
+<em class="file"><a href="http://www.fsf.org/licenses/licenses.html">http://www.fsf.org/licenses/licenses.html</a></em>.</p>
+
+</body>
+
+</html>

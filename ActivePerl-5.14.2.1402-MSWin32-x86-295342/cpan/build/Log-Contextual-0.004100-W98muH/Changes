@@ -1,0 +1,51 @@
+ChangeLog for Log-Contextual
+
+0.004100 2012-03-29
+  - Log::Contextual::WarnLogger now supports customized log levels via the
+    'levels' constructor argument (Karen Etheridge)
+
+0.004001 2011-08-15
+  - Fix version of Exporter::Declare that we dep on
+
+0.004000 2011-08-06
+  - Support Log::Contextual subclasses for default import options
+  - Allow custom log levels
+
+0.00305 2011-07-27
+  - Fix regression that caused D* subs to dumper even if the log level was off
+
+0.00304 2010-07-31
+  - Add $package_UPTO environment variable for WarnLogger
+
+0.00303 2010-07-10
+  - Fix broken Log::Log4perl test
+
+0.00302 2010-07-08
+  - Add Log::Contextual::TeeLogger
+  - Add levels_upto (RT58558)
+  - Use Log::Log4perl 1.29 to clean up caller stuff
+
+0.00301 2010-07-08
+  [deleted due to missing the TeeLogger]
+
+0.00300 2010-06-03
+  - Add -package_logger import option
+
+0.00202 2010-05-23
+  - Fix a bug that caused Dlog and friends not to work with a default
+
+0.00201 2010-03-04
+  - I left a needed file for testing out of the MANIFEST; fixing :-/
+
+0.00200 2010-03-03
+  - add example for Log::Dispatchouli since it works nicely now
+  - make Log::Log4perl work out of the box
+  - Added WarnLogger for libraries
+  - Warn if set_logger is called more than once
+  - Fix tiny POD errors
+
+0.00101 2010-02-21
+  - Fix tests to not need use lib (incorrect test failures)
+
+0.00100 2010-02-20
+  - initial release

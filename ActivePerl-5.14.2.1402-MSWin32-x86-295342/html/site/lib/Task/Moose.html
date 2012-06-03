@@ -1,0 +1,371 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../scineplex.css">
+<title>Task::Moose - Moose in a box</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',3);</script>
+<h1><a>Task::Moose - Moose in a box</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#modules">MODULES</a></li>
+	<ul>
+
+		<li><a href="#make_moose_stricter">Make Moose Stricter</a></li>
+		<ul>
+
+			<li><a href="#moosex__strictconstructor"><a href="../../../MooseX/StrictConstructor.html">the MooseX::StrictConstructor manpage</a></a></li>
+			<li><a href="#moosex__params__validate"><a href="../../../MooseX/Params/Validate.html">the MooseX::Params::Validate manpage</a></a></li>
+		</ul>
+
+		<li><a href="#traits___roles">Traits / Roles</a></li>
+		<ul>
+
+			<li><a href="#moosex__role__traitconstructor"><a href="../../../MooseX/Role/TraitConstructor.html">the MooseX::Role::TraitConstructor manpage</a></a></li>
+			<li><a href="#moosex__traits"><a href="../../../MooseX/Traits.html">the MooseX::Traits manpage</a></a></li>
+			<li><a href="#moosex__object__pluggable"><a href="../../../MooseX/Object/Pluggable.html">the MooseX::Object::Pluggable manpage</a></a></li>
+			<li><a href="#moosex__role__parameterized"><a href="../../../MooseX/Role/Parameterized.html">the MooseX::Role::Parameterized manpage</a></a></li>
+		</ul>
+
+		<li><a href="#instance_types">Instance Types</a></li>
+		<ul>
+
+			<li><a href="#moosex__globref"><a href="../../../MooseX/GlobRef.html">the MooseX::GlobRef manpage</a></a></li>
+			<li><a href="#moosex__insideout"><a href="../../../MooseX/InsideOut.html">the MooseX::InsideOut manpage</a></a></li>
+			<li><a href="#moosex__singleton"><a href="../../../MooseX/Singleton.html">the MooseX::Singleton manpage</a></a></li>
+			<li><a href="#moosex__nonmoose"><a href="../../../MooseX/NonMoose.html">the MooseX::NonMoose manpage</a></a></li>
+		</ul>
+
+		<li><a href="#declarative_syntax">Declarative Syntax</a></li>
+		<ul>
+
+			<li><a href="#moosex__declare"><a href="../../../MooseX/Declare.html">the MooseX::Declare manpage</a></a></li>
+			<li><a href="#moosex__method__signatures"><a href="../../../MooseX/Method/Signatures.html">the MooseX::Method::Signatures manpage</a></a></li>
+			<li><a href="#trycatch"><em>TryCatch</em></a></li>
+		</ul>
+
+		<li><a href="#types">Types</a></li>
+		<ul>
+
+			<li><a href="#moosex__types"><a href="../../../MooseX/Types.html">the MooseX::Types manpage</a></a></li>
+			<li><a href="#moosex__types__structured"><a href="../../../MooseX/Types/Structured.html">the MooseX::Types::Structured manpage</a></a></li>
+			<li><a href="#moosex__types__path__class"><a href="../../../MooseX/Types/Path/Class.html">the MooseX::Types::Path::Class manpage</a></a></li>
+			<li><a href="#moosex__types__set__object"><a href="../../../MooseX/Types/Set/Object.html">the MooseX::Types::Set::Object manpage</a></a></li>
+			<li><a href="#moosex__types__datetime"><a href="../../../MooseX/Types/DateTime.html">the MooseX::Types::DateTime manpage</a></a></li>
+		</ul>
+
+		<li><a href="#command_line_integration">Command Line Integration</a></li>
+		<ul>
+
+			<li><a href="#moosex__getopt"><a href="../../../MooseX/Getopt.html">the MooseX::Getopt manpage</a></a></li>
+			<li><a href="#moosex__configfromfile"><a href="../../../MooseX/ConfigFromFile.html">the MooseX::ConfigFromFile manpage</a></a></li>
+			<li><a href="#moosex__simpleconfig"><a href="../../../MooseX/SimpleConfig.html">the MooseX::SimpleConfig manpage</a></a></li>
+			<li><a href="#moosex__app__cmd"><a href="../../../MooseX/App/Cmd.html">the MooseX::App::Cmd manpage</a></a></li>
+			<li><a href="#moosex__role__cmd"><a href="../../../MooseX/Role/Cmd.html">the MooseX::Role::Cmd manpage</a></a></li>
+		</ul>
+
+		<li><a href="#logging">Logging</a></li>
+		<ul>
+
+			<li><a href="#moosex__logdispatch"><a href="../../../MooseX/LogDispatch.html">the MooseX::LogDispatch manpage</a></a></li>
+			<li><a href="#moosex__lazylogdispatch"><a href="../../../MooseX/LazyLogDispatch.html">the MooseX::LazyLogDispatch manpage</a></a></li>
+			<li><a href="#moosex__log__log4perl"><a href="../../../MooseX/Log/Log4perl.html">the MooseX::Log::Log4perl manpage</a></a></li>
+		</ul>
+
+		<li><a href="#async">Async</a></li>
+		<ul>
+
+			<li><a href="#moosex__poe"><a href="../../../MooseX/POE.html">the MooseX::POE manpage</a></a></li>
+			<li><a href="#moosex__workers"><a href="../../../MooseX/Workers.html">the MooseX::Workers manpage</a></a></li>
+		</ul>
+
+		<li><a href="#utility_roles">Utility Roles</a></li>
+		<ul>
+
+			<li><a href="#moosex__daemonize"><a href="../../../MooseX/Daemonize.html">the MooseX::Daemonize manpage</a></a></li>
+			<li><a href="#moosex__param"><a href="../../../MooseX/Param.html">the MooseX::Param manpage</a></a></li>
+			<li><a href="#moosex__iterator"><a href="../../../MooseX/Iterator.html">the MooseX::Iterator manpage</a></a></li>
+			<li><a href="#moosex__clone"><a href="../../../MooseX/Clone.html">the MooseX::Clone manpage</a></a></li>
+			<li><a href="#moosex__storage"><a href="../../../MooseX/Storage.html">the MooseX::Storage manpage</a></a></li>
+		</ul>
+
+		<li><a href="#other_useful_extensions">Other Useful Extensions</a></li>
+		<ul>
+
+			<li><a href="#moose__autobox"><a href="../../../Moose/Autobox.html">the Moose::Autobox manpage</a></a></li>
+			<li><a href="#moosex__classattribute"><a href="../../../MooseX/ClassAttribute.html">the MooseX::ClassAttribute manpage</a></a></li>
+			<li><a href="#moosex__semiaffordanceaccessor"><a href="../../../MooseX/SemiAffordanceAccessor.html">the MooseX::SemiAffordanceAccessor manpage</a></a></li>
+			<li><a href="#namespace__autoclean"><a href="../../../namespace/autoclean.html">the namespace::autoclean manpage</a></a></li>
+		</ul>
+
+		<li><a href="#utilities">Utilities</a></li>
+		<ul>
+
+			<li><a href="#pod__coverage__moose"><a href="../../../Pod/Coverage/Moose.html">the Pod::Coverage::Moose manpage</a></a></li>
+		</ul>
+
+	</ul>
+
+	<li><a href="#notes">NOTES</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright_and_license">COPYRIGHT AND LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<hr />
+<h1><a name="name">NAME</a></h1>
+<p>Task::Moose - Moose in a box</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This Task installs Moose and then optionally installs a number of 
+Moose extensions listed below. This list is meant to be comprehensive, 
+so if I missed something please let me know.</p>
+<p>
+</p>
+<hr />
+<h1><a name="modules">MODULES</a></h1>
+<p>
+</p>
+<h2><a name="make_moose_stricter">Make Moose Stricter</a></h2>
+<p>
+</p>
+<h3><a name="moosex__strictconstructor"><a href="../../../MooseX/StrictConstructor.html">the MooseX::StrictConstructor manpage</a></a></h3>
+<p>Making Moose constructors stricter</p>
+<p>
+</p>
+<h3><a name="moosex__params__validate"><a href="../../../MooseX/Params/Validate.html">the MooseX::Params::Validate manpage</a></a></h3>
+<p>Moose-ish method parameter handling</p>
+<p>
+</p>
+<h2><a name="traits___roles">Traits / Roles</a></h2>
+<p>
+</p>
+<h3><a name="moosex__role__traitconstructor"><a href="../../../MooseX/Role/TraitConstructor.html">the MooseX::Role::TraitConstructor manpage</a></a></h3>
+<p>Runtime trait application in constructors</p>
+<p>
+</p>
+<h3><a name="moosex__traits"><a href="../../../MooseX/Traits.html">the MooseX::Traits manpage</a></a></h3>
+<p>Easy creation of objects with traits</p>
+<p>
+</p>
+<h3><a name="moosex__object__pluggable"><a href="../../../MooseX/Object/Pluggable.html">the MooseX::Object::Pluggable manpage</a></a></h3>
+<p>Moose-ish plugin system</p>
+<p>
+</p>
+<h3><a name="moosex__role__parameterized"><a href="../../../MooseX/Role/Parameterized.html">the MooseX::Role::Parameterized manpage</a></a></h3>
+<p>Parameterized roles</p>
+<p>
+</p>
+<h2><a name="instance_types">Instance Types</a></h2>
+<p>
+</p>
+<h3><a name="moosex__globref"><a href="../../../MooseX/GlobRef.html">the MooseX::GlobRef manpage</a></a></h3>
+<p>Globref instance type for Moose</p>
+<p>
+</p>
+<h3><a name="moosex__insideout"><a href="../../../MooseX/InsideOut.html">the MooseX::InsideOut manpage</a></a></h3>
+<p>Inside out instance type for Moose</p>
+<p>
+</p>
+<h3><a name="moosex__singleton"><a href="../../../MooseX/Singleton.html">the MooseX::Singleton manpage</a></a></h3>
+<p>Singleton instance type for Moose</p>
+<p>
+</p>
+<h3><a name="moosex__nonmoose"><a href="../../../MooseX/NonMoose.html">the MooseX::NonMoose manpage</a></a></h3>
+<p>Subclassing of non-Moose classes</p>
+<p>
+</p>
+<h2><a name="declarative_syntax">Declarative Syntax</a></h2>
+<p>
+</p>
+<h3><a name="moosex__declare"><a href="../../../MooseX/Declare.html">the MooseX::Declare manpage</a></a></h3>
+<p>Declarative syntax with <a href="../../../Devel/Declare.html">the Devel::Declare manpage</a></p>
+<p>
+</p>
+<h3><a name="moosex__method__signatures"><a href="../../../MooseX/Method/Signatures.html">the MooseX::Method::Signatures manpage</a></a></h3>
+<p>Declarative method syntax</p>
+<p>
+</p>
+<h3><a name="trycatch"><em>TryCatch</em></a></h3>
+<p>Declarative exception handling</p>
+<p>
+</p>
+<h2><a name="types">Types</a></h2>
+<p>
+</p>
+<h3><a name="moosex__types"><a href="../../../MooseX/Types.html">the MooseX::Types manpage</a></a></h3>
+<p>Moose type extensions</p>
+<p>
+</p>
+<h3><a name="moosex__types__structured"><a href="../../../MooseX/Types/Structured.html">the MooseX::Types::Structured manpage</a></a></h3>
+<p>Structured type constraints</p>
+<p>
+</p>
+<h3><a name="moosex__types__path__class"><a href="../../../MooseX/Types/Path/Class.html">the MooseX::Types::Path::Class manpage</a></a></h3>
+<p><a href="../../../Path/Class.html">the Path::Class manpage</a> Moose type extension</p>
+<p>
+</p>
+<h3><a name="moosex__types__set__object"><a href="../../../MooseX/Types/Set/Object.html">the MooseX::Types::Set::Object manpage</a></a></h3>
+<p><a href="../../../Set/Object.html">the Set::Object manpage</a> Moose type extension</p>
+<p>
+</p>
+<h3><a name="moosex__types__datetime"><a href="../../../MooseX/Types/DateTime.html">the MooseX::Types::DateTime manpage</a></a></h3>
+<p><a href="../../../lib/ActiveState/DateTime.html">the DateTime manpage</a> Moose type extension</p>
+<p>
+</p>
+<h2><a name="command_line_integration">Command Line Integration</a></h2>
+<p>
+</p>
+<h3><a name="moosex__getopt"><a href="../../../MooseX/Getopt.html">the MooseX::Getopt manpage</a></a></h3>
+<p>Better script writing with Moose</p>
+<p>
+</p>
+<h3><a name="moosex__configfromfile"><a href="../../../MooseX/ConfigFromFile.html">the MooseX::ConfigFromFile manpage</a></a></h3>
+<p>Support for config with <a href="../../../MooseX/Getopt.html">the MooseX::Getopt manpage</a></p>
+<p>
+</p>
+<h3><a name="moosex__simpleconfig"><a href="../../../MooseX/SimpleConfig.html">the MooseX::SimpleConfig manpage</a></a></h3>
+<p>Config file support for <a href="../../../MooseX/Getopt.html">the MooseX::Getopt manpage</a> with <a href="../../../Config/Any.html">the Config::Any manpage</a></p>
+<p>
+</p>
+<h3><a name="moosex__app__cmd"><a href="../../../MooseX/App/Cmd.html">the MooseX::App::Cmd manpage</a></a></h3>
+<p><a href="../../../App/Cmd.html">the App::Cmd manpage</a> integration for Moose</p>
+<p>
+</p>
+<h3><a name="moosex__role__cmd"><a href="../../../MooseX/Role/Cmd.html">the MooseX::Role::Cmd manpage</a></a></h3>
+<p>Easily wrap command line apps with Moose</p>
+<p>
+</p>
+<h2><a name="logging">Logging</a></h2>
+<p>
+</p>
+<h3><a name="moosex__logdispatch"><a href="../../../MooseX/LogDispatch.html">the MooseX::LogDispatch manpage</a></a></h3>
+<p><a href="../../../Log/Dispatch.html">the Log::Dispatch manpage</a> support for Moose</p>
+<p>
+</p>
+<h3><a name="moosex__lazylogdispatch"><a href="../../../MooseX/LazyLogDispatch.html">the MooseX::LazyLogDispatch manpage</a></a></h3>
+<p>Lazy loaded <a href="../../../Log/Dispatch.html">the Log::Dispatch manpage</a> support for Moose</p>
+<p>
+</p>
+<h3><a name="moosex__log__log4perl"><a href="../../../MooseX/Log/Log4perl.html">the MooseX::Log::Log4perl manpage</a></a></h3>
+<p><a href="../../../Log/Log4perl.html">the Log::Log4perl manpage</a> support for Moose</p>
+<p>
+</p>
+<h2><a name="async">Async</a></h2>
+<p>
+</p>
+<h3><a name="moosex__poe"><a href="../../../MooseX/POE.html">the MooseX::POE manpage</a></a></h3>
+<p>Moose wrapped <em>POE</em></p>
+<p>
+</p>
+<h3><a name="moosex__workers"><a href="../../../MooseX/Workers.html">the MooseX::Workers manpage</a></a></h3>
+<p>Sub-process management for asynchronous tasks using Moose and <em>POE</em></p>
+<p>
+</p>
+<h2><a name="utility_roles">Utility Roles</a></h2>
+<p>
+</p>
+<h3><a name="moosex__daemonize"><a href="../../../MooseX/Daemonize.html">the MooseX::Daemonize manpage</a></a></h3>
+<p>Daemonization support roles for Moose</p>
+<p>
+</p>
+<h3><a name="moosex__param"><a href="../../../MooseX/Param.html">the MooseX::Param manpage</a></a></h3>
+<p>CGI-style parameter role</p>
+<p>
+</p>
+<h3><a name="moosex__iterator"><a href="../../../MooseX/Iterator.html">the MooseX::Iterator manpage</a></a></h3>
+<p>Moose-ish iterator support role</p>
+<p>
+</p>
+<h3><a name="moosex__clone"><a href="../../../MooseX/Clone.html">the MooseX::Clone manpage</a></a></h3>
+<p>More robust and flexible cloning support</p>
+<p>
+</p>
+<h3><a name="moosex__storage"><a href="../../../MooseX/Storage.html">the MooseX::Storage manpage</a></a></h3>
+<p>Moose serialization</p>
+<p>
+</p>
+<h2><a name="other_useful_extensions">Other Useful Extensions</a></h2>
+<p>
+</p>
+<h3><a name="moose__autobox"><a href="../../../Moose/Autobox.html">the Moose::Autobox manpage</a></a></h3>
+<p><em>Autoboxing</em> support</p>
+<p>
+</p>
+<h3><a name="moosex__classattribute"><a href="../../../MooseX/ClassAttribute.html">the MooseX::ClassAttribute manpage</a></a></h3>
+<p>Class attributes for Moose</p>
+<p>
+</p>
+<h3><a name="moosex__semiaffordanceaccessor"><a href="../../../MooseX/SemiAffordanceAccessor.html">the MooseX::SemiAffordanceAccessor manpage</a></a></h3>
+<p>Support for PBP style accessors</p>
+<p>
+</p>
+<h3><a name="namespace__autoclean"><a href="../../../namespace/autoclean.html">the namespace::autoclean manpage</a></a></h3>
+<p>Keep imported subroutines out of your class's namespace</p>
+<p>
+</p>
+<h2><a name="utilities">Utilities</a></h2>
+<p>
+</p>
+<h3><a name="pod__coverage__moose"><a href="../../../Pod/Coverage/Moose.html">the Pod::Coverage::Moose manpage</a></a></h3>
+<p><a href="../../../Pod/Coverage.html">the Pod::Coverage manpage</a> extension for Moose</p>
+<p>
+</p>
+<hr />
+<h1><a name="notes">NOTES</a></h1>
+<p><a href="../../../MooseX/AttributeHelpers.html">the MooseX::AttributeHelpers manpage</a> has been removed from this list because
+its functionality has been subsumed into <a href="../../../cpan/build/Task-Moose-0.03-hD3hkA/blib/html/site/lib/Task/Moose.html">the Moose manpage</a> itself. See
+<a href="../../../lib/Moose/Meta/Attribute/Native.html">the Moose::Meta::Attribute::Native manpage</a> for more details.</p>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p>All complex software has bugs lurking in it, and this module is no 
+exception. If you find a bug please either email me, or add the bug
+to cpan-RT.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Stevan Little &lt;<a href="mailto:stevan.little@iinteractive.com">stevan.little@iinteractive.com</a>&gt;</p>
+<p>Jesse Luehrs &lt;doy at tozt dot net&gt;</p>
+<p>Chris Prather &lt;<a href="mailto:chris@prather.org">chris@prather.org</a>&gt;</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright_and_license">COPYRIGHT AND LICENSE</a></h1>
+<p>Copyright 2008-2009 Infinity Interactive, Inc.</p>
+<p><a href="http://www.iinteractive.com">http://www.iinteractive.com</a></p>
+<p>This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.</p>
+
+</body>
+
+</html>

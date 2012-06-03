@@ -1,0 +1,45 @@
+{
+   "abstract" : "Dispatches messages to one or more outputs",
+   "author" : [
+      "Dave Rolsky <autarch@urth.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Zilla version 4.300015, CPAN::Meta::Converter version 2.120900, CPAN::Meta::Converter version 2.112150",
+   "license" : [
+      "artistic_2"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "Log-Dispatch",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "File::Temp" : 0,
+            "Test::More" : "0.88"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "6.30"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Class::Load" : 0,
+            "Params::Validate" : "0.15"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "http://rt.cpan.org/NoAuth/Bugs.html?Dist=Log-Dispatch"
+      },
+      "repository" : {
+         "url" : "git://git.urth.org/Log-Dispatch.git"
+      }
+   },
+   "version" : "2.32"
+}

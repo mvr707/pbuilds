@@ -1,0 +1,259 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../scineplex.css">
+<title>Pod::Coverage - Checks if the documentation of a module is comprehensive</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',3);</script>
+<h1><a>Pod::Coverage - Checks if the documentation of a module is comprehensive</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#methods">Methods</a></li>
+		<li><a href="#debugging_support">Debugging support</a></li>
+		<li><a href="#inheritance_interface">Inheritance interface</a></li>
+	</ul>
+
+	<li><a href="#bugs">BUGS</a></li>
+	<li><a href="#todo">TODO</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#authors">AUTHORS</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Pod::Coverage - Checks if the documentation of a module is comprehensive</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  # in the beginnning...
+  perl -MPod::Coverage=Pod::Coverage -e666</pre>
+<pre>
+  <span class="comment"># all in one invocation</span>
+  <span class="keyword">use</span> <span class="variable">Pod::Coverage</span> <span class="string">package</span> <span class="operator">=&gt;</span> <span class="string">'Fishy'</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="comment"># straight OO</span>
+  <span class="keyword">use</span> <span class="variable">Pod::Coverage</span><span class="operator">;</span>
+  <span class="keyword">my</span> <span class="variable">$pc</span> <span class="operator">=</span> <span class="variable">Pod::Coverage</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="string">package</span> <span class="operator">=&gt;</span> <span class="string">'Pod::Coverage'</span><span class="operator">);</span>
+  <span class="keyword">print</span> <span class="string">"We rock!"</span> <span class="keyword">if</span> <span class="variable">$pc</span><span class="operator">-&gt;</span><span class="variable">coverage</span> <span class="operator">==</span> <span class="number">1</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>Developers hate writing documentation.  They'd hate it even more if
+their computer tattled on them, but maybe they'll be even more
+thankful in the long run.  Even if not, <em class="file">perlmodstyle</em> tells you to, so
+you must obey.</p>
+<p>This module provides a mechanism for determining if the pod for a
+given module is comprehensive.</p>
+<p>It expects to find either a <code>=head(n&gt;1)</code> or an <code>=item</code> block documenting a
+subroutine.</p>
+<p>Consider:
+ # an imaginary Foo.pm
+ package Foo;</p>
+<pre>
+ =item foo</pre>
+<pre>
+ The foo sub</pre>
+<pre>
+ = cut</pre>
+<pre>
+ <span class="keyword">sub</span><span class="variable"> foo </span><span class="operator">{}</span>
+ <span class="keyword">sub</span><span class="variable"> bar </span><span class="operator">{}</span>
+</pre>
+<pre>
+ <span class="number">1</span><span class="operator">;</span>
+ <span class="comment">__END__
+ </span>
+</pre>
+<p>In this example <code>Foo::foo</code> is covered, but <code>Foo::bar</code> is not, so the <code>Foo</code>
+package is only 50% (0.5) covered</p>
+<p>
+</p>
+<h2><a name="methods">Methods</a></h2>
+<dl>
+<dt><strong><a name="new" class="item">Pod::Coverage-&gt;new(package =&gt; $package)</a></strong></dt>
+
+<dd>
+<p>Creates a new Pod::Coverage object.</p>
+<p><a href="../../../lib/pods/perlfunc.html#package"><code>package</code></a> the name of the package to analyse</p>
+<p><code>private</code> an array of regexen which define what symbols are regarded
+as private (and so need not be documented) defaults to [ qr/^_/,
+qr/^(un)?import$/, qr/^DESTROY$/, qr/^AUTOLOAD$/, qr/^bootstrap$/,
+        qr/^(TIE( SCALAR | ARRAY | HASH | HANDLE ) |
+             FETCH | STORE | UNTIE | FETCHSIZE | STORESIZE |
+             POP | PUSH | SHIFT | UNSHIFT | SPLICE | DELETE |
+             EXISTS | EXTEND | CLEAR | FIRSTKEY | NEXTKEY | PRINT | PRINTF |
+             WRITE | READLINE | GETC | READ | CLOSE | BINMODE | OPEN |
+             EOF | FILENO | SEEK | TELL | SCALAR )$/x,
+        qr/^( MODIFY | FETCH )_( REF | SCALAR | ARRAY | HASH | CODE |
+                                 GLOB | FORMAT | IO )_ATTRIBUTES$/x,
+        qr/^CLONE(_SKIP)?$/,
+]</p>
+<p>This should cover all the usual magical methods for tie()d objects,
+attributes, generally all the methods that are typically not called by
+a user, but instead being used internally by perl.</p>
+<p><code>also_private</code> items are appended to the private list</p>
+<p><code>trustme</code> an array of regexen which define what symbols you just want
+us to assume are properly documented even if we can't find any docs
+for them</p>
+<p>If <code>pod_from</code> is supplied, that file is parsed for the documentation,
+rather than using Pod::Find</p>
+<p>If <code>nonwhitespace</code> is supplied, then only POD sections which have
+non-whitespace characters will count towards being documented.</p>
+</dd>
+<dt><strong><a name="coverage" class="item">$object-&gt;coverage</a></strong></dt>
+
+<dd>
+<p>Gives the coverage as a value in the range 0 to 1</p>
+</dd>
+<dt><strong><a name="why_unrated" class="item">$object-&gt;why_unrated</a></strong></dt>
+
+<dd>
+<p><a href="#coverage"><code>$object-&gt;coverage</code></a> may return <a href="../../../lib/pods/perlfunc.html#undef"><code>undef</code></a>, to indicate that it was
+unable to deduce coverage for a package.  If this happens you should
+be able to check <a href="#why_unrated"><code>why_unrated</code></a> to get a useful excuse.</p>
+</dd>
+<dt><strong><a name="naked" class="item">$object-&gt;naked/$object-&gt;uncovered</a></strong></dt>
+
+<dd>
+<p>Returns a list of uncovered routines, will implicitly call coverage if
+it's not already been called.</p>
+<p>Note, private and 'trustme' identifiers will be skipped.</p>
+</dd>
+<dt><strong><a name="covered" class="item">$object-&gt;covered</a></strong></dt>
+
+<dd>
+<p>Returns a list of covered routines, will implicitly call coverage if
+it's not previously been called.</p>
+<p>As with <a href="#naked"><code>naked</code></a>, private and 'trustme' identifiers will be skipped.</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="debugging_support">Debugging support</a></h2>
+<p>In order to allow internals debugging, while allowing the optimiser to
+do its thang, <code>Pod::Coverage</code> uses constant subs to define how it traces.</p>
+<p>Use them like so</p>
+<pre>
+ <span class="keyword">sub</span><span class="variable"> Pod::Coverage::TRACE_ALL </span><span class="operator">()</span> <span class="operator">{</span> <span class="number">1</span> <span class="operator">}</span>
+ <span class="keyword">use</span> <span class="variable">Pod::Coverage</span><span class="operator">;</span>
+</pre>
+<p>Supported constants are:</p>
+<dl>
+<dt><strong><a name="trace_all" class="item">TRACE_ALL</a></strong></dt>
+
+<dd>
+<p>Trace everything.</p>
+<p>Well that's all there is so far, are you glad you came?</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="inheritance_interface">Inheritance interface</a></h2>
+<p>These abstract methods while functional in <code>Pod::Coverage</code> may make
+your life easier if you want to extend <code>Pod::Coverage</code> to fit your
+house style more closely.</p>
+<p><strong>NOTE</strong> Please consider this interface as in a state of flux until
+this comment goes away.</p>
+<dl>
+<dt><strong><a name="_cvgv" class="item">$object-&gt;<code>_CvGV($symbol)</code></a></strong></dt>
+
+<dd>
+<p>Return the GV for the coderef supplied.  Used by <a href="#_get_syms"><code>_get_syms</code></a> to identify
+locally defined code.</p>
+<p>You probably won't need to override this one.</p>
+</dd>
+<dt><strong><a name="_get_syms" class="item">$object-&gt;<code>_get_syms($package)</code></a></strong></dt>
+
+<dd>
+<p>return a list of symbols to check for from the specified packahe</p>
+</dd>
+<dt><strong><a name="_get_pods" class="item">_get_pods</a></strong></dt>
+
+<dd>
+<p>Extract pod markers from the currently active package.</p>
+<p>Return an arrayref or undef on fail.</p>
+</dd>
+<dt><strong><a name="_private_check" class="item"><code>_private_check($symbol)</code></a></strong></dt>
+
+<dd>
+<p>return true if the symbol should be considered private</p>
+</dd>
+<dt><strong><a name="_trustme_check" class="item"><code>_trustme_check($symbol)</code></a></strong></dt>
+
+<dd>
+<p>return true if the symbol is a 'trustme' symbol</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p>Due to the method used to identify documented subroutines
+<code>Pod::Coverage</code> may completely miss your house style and declare your
+code undocumented.  Patches and/or failing tests welcome.</p>
+<p>
+</p>
+<hr />
+<h1><a name="todo">TODO</a></h1>
+<dl>
+<dt><strong><a name="widen_the_rules_for_identifying_documentation" class="item">Widen the rules for identifying documentation</a></strong></dt>
+
+<dt><strong><a name="improve_the_code_coverage_of_the_test_suite_devel_cover_rocks_so_hard" class="item">Improve the code coverage of the test suite.  <code>Devel::Cover</code> rocks so hard.</a></strong></dt>
+
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../../lib/Test/More.html">the Test::More manpage</a>, <a href="../../../Devel/Cover.html">the Devel::Cover manpage</a></p>
+<p>
+</p>
+<hr />
+<h1><a name="authors">AUTHORS</a></h1>
+<p>Richard Clamp &lt;<a href="mailto:richardc@unixbeard.net">richardc@unixbeard.net</a>&gt;</p>
+<p>Michael Stevens &lt;<a href="mailto:mstevens@etla.org">mstevens@etla.org</a>&gt;</p>
+<p>some contributions from David Cantrell &lt;<a href="mailto:david@cantrell.org.uk">david@cantrell.org.uk</a>&gt;</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (c) 2001, 2003, 2004, 2006, 2007, 2009 Richard Clamp, Michael
+Stevens. All rights reserved.  This program is free software; you can
+redistribute it and/or modify it under the same terms as Perl itself.</p>
+
+</body>
+
+</html>

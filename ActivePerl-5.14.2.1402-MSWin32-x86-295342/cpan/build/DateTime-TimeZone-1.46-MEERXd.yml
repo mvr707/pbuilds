@@ -1,0 +1,66 @@
+---
+distribution: !!perl/hash:CPAN::Distribution
+  CALLED_FOR: DateTime::TimeZone
+  CHECKSUM_STATUS: OK
+  ID: D/DR/DROLSKY/DateTime-TimeZone-1.46.tar.gz
+  RO:
+    CPAN_COMMENT: ~
+    CPAN_USERID: DROLSKY
+  archived: tar
+  badtestcnt: 0
+  build_dir: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\build\DateTime-TimeZone-1.46-MEERXd
+  incommandcolor: 2
+  localfile: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\sources\authors\id\D\DR\DROLSKY\DateTime-TimeZone-1.46.tar.gz
+  make: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: 1
+    TEXT: NO
+    TIME: 1338691480
+  negative_prefs_cache: 4
+  prefs: {}
+  prereq_pm:
+    build_requires:
+      File::Copy: '0'
+      Storable: '0'
+      Sys::Hostname: '0'
+      Test::More: '0.88'
+      Test::Output: '0'
+      base: '0'
+      overload: '0'
+    requires:
+      Class::Load: '0'
+      Class::Singleton: '1.03'
+      Cwd: '3'
+      File::Basename: '0'
+      File::Compare: '0'
+      File::Find: '0'
+      File::Spec: '0'
+      List::Util: '0'
+      Params::Validate: '0.72'
+      Win32::TieRegistry: '0'
+      constant: '0'
+      parent: '0'
+      strict: '0'
+      vars: '0'
+      warnings: '0'
+  reqtype: b
+  sponsored_mods:
+    Class::Load: 1
+    Class::Singleton: 1
+    Test::Output: 1
+  unwrapped: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691430
+  writemakefile: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691432
+perl:
+  $^X: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\bin\perl.exe
+  mtime_$^X: 1318029070
+  mtime_dll: 0
+  sitearchexp: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib
+time: 1338691520

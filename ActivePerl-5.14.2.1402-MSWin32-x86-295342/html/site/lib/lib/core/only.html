@@ -1,0 +1,124 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../scineplex.css">
+<title>lib::core::only - Remove all non-core paths from @INC to avoid site/vendor dirs</title>
+<link rel="stylesheet" href="../../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',4);</script>
+<h1><a>lib::core::only - Remove all non-core paths from @INC to avoid site/vendor dirs</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#caveats">CAVEATS</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#license">LICENSE</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>lib::core::only - Remove all non-core paths from @INC to avoid site/vendor dirs</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  <span class="keyword">use</span> <span class="variable">lib::core::only</span><span class="operator">;</span> <span class="comment"># now @INC contains only the two core directories</span>
+</pre>
+<p>To get only the core directories plus the ones for the local::lib in scope:</p>
+<pre>
+  $ perl -Mlib::core::only -Mlocal::lib=~/perl5 myscript.pl</pre>
+<p>To attempt to do a self-contained build (but note this will not reliably
+propagate into subprocesses, see the CAVEATS below):</p>
+<pre>
+  $ PERL5OPT='-Mlib::core::only -Mlocal::lib=~/perl5' cpan</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>lib::core::only is simply a shortcut to say &quot;please reduce my @INC to only
+the core lib and archlib (architecture-specific lib) directories of this perl&quot;.</p>
+<p>You might want to do this to ensure a local::lib contains only the code you
+need, or to test an <a href="../../../../App/FatPacker.html">App::FatPacker</a> tree, or to avoid known
+bad vendor packages.</p>
+<p>You might want to use this to try and install a self-contained tree of perl
+modules. Be warned that that probably won't work (see <a href="#caveats">CAVEATS</a>).</p>
+<p>This module was extracted from <a href="../../../../cpan/build/local-lib-1.008004-wUspR8/blib/html/site/lib/local/lib.html">local::lib</a>'s --self-contained
+feature, and contains the only part that ever worked. I apologise to anybody
+who thought anything else did.</p>
+<p>
+</p>
+<hr />
+<h1><a name="caveats">CAVEATS</a></h1>
+<p>This does <strong>not</strong> propagate properly across perl invocations like local::lib's
+stuff does. It can't. It's only a module import, so it <strong>only affects the
+specific perl VM instance in which you load and import() it</strong>.</p>
+<p>If you want to cascade it across invocations, you can set the PERL5OPT
+environment variable to '-Mlib::core::only' and it'll sort of work. But be
+aware that taint mode ignores this, so some modules' build and test code
+probably will as well.</p>
+<p>You also need to be aware that perl's command line options are not processed
+in order - -I options take effect before -M options, so</p>
+<pre>
+  perl -Mlib::core::only -Ilib</pre>
+<p>is unlike to do what you want - it's exactly equivalent to:</p>
+<pre>
+  perl -Mlib::core::only</pre>
+<p>If you want to combine a core-only @INC with additional paths, you need to
+add the additional paths using -M options and the <a href="../../../../cpan/build/local-lib-1.008004-wUspR8/blib/html/site/lib/local/lib.html">lib</a> module:</p>
+<pre>
+  perl -Mlib::core::only -Mlib=lib</pre>
+<pre>
+  <span class="comment"># or if you're trying to test compiled code:</span>
+</pre>
+<pre>
+  perl -Mlib::core::only -Mblib</pre>
+<p>For more information on the impossibility of sanely propagating this across
+module builds without help from the build program, see
+<a href="http://www.shadowcat.co.uk/blog/matt-s-trout/tainted-love">http://www.shadowcat.co.uk/blog/matt-s-trout/tainted-love</a> - and for ways
+to achieve the old --self-contained feature's results, look at
+<a href="../../../../App/FatPacker.html">App::FatPacker</a>'s tree function, and at
+<em>App::cpanminus</em>'s --local-lib-contained feature.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Matt S. Trout &lt;<a href="mailto:mst@shadowcat.co.uk">mst@shadowcat.co.uk</a>&gt;</p>
+<p>
+</p>
+<hr />
+<h1><a name="license">LICENSE</a></h1>
+<p>This library is free software under the same terms as perl itself.</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>(c) 2010 the lib::core::only <a href="#author">AUTHOR</a> as specified above.</p>
+
+</body>
+
+</html>

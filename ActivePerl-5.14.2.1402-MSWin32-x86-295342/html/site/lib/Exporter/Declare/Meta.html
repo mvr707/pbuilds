@@ -1,0 +1,175 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../scineplex.css">
+<title>Exporter::Declare::Meta - The mata object which stoes meta-data for all exporters.</title>
+<link rel="stylesheet" href="../../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',4);</script>
+<h1><a>Exporter::Declare::Meta - The mata object which stoes meta-data for all exporters.</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<li><a href="#authors">AUTHORS</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Exporter::Declare::Meta - The mata object which stoes meta-data for all
+exporters.</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>All classes that use Exporter::Declare have an associated Meta object. Meta
+objects track available exports, tags, and options.</p>
+<p>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<dl>
+<dt><strong><a name="new" class="item">$class-&gt;new( $package )</a></strong></dt>
+
+<dd>
+<p>Created a meta object for the specified package. Also injects the <code>export_meta()</code>
+sub into the package namespace that returns the generated meta object.</p>
+</dd>
+<dt><strong><a name="new_from_exporter" class="item">$class-&gt;new_from_exporter( $package )</a></strong></dt>
+
+<dd>
+<p>Create a meta object for a package that already uses Exporter.pm. This will not
+turn the class into an Exporter::Declare package, but it will create a meta
+object and <code>export_meta()</code> method on it. This si primarily used for reexport
+purposes.</p>
+</dd>
+<dt><strong><a name="package" class="item">$package = $meta-&gt;<code>package()</code></a></strong></dt>
+
+<dd>
+<p>Get the name of the package with which the meta object is associated.</p>
+</dd>
+<dt><strong><a name="add_alias" class="item">$meta-&gt;<code>add_alias()</code></a></strong></dt>
+
+<dd>
+<p>Usually called at construction to add a package alias function to the exports.</p>
+</dd>
+<dt><strong><a name="add_export" class="item">$meta-&gt;add_export( $name, $ref )</a></strong></dt>
+
+<dd>
+<p>Add an export, name should be the item name with sigil (assumed to be sub if
+there is no sigil). $ref should be a ref blessed as an
+<a href="../../../../Exporter/Declare/Export.html">the Exporter::Declare::Export manpage</a> subclass.</p>
+</dd>
+<dt><strong><a name="get_export" class="item">$meta-&gt;get_export( $name )</a></strong></dt>
+
+<dd>
+<p>Retrieve the <a href="../../../../Exporter/Declare/Export.html">the Exporter::Declare::Export manpage</a> object by name. Name should be the
+item name with sigil, assumed to be sub when sigil is missing.</p>
+</dd>
+<dt><strong><a name="export_tags_push" class="item">$meta-&gt;export_tags_push( $name, @items )</a></strong></dt>
+
+<dd>
+<p>Add @items to the specified tag. Tag will be created if it does not already
+exist. $name should be the tag name <strong>WITHOUT</strong> -/: prefix.</p>
+</dd>
+<dt><strong><a name="is_tag" class="item">$bool = $meta-&gt;is_tag( $name )</a></strong></dt>
+
+<dd>
+<p>Check if a tag with the given name exists.  $name should be the tag name
+<strong>WITHOUT</strong> -/: prefix.</p>
+</dd>
+<dt><strong><a name="get_tag" class="item">@list = $meta-&gt;get_tag( $name )</a></strong></dt>
+
+<dd>
+<p>Get the list of items associated with the specified tag.  $name should be the
+tag name <strong>WITHOUT</strong> -/: prefix.</p>
+</dd>
+<dt><strong><a name="add_options" class="item">$meta-&gt;add_options( @names )</a></strong></dt>
+
+<dd>
+<p>Add import options by name. These will be boolean options that take no
+arguments.</p>
+</dd>
+<dt><strong><a name="add_arguments" class="item">$meta-&gt;add_arguments( @names )</a></strong></dt>
+
+<dd>
+<p>Add import options that slurp in the next argument as a value.</p>
+</dd>
+<dt><strong><a name="is_option" class="item">$bool = $meta-&gt;is_option( $name )</a></strong></dt>
+
+<dd>
+<p>Check if the specifed name is an option.</p>
+</dd>
+<dt><strong><a name="is_argument" class="item">$bool = $meta-&gt;is_argument( $name )</a></strong></dt>
+
+<dd>
+<p>Check if the specifed name is an option that takes an argument.</p>
+</dd>
+<dt><strong><a name="add_parser" class="item">$meta-&gt;add_parser( $name, sub { ... })</a></strong></dt>
+
+<dd>
+<p>Add a parser sub that should be associated with exports via <a href="../../../../site/lib/Devel/Declare.html">the Devel::Declare manpage</a></p>
+</dd>
+<dt><strong><a name="get_parser" class="item">$meta-&gt;get_parser( $name )</a></strong></dt>
+
+<dd>
+<p>Get a parser by name.</p>
+</dd>
+<dt><strong><a name="get_ref_from_package" class="item">$ref = $meta-&gt;get_ref_from_package( $item )</a></strong></dt>
+
+<dd>
+<p>Returns a reference to a specific package variable or sub.</p>
+</dd>
+<dt><strong><a name="reexport" class="item">$meta-&gt;reexport( $package )</a></strong></dt>
+
+<dd>
+<p>Re-export the exports in the provided package. Package may be an
+<a href="../../../../Exporter/Declare.html">the Exporter::Declare manpage</a> based package or an <a href="../../../../lib/Exporter.html">the Exporter manpage</a> based package.</p>
+</dd>
+<dt><strong><a name="merge" class="item">$meta-&gt;merge( $meta2 )</a></strong></dt>
+
+<dd>
+<p>Merge-in the exports and tags of the second meta object.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="authors">AUTHORS</a></h1>
+<p>Chad Granum <em><a href="mailto:exodist7@gmail.com">exodist7@gmail.com</a></em></p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (C) 2010 Chad Granum</p>
+<p>Exporter-Declare is free software; Standard perl licence.</p>
+<p>Exporter-Declare is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the license for more details.</p>
+
+</body>
+
+</html>

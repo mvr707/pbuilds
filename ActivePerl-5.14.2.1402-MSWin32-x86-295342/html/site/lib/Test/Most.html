@@ -1,0 +1,609 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../scineplex.css">
+<title>Test::Most - Most commonly needed test functions and features.</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',3);</script>
+<h1><a>Test::Most - Most commonly needed test functions and features.</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#version">VERSION</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#export">EXPORT</a></li>
+	<li><a href="#functions">FUNCTIONS</a></li>
+	<ul>
+
+		<li><a href="#die_on_fail"><code>die_on_fail</code></a></li>
+		<li><a href="#bail_on_fail"><code>bail_on_fail</code></a></li>
+		<li><a href="#restore_fail"><code>restore_fail</code></a></li>
+		<li><a href="#set_failure_handler"><code>set_failure_handler</code></a></li>
+		<li><a href="#explain"><code>explain</code></a></li>
+		<li><a href="#show"><code>show</code></a></li>
+		<li><a href="#always_explain_and_always_show"><code>always_explain</code> and <code>always_show</code></a></li>
+		<li><a href="#all_done"><code>all_done</code></a></li>
+	</ul>
+
+	<li><a href="#export_on_demand">EXPORT ON DEMAND</a></li>
+	<ul>
+
+		<li><a href="#timeit"><code>timeit</code></a></li>
+	</ul>
+
+	<li><a href="#die_or_bail_on_fail">DIE OR BAIL ON FAIL</a></li>
+	<ul>
+
+		<li><a href="#import_list">Import list</a></li>
+		<li><a href="#functions">Functions</a></li>
+		<li><a href="#environment_variables">Environment variables</a></li>
+	</ul>
+
+	<li><a href="#miscellaneous">MISCELLANEOUS</a></li>
+	<ul>
+
+		<li><a href="#excluding_test_modules">Excluding Test Modules</a></li>
+		<li><a href="#excluding_test_symbols">Excluding Test Symbols</a></li>
+		<li><a href="#deferred_plans">Deferred plans</a></li>
+		<li><a href="#one_stop_shopping">One-stop shopping</a></li>
+		<li><a href="#use_ok"><code>use ok</code></a></li>
+	</ul>
+
+	<li><a href="#rationale">RATIONALE</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+	<li><a href="#support">SUPPORT</a></li>
+	<li><a href="#todo">TODO</a></li>
+	<ul>
+
+		<li><a href="#deferred_plans">Deferred plans</a></li>
+		<li><a href="#cleaner_skip__">Cleaner <code>skip()</code></a></li>
+	</ul>
+
+	<li><a href="#caveats">CAVEATS</a></li>
+	<li><a href="#acknowledgements">ACKNOWLEDGEMENTS</a></li>
+	<li><a href="#copyright___license">COPYRIGHT &amp; LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Test::Most - Most commonly needed test functions and features.</p>
+<p>
+</p>
+<hr />
+<h1><a name="version">VERSION</a></h1>
+<p>Version 0.25</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>Instead of this:</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">strict</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">warnings</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">Test::Exception</span> <span class="number">0</span><span class="operator">.</span><span class="number">88</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">Test::Differences</span> <span class="number">0</span><span class="operator">.</span><span class="number">500</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">Test::Deep</span> <span class="number">0</span><span class="operator">.</span><span class="number">106</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">Test::Warn</span> <span class="number">0</span><span class="operator">.</span><span class="number">11</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">Test::More</span> <span class="string">tests</span> <span class="operator">=&gt;</span> <span class="number">42</span><span class="operator">;</span>
+</pre>
+<p>You type this:</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Test::Most</span> <span class="string">tests</span> <span class="operator">=&gt;</span> <span class="number">42</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><a href="../../../cpan/build/Test-Most-0.25-Uw4jmH/blib/html/site/lib/Test/Most.html">the Test::Most manpage</a> exists to reduce boilerplate and to make your testing life
+easier.  We provide &quot;one stop shopping&quot; for most commonly used testing
+modules.  In fact, we often require the latest versions so that you get bug
+fixes through <a href="../../../cpan/build/Test-Most-0.25-Uw4jmH/blib/html/site/lib/Test/Most.html">the Test::Most manpage</a> and don't have to keep upgrading these modules
+separately.</p>
+<p>This module provides you with the most commonly used testing functions, along
+with automatically turning on strict and warning and gives you a bit more
+fine-grained control over your test suite.</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Test::Most</span> <span class="string">tests</span> <span class="operator">=&gt;</span> <span class="number">4</span><span class="operator">,</span> <span class="string">'die'</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="variable">ok</span> <span class="number">1</span><span class="operator">,</span> <span class="string">'Normal calls to ok() should succeed'</span><span class="operator">;</span>
+    <span class="variable">is</span> <span class="number">2</span><span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> <span class="string">'... as should all passing tests'</span><span class="operator">;</span>
+    <span class="variable">eq_or_diff</span> <span class="operator">[</span><span class="number">3</span><span class="operator">]</span><span class="operator">,</span> <span class="operator">[</span><span class="number">4</span><span class="operator">]</span><span class="operator">,</span> <span class="string">'... but failing tests should die'</span><span class="operator">;</span>
+    <span class="variable">ok</span> <span class="number">4</span><span class="operator">,</span> <span class="string">'... will never get to here'</span><span class="operator">;</span>
+</pre>
+<p>As you can see, the <code>eq_or_diff</code> test will fail.  Because 'die' is in the
+import list, the test program will halt at that point.</p>
+<p>If you do not want strict and warnings enabled, you must explicitly disable
+them.  Thus, you must be explicit about what you want and no longer need to
+worry about accidentally forgetting them.</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Test::Most</span> <span class="string">tests</span> <span class="operator">=&gt;</span> <span class="number">4</span><span class="operator">;</span>
+    <span class="keyword">no</span> <span class="variable">strict</span><span class="operator">;</span>
+    <span class="keyword">no</span> <span class="variable">warnings</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="export">EXPORT</a></h1>
+<p>All functions from the following modules will automatically be exported into
+your namespace:</p>
+<ul>
+<li><strong><a name="test_more" class="item"><a href="../../../lib/Test/More.html">the Test::More manpage</a></a></strong>
+
+</li>
+<li><strong><a name="test_exception" class="item"><a href="../../../lib/Test/Exception.html">the Test::Exception manpage</a></a></strong>
+
+</li>
+<li><strong><a name="test_differences" class="item"><a href="../../../lib/Test/Differences.html">the Test::Differences manpage</a></a></strong>
+
+</li>
+<li><strong><a name="test_deep" class="item"><a href="../../../site/lib/Test/Deep.html">the Test::Deep manpage</a></a></strong>
+
+</li>
+<li><strong><a name="test_warn" class="item"><a href="../../../site/lib/Test/Warn.html">the Test::Warn manpage</a></a></strong>
+
+</li>
+</ul>
+<p>Functions which are <em>optionally</em> exported from any of those modules must be
+referred to by their fully-qualified name:</p>
+<pre>
+  <span class="variable">Test::Deep::render_stack</span><span class="operator">(</span> <span class="variable">$var</span><span class="operator">,</span> <span class="variable">$stack</span> <span class="operator">);</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="functions">FUNCTIONS</a></h1>
+<p>Several other functions are also automatically exported:</p>
+<p>
+</p>
+<h2><a name="die_on_fail"><code>die_on_fail</code></a></h2>
+<pre>
+ <span class="variable">die_on_fail</span><span class="operator">;</span>
+ <span class="variable">is_deeply</span> <span class="variable">$foo</span><span class="operator">,</span> <span class="variable">bar</span><span class="operator">,</span> <span class="string">'... we throw an exception if this fails'</span><span class="operator">;</span>
+</pre>
+<p>This function, if called, will cause the test program to throw a
+<a href="../../../cpan/build/Test-Most-0.25-Uw4jmH/blib/html/site/lib/Test/Most/Exception.html">the Test::Most::Exception manpage</a>, effectively halting the test.</p>
+<p>
+</p>
+<h2><a name="bail_on_fail"><code>bail_on_fail</code></a></h2>
+<pre>
+ <span class="variable">bail_on_fail</span><span class="operator">;</span>
+ <span class="variable">is_deeply</span> <span class="variable">$foo</span><span class="operator">,</span> <span class="variable">bar</span><span class="operator">,</span> <span class="string">'... we bail out if this fails'</span><span class="operator">;</span>
+</pre>
+<p>This function, if called, will cause the test suite to <code>BAIL_OUT()</code> if any
+tests fail after it.</p>
+<p>
+</p>
+<h2><a name="restore_fail"><code>restore_fail</code></a></h2>
+<pre>
+ <span class="variable">die_on_fail</span><span class="operator">;</span>
+ <span class="variable">is_deeply</span> <span class="variable">$foo</span><span class="operator">,</span> <span class="variable">bar</span><span class="operator">,</span> <span class="string">'... we throw an exception if this fails'</span><span class="operator">;</span>
+</pre>
+<pre>
+ <span class="variable">restore_fail</span><span class="operator">;</span>
+ <span class="variable">cmp_bag</span><span class="operator">(\</span><span class="variable">@got</span><span class="operator">,</span> <span class="operator">\</span><span class="variable">@bag</span><span class="operator">,</span> <span class="string">'... we will not throw an exception if this fails'</span><span class="operator">;</span>
+</pre>
+<p>This restores the original test failure behavior, so subsequent tests will no
+longer throw an exception or <code>BAIL_OUT()</code>.</p>
+<p>
+</p>
+<h2><a name="set_failure_handler"><code>set_failure_handler</code></a></h2>
+<p>If you prefer other behavior to 'die_on_fail' or 'bail_on_fail', you can can
+set your own failure handler:</p>
+<pre>
+ <span class="variable">set_failure_handler</span><span class="operator">(</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+     <span class="keyword">my</span> <span class="variable">$builder</span> <span class="operator">=</span> <span class="keyword">shift</span><span class="operator">;</span>
+     <span class="keyword">if</span> <span class="operator">(</span> <span class="variable">$builder</span> <span class="operator">&amp;&amp;</span> <span class="variable">$builder</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">Test_Results</span><span class="operator">}[</span><span class="operator">-</span><span class="number">1</span><span class="operator">]</span> <span class="operator">=~</span> <span class="regex">/critical/</span> <span class="operator">)</span> <span class="operator">{</span>
+        <span class="variable">send_admin_email</span><span class="operator">(</span><span class="string">"critical failure in tests"</span><span class="operator">);</span>
+     <span class="operator">}</span>
+ <span class="operator">}</span> <span class="operator">);</span>
+</pre>
+<p>It receives the <code>Test::Builder</code> instance as its only argument.</p>
+<p><strong>Important</strong>:  Note that if the failing test is the very last test run, then
+the <code>$builder</code> will likely be undefined.  This is an unfortunate side effect
+of how <code>Test::Builder</code> has been designed.</p>
+<p>
+</p>
+<h2><a name="explain"><code>explain</code></a></h2>
+<p>Similar to <code>note()</code>, the output will only be seen by the user by
+using the <a href="../../../lib/pods/perlrun.html#v"><code>-v</code></a> switch with <code>prove</code> or reading the raw TAP.</p>
+<p>Unlike <code>note()</code>, any reference in the argument list is automatically expanded
+using <code>Data::Dumper</code>.  Thus, instead of this:</p>
+<pre>
+ <span class="keyword">my</span> <span class="variable">$self</span> <span class="operator">=</span> <span class="variable">Some::Object</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="variable">$id</span><span class="operator">);</span>
+ <span class="keyword">use</span> <span class="variable">Data::Dumper</span><span class="operator">;</span>
+ <span class="variable">explain</span> <span class="string">'I was just created'</span><span class="operator">,</span> <span class="variable">Dumper</span><span class="operator">(</span><span class="variable">$self</span><span class="operator">);</span>
+</pre>
+<p>You can now just do this:</p>
+<pre>
+ <span class="keyword">my</span> <span class="variable">$self</span> <span class="operator">=</span> <span class="variable">Some::Object</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="variable">$id</span><span class="operator">);</span>
+ <span class="variable">explain</span> <span class="string">'I was just created:  '</span><span class="operator">,</span> <span class="variable">$self</span><span class="operator">;</span>
+</pre>
+<p>That output will look similar to:</p>
+<pre>
+ <span class="variable">I</span> <span class="variable">was</span> <span class="variable">just</span> <span class="variable">created</span><span class="operator">:</span> <span class="keyword">bless</span><span class="operator">(</span> <span class="operator">{</span>
+   <span class="string">'id'</span> <span class="operator">=&gt;</span> <span class="number">2</span><span class="operator">,</span>
+   <span class="string">'stack'</span> <span class="operator">=&gt;</span> <span class="operator">[]</span>
+ <span class="operator">}</span><span class="operator">,</span> <span class="string">'Some::Object'</span> <span class="operator">)</span>
+</pre>
+<p>Note that the &quot;dumpered&quot; output has the <code>Data::Dumper</code> variables
+<code>$Indent</code>, <code>Sortkeys</code> and <code>Terse</code> all set to the value of <code>1</code> (one).  This
+allows for a much cleaner diagnostic output and at the present time cannot be
+overridden.</p>
+<p>Note that Test::More's <code>explain</code> acts differently.  This <code>explain</code>
+is equivalent to <code>note explain</code> in Test::More.</p>
+<p>
+</p>
+<h2><a name="show"><code>show</code></a></h2>
+<p>Experimental.  Just like <code>explain</code>, but also tries to show you the lexical
+variable names:</p>
+<pre>
+ <span class="keyword">my</span> <span class="variable">$var</span>   <span class="operator">=</span> <span class="number">3</span><span class="operator">;</span>
+ <span class="keyword">my</span> <span class="variable">@array</span> <span class="operator">=</span> <span class="string">qw/ foo bar /</span><span class="operator">;</span>
+ <span class="variable">show</span> <span class="variable">$var</span><span class="operator">,</span> <span class="operator">\</span><span class="variable">@array</span><span class="operator">;</span>
+ <span class="comment">__END__
+ $var = 3;
+ @array = [
+     'foo',
+     'bar'
+ ];
+ </span>
+</pre>
+<p>It will show <code>$VAR1</code>, <code>$VAR2</code> ... <code>$VAR_N</code> for every variable it cannot
+figure out the variable name to:</p>
+<pre>
+ <span class="keyword">my</span> <span class="variable">@array</span> <span class="operator">=</span> <span class="string">qw/ foo bar /</span><span class="operator">;</span>
+ <span class="variable">show</span> <span class="variable">@array</span><span class="operator">;</span>
+ <span class="comment">__END__
+ $VAR1 = 'foo';
+ $VAR2 = 'bar';
+ </span>
+</pre>
+<p>Note that this relies on <a href="../../../Data/Dumper/Names.html">the Data::Dumper::Names manpage</a> version 0.03 or greater.  If
+this is not present, it will warn and call <a href="#explain">the explain manpage</a> instead.  Also, it can
+only show the names for lexical variables.  Globals such as <a href="../../../lib/pods/perlvar.html#_env"><code>%ENV</code></a> or <code>%@</code>
+are not accessed via PadWalker and thus cannot be shown.  It would be nice to
+find a workaround for this.</p>
+<p>
+</p>
+<h2><a name="always_explain_and_always_show"><code>always_explain</code> and <code>always_show</code></a></h2>
+<p>These are identical to <code>explain</code> and <code>show</code>, but like <a href="../../../lib/Test/More.html">the Test::More manpage</a>'s
+<code>diag</code> function, these will always emit output, regardless of whether or not
+you're in verbose mode.</p>
+<p>
+</p>
+<h2><a name="all_done"><code>all_done</code></a></h2>
+<p><strong>DEPRECATED</strong>.  Use the new <code>done_testing()</code> (added in
+<a href="../../../lib/Test/More.html">Test::More</a> since 0.87_01).  Instead. We're leaving this in here
+for a long deprecation cycle.  After a while, we might even start warning.</p>
+<p>If the plan is specified as <code>defer_plan</code>, you may call <code>&amp;all_done</code> at the
+end of the test with an optional test number.  This lets you set the plan
+without knowing the plan before you run the tests.</p>
+<p>If you call it without a test number, the tests will still fail if you don't
+get to the end of the test.  This is useful if you don't want to specify a
+plan but the tests exit unexpectedly.  For example, the following would
+<em>pass</em> with <code>no_plan</code> but fails with <code>all_done</code>.</p>
+<pre>
+ <span class="keyword">use</span> <span class="variable">Test::More</span> <span class="string">'defer_plan'</span><span class="operator">;</span>
+ <span class="variable">ok</span> <span class="number">1</span><span class="operator">;</span>
+ <span class="keyword">exit</span><span class="operator">;</span>
+ <span class="variable">ok</span> <span class="number">2</span><span class="operator">;</span>
+ <span class="variable">all_done</span><span class="operator">;</span>
+</pre>
+<p>See <a href="#deferred_plans">Deferred plans</a> for more information.</p>
+<p>
+</p>
+<hr />
+<h1><a name="export_on_demand">EXPORT ON DEMAND</a></h1>
+<p>The following will be exported only if requested:</p>
+<p>
+</p>
+<h2><a name="timeit"><code>timeit</code></a></h2>
+<p>Prototype: <code>timeit(&amp;;$)</code></p>
+<p>This function will warn if <code>Time::HiRes</code> is not installed. The test will
+still be run, but no timing information will be displayed.</p>
+<pre>
+ <span class="keyword">use</span> <span class="variable">Test::Most</span> <span class="string">'timeit'</span><span class="operator">;</span>
+ <span class="variable">timeit</span> <span class="operator">{</span> <span class="variable">is</span> <span class="variable">expensive_function</span><span class="operator">(),</span> <span class="variable">$some_value</span><span class="operator">,</span> <span class="variable">$message</span> <span class="operator">}</span>
+    <span class="string">"expensive_function()"</span><span class="operator">;</span>
+ <span class="variable">timeit</span> <span class="operator">{</span> <span class="variable">is</span> <span class="variable">expensive_function</span><span class="operator">(),</span> <span class="variable">$some_value</span><span class="operator">,</span> <span class="variable">$message</span> <span class="operator">};</span>
+</pre>
+<p><code>timeit</code> accepts a code reference and an optional message. After the test is
+run, will <code>explain</code> the time of the function using <code>Time::HiRes</code>. If a
+message is supplied, it will be formatted as:</p>
+<pre>
+  <span class="keyword">sprintf</span> <span class="string">"</span><span class="variable">$message</span><span class="string">: took %s seconds"</span> <span class="operator">=&gt;</span> <span class="variable">$time</span><span class="operator">;</span>
+</pre>
+<p>Otherwise, it will be formatted as:</p>
+<pre>
+  <span class="keyword">sprintf</span> <span class="string">"</span><span class="variable">$filename</span><span class="string"> line </span><span class="variable">$line</span><span class="string">: took %s seconds"</span> <span class="operator">=&gt;</span> <span class="variable">$time</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="die_or_bail_on_fail">DIE OR BAIL ON FAIL</a></h1>
+<p>Sometimes you want your test suite to throw an exception or <code>BAIL_OUT()</code> if a
+test fails.  In order to provide maximum flexibility, there are three ways to
+accomplish each of these.</p>
+<p>
+</p>
+<h2><a name="import_list">Import list</a></h2>
+<pre>
+ <span class="keyword">use</span> <span class="variable">Test::Most</span> <span class="string">'die'</span><span class="operator">,</span> <span class="string">tests</span> <span class="operator">=&gt;</span> <span class="number">7</span><span class="operator">;</span>
+ <span class="keyword">use</span> <span class="variable">Test::Most</span> <span class="string">qw&lt; no_plan bail &gt;</span><span class="operator">;</span>
+</pre>
+<p>If <a href="../../../lib/pods/perlfunc.html#die"><code>die</code></a> or <code>bail</code> is anywhere in the import list, the test program/suite
+will throw a <code>Test::Most::Exception</code> or <code>BAIL_OUT()</code> as appropriate the
+first time a test fails.  Calling <code>restore_fail</code> anywhere in the test program
+will restore the original behavior (not throwing an exception or bailing out).</p>
+<p>
+</p>
+<h2><a name="functions">Functions</a></h2>
+<pre>
+ <span class="keyword">use</span> <span class="variable">Test::Most</span> <span class="string">'no_plan'</span><span class="operator">;</span>
+ <span class="variable">ok</span> <span class="variable">$bar</span><span class="operator">,</span> <span class="string">'The test suite will continue if this passes'</span><span class="operator">;</span>
+</pre>
+<pre>
+ <span class="variable">die_on_fail</span><span class="operator">;</span>
+ <span class="variable">is_deeply</span> <span class="variable">$foo</span><span class="operator">,</span> <span class="variable">bar</span><span class="operator">,</span> <span class="string">'... we throw an exception if this fails'</span><span class="operator">;</span>
+</pre>
+<pre>
+ <span class="variable">restore_fail</span><span class="operator">;</span>
+ <span class="variable">ok</span> <span class="variable">$baz</span><span class="operator">,</span> <span class="string">'The test suite will continue if this passes'</span><span class="operator">;</span>
+</pre>
+<p>The <code>die_on_fail</code> and <code>bail_on_fail</code> functions will automatically set the
+desired behavior at runtime.</p>
+<p>
+</p>
+<h2><a name="environment_variables">Environment variables</a></h2>
+<pre>
+ DIE_ON_FAIL=1 prove t/
+ BAIL_ON_FAIL=1 prove t/</pre>
+<p>If the <code>DIE_ON_FAIL</code> or <code>BAIL_ON_FAIL</code> environment variables are true, any
+tests which use <code>Test::Most</code> will throw an exception or call BAIL_OUT on test
+failure.</p>
+<p>
+</p>
+<hr />
+<h1><a name="miscellaneous">MISCELLANEOUS</a></h1>
+<p>
+</p>
+<h2><a name="excluding_test_modules">Excluding Test Modules</a></h2>
+<p>Sometimes you want a exclude a particular test module.  For example,
+<a href="../../../site/lib/Test/Deep.html">the Test::Deep manpage</a>, when used with <a href="../../../lib/Moose.html">the Moose manpage</a>, produces the following warning:</p>
+<pre>
+    Prototype mismatch: sub main::blessed ($) vs none</pre>
+<p>You can exclude this with by adding the module to the import list with a '-'
+symbol in front:</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Test::Most</span> <span class="string">tests</span> <span class="operator">=&gt;</span> <span class="number">42</span><span class="operator">,</span> <span class="string">'-Test::Deep'</span><span class="operator">;</span>
+</pre>
+<p>See
+<a href="https://rt.cpan.org/Ticket/Display.html?id=54362&results=e73ff63c5bf9ba0f796efdba5773cf3f">https://rt.cpan.org/Ticket/Display.html?id=54362&results=e73ff63c5bf9ba0f796efdba5773cf3f</a>
+for more information.</p>
+<p>
+</p>
+<h2><a name="excluding_test_symbols">Excluding Test Symbols</a></h2>
+<p>Sometimes you don't want to exclude an entire test module, but just a
+particular symbol that is causing issues (e.g. see the 'blessed' example
+above). You can exclude the symbol(s) in the standard way, by specifying the
+symbol in the import list with a '!' in front:</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Test::Most</span> <span class="string">tests</span> <span class="operator">=&gt;</span> <span class="number">42</span><span class="operator">,</span> <span class="string">'!blessed'</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<h2><a name="deferred_plans">Deferred plans</a></h2>
+<p><strong>DEPRECATED</strong>.  Use <code>done_testing()</code> from <a href="../../../lib/Test/More.html">the Test::More manpage</a> instead.</p>
+<pre>
+ <span class="keyword">use</span> <span class="variable">Test::Most</span> <span class="string">qw&lt;defer_plan&gt;</span><span class="operator">;</span>
+ <span class="keyword">use</span> <span class="variable">My::Tests</span><span class="operator">;</span>
+ <span class="keyword">my</span> <span class="variable">$test_count</span> <span class="operator">=</span> <span class="variable">My::Tests</span><span class="operator">-&gt;</span><span class="variable">run</span><span class="operator">;</span>
+ <span class="variable">all_done</span><span class="operator">(</span><span class="variable">$test_count</span><span class="operator">);</span>
+</pre>
+<p>Sometimes it's difficult to know the plan up front, but you can calculate the
+plan as your tests run.  As a result, you want to defer the plan until the end
+of the test.  Typically, the best you can do is this:</p>
+<pre>
+ <span class="keyword">use</span> <span class="variable">Test::More</span> <span class="string">'no_plan'</span><span class="operator">;</span>
+ <span class="keyword">use</span> <span class="variable">My::Tests</span><span class="operator">;</span>
+ <span class="variable">My::Tests</span><span class="operator">-&gt;</span><span class="variable">run</span><span class="operator">;</span>
+</pre>
+<p>But when you do that, <code>Test::Builder</code> merely asserts that the number of tests
+you <em>ran</em> is the number of tests.  Until now, there was no way of asserting
+that the number of tests you <em>expected</em> is the number of tests unless you do
+so before any tests have run.  This fixes that problem.</p>
+<p>
+</p>
+<h2><a name="one_stop_shopping">One-stop shopping</a></h2>
+<p>We generally require the latest stable versions of various test modules.  Why?
+Because they have bug fixes and new features.  You don't want to have to keep
+remembering them, so periodically we'll release new versions of <a href="../../../cpan/build/Test-Most-0.25-Uw4jmH/blib/html/site/lib/Test/Most.html">the Test::Most manpage</a>
+just for bug fixes.</p>
+<p>
+</p>
+<h2><a name="use_ok"><code>use ok</code></a></h2>
+<p>We do not bundle <a href="../../../Test/use/ok.html">the Test::use::ok manpage</a>, though it's been requested.  That's because
+<code>use_ok</code> is broken, but <a href="../../../Test/use/ok.html">the Test::use::ok manpage</a> is also subtly broken (and a touch
+harder to fix).  See <a href="http://use.perl.org/~Ovid/journal/39859">http://use.perl.org/~Ovid/journal/39859</a> for more
+information.</p>
+<p>If you want to test if you can use a module, just use it.  If it fails, the
+test will still fail and that's the desired result.</p>
+<p>
+</p>
+<hr />
+<h1><a name="rationale">RATIONALE</a></h1>
+<p>People want more control over their test suites.  Sometimes when you see
+hundreds of tests failing and whizzing by, you want the test suite to simply
+halt on the first failure.  This module gives you that control.</p>
+<p>As for the reasons for the four test modules chosen, I ran code over a local
+copy of the CPAN to find the most commonly used testing modules.  Here's the
+top twenty as of January 2010 (the numbers are different because we're now
+counting distributions which use a given module rather than simply the number
+of times a module is used).</p>
+<pre>
+    1   Test::More                          14111
+    2   Test                                 1736
+    3   Test::Exception                       744
+    4   Test::Simple                          331
+    5   Test::Pod                             328
+    6   Test::Pod::Coverage                   274
+    7   Test::Perl::Critic                    248
+    8   Test::Base                            228
+    9   Test::NoWarnings                      155
+    10  Test::Distribution                    142
+    11  Test::Kwalitee                        138
+    12  Test::Deep                            128
+    13  Test::Warn                            127
+    14  Test::Differences                     102
+    15  Test::Spelling                        101
+    16  Test::MockObject                       87
+    17  Test::Builder::Tester                  84
+    18  Test::WWW::Mechanize::Catalyst         79
+    19  Test::UseAllModules                    63
+    20  Test::YAML::Meta                       61</pre>
+<p><a href="../../../cpan/build/Test-Most-0.25-Uw4jmH/blib/html/site/lib/Test/Most.html">the Test::Most manpage</a> is number 24 on that list, if you're curious.  See
+<a href="http://blogs.perl.org/users/ovid/2010/01/most-popular-testing-modules---january-2010.html">http://blogs.perl.org/users/ovid/2010/01/most-popular-testing-modules---january-2010.html</a>.</p>
+<p>The modules chosen seemed the best fit for what <code>Test::Most</code> is trying to do.
+As of 0.02, we've added <a href="../../../site/lib/Test/Warn.html">the Test::Warn manpage</a> by request.  It's not in the top ten, but
+it's a great and useful module.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Curtis Poe, <code>&lt;ovid at cpan.org&gt;</code></p>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p>Please report any bugs or feature requests to <code>bug-test-extended at
+rt.cpan.org</code>, or through the web interface at
+<a href="http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Test-Most">http://rt.cpan.org/NoAuth/ReportBug.html</a>.  I will be
+notified, and then you'll automatically be notified of progress on your bug as
+I make changes.</p>
+<p>
+</p>
+<hr />
+<h1><a name="support">SUPPORT</a></h1>
+<p>You can find documentation for this module with the perldoc command.</p>
+<pre>
+    <a href="../../../lib/pods/perldoc.html">perldoc</a> Test::Most</pre>
+<p>You can also look for information at:</p>
+<ul>
+<li><strong><a name="rt_cpan_s_request_tracker" class="item">RT: CPAN's request tracker</a></strong>
+
+<p><a href="http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test-Most">http://rt.cpan.org/NoAuth/Bugs.html</a></p>
+</li>
+<li><strong><a name="annocpan_annotated_cpan_documentation" class="item">AnnoCPAN: Annotated CPAN documentation</a></strong>
+
+<p><a href="http://annocpan.org/dist/Test-Most">http://annocpan.org/dist/Test-Most</a></p>
+</li>
+<li><strong><a name="cpan_ratings" class="item">CPAN Ratings</a></strong>
+
+<p><a href="http://cpanratings.perl.org/d/Test-Most">http://cpanratings.perl.org/d/Test-Most</a></p>
+</li>
+<li><strong><a name="search_cpan" class="item">Search CPAN</a></strong>
+
+<p><a href="http://search.cpan.org/dist/Test-Most">http://search.cpan.org/dist/Test-Most</a></p>
+</li>
+</ul>
+<p>
+</p>
+<hr />
+<h1><a name="todo">TODO</a></h1>
+<p>
+</p>
+<h2><a name="deferred_plans">Deferred plans</a></h2>
+<p>Sometimes you don't know the number of tests you will run when you use
+<a href="#test_more"><code>Test::More</code></a>.  The <code>plan()</code> function allows you to delay specifying the
+plan, but you must still call it before the tests are run.  This is an error:</p>
+<pre>
+ <span class="keyword">use</span> <span class="variable">Test::More</span><span class="operator">;</span>
+</pre>
+<pre>
+ <span class="keyword">my</span> <span class="variable">$tests</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+ <span class="keyword">foreach</span> <span class="keyword">my</span> <span class="variable">$test</span> <span class="operator">(</span>
+     <span class="keyword">my</span> <span class="variable">$count</span> <span class="operator">=</span> <span class="variable">run</span><span class="operator">(</span><span class="variable">$test</span><span class="operator">);</span> <span class="comment"># assumes tests are being run</span>
+     <span class="variable">$tests</span> <span class="operator">+=</span> <span class="variable">$count</span><span class="operator">;</span>
+ <span class="operator">}</span>
+ <span class="variable">plan</span><span class="operator">(</span><span class="variable">$tests</span><span class="operator">);</span>
+</pre>
+<p>The way around this is typically to use 'no_plan' and when the tests are done,
+<code>Test::Builder</code> merely sets the plan to the number of tests run.  We'd like
+for the programmer to specify this number instead of letting <code>Test::Builder</code>
+do it.  However, <code>Test::Builder</code> internals are a bit difficult to work with,
+so we're delaying this feature.</p>
+<p>
+</p>
+<h2><a name="cleaner_skip__">Cleaner <code>skip()</code></a></h2>
+<pre>
+ <span class="keyword">if</span> <span class="operator">(</span> <span class="variable">$some_condition</span> <span class="operator">)</span> <span class="operator">{</span>
+     <span class="variable">skip</span> <span class="variable">$message</span><span class="operator">,</span> <span class="variable">$num_tests</span><span class="operator">;</span>
+ <span class="operator">}</span>
+ <span class="keyword">else</span> <span class="operator">{</span>
+     <span class="comment"># run those tests</span>
+ <span class="operator">}</span>
+</pre>
+<p>That would be cleaner and I might add it if enough people want it.</p>
+<p>
+</p>
+<hr />
+<h1><a name="caveats">CAVEATS</a></h1>
+<p>Because of how Perl handles arguments, and because diagnostics are not really
+part of the Test Anything Protocol, what actually happens internally is that
+we note that a test has failed and we throw an exception or bail out as soon
+as the <em>next</em> test is called (but before it runs).  This means that its
+arguments are automatically evaulated before we can take action:</p>
+<pre>
+ <span class="keyword">use</span> <span class="variable">Test::Most</span> <span class="string">qw&lt;no_plan die&gt;</span><span class="operator">;</span>
+</pre>
+<pre>
+ <span class="variable">ok</span> <span class="variable">$foo</span><span class="operator">,</span> <span class="string">'Die if this fails'</span><span class="operator">;</span>
+ <span class="variable">ok</span> <span class="variable">factorial</span><span class="operator">(</span><span class="number">123456</span><span class="operator">),</span>
+   <span class="string">'... but wait a loooong time before you throw an exception'</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="acknowledgements">ACKNOWLEDGEMENTS</a></h1>
+<p>Many thanks to <code>perl-qa</code> for arguing about this so much that I just went
+ahead and did it :)</p>
+<p>Thanks to Aristotle for suggesting a better way to die or bailout.</p>
+<p>Thanks to 'swillert' (<a href="http://use.perl.org/~swillert/">http://use.perl.org/~swillert/</a>) for suggesting a
+better implementation of my &quot;dumper explain&quot; idea
+(<a href="http://use.perl.org/~Ovid/journal/37004">http://use.perl.org/~Ovid/journal/37004</a>).</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright___license">COPYRIGHT &amp; LICENSE</a></h1>
+<p>Copyright 2008 Curtis Poe, all rights reserved.</p>
+<p>This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.</p>
+
+</body>
+
+</html>

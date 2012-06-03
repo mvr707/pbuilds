@@ -1,0 +1,208 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../scineplex.css">
+<title>Exporter::Declare::Magic - Enhance Exporter::Declare with some fancy magic.</title>
+<link rel="stylesheet" href="../../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',4);</script>
+<h1><a>Exporter::Declare::Magic - Enhance Exporter::Declare with some fancy magic.</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#api">API</a></li>
+	<li><a href="#authors">AUTHORS</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Exporter::Declare::Magic - Enhance Exporter::Declare with some fancy magic.</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+    <span class="keyword">package</span> <span class="variable">Some::Exporter</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">Exporter::Declare</span> <span class="string">'-magic'</span><span class="operator">;</span>
+</pre>
+<pre>
+    ... #Same as the basic exporter synopsis</pre>
+<pre>
+    <span class="comment">#Quoting is not necessary unless you have space or special characters</span>
+    <span class="variable">export</span> <span class="variable">another_sub</span><span class="operator">;</span>
+    <span class="variable">export</span> <span class="variable">parsed_sub</span> <span class="variable">parser</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="comment"># no 'sub' keyword, not a typo</span>
+    <span class="variable">export</span> <span class="variable">anonymous_export</span> <span class="operator">{</span>
+        <span class="operator">...</span>
+    <span class="operator">}</span>
+    <span class="comment">#No semicolon, not a typo</span>
+</pre>
+<pre>
+    <span class="variable">export</span> <span class="variable">parsed_anon</span> <span class="variable">parser</span> <span class="operator">{</span>
+        <span class="operator">...</span>
+    <span class="operator">}</span>
+</pre>
+<pre>
+    <span class="comment"># Same as export</span>
+    <span class="variable">default_export</span> <span class="variable">name</span> <span class="operator">{</span> <span class="operator">...</span> <span class="operator">}</span>
+</pre>
+<pre>
+    <span class="comment"># No quoting required</span>
+    <span class="variable">export</span> <span class="variable">$VAR</span><span class="operator">;</span>
+    <span class="variable">export</span> <span class="variable">%VAR</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$iterator</span> <span class="operator">=</span> <span class="string">'a'</span><span class="operator">;</span>
+    <span class="variable">gen_export</span> <span class="variable">unique_class_id</span> <span class="operator">{</span>
+        <span class="keyword">my</span> <span class="variable">$current</span> <span class="operator">=</span> <span class="variable">$iterator</span><span class="operator">++;</span>
+        <span class="keyword">return</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="variable">$current</span> <span class="operator">};</span>
+    <span class="operator">}</span>
+</pre>
+<pre>
+    <span class="variable">gen_default_export</span> <span class="string">'$my_letter'</span> <span class="operator">{</span>
+        <span class="keyword">my</span> <span class="variable">$letter</span> <span class="operator">=</span> <span class="variable">$iterator</span><span class="operator">++;</span>
+        <span class="keyword">return</span> <span class="operator">\</span><span class="variable">$letter</span><span class="operator">;</span>
+    <span class="operator">}</span>
+</pre>
+<pre>
+    <span class="variable">parser</span> <span class="variable">myparser</span> <span class="operator">{</span>
+        <span class="operator">...</span> <span class="variable">See</span> <span class="variable">Devel::Declare</span>
+    <span class="operator">}</span>
+</pre>
+<pre>
+    <span class="variable">parsed_exports</span> <span class="string">parser</span> <span class="operator">=&gt;</span> <span class="string">qw/ parsed_sub_a parsed_sub_b /</span><span class="operator">;</span>
+    <span class="variable">parsed_default_exports</span> <span class="string">parser_b</span> <span class="operator">=&gt;</span> <span class="string">qw/ parsed_sub_c /</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="api">API</a></h1>
+<p>These all work fine in function or method form, however the syntax sugar will
+only work in function form.</p>
+<dl>
+<dt><strong><a name="parsed_exports" class="item">parsed_exports( $parser, @exports )</a></strong></dt>
+
+<dd>
+<p>Add exports that should use a 'Devel::Declare' based parser. The parser should
+be the name of a registered <a href="../../../../Devel/Declare/Interface.html">the Devel::Declare::Interface manpage</a> parser, or the name of
+a parser sub created using the <code>parser()</code> function.</p>
+</dd>
+<dt><strong><a name="parsed_default_exports" class="item">parsed_default_exports( $parser, @exports )</a></strong></dt>
+
+<dd>
+<p>Same as <a href="#parsed_exports"><code>parsed_exports()</code></a>, except exports are added to the -default tag.</p>
+</dd>
+<dt><strong><a name="parser_name" class="item">parser name { ... }</a></strong></dt>
+
+<dt><strong><a name="parser_name_code" class="item">parser name =&gt; \&amp;code</a></strong></dt>
+
+<dd>
+<p>Define a parser. You need to be familiar with Devel::Declare to make use of
+this.</p>
+</dd>
+<dt><strong><a name="export" class="item">export( $name )</a></strong></dt>
+
+<dt><strong>export( $name, $ref )</strong></dt>
+
+<dt><strong>export( $name, $parser )</strong></dt>
+
+<dt><strong>export( $name, $parser, $ref )</strong></dt>
+
+<dt><strong><a name="export_name" class="item">export name { ... }</a></strong></dt>
+
+<dt><strong><a name="export_name_parser" class="item">export name parser { ... }</a></strong></dt>
+
+<dd>
+<p>export is a keyword that lets you export any 1 item at a time. The item can be
+exported by name, name+ref, or name+parser+ref. You can also use it without
+parentheses or quotes followed by a codeblock.</p>
+</dd>
+<dt><strong><a name="default_export" class="item">default_export( $name )</a></strong></dt>
+
+<dt><strong>default_export( $name, $ref )</strong></dt>
+
+<dt><strong>default_export( $name, $parser )</strong></dt>
+
+<dt><strong>default_export( $name, $parser, $ref )</strong></dt>
+
+<dt><strong><a name="default_export_name" class="item">default_export name { ... }</a></strong></dt>
+
+<dt><strong><a name="default_export_name_parser" class="item">default_export name parser { ... }</a></strong></dt>
+
+<dt><strong><a name="gen_export" class="item">gen_export( $name )</a></strong></dt>
+
+<dt><strong>gen_export( $name, $ref )</strong></dt>
+
+<dt><strong>gen_export( $name, $parser )</strong></dt>
+
+<dt><strong>gen_export( $name, $parser, $ref )</strong></dt>
+
+<dt><strong><a name="gen_export_name" class="item">gen_export name { ... }</a></strong></dt>
+
+<dt><strong><a name="gen_export_name_parser" class="item">gen_export name parser { ... }</a></strong></dt>
+
+<dt><strong><a name="gen_default_export" class="item">gen_default_export( $name )</a></strong></dt>
+
+<dt><strong>gen_default_export( $name, $ref )</strong></dt>
+
+<dt><strong>gen_default_export( $name, $parser )</strong></dt>
+
+<dt><strong>gen_default_export( $name, $parser, $ref )</strong></dt>
+
+<dt><strong><a name="gen_default_export_name" class="item">gen_default_export name { ... }</a></strong></dt>
+
+<dt><strong><a name="gen_default_export_name_parser" class="item">gen_default_export name parser { ... }</a></strong></dt>
+
+<dd>
+<p>These all act just like <a href="#export"><code>export()</code></a>, except that they add subrefs as generators,
+and/or add exports to the -default tag.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="authors">AUTHORS</a></h1>
+<p>Chad Granum <em><a href="mailto:exodist7@gmail.com">exodist7@gmail.com</a></em></p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (C) 2010 Chad Granum</p>
+<p>Exporter-Declare is free software; Standard perl licence.</p>
+<p>Exporter-Declare is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the license for more details.</p>
+
+</body>
+
+</html>

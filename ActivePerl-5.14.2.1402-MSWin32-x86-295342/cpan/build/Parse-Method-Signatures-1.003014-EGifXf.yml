@@ -1,0 +1,67 @@
+---
+distribution: !!perl/hash:CPAN::Distribution
+  CALLED_FOR: I/IL/ILMARI/Parse-Method-Signatures-1.003014.tar.gz
+  CHECKSUM_STATUS: OK
+  ID: I/IL/ILMARI/Parse-Method-Signatures-1.003014.tar.gz
+  RO:
+    CPAN_COMMENT: ~
+    CPAN_USERID: ILMARI
+  archived: tar
+  badtestcnt: 1
+  build_dir: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\build\Parse-Method-Signatures-1.003014-EGifXf
+  incommandcolor: 2
+  localfile: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\sources\authors\id\I\IL\ILMARI\Parse-Method-Signatures-1.003014.tar.gz
+  make: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691633
+  make_test: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: 1
+    TEXT: NO one dependency not OK (MooseX::Types::Structured); additionally test
+      harness failed
+    TIME: 1338691637
+  negative_prefs_cache: 4
+  prefs: {}
+  prereq_pm:
+    build_requires:
+      ExtUtils::MakeMaker: '6.42'
+      MooseX::Types::Structured: '0'
+      Test::Differences: '0'
+      Test::Exception: '0'
+      Test::More: '0'
+      aliased: '0'
+    requires:
+      List::MoreUtils: '0.20'
+      Moose: '0'
+      MooseX::Traits: '0.06'
+      MooseX::Types: '0.17'
+      MooseX::Types::Moose: '0'
+      MooseX::Types::Structured: '0'
+      PPI: '1.203'
+      namespace::clean: '0.10'
+  reqtype: r
+  sponsored_mods:
+    MooseX::Traits: 1
+    MooseX::Types: 1
+    MooseX::Types::Moose: 1
+    MooseX::Types::Structured: 2
+    aliased: 1
+    namespace::clean: 1
+  unwrapped: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691119
+  writemakefile: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691121
+perl:
+  $^X: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\bin\perl.exe
+  mtime_$^X: 1318029070
+  mtime_dll: 0
+  sitearchexp: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib
+time: 1338691637

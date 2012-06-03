@@ -1,0 +1,183 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../scineplex.css">
+<title>Module::Implementation - Loads one of several alternate underlying implementations for a module</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',3);</script>
+<h1><a>Module::Implementation - Loads one of several alternate underlying implementations for a module</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#version">VERSION</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#api">API</a></li>
+	<ul>
+
+		<li><a href="#module__implementation___build_loader_sub_____">Module::Implementation::&lt;build_loader_sub(...)</a></li>
+		<li><a href="#module__implementation__implementation_for__package_">Module::Implementation::implementation_for($package)</a></li>
+	</ul>
+
+	<li><a href="#how_the_implementation_loader_works">HOW THE IMPLEMENTATION LOADER WORKS</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright_and_license">COPYRIGHT AND LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<hr />
+<h1><a name="name">NAME</a></h1>
+<p>Module::Implementation - Loads one of several alternate underlying implementations for a module</p>
+<p>
+</p>
+<hr />
+<h1><a name="version">VERSION</a></h1>
+<p>version 0.06</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  <span class="keyword">package</span> <span class="variable">Foo::Bar</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">use</span> <span class="variable">Module::Implementation</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">BEGIN</span> <span class="operator">{</span>
+      <span class="keyword">my</span> <span class="variable">$loader</span> <span class="operator">=</span> <span class="variable">Module::Implementation::build_loader_sub</span><span class="operator">(</span>
+          <span class="string">implementations</span> <span class="operator">=&gt;</span> <span class="operator">[</span> <span class="string">'XS'</span><span class="operator">,</span>  <span class="string">'PurePerl'</span> <span class="operator">]</span><span class="operator">,</span>
+          <span class="string">symbols</span>         <span class="operator">=&gt;</span> <span class="operator">[</span> <span class="string">'run'</span><span class="operator">,</span> <span class="string">'check'</span> <span class="operator">]</span><span class="operator">,</span>
+      <span class="operator">);</span>
+</pre>
+<pre>
+      <span class="variable">$loader</span><span class="operator">-&gt;();</span>
+        <span class="operator">}</span>
+</pre>
+<pre>
+  <span class="keyword">package</span> <span class="variable">Consumer</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="comment"># loads the first viable implementation</span>
+  <span class="keyword">use</span> <span class="variable">Foo::Bar</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This module abstracts out the process of choosing one of several underlying
+implementations for a module. This can be used to provide XS and pure Perl
+implementations of a module, or it could be used to load an implementation for
+a given OS or any other case of needing to provide multiple implementations.</p>
+<p>This module is only useful when you know all the implementations ahead of
+time. If you want to load arbitrary implementations then you probably want
+something like a plugin system, not this module.</p>
+<p>
+</p>
+<hr />
+<h1><a name="api">API</a></h1>
+<p>This module provides two subroutines, neither of which are exported.</p>
+<p>
+</p>
+<h2><a name="module__implementation___build_loader_sub_____">Module::Implementation::&lt;build_loader_sub(...)</a></h2>
+<p>This subroutine takes the following arguments.</p>
+<ul>
+<li><strong><a name="implementations" class="item">implementations</a></strong>
+
+<p>This should be an array reference of implementation names. Each name should
+correspond to a module in the caller's namespace.</p>
+<p>In other words, using the example in the <a href="#synopsis">SYNOPSIS</a>, this module will look
+for the <code>Foo::Bar::XS</code> and <code>Foo::Bar::PurePerl</code> modules will be installed</p>
+<p>This argument is required.</p>
+</li>
+<li><strong><a name="symbols" class="item">symbols</a></strong>
+
+<p>A list of symbols to copy from the implementation package to the calling
+package.</p>
+<p>These can be prefixed with a variable type: <code>$</code>, <code>@</code>, <code>%</code>, <code>&amp;</code>, or
+<code>*)</code>. If no prefix is given, the symbol is assumed to be a subroutine.</p>
+<p>This argument is optional.</p>
+</li>
+</ul>
+<p>This subroutine <em>returns</em> the implementation loader as a sub reference.</p>
+<p>It is up to you to call this loader sub in your code.</p>
+<p>I recommend that you <em>do not</em> call this loader in an <a href="../../../lib/pods/perlfunc.html#import"><code>import()</code></a> sub. If a
+caller explicitly requests no imports, your <a href="../../../lib/pods/perlfunc.html#import"><code>import()</code></a> sub will not be run at
+all, which can cause weird breakage.</p>
+<p>
+</p>
+<h2><a name="module__implementation__implementation_for__package_">Module::Implementation::implementation_for($package)</a></h2>
+<p>Given a package name, this subroutine returns the implementation that was
+loaded for the package. This is not a full package name, just the suffix that
+identifies the implementation. For the <a href="#synopsis">SYNOPSIS</a> example, this subroutine
+would be called as <code>Module::Implementation::implementation_for('Foo::Bar')</code>,
+and it would return &quot;XS&quot; or &quot;PurePerl&quot;.</p>
+<p>
+</p>
+<hr />
+<h1><a name="how_the_implementation_loader_works">HOW THE IMPLEMENTATION LOADER WORKS</a></h1>
+<p>The implementation loader works like this ...</p>
+<p>First, it checks for an <a href="../../../lib/pods/perlvar.html#_env"><code>%ENV</code></a> var specifying the implementation to load. The
+env var is based on the package name which loads the implementations. The
+<code>::</code> package separator is replaced with <code>_</code>, and made entirely
+upper-case. Finally, we append &quot;_IMPLEMENTATION&quot; to this name.</p>
+<p>So in our <a href="#synopsis">SYNOPSIS</a> example, the corresponding <a href="../../../lib/pods/perlvar.html#_env"><code>%ENV</code></a> key would be
+<code>FOO_BAR_IMPLEMENTATION</code>.</p>
+<p>If this is set, then the loader will <strong>only</strong> try to load this one
+implementation.</p>
+<p>If the env var requests an implementation which doesn't match one of the
+implementations specified when the loader was created, an error is thrown.</p>
+<p>If this one implementation fails to load then loader throws an error. This is
+useful for testing. You can request a specific implementation in a test file
+by writing something like this:</p>
+<pre>
+  <span class="keyword">BEGIN</span> <span class="operator">{</span> <span class="variable">$ENV</span><span class="operator">{</span><span class="string">FOO_BAR_IMPLEMENTATION</span><span class="operator">}</span> <span class="operator">=</span> <span class="string">'XS'</span> <span class="operator">}</span>
+  <span class="keyword">use</span> <span class="variable">Foo::Bar</span><span class="operator">;</span>
+</pre>
+<p>If the environment variable is <em>not</em> set, then the loader simply tries the
+implementations originally passed to <code>Module::Implementation</code>. The
+implementations are tried in the order in which they were originally passed.</p>
+<p>The loader will use the first implementation that loads without an error. It
+will copy any requested symbols from this implementation.</p>
+<p>If none of the implementations can be loaded, then the loader throws an
+exception.</p>
+<p>The loader returns the name of the package it loaded.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Dave Rolsky &lt;<a href="mailto:autarch@urth.org">autarch@urth.org</a>&gt;</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright_and_license">COPYRIGHT AND LICENSE</a></h1>
+<p>This software is Copyright (c) 2012 by Dave Rolsky.</p>
+<p>This is free software, licensed under:</p>
+<pre>
+  The Artistic License 2.0 (GPL Compatible)</pre>
+
+</body>
+
+</html>

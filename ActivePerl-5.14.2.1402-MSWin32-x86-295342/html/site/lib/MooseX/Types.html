@@ -1,0 +1,587 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../scineplex.css">
+<title>MooseX::Types - Organise your Moose types in libraries</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',3);</script>
+<h1><a>MooseX::Types - Organise your Moose types in libraries</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#version">VERSION</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<ul>
+
+		<li><a href="#library_definition">Library Definition</a></li>
+		<li><a href="#usage">Usage</a></li>
+	</ul>
+
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#library_definition">LIBRARY DEFINITION</a></li>
+	<li><a href="#library_usage">LIBRARY USAGE</a></li>
+	<li><a href="#type_handler_functions">TYPE HANDLER FUNCTIONS</a></li>
+	<ul>
+
+		<li><a href="#_type">$type</a></li>
+		<li><a href="#is__type">is_$type</a></li>
+		<li><a href="#to__type">to_$type</a></li>
+	</ul>
+
+	<li><a href="#wrapping_a_library">WRAPPING A LIBRARY</a></li>
+	<ul>
+
+		<li><a href="#generator_methods_you_can_overload">Generator methods you can overload</a></li>
+		<li><a href="#provided_parameters">Provided Parameters</a></li>
+	</ul>
+
+	<li><a href="#recursive_subtypes">RECURSIVE SUBTYPES</a></li>
+	<li><a href="#notes_regarding_type_unions">NOTES REGARDING TYPE UNIONS</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<ul>
+
+		<li><a href="#import">import</a></li>
+		<li><a href="#type_export_generator">type_export_generator</a></li>
+		<li><a href="#create_arged_type_constraint___name___args_">create_arged_type_constraint ($name, @args)</a></li>
+		<li><a href="#create_base_type_constraint___name_">create_base_type_constraint ($name)</a></li>
+		<li><a href="#create_type_decorator___type_constraint_">create_type_decorator ($type_constraint)</a></li>
+		<li><a href="#coercion_export_generator">coercion_export_generator</a></li>
+		<li><a href="#check_export_generator">check_export_generator</a></li>
+	</ul>
+
+	<li><a href="#caveats">CAVEATS</a></li>
+	<ul>
+
+		<li><a href="#uniqueness">Uniqueness</a></li>
+		<li><a href="#argument_separation_______versus_____">Argument separation ('=&gt;' versus ',')</a></li>
+		<li><a href="#compatibility_with_sub__exporter">Compatibility with Sub::Exporter</a></li>
+	</ul>
+
+	<li><a href="#combining_type_libraries">COMBINING TYPE LIBRARIES</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#acknowledgements">ACKNOWLEDGEMENTS</a></li>
+	<li><a href="#contributors">CONTRIBUTORS</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright_and_license">COPYRIGHT AND LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>MooseX::Types - Organise your Moose types in libraries</p>
+<p>
+</p>
+<hr />
+<h1><a name="version">VERSION</a></h1>
+<p>version 0.35</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>
+</p>
+<h2><a name="library_definition">Library Definition</a></h2>
+<pre>
+  <span class="keyword">package</span> <span class="variable">MyLibrary</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="comment"># predeclare our own types</span>
+  <span class="keyword">use</span> <span class="variable">MooseX::Types</span> <span class="operator">-</span><span class="string">declare</span> <span class="operator">=&gt;</span> <span class="operator">[</span>
+      <span class="string">qw(
+          PositiveInt
+          NegativeInt
+          ArrayRefOfPositiveInt
+          ArrayRefOfAtLeastThreeNegativeInts
+          LotsOfInnerConstraints
+          StrOrArrayRef
+          MyDateTime
+          )</span>
+  <span class="operator">]</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="comment"># import builtin types</span>
+  <span class="keyword">use</span> <span class="variable">MooseX::Types::Moose</span> <span class="string">qw/Int HashRef/</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="comment"># type definition.</span>
+  <span class="variable">subtype</span> <span class="variable">PositiveInt</span><span class="operator">,</span>
+      <span class="variable">as</span> <span class="variable">Int</span><span class="operator">,</span>
+      <span class="variable">where</span> <span class="operator">{</span> <span class="variable">$_</span> <span class="operator">&gt;</span> <span class="number">0</span> <span class="operator">},</span>
+      <span class="variable">message</span> <span class="operator">{</span> <span class="string">"Int is not larger than 0"</span> <span class="operator">};</span>
+</pre>
+<pre>
+  <span class="variable">subtype</span> <span class="variable">NegativeInt</span><span class="operator">,</span>
+      <span class="variable">as</span> <span class="variable">Int</span><span class="operator">,</span>
+      <span class="variable">where</span> <span class="operator">{</span> <span class="variable">$_</span> <span class="operator">&lt;</span> <span class="number">0</span> <span class="operator">},</span>
+      <span class="variable">message</span> <span class="operator">{</span> <span class="string">"Int is not smaller than 0"</span> <span class="operator">};</span>
+</pre>
+<pre>
+  <span class="comment"># type coercion</span>
+  <span class="variable">coerce</span> <span class="variable">PositiveInt</span><span class="operator">,</span>
+      <span class="variable">from</span> <span class="variable">Int</span><span class="operator">,</span>
+          <span class="variable">via</span> <span class="operator">{</span> <span class="number">1</span> <span class="operator">};</span>
+</pre>
+<pre>
+  <span class="comment"># with parameterized constraints.</span>
+</pre>
+<pre>
+  <span class="variable">subtype</span> <span class="variable">ArrayRefOfPositiveInt</span><span class="operator">,</span>
+    <span class="variable">as</span> <span class="variable">ArrayRef</span><span class="operator">[</span><span class="variable">PositiveInt</span><span class="operator">]</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="variable">subtype</span> <span class="variable">ArrayRefOfAtLeastThreeNegativeInts</span><span class="operator">,</span>
+    <span class="variable">as</span> <span class="variable">ArrayRef</span><span class="operator">[</span><span class="variable">NegativeInt</span><span class="operator">]</span><span class="operator">,</span>
+    <span class="variable">where</span> <span class="operator">{</span> <span class="keyword">scalar</span><span class="operator">(</span><span class="variable">@$_</span><span class="operator">)</span> <span class="operator">&gt;</span> <span class="number">2</span> <span class="operator">};</span>
+</pre>
+<pre>
+  <span class="variable">subtype</span> <span class="variable">LotsOfInnerConstraints</span><span class="operator">,</span>
+    <span class="variable">as</span> <span class="variable">ArrayRef</span><span class="operator">[</span><span class="variable">ArrayRef</span><span class="operator">[</span><span class="variable">HashRef</span><span class="operator">[</span><span class="variable">Int</span><span class="operator">]]]</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="comment"># with TypeConstraint Unions</span>
+</pre>
+<pre>
+  <span class="variable">subtype</span> <span class="variable">StrOrArrayRef</span><span class="operator">,</span>
+    <span class="variable">as</span> <span class="variable">Str</span><span class="operator">|</span><span class="variable">ArrayRef</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="comment"># class types</span>
+</pre>
+<pre>
+  <span class="variable">class_type</span> <span class="string">'DateTime'</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="comment"># or better</span>
+</pre>
+<pre>
+  <span class="variable">class_type</span> <span class="variable">MyDateTime</span><span class="operator">,</span> <span class="operator">{</span> <span class="string">class</span> <span class="operator">=&gt;</span> <span class="string">'DateTime'</span> <span class="operator">}</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="variable">coerce</span> <span class="variable">MyDateTime</span><span class="operator">,</span>
+    <span class="variable">from</span> <span class="variable">HashRef</span><span class="operator">,</span>
+    <span class="variable">via</span> <span class="operator">{</span> <span class="variable">DateTime</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="variable">%$_</span><span class="operator">)</span> <span class="operator">};</span>
+</pre>
+<pre>
+  <span class="number">1</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<h2><a name="usage">Usage</a></h2>
+<pre>
+  <span class="keyword">package</span> <span class="variable">Foo</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">Moose</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">MyLibrary</span> <span class="string">qw( PositiveInt NegativeInt )</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="comment"># use the exported constants as type names</span>
+  <span class="variable">has</span> <span class="string">'bar'</span><span class="operator">,</span>
+      <span class="string">isa</span>    <span class="operator">=&gt;</span> <span class="variable">PositiveInt</span><span class="operator">,</span>
+      <span class="string">is</span>     <span class="operator">=&gt;</span> <span class="string">'rw'</span><span class="operator">;</span>
+  <span class="variable">has</span> <span class="string">'baz'</span><span class="operator">,</span>
+      <span class="string">isa</span>    <span class="operator">=&gt;</span> <span class="variable">NegativeInt</span><span class="operator">,</span>
+      <span class="string">is</span>     <span class="operator">=&gt;</span> <span class="string">'rw'</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">sub</span><span class="variable"> quux </span><span class="operator">{</span>
+      <span class="keyword">my</span> <span class="operator">(</span><span class="variable">$self</span><span class="operator">,</span> <span class="variable">$value</span><span class="operator">);</span>
+</pre>
+<pre>
+      <span class="comment"># test the value</span>
+      <span class="keyword">print</span> <span class="string">"positive\n"</span> <span class="keyword">if</span> <span class="variable">is_PositiveInt</span><span class="operator">(</span><span class="variable">$value</span><span class="operator">);</span>
+      <span class="keyword">print</span> <span class="string">"negative\n"</span> <span class="keyword">if</span> <span class="variable">is_NegativeInt</span><span class="operator">(</span><span class="variable">$value</span><span class="operator">);</span>
+</pre>
+<pre>
+      <span class="comment"># coerce the value, NegativeInt doesn't have a coercion</span>
+      <span class="comment"># helper, since it didn't define any coercions.</span>
+      <span class="variable">$value</span> <span class="operator">=</span> <span class="variable">to_PositiveInt</span><span class="operator">(</span><span class="variable">$value</span><span class="operator">)</span> <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">"Cannot coerce"</span><span class="operator">;</span>
+        <span class="operator">}</span>
+</pre>
+<pre>
+  <span class="number">1</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>The type system provided by Moose effectively makes all of its builtin type
+global, as are any types you declare with Moose. This means that every module
+that declares a type named &quot;PositiveInt&quot; is sharing the same type object. This
+can be a problem when different parts of the code base want to use the same
+name for different things.</p>
+<p>This package lets you declare types using short names, but behind the scenes
+it namespaces all your type declarations, effectively prevent name clashes
+between packages.</p>
+<p>This is done by creating a type library module like <code>MyApp::Types</code> and then
+importing types from that module into other modules.</p>
+<p>As a side effect, the declaration mechanism allows you to write type names as
+barewords (really function calls), which catches typos in names at compile
+time rather than run time.</p>
+<p>This module also provides some helper functions for using Moose types outside
+of attribute declarations.</p>
+<p>If you mix string-based names with types created by this module, it will warn,
+with a few exceptions. If you are declaring a <code>class_type()</code> or
+<code>role_type()</code> within your type library, or if you use a fully qualified name
+like <code>&quot;MyApp::Foo&quot;</code>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="library_definition">LIBRARY DEFINITION</a></h1>
+<p>A MooseX::Types is just a normal Perl module. Unlike Moose 
+itself, it does not install <code>use strict</code> and <code>use warnings</code> in your
+class by default, so this is up to you.</p>
+<p>The only thing a library is required to do is</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">MooseX::Types</span> <span class="operator">-</span><span class="string">declare</span> <span class="operator">=&gt;</span> <span class="operator">\</span><span class="variable">@types</span><span class="operator">;</span>
+</pre>
+<p>with <code>@types</code> being a list of types you wish to define in this library.
+This line will install a proper base class in your package as well as the
+full set of <a href="#type_handler_functions">handlers</a> for your declared 
+types. It will then hand control over to <a href="../../../lib/Moose/Util/TypeConstraints.html">the Moose::Util::TypeConstraints manpage</a>'
+<a href="../../../lib/pods/perlfunc.html#import"><code>import</code></a> method to export the functions you will need to declare your
+types.</p>
+<p>If you want to use Moose' built-in types (e.g. for subtyping) you will 
+want to</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">MooseX::Types::Moose</span> <span class="variable">@types</span><span class="operator">;</span>
+</pre>
+<p>to import the helpers from the shipped <a href="../../../cpan/build/MooseX-Types-0.35-0YdK7U/blib/html/site/lib/MooseX/Types/Moose.html">the MooseX::Types::Moose manpage</a>
+library which can export all types that come with Moose.</p>
+<p>You will have to define coercions for your types or your library won't
+export a <a href="#to__type">to_$type</a> coercion helper for it.</p>
+<p>Note that you currently cannot define types containing <code>::</code>, since 
+exporting would be a problem.</p>
+<p>You also don't need to use <code>warnings</code> and <code>strict</code>, since the
+definition of a library automatically exports those.</p>
+<p>
+</p>
+<hr />
+<h1><a name="library_usage">LIBRARY USAGE</a></h1>
+<p>You can import the <a href="#type_handler_functions">&quot;type helpers&quot;</a> of a
+library by <a href="../../../lib/pods/perlfunc.html#use"><code>use</code></a>ing it with a list of types to import as arguments. If
+you want all of them, use the <code>:all</code> tag. For example:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">MyLibrary</span>      <span class="string">':all'</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">MyOtherLibrary</span> <span class="string">qw( TypeA TypeB )</span><span class="operator">;</span>
+</pre>
+<p>MooseX::Types comes with a library of Moose' built-in types called
+<a href="../../../cpan/build/MooseX-Types-0.35-0YdK7U/blib/html/site/lib/MooseX/Types/Moose.html">the MooseX::Types::Moose manpage</a>.</p>
+<p>The exporting mechanism is, since version 0.5, implemented via a wrapper
+around <a href="../../../lib/Sub/Exporter.html">the Sub::Exporter manpage</a>. This means you can do something like this:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">MyLibrary</span> <span class="string">TypeA</span> <span class="operator">=&gt;</span> <span class="operator">{</span> <span class="string">-as</span> <span class="operator">=&gt;</span> <span class="string">'MyTypeA'</span> <span class="operator">}</span><span class="operator">,</span>
+                <span class="string">TypeB</span> <span class="operator">=&gt;</span> <span class="operator">{</span> <span class="string">-as</span> <span class="operator">=&gt;</span> <span class="string">'MyTypeB'</span> <span class="operator">}</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="type_handler_functions">TYPE HANDLER FUNCTIONS</a></h1>
+<p>
+</p>
+<h2><a name="_type">$type</a></h2>
+<p>A constant with the name of your type. It contains the type's fully
+qualified name. Takes no value, as all constants.</p>
+<p>
+</p>
+<h2><a name="is__type">is_$type</a></h2>
+<p>This handler takes a value and tests if it is a valid value for this
+<code>$type</code>. It will return true or false.</p>
+<p>
+</p>
+<h2><a name="to__type">to_$type</a></h2>
+<p>A handler that will take a value and coerce it into the <code>$type</code>. It will
+return a false value if the type could not be coerced.</p>
+<p><strong>Important Note</strong>: This handler will only be exported for types that can
+do type coercion. This has the advantage that a coercion to a type that
+has not defined any coercions will lead to a compile-time error.</p>
+<p>
+</p>
+<hr />
+<h1><a name="wrapping_a_library">WRAPPING A LIBRARY</a></h1>
+<p>You can define your own wrapper subclasses to manipulate the behaviour
+of a set of library exports. Here is an example:</p>
+<pre>
+  <span class="keyword">package</span> <span class="variable">MyWrapper</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">strict</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">MRO::Compat</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">base</span> <span class="string">'MooseX::Types::Wrapper'</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">sub</span><span class="variable"> coercion_export_generator </span><span class="operator">{</span>
+      <span class="keyword">my</span> <span class="variable">$class</span> <span class="operator">=</span> <span class="keyword">shift</span><span class="operator">;</span>
+      <span class="keyword">my</span> <span class="variable">$code</span> <span class="operator">=</span> <span class="variable">$class</span><span class="operator">-&gt;</span><span class="variable">next::method</span><span class="operator">(</span><span class="variable">@_</span><span class="operator">);</span>
+      <span class="keyword">return</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+          <span class="keyword">my</span> <span class="variable">$value</span> <span class="operator">=</span> <span class="variable">$code</span><span class="operator">-&gt;(</span><span class="variable">@_</span><span class="operator">);</span>
+          <span class="keyword">warn</span> <span class="string">"Coercion returned undef!"</span>
+              <span class="keyword">unless</span> <span class="keyword">defined</span> <span class="variable">$value</span><span class="operator">;</span>
+          <span class="keyword">return</span> <span class="variable">$value</span><span class="operator">;</span>
+      <span class="operator">};</span>
+  <span class="operator">}</span>
+</pre>
+<pre>
+  <span class="number">1</span><span class="operator">;</span>
+</pre>
+<p>This class wraps the coercion generator (e.g., <code>to_Int()</code>) and warns
+if a coercion returned an undefined value. You can wrap any library
+with this:</p>
+<pre>
+  <span class="keyword">package</span> <span class="variable">Foo</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">strict</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">MyWrapper</span> <span class="string">MyLibrary</span> <span class="operator">=&gt;</span> <span class="operator">[</span><span class="string">qw( Foo Bar )</span><span class="operator">]</span><span class="operator">,</span>
+                <span class="string">Moose</span>     <span class="operator">=&gt;</span> <span class="operator">[</span><span class="string">qw( Str Int )</span><span class="operator">]</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="operator">...</span>
+  <span class="number">1</span><span class="operator">;</span>
+</pre>
+<p>The <code>Moose</code> library name is a special shortcut for <a href="../../../cpan/build/MooseX-Types-0.35-0YdK7U/blib/html/site/lib/MooseX/Types/Moose.html">the MooseX::Types::Moose manpage</a>.</p>
+<p>
+</p>
+<h2><a name="generator_methods_you_can_overload">Generator methods you can overload</a></h2>
+<dl>
+<dt><strong><a name="type_export_generator" class="item">type_export_generator( $short, $full )</a></strong></dt>
+
+<dd>
+<p>Creates a closure returning the type's <a href="../../../lib/Moose/Meta/TypeConstraint.html">the Moose::Meta::TypeConstraint manpage</a> object.</p>
+</dd>
+<dt><strong><a name="check_export_generator" class="item">check_export_generator( $short, $full, $undef_message )</a></strong></dt>
+
+<dd>
+<p>This creates the closure used to test if a value is valid for this type.</p>
+</dd>
+<dt><strong><a name="coercion_export_generator" class="item">coercion_export_generator( $short, $full, $undef_message )</a></strong></dt>
+
+<dd>
+<p>This is the closure that's doing coercions.</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="provided_parameters">Provided Parameters</a></h2>
+<dl>
+<dt><strong><a name="_short" class="item">$short</a></strong></dt>
+
+<dd>
+<p>The short, exported name of the type.</p>
+</dd>
+<dt><strong><a name="_full" class="item">$full</a></strong></dt>
+
+<dd>
+<p>The fully qualified name of this type as <a href="../../../cpan/build/MooseX-Types-0.35-0YdK7U/blib/html/site/lib/MooseX/Types/Moose.html">the Moose manpage</a> knows it.</p>
+</dd>
+<dt><strong><a name="_undef_message" class="item">$undef_message</a></strong></dt>
+
+<dd>
+<p>A message that will be thrown when type functionality is used but the
+type does not yet exist.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="recursive_subtypes">RECURSIVE SUBTYPES</a></h1>
+<p>As of version 0.08, <a href="../../../Moose/Types.html">the Moose::Types manpage</a> has experimental support for Recursive
+subtypes.  This will allow:</p>
+<pre>
+    <span class="variable">subtype</span> <span class="variable">Tree</span><span class="operator">()</span> <span class="operator">=&gt;</span> <span class="variable">as</span> <span class="variable">HashRef</span><span class="operator">[</span><span class="variable">Str</span><span class="operator">|</span><span class="variable">Tree</span><span class="operator">]</span><span class="operator">;</span>
+</pre>
+<p>Which validates things like:</p>
+<pre>
+    <span class="operator">{</span><span class="string">key</span><span class="operator">=&gt;</span><span class="string">'value'</span><span class="operator">};</span>
+    <span class="operator">{</span><span class="string">key</span><span class="operator">=&gt;</span><span class="operator">{</span><span class="string">subkey1</span><span class="operator">=&gt;</span><span class="string">'value'</span><span class="operator">,</span> <span class="string">subkey2</span><span class="operator">=&gt;</span><span class="string">'value'</span><span class="operator">}</span><span class="operator">}</span>
+</pre>
+<p>And so on.  This feature is new and there may be lurking bugs so don't be afraid
+to hunt me down with patches and test cases if you have trouble.</p>
+<p>
+</p>
+<hr />
+<h1><a name="notes_regarding_type_unions">NOTES REGARDING TYPE UNIONS</a></h1>
+<p><a href="../../../cpan/build/MooseX-Types-0.35-0YdK7U/blib/html/site/lib/MooseX/Types.html">the MooseX::Types manpage</a> uses <a href="../../../cpan/build/MooseX-Types-0.35-0YdK7U/blib/html/site/lib/MooseX/Types/TypeDecorator.html">the MooseX::Types::TypeDecorator manpage</a> to do some overloading
+which generally allows you to easily create union types:</p>
+<pre>
+  <span class="variable">subtype</span> <span class="variable">StrOrArrayRef</span><span class="operator">,</span>
+      <span class="variable">as</span> <span class="variable">Str</span><span class="operator">|</span><span class="variable">ArrayRef</span><span class="operator">;</span>
+</pre>
+<p>As with parameterized constrains, this overloading extends to modules using the
+types you define in a type library.</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">Moose</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">MooseX::Types::Moose</span> <span class="string">qw(HashRef Int)</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="variable">has</span> <span class="string">'attr'</span> <span class="operator">=&gt;</span> <span class="operator">(</span> <span class="string">isa</span> <span class="operator">=&gt;</span> <span class="variable">HashRef</span> <span class="operator">|</span> <span class="variable">Int</span> <span class="operator">);</span>
+</pre>
+<p>And everything should just work as you'd think.</p>
+<p>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<p>
+</p>
+<h2><a name="import">import</a></h2>
+<p>Installs the <a href="../../../cpan/build/MooseX-Types-0.35-0YdK7U/blib/html/site/lib/MooseX/Types/Base.html">the MooseX::Types::Base manpage</a> class into the caller and exports types
+according to the specification described in <a href="#library_definition">LIBRARY DEFINITION</a>. This
+will continue to <a href="../../../lib/Moose/Util/TypeConstraints.html">the Moose::Util::TypeConstraints manpage</a>' <a href="../../../lib/pods/perlfunc.html#import"><code>import</code></a> method to export
+helper functions you will need to declare your types.</p>
+<p>
+</p>
+<h2><a name="type_export_generator">type_export_generator</a></h2>
+<p>Generate a type export, e.g. <code>Int()</code>. This will return either a
+<a href="../../../lib/Moose/Meta/TypeConstraint.html">the Moose::Meta::TypeConstraint manpage</a> object, or alternatively a
+<a href="../../../cpan/build/MooseX-Types-0.35-0YdK7U/blib/html/site/lib/MooseX/Types/UndefinedType.html">the MooseX::Types::UndefinedType manpage</a> object if the type was not yet defined.</p>
+<p>
+</p>
+<h2><a name="create_arged_type_constraint___name___args_">create_arged_type_constraint ($name, @args)</a></h2>
+<p>Given a String $name with @args find the matching typeconstraint and parameterize
+it with @args.</p>
+<p>
+</p>
+<h2><a name="create_base_type_constraint___name_">create_base_type_constraint ($name)</a></h2>
+<p>Given a String $name, find the matching type constraint.</p>
+<p>
+</p>
+<h2><a name="create_type_decorator___type_constraint_">create_type_decorator ($type_constraint)</a></h2>
+<p>Given a $type_constraint, return a lightweight <a href="../../../cpan/build/MooseX-Types-0.35-0YdK7U/blib/html/site/lib/MooseX/Types/TypeDecorator.html">the MooseX::Types::TypeDecorator manpage</a>
+instance.</p>
+<p>
+</p>
+<h2><a name="coercion_export_generator">coercion_export_generator</a></h2>
+<p>This generates a coercion handler function, e.g. <code>to_Int($value)</code>.</p>
+<p>
+</p>
+<h2><a name="check_export_generator">check_export_generator</a></h2>
+<p>Generates a constraint check closure, e.g. <code>is_Int($value)</code>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="caveats">CAVEATS</a></h1>
+<p>The following are lists of gotchas and their workarounds for developers coming
+from the standard string based type constraint names</p>
+<p>
+</p>
+<h2><a name="uniqueness">Uniqueness</a></h2>
+<p>A library makes the types quasi-unique by prefixing their names with (by
+default) the library package name. If you're only using the type handler
+functions provided by MooseX::Types, you shouldn't ever have to use
+a type's actual full name.</p>
+<p>
+</p>
+<h2><a name="argument_separation_______versus_____">Argument separation ('=&gt;' versus ',')</a></h2>
+<p>The <a href="../../../lib/pods/perlop.html">the perlop manpage</a> manpage has this to say about the '=&gt;' operator: &quot;The =&gt; operator is
+a synonym for the comma, but forces any word (consisting entirely of word
+characters) to its left to be interpreted as a string (as of 5.001). This
+includes words that might otherwise be considered a constant or function call.&quot;</p>
+<p>Due to this stringification, the following will NOT work as you might think:</p>
+<pre>
+  <span class="variable">subtype</span> <span class="string">StrOrArrayRef</span> <span class="operator">=&gt;</span> <span class="variable">as</span> <span class="variable">Str</span> <span class="operator">|</span> <span class="variable">ArrayRef</span><span class="operator">;</span>
+</pre>
+<p>The 'StrOrArrayRef' will have its stringification activated this causes the
+subtype to not be created.  Since the bareword type constraints are not strings
+you really should not try to treat them that way.  You will have to use the ','
+operator instead.  The author's of this package realize that all the <a href="../../../cpan/build/MooseX-Types-0.35-0YdK7U/blib/html/site/lib/MooseX/Types/Moose.html">the Moose manpage</a>
+documention and examples nearly uniformly use the '=&gt;' version of the comma
+operator and this could be an issue if you are converting code.</p>
+<p>Patches welcome for discussion.</p>
+<p>
+</p>
+<h2><a name="compatibility_with_sub__exporter">Compatibility with Sub::Exporter</a></h2>
+<p>If you want to use <a href="../../../lib/Sub/Exporter.html">the Sub::Exporter manpage</a> with a Type Library, you need to make sure
+you export all the type constraints declared AS WELL AS any additional export
+targets. For example if you do:</p>
+<pre>
+  <span class="keyword">package</span> <span class="variable">TypeAndSubExporter</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">use</span> <span class="variable">MooseX::Types::Moose</span> <span class="string">qw(Str)</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">MooseX::Types</span> <span class="operator">-</span><span class="string">declare</span> <span class="operator">=&gt;</span> <span class="operator">[</span><span class="string">qw(MyStr)</span><span class="operator">]</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">Sub::Exporter</span> <span class="operator">-</span><span class="string">setup</span> <span class="operator">=&gt;</span> <span class="operator">{</span> <span class="string">exports</span> <span class="operator">=&gt;</span> <span class="operator">[</span><span class="string">qw(something)</span><span class="operator">]</span> <span class="operator">}</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="variable">subtype</span> <span class="variable">MyStr</span><span class="operator">,</span> <span class="variable">as</span> <span class="variable">Str</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">sub</span><span class="variable"> something </span><span class="operator">{</span>
+      <span class="keyword">return</span> <span class="number">1</span><span class="operator">;</span>
+  <span class="operator">}</span>
+</pre>
+<pre>
+  <span class="comment"># then in another module ...</span>
+</pre>
+<pre>
+  <span class="keyword">package</span> <span class="variable">Foo</span><span class="operator">;</span>
+  <span class="keyword">use</span> <span class="variable">TypeAndSubExporter</span> <span class="string">qw(MyStr)</span><span class="operator">;</span>
+</pre>
+<p>You'll get a '&quot;MyStr&quot; is not exported by the TypeAndSubExporter module' error.
+Upi can workaround by:</p>
+<pre>
+  <span class="operator">-</span> <span class="keyword">use</span> <span class="variable">Sub::Exporter</span> <span class="operator">-</span><span class="string">setup</span> <span class="operator">=&gt;</span> <span class="operator">{</span> <span class="string">exports</span> <span class="operator">=&gt;</span> <span class="operator">[</span> <span class="string">qw(something)</span> <span class="operator">]</span> <span class="operator">}</span><span class="operator">;</span>
+  <span class="operator">+</span> <span class="keyword">use</span> <span class="variable">Sub::Exporter</span> <span class="operator">-</span><span class="string">setup</span> <span class="operator">=&gt;</span> <span class="operator">{</span> <span class="string">exports</span> <span class="operator">=&gt;</span> <span class="operator">[</span> <span class="string">qw(something MyStr)</span> <span class="operator">]</span> <span class="operator">}</span><span class="operator">;</span>
+</pre>
+<p>This is a workaround and I am exploring how to make these modules work better
+together.  I realize this workaround will lead a lot of duplication in your
+export declarations and will be onerous for large type libraries.  Patches and
+detailed test cases welcome. See the tests directory for a start on this.</p>
+<p>
+</p>
+<hr />
+<h1><a name="combining_type_libraries">COMBINING TYPE LIBRARIES</a></h1>
+<p>You may want to combine a set of types for your application with other type
+libraries, like <a href="../../../cpan/build/MooseX-Types-0.35-0YdK7U/blib/html/site/lib/MooseX/Types/Moose.html">the MooseX::Types::Moose manpage</a> or <a href="../../../MooseX/Types/Common/String.html">the MooseX::Types::Common::String manpage</a>.</p>
+<p>The <a href="../../../cpan/build/MooseX-Types-0.35-0YdK7U/blib/html/site/lib/MooseX/Types/Combine.html">the MooseX::Types::Combine manpage</a> module provides a simple API for combining a set
+of type libraries together.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../../cpan/build/MooseX-Types-0.35-0YdK7U/blib/html/site/lib/MooseX/Types/Moose.html">the Moose manpage</a>, <a href="../../../lib/Moose/Util/TypeConstraints.html">the Moose::Util::TypeConstraints manpage</a>, <a href="../../../cpan/build/MooseX-Types-0.35-0YdK7U/blib/html/site/lib/MooseX/Types/Moose.html">the MooseX::Types::Moose manpage</a>,
+<a href="../../../lib/Sub/Exporter.html">the Sub::Exporter manpage</a></p>
+<p>
+</p>
+<hr />
+<h1><a name="acknowledgements">ACKNOWLEDGEMENTS</a></h1>
+<p>Many thanks to the <code>#moose</code> cabal on <code>irc.perl.org</code>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="contributors">CONTRIBUTORS</a></h1>
+<p>jnapiorkowski: John Napiorkowski &lt;<a href="mailto:jjnapiork@cpan.org">jjnapiork@cpan.org</a>&gt;</p>
+<p>caelum: Rafael Kitover &lt;<a href="mailto:rkitover@cpan.org">rkitover@cpan.org</a>&gt;</p>
+<p>rafl: Florian Ragwitz &lt;<a href="mailto:rafl@debian.org">rafl@debian.org</a>&gt;</p>
+<p>hdp: Hans Dieter Pearcey &lt;<a href="mailto:hdp@cpan.org">hdp@cpan.org</a>&gt;</p>
+<p>autarch: Dave Rolsky &lt;<a href="mailto:autarch@urth.org">autarch@urth.org</a>&gt;</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Robert &quot;phaylon&quot; Sedlacek &lt;<a href="mailto:rs@474.at">rs@474.at</a>&gt;</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright_and_license">COPYRIGHT AND LICENSE</a></h1>
+<p>This software is copyright (c) 2012 by Robert &quot;phaylon&quot; Sedlacek.</p>
+<p>This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.</p>
+
+</body>
+
+</html>

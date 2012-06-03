@@ -1,0 +1,5 @@
+LIBRARY "Declare"
+EXPORTS
+  boot_Devel__Declare
+  _boot_Devel__Declare = boot_Devel__Declare
+  

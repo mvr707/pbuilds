@@ -1,0 +1,161 @@
+0&&<<''; # this PGP-signed message is also valid perl
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+# CHECKSUMS file written on Wed Dec 28 20:09:54 2011 GMT by CPAN::Checksums (v2.05)
+$cksum = {
+  'Acme-Turing-0.02.meta' => {
+    'md5' => 'fd1f49b5053b05de3e3878a5718c941e',
+    'mtime' => '2008-07-28',
+    'sha256' => 'ce930c996454f5520abda962e4e94b0fb22b7a6fd89cfe412ad244624d95f11b',
+    'size' => '297'
+  },
+  'Acme-Turing-0.02.tar.gz' => {
+    'md5' => 'fac6fe56e01e6011a339a57fe7c67d2b',
+    'md5-ungz' => 'fd83dcfc878d402b691bfcaad47d8ef5',
+    'mtime' => '2008-07-28',
+    'sha256' => '5c5a947120f9c7c3b3ecbee49c3de89632a3b11b1e834bfd637cd8a6c51ac78c',
+    'sha256-ungz' => 'def482ab9f4de366cb10982c0d5ec3741b35726df4391de296562a103212c7d3',
+    'size' => '5576'
+  },
+  'Convert-IBM390-0.27.meta' => {
+    'md5' => 'cd3e8775f52e2d2df32cccb8f718fa00',
+    'mtime' => '2008-12-17',
+    'sha256' => 'e55b83c152e5b555ae5be7e41a09435091c2fe3d7a770b081c5f555a5225c80e',
+    'size' => '312'
+  },
+  'Convert-IBM390-0.27.tar.gz' => {
+    'md5' => '035c2c6e08527525e27bffe2cad9f09c',
+    'md5-ungz' => '886ba30e9af22d0bd3b2744c0267c0c1',
+    'mtime' => '2008-12-17',
+    'sha256' => '4d897a5dc5f0cacc597cdfcc2bb4b294ce5e9c5456670bda2b9d64bfba214506',
+    'sha256-ungz' => '9043128ad6d3c9c919dd0f6bbb1abe0141ea9dec3a593788ec8cd4ece0cacd29',
+    'size' => '30183'
+  },
+  'MVS-VBFile-0.05.tar.gz' => {
+    'md5' => '1cf06ae3f8f6fb4f8ba850a3d467cbf1',
+    'md5-ungz' => 'e133a698b0abdb990239589e0dec2dc9',
+    'mtime' => '2004-05-12',
+    'sha256' => 'b05145023d6aa72cb45690e7aac3d98a5bc189f65f2e11f2171bca987ce5cacd',
+    'sha256-ungz' => 'd5d8e547400aa9f466747f847584b3ad0c3ce1f6a6a6c9174f57b46dd23e65e0',
+    'size' => '6695'
+  },
+  'Math-Random-0.70.meta' => {
+    'md5' => '047a1813bdb4254bc19e0b466dca08cc',
+    'mtime' => '2007-10-12',
+    'sha256' => '675c4e7fbbd74bbd55b332806972fe1dee56b04ca63965a994d905713d4f1f0b',
+    'size' => '297'
+  },
+  'Math-Random-0.70.tar.gz' => {
+    'md5' => '36be7507dbfedfa3e919f4ea47e650dc',
+    'md5-ungz' => '8e6da2ca07b57f20bd70c233cfe42382',
+    'mtime' => '2007-10-12',
+    'sha256' => '081b9dda8272b87ddcc319e557f5e1351c401c15d8d116d4633c22cf99c5ce8a',
+    'sha256-ungz' => '5b5fc3c09bba6ca6d5901d133cb132f0478f140ac14d07f5cdb79041466b8d1b',
+    'size' => '46162'
+  },
+  'Math-Random-0.71.meta' => {
+    'md5' => 'e7687d15165484039c965a15b5cd812d',
+    'mtime' => '2008-09-16',
+    'sha256' => '70ea1889593babb5018729ee7f9fe6e6b0eee8fd388c8f8d78e7b2e5a550394c',
+    'size' => '297'
+  },
+  'Math-Random-0.71.tar.gz' => {
+    'md5' => '55d7579c670ecd180f71fd157a2d2070',
+    'md5-ungz' => '908885024001dc2c45495970ce03e164',
+    'mtime' => '2008-09-17',
+    'sha256' => '8af09c3d0041d83c3369536ab1e37d3d9707a01e2ed05d2dcc8e096cdf07cc2d',
+    'sha256-ungz' => 'ee94547686430537cb8abf72c346131d0c20bdbf276ff12e9d9cccd5453a2b13',
+    'size' => '46011'
+  },
+  'Math-Round-0.06.meta' => {
+    'md5' => '9f498bcca06fea785079b242520f17ce',
+    'mtime' => '2006-11-30',
+    'sha256' => '2be57e0a4f2c314136b3002c03a93e1da0269ba8f74611e41627e3795e2d39e8',
+    'size' => '295'
+  },
+  'Math-Round-0.06.tar.gz' => {
+    'md5' => '552cef2753b246f97a6e20d8dee66e7c',
+    'md5-ungz' => '180bbf85f807146e231445133616ca25',
+    'mtime' => '2006-11-30',
+    'sha256' => 'a5086f7693ac49a9bdcdc9cccff9159be527d150951319c061bfb2e0dedb8da4',
+    'sha256-ungz' => 'b0ed4f2b002f16f372a43accce72f6d79f67bd949eebde1e702f7f67ed8e766e',
+    'size' => '5002'
+  },
+  'Teradata-BTET-0.02.tar.gz' => {
+    'md5' => 'ec6800871fbb8e8d097fcfd5667abdd4',
+    'md5-ungz' => '29b29683c1857c495ffb4a00665bfc5b',
+    'mtime' => '2006-06-15',
+    'sha256' => 'a929bbc55951dfc2c851dcd68f605655f3e33f98035608a0c986ec4fc9705036',
+    'sha256-ungz' => 'bc42798627291959f4fcae0d0e9b6a06ec17845129a78814b5b94396a5fbfedf',
+    'size' => '12423'
+  },
+  'Teradata-SQL-0.08.meta' => {
+    'md5' => '7b965c839b02177056e48eddd1fee2c7',
+    'mtime' => '2009-08-07',
+    'sha256' => '7ccfbf3f9bca4003d615ecd500bd1f5ec63555e1b986a232f2eb99750c5f9b3a',
+    'size' => '295'
+  },
+  'Teradata-SQL-0.08.tar.gz' => {
+    'md5' => '8c25f8d894dd2195dc71aabe5892732f',
+    'md5-ungz' => '6cc06c88578dd45bbc883e99aaf7f199',
+    'mtime' => '2009-08-07',
+    'sha256' => 'c9365f7766f8ca2805126d55dae03aaaa152dab2ba2d18bcda2df54e68771e26',
+    'sha256-ungz' => '2bd4c60449db160de47aba775fee9e46af672852e7519ddfc4d2a80dd08ab25f',
+    'size' => '21452'
+  },
+  'Teradata-SQL-0.08PPM.zip' => {
+    'md5' => '9f7e0b6f54a33ae65e139a915ec9c50a',
+    'mtime' => '2009-08-07',
+    'sha256' => '5fa228aaa39a1c0d18ffba6eef76a6a07e198f77d1ef0efd0a807062d1dd0a81',
+    'size' => '141630'
+  },
+  'Teradata-SQL-0.09-PPM.zip' => {
+    'md5' => '2ced3d1ffadc9794b3cd6c8de524d08b',
+    'mtime' => '2010-01-27',
+    'sha256' => 'f35e901ad4ed103bdfbf3218aa0271c73351632dbfdd96066df153c08ad4a6e2',
+    'size' => '144350'
+  },
+  'Teradata-SQL-0.09.meta' => {
+    'md5' => '9377706cb1b1383f4b29a82f5d486c10',
+    'mtime' => '2010-01-20',
+    'sha256' => '8bc7441c7aa8c324db52bd42271f6380be1b6459631f60aed4c2aa1ef35ae81c',
+    'size' => '295'
+  },
+  'Teradata-SQL-0.09.tar.gz' => {
+    'md5' => 'd8b0435a123e58a5ae55985f765760b9',
+    'md5-ungz' => 'f1956e99a6636325ebf9b67612f4e923',
+    'mtime' => '2010-01-20',
+    'sha256' => '14eac81fccfc0bc21c71f33daa1bfbbc80b775fa9fb0296ec38f7c6915dbe850',
+    'sha256-ungz' => 'b16772f014cdb006c69fc8c196f181fd899dd2ce2dfe5772d94653dfad0d8cb7',
+    'size' => '21058'
+  },
+  'Teradata-SQL-0.10.meta' => {
+    'md5' => 'bc32c5420c582df6ea0b64f07792615b',
+    'mtime' => '2011-12-28',
+    'sha256' => 'b503efd7157861bb1282fdb0fa16e7883d7148a2fa307406b22cb3c8d8315d36',
+    'size' => '547'
+  },
+  'Teradata-SQL-0.10.tar.gz' => {
+    'md5' => 'f3d945f6b8739ece471d248de8212f9b',
+    'md5-ungz' => '5fea27ed4173fd5201f1fc99d18fa7ab',
+    'mtime' => '2011-12-28',
+    'sha256' => '78f85f5bcf9bb7199a56e380c31dbc11426b70033195587f069f07d2065ceede',
+    'sha256-ungz' => '35413bb06d69dd761dff0ff457d6ee4f363079bcefcd4265f388cb98bdd5ae04',
+    'size' => '21928'
+  },
+  'Teradata-SQL-PPM-0.06.zip' => {
+    'md5' => 'b2012150aef99578b7ed91953f072f08',
+    'mtime' => '2008-10-27',
+    'sha256' => '90413a47d478ac352938df533ac829de19eafd267c9597735b2eefec88fd98d7',
+    'size' => '88696'
+  }
+};
+__END__
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.9 (GNU/Linux)
+
+iEYEARECAAYFAk77d5IACgkQMo2oZ0UPiezZOQCbBke4jJ6ZSxUoSfWrAd8/4V63
+V94An2t0We0q+D+nbsh/oHUhTqG+rY+U
+=4feW
+-----END PGP SIGNATURE-----

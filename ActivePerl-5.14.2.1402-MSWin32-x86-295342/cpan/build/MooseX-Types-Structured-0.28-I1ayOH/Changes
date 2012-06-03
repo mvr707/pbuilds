@@ -1,0 +1,160 @@
+Revision history for MooseX-Types-Structured
+
+0.28   03 October 2011
+        - Fixed regression where mixed type constraints (MX:Types style and
+        'classic' Stringy style) are used in a single structured type doesn't
+        work.
+
+0.27   28 April 2011
+        - test fixes for new Moose
+
+0.26   02 January 2011
+        - removed version from Test::Fatal as asked by the debian folks
+        - small documentation updates
+
+0.25   28 December 2010
+        - fixed bug where ->is_subtype_of dies meaninglessly when the type we
+          are trying to check is not a type we can find.  This makes our
+          handling consistent with core Moose.  Also changed ->equals and
+          ->is_a_type_of to be consistent.
+        - Added test case for above
+        - The test suite now uses Test::Fatal instead of Test::Exception (Karen
+          Etheridge).
+
+0.24   16 November 2010
+        - Added some performance enhancing caching code (phaeton)
+
+0.23   01 july 2010
+        - Changes to the return value of ->validate that hopefully is both
+          backwardly compatible as well as more detailed.  Now if you have
+          a deeply recursive of repeated type constraints inside other
+          type constraints you will get a drill down report to show the
+          actual type constraint that failed
+
+0.22   01 June 2010
+        - Added tests to demonstrate type constraint equality problem
+          introduced in Moose 1.05
+
+0.21   26 March 2010
+        - Removed unneed module from test
+        - additional contributed documentation fixes
+
+0.20   04 February 2010
+        - Add a new Map type. (Ricardo SIGNES)
+        - Properly handle Optional[] types within Tuples and Dicts.
+          (Florian Ragwitz)
+
+0.19   06 November 2009
+        - Require Devel::PartialDump 0.10 and change tests to expect the
+          correct format of error.
+
+0.18   17 August 2009
+        - Changed the Makefile.PL to reduce dependencies not needed by users
+          that are not authors.  Bumped the revision and released to clear an
+          error with cpan permissions.
+
+0.17   12 August 2009
+        - No new functionality.
+        - Changed the way we specify dependencies in the Makefile.PL to reduce
+          the depth of the dependency chain in cases where we don't need to be
+          running the author quality tests.
+        - Some documentation tweaks.
+
+0.16    28 May 2009
+        - Fix failing tests and test warnings on MooseX::Types 0.11.
+
+0.15    27 May 2009
+        - Change copy on license and added contributors section
+
+0.14    01 May 2009
+        - Use a builder instead of wrapping new to set the default structured
+          coercion (rafl).
+        - Make overflow (slurpy) type constraints introspectable and the name
+          of constraints using them reasonable (rafl).
+
+0.13    25 April 2009
+        - Explicitly don't inline yet another constructor to avoid
+          warnings (autarch).
+
+0.12    21 April 2009
+        - Explicitly don't inline the constructor to avoid warnings (rafl).
+        - Pathological test cases for API methods equals, is_a_type_of and
+          is_subtype_of (rafl).
+        - significant improvements to API methods is_a_type_of, is_subtype_of
+          and equals (nothingmuch).
+
+0.11    06 April 2009
+        - Fixed braindead bug in the way I override ->validate, which caused
+          valiate to never correctly pass a constraint.
+
+0.10    02 April 2009
+        - Minor documentation grammar fixes and one major example error fixed
+        - Much improved error reporting.  Now we return the 'internal' error
+          that kicked a validation failure.  It's still best to use this for
+          debugging rather than for actual user error messages, since I think
+          we are rapidly approaching a need for Moose constraints needing more
+          in the error and message reporting.
+        - Documentation for the above.
+0.09    07 March 2009
+        - I guess we don't support the "subtype MyType, [TypeConstraint]" syntax
+          anymore.  Changed the recursion test to reflect that, which should fix
+          my 100% fail rate :)
+0.08    06 March 2009
+        - New Feature: slurpy method for when you want a structured type
+          constraint that allows trailing arguments of indeterminate length.
+          Please see the documentation and the '11-overflow.t' test for more.
+        - Documentation for above as well as a bunch of POD cleanups, spell
+          checks and improvements to formatting.
+        - Stevan Little submitted a sweet  update to the '10-recursion.t' test
+          that blows my mind.  Will probably form the core of a to be done set
+          of cookbook style PODs.  Worth looking at.
+        - First step at improving the error message you get when validation
+          fails.  A full error stacktrace is not in this release, but you now
+          at least get to see part of the offending value.
+
+0.07    09 December 2008
+        - Fixed typo in previous changelog
+        - documentation improvements and updates
+        - increased version requirement for MooseX::Types so that we can take
+          advantage of the recursion support added.
+        - added test for recursion.
+
+0.06    06 December 2008
+        - Added a 'helper' type constraint called Optional. See docs for more.
+        - added lots of tests to cover the API better, coverage and fixes for
+          the ->parameterize method in particular have been clarified.
+        - changes so that the type contraints are more forgiving when null
+          values appear in method calls.
+        - used ->make_immutable which should speed up the constraints.
+        - removed some unnecessary calls to use Moose when I wasn't using Moose.
+        - lots of little code cleanup work and more internal documentation.
+        - This version requires a newer Moose than previous versions.  The
+          Makefile.PL has been updated to reflect this.  This is a required
+          update.
+
+0.05    08 November 2008
+        - Fixed some wackiness in the documentation.
+
+0.04    07 November 2008
+        - Bumped minimum required versions of Moose and MooseX-Types to solve
+          problem with overloading and type constraint names (issue resolved
+          in Moose code.)
+        - Changed the way the required Perl version string is used to increase
+          compatibility and lowered minimum required Perl
+
+0.03    29 October 2008
+        - Fixed incorrect Perl version string (rafl)
+        - hide the meta classes from pause.  This should clarify which POD is
+          the right one to read and also I want to discourage people from
+          subclassing that stuff since it will probably change
+        - various documentation cleanup
+        - new test 'example.t' with runable versions of the code in the example
+          POD section.
+
+0.02    28 October 2008
+        - cleared up some typos in the test suite
+        - Fixed some POD formatting issues, mostly some dumb tabs I ended up
+          with when I switched editors.  Added a bit more documentation
+
+0.01    27 October 2008
+        - Completed basic requirements, documentation and tests.

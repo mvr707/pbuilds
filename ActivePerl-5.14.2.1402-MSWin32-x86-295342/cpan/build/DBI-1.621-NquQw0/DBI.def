@@ -1,0 +1,5 @@
+LIBRARY "DBI"
+EXPORTS
+  boot_DBI
+  _boot_DBI = boot_DBI
+  

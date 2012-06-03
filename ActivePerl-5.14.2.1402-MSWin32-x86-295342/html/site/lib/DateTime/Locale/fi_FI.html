@@ -1,0 +1,802 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../scineplex.css">
+<title>C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\build\DateTime-Locale-0.45-rbrrCe\blib/lib/DateTime/Locale/fi_FI.pm</title>
+<link rel="stylesheet" href="../../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',4);</script>
+<h1><a>C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\build\DateTime-Locale-0.45-rbrrCe\blib/lib/DateTime/Locale/fi_FI.pm</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#data">DATA</a></li>
+	<ul>
+
+		<li><a href="#days">Days</a></li>
+		<ul>
+
+			<li><a href="#wide__format_">Wide (format)</a></li>
+			<li><a href="#abbreviated__format_">Abbreviated (format)</a></li>
+			<li><a href="#narrow__format_">Narrow (format)</a></li>
+			<li><a href="#wide__stand_alone_">Wide (stand-alone)</a></li>
+			<li><a href="#abbreviated__stand_alone_">Abbreviated (stand-alone)</a></li>
+			<li><a href="#narrow__stand_alone_">Narrow (stand-alone)</a></li>
+		</ul>
+
+		<li><a href="#months">Months</a></li>
+		<ul>
+
+			<li><a href="#wide__format_">Wide (format)</a></li>
+			<li><a href="#abbreviated__format_">Abbreviated (format)</a></li>
+			<li><a href="#narrow__format_">Narrow (format)</a></li>
+			<li><a href="#wide__stand_alone_">Wide (stand-alone)</a></li>
+			<li><a href="#abbreviated__stand_alone_">Abbreviated (stand-alone)</a></li>
+			<li><a href="#narrow__stand_alone_">Narrow (stand-alone)</a></li>
+		</ul>
+
+		<li><a href="#quarters">Quarters</a></li>
+		<ul>
+
+			<li><a href="#wide__format_">Wide (format)</a></li>
+			<li><a href="#abbreviated__format_">Abbreviated (format)</a></li>
+			<li><a href="#narrow__format_">Narrow (format)</a></li>
+			<li><a href="#wide__stand_alone_">Wide (stand-alone)</a></li>
+			<li><a href="#abbreviated__stand_alone_">Abbreviated (stand-alone)</a></li>
+			<li><a href="#narrow__stand_alone_">Narrow (stand-alone)</a></li>
+		</ul>
+
+		<li><a href="#eras">Eras</a></li>
+		<ul>
+
+			<li><a href="#wide">Wide</a></li>
+			<li><a href="#abbreviated">Abbreviated</a></li>
+			<li><a href="#narrow">Narrow</a></li>
+		</ul>
+
+		<li><a href="#date_formats">Date Formats</a></li>
+		<ul>
+
+			<li><a href="#full">Full</a></li>
+			<li><a href="#long">Long</a></li>
+			<li><a href="#medium">Medium</a></li>
+			<li><a href="#short">Short</a></li>
+			<li><a href="#default">Default</a></li>
+		</ul>
+
+		<li><a href="#time_formats">Time Formats</a></li>
+		<ul>
+
+			<li><a href="#full">Full</a></li>
+			<li><a href="#long">Long</a></li>
+			<li><a href="#medium">Medium</a></li>
+			<li><a href="#short">Short</a></li>
+			<li><a href="#default">Default</a></li>
+		</ul>
+
+		<li><a href="#datetime_formats">Datetime Formats</a></li>
+		<ul>
+
+			<li><a href="#full">Full</a></li>
+			<li><a href="#long">Long</a></li>
+			<li><a href="#medium">Medium</a></li>
+			<li><a href="#short">Short</a></li>
+			<li><a href="#default">Default</a></li>
+		</ul>
+
+		<li><a href="#available_formats">Available Formats</a></li>
+		<ul>
+
+			<li><a href="#d__d_">d (d)</a></li>
+			<li><a href="#eeed__eee_d__">EEEd (EEE d.)</a></li>
+			<li><a href="#hhmmss__hh_mm_ss_">HHmmss (HH.mm.ss)</a></li>
+			<li><a href="#hm__h_mm_">Hm (H.mm)</a></li>
+			<li><a href="#hm__h_mm_a_">hm (h.mm a)</a></li>
+			<li><a href="#hms__h_mm_ss_">Hms (H:mm:ss)</a></li>
+			<li><a href="#hms__h_mm_ss_a_">hms (h.mm.ss a)</a></li>
+			<li><a href="#m__l_">M (L)</a></li>
+			<li><a href="#md__d_m__">Md (d.M.)</a></li>
+			<li><a href="#med__e_d_m__">MEd (E d.M.)</a></li>
+			<li><a href="#mmm__lll_">MMM (LLL)</a></li>
+			<li><a href="#mmmd__d__mmm_">MMMd (d. MMM)</a></li>
+			<li><a href="#mmmed__e_d__mmm_">MMMEd (E d. MMM)</a></li>
+			<li><a href="#mmmmd__d__mmmm_">MMMMd (d. MMMM)</a></li>
+			<li><a href="#mmmmed__e_d__mmmm_">MMMMEd (E d. MMMM)</a></li>
+			<li><a href="#ms__mm_ss_">ms (mm.ss)</a></li>
+			<li><a href="#y__y_">y (y)</a></li>
+			<li><a href="#ym__l_yyyy_">yM (L.yyyy)</a></li>
+			<li><a href="#ymed__eee_d_m_yyyy_">yMEd (EEE d.M.yyyy)</a></li>
+			<li><a href="#ymmm__lll_y_">yMMM (LLL y)</a></li>
+			<li><a href="#ymmmed__eee_d__mmm_y_">yMMMEd (EEE d. MMM y)</a></li>
+			<li><a href="#ymmmm__llll_y_">yMMMM (LLLL y)</a></li>
+			<li><a href="#ymmmmccccd__cccc__d__mmmm_y_">yMMMMccccd (cccc, d. MMMM y)</a></li>
+			<li><a href="#yq__q_yyyy_">yQ (Q/yyyy)</a></li>
+			<li><a href="#yqqq__qqq_y_">yQQQ (QQQ y)</a></li>
+			<li><a href="#yymm__m_yy_">yyMM (M/yy)</a></li>
+			<li><a href="#yymmm__mmm_yy_">yyMMM (MMM yy)</a></li>
+			<li><a href="#yyq__q_yy_">yyQ (Q/yy)</a></li>
+			<li><a href="#yyyym__m_yyyy_">yyyyM (M/yyyy)</a></li>
+			<li><a href="#yyyymeeed__eee_d_m_yyyy_">yyyyMEEEd (EEE d.M.yyyy)</a></li>
+			<li><a href="#yyyymmmm__llll_y_">yyyyMMMM (LLLL y)</a></li>
+			<li><a href="#yyyyqqqq__qqqq_y_">yyyyQQQQ (QQQQ y)</a></li>
+		</ul>
+
+		<li><a href="#miscellaneous">Miscellaneous</a></li>
+		<ul>
+
+			<li><a href="#prefers_24_hour_time">Prefers 24 hour time?</a></li>
+			<li><a href="#local_first_day_of_the_week">Local first day of the week</a></li>
+		</ul>
+
+	</ul>
+
+	<li><a href="#support">SUPPORT</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<hr />
+<h1><a name="name">NAME</a></h1>
+<p>DateTime::Locale::fi_FI</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  <span class="keyword">use</span> <span class="variable">DateTime</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$dt</span> <span class="operator">=</span> <span class="variable">DateTime</span><span class="operator">-&gt;</span><span class="variable">now</span><span class="operator">(</span> <span class="string">locale</span> <span class="operator">=&gt;</span> <span class="string">'fi_FI'</span> <span class="operator">);</span>
+  <span class="keyword">print</span> <span class="variable">$dt</span><span class="operator">-&gt;</span><span class="variable">month_name</span><span class="operator">();</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This is the DateTime locale package for Finnish Finland.</p>
+<p>
+</p>
+<hr />
+<h1><a name="data">DATA</a></h1>
+<p>This locale inherits from the <a href="../../../../cpan/build/DateTime-Locale-0.45-rbrrCe/blib/html/site/lib/DateTime/Locale/fi.html">the DateTime::Locale::fi manpage</a> locale.</p>
+<p>It contains the following data.</p>
+<p>
+</p>
+<h2><a name="days">Days</a></h2>
+<p>
+</p>
+<h3><a name="wide__format_">Wide (format)</a></h3>
+<pre>
+  maanantaina
+  tiistaina
+  keskiviikkona
+  torstaina
+  perjantaina
+  lauantaina
+  sunnuntaina</pre>
+<p>
+</p>
+<h3><a name="abbreviated__format_">Abbreviated (format)</a></h3>
+<pre>
+  ma
+  ti
+  ke
+  to
+  pe
+  la
+  su</pre>
+<p>
+</p>
+<h3><a name="narrow__format_">Narrow (format)</a></h3>
+<pre>
+  M
+  T
+  K
+  T
+  P
+  L
+  S</pre>
+<p>
+</p>
+<h3><a name="wide__stand_alone_">Wide (stand-alone)</a></h3>
+<pre>
+  maanantai
+  tiistai
+  keskiviikko
+  torstai
+  perjantai
+  lauantai
+  sunnuntai</pre>
+<p>
+</p>
+<h3><a name="abbreviated__stand_alone_">Abbreviated (stand-alone)</a></h3>
+<pre>
+  ma
+  ti
+  ke
+  to
+  pe
+  la
+  su</pre>
+<p>
+</p>
+<h3><a name="narrow__stand_alone_">Narrow (stand-alone)</a></h3>
+<pre>
+  M
+  T
+  K
+  T
+  P
+  L
+  S</pre>
+<p>
+</p>
+<h2><a name="months">Months</a></h2>
+<p>
+</p>
+<h3><a name="wide__format_">Wide (format)</a></h3>
+<pre>
+  tammikuuta
+  helmikuuta
+  maaliskuuta
+  huhtikuuta
+  toukokuuta
+  kesäkuuta
+  heinäkuuta
+  elokuuta
+  syyskuuta
+  lokakuuta
+  marraskuuta
+  joulukuuta</pre>
+<p>
+</p>
+<h3><a name="abbreviated__format_">Abbreviated (format)</a></h3>
+<pre>
+  tammikuuta
+  helmikuuta
+  maaliskuuta
+  huhtikuuta
+  toukokuuta
+  kesäkuuta
+  heinäkuuta
+  elokuuta
+  syyskuuta
+  lokakuuta
+  marraskuuta
+  joulukuuta</pre>
+<p>
+</p>
+<h3><a name="narrow__format_">Narrow (format)</a></h3>
+<pre>
+  T
+  H
+  M
+  H
+  T
+  K
+  H
+  E
+  S
+  L
+  M
+  J</pre>
+<p>
+</p>
+<h3><a name="wide__stand_alone_">Wide (stand-alone)</a></h3>
+<pre>
+  tammikuu
+  helmikuu
+  maaliskuu
+  huhtikuu
+  toukokuu
+  kesäkuu
+  heinäkuu
+  elokuu
+  syyskuu
+  lokakuu
+  marraskuu
+  joulukuu</pre>
+<p>
+</p>
+<h3><a name="abbreviated__stand_alone_">Abbreviated (stand-alone)</a></h3>
+<pre>
+  tammi
+  helmi
+  maalis
+  huhti
+  touko
+  kesä
+  heinä
+  elo
+  syys
+  loka
+  marras
+  joulu</pre>
+<p>
+</p>
+<h3><a name="narrow__stand_alone_">Narrow (stand-alone)</a></h3>
+<pre>
+  T
+  H
+  M
+  H
+  T
+  K
+  H
+  E
+  S
+  L
+  M
+  J</pre>
+<p>
+</p>
+<h2><a name="quarters">Quarters</a></h2>
+<p>
+</p>
+<h3><a name="wide__format_">Wide (format)</a></h3>
+<pre>
+  1. neljännes
+  2. neljännes
+  3. neljännes
+  4. neljännes</pre>
+<p>
+</p>
+<h3><a name="abbreviated__format_">Abbreviated (format)</a></h3>
+<pre>
+  1. nelj.
+  2. nelj.
+  3. nelj.
+  4. nelj.</pre>
+<p>
+</p>
+<h3><a name="narrow__format_">Narrow (format)</a></h3>
+<pre>
+  1
+  2
+  3
+  4</pre>
+<p>
+</p>
+<h3><a name="wide__stand_alone_">Wide (stand-alone)</a></h3>
+<pre>
+  1. neljännes
+  2. neljännes
+  3. neljännes
+  4. neljännes</pre>
+<p>
+</p>
+<h3><a name="abbreviated__stand_alone_">Abbreviated (stand-alone)</a></h3>
+<pre>
+  1. nelj.
+  2. nelj.
+  3. nelj.
+  4. nelj.</pre>
+<p>
+</p>
+<h3><a name="narrow__stand_alone_">Narrow (stand-alone)</a></h3>
+<pre>
+  1
+  2
+  3
+  4</pre>
+<p>
+</p>
+<h2><a name="eras">Eras</a></h2>
+<p>
+</p>
+<h3><a name="wide">Wide</a></h3>
+<pre>
+  ennen Kristuksen syntymää
+  jälkeen Kristuksen syntymän</pre>
+<p>
+</p>
+<h3><a name="abbreviated">Abbreviated</a></h3>
+<pre>
+  eKr.
+  jKr.</pre>
+<p>
+</p>
+<h3><a name="narrow">Narrow</a></h3>
+<pre>
+  eKr.
+  jKr.</pre>
+<p>
+</p>
+<h2><a name="date_formats">Date Formats</a></h2>
+<p>
+</p>
+<h3><a name="full">Full</a></h3>
+<pre>
+   2008-02-05T18:30:30 = tiistaina 5. helmikuuta 2008
+   1995-12-22T09:05:02 = perjantaina 22. joulukuuta 1995
+  -0010-09-15T04:44:23 = lauantaina 15. syyskuuta -10</pre>
+<p>
+</p>
+<h3><a name="long">Long</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 5. helmikuuta 2008
+   1995-12-22T09:05:02 = 22. joulukuuta 1995
+  -0010-09-15T04:44:23 = 15. syyskuuta -10</pre>
+<p>
+</p>
+<h3><a name="medium">Medium</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 5.2.2008
+   1995-12-22T09:05:02 = 22.12.1995
+  -0010-09-15T04:44:23 = 15.9.-010</pre>
+<p>
+</p>
+<h3><a name="short">Short</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 5.2.2008
+   1995-12-22T09:05:02 = 22.12.1995
+  -0010-09-15T04:44:23 = 15.9.-010</pre>
+<p>
+</p>
+<h3><a name="default">Default</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 5.2.2008
+   1995-12-22T09:05:02 = 22.12.1995
+  -0010-09-15T04:44:23 = 15.9.-010</pre>
+<p>
+</p>
+<h2><a name="time_formats">Time Formats</a></h2>
+<p>
+</p>
+<h3><a name="full">Full</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 18.30.30 UTC
+   1995-12-22T09:05:02 = 9.05.02 UTC
+  -0010-09-15T04:44:23 = 4.44.23 UTC</pre>
+<p>
+</p>
+<h3><a name="long">Long</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 18.30.30 UTC
+   1995-12-22T09:05:02 = 9.05.02 UTC
+  -0010-09-15T04:44:23 = 4.44.23 UTC</pre>
+<p>
+</p>
+<h3><a name="medium">Medium</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 18.30.30
+   1995-12-22T09:05:02 = 9.05.02
+  -0010-09-15T04:44:23 = 4.44.23</pre>
+<p>
+</p>
+<h3><a name="short">Short</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 18.30
+   1995-12-22T09:05:02 = 9.05
+  -0010-09-15T04:44:23 = 4.44</pre>
+<p>
+</p>
+<h3><a name="default">Default</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 18.30.30
+   1995-12-22T09:05:02 = 9.05.02
+  -0010-09-15T04:44:23 = 4.44.23</pre>
+<p>
+</p>
+<h2><a name="datetime_formats">Datetime Formats</a></h2>
+<p>
+</p>
+<h3><a name="full">Full</a></h3>
+<pre>
+   2008-02-05T18:30:30 = tiistaina 5. helmikuuta 2008 18.30.30 UTC
+   1995-12-22T09:05:02 = perjantaina 22. joulukuuta 1995 9.05.02 UTC
+  -0010-09-15T04:44:23 = lauantaina 15. syyskuuta -10 4.44.23 UTC</pre>
+<p>
+</p>
+<h3><a name="long">Long</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 5. helmikuuta 2008 18.30.30 UTC
+   1995-12-22T09:05:02 = 22. joulukuuta 1995 9.05.02 UTC
+  -0010-09-15T04:44:23 = 15. syyskuuta -10 4.44.23 UTC</pre>
+<p>
+</p>
+<h3><a name="medium">Medium</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 5.2.2008 18.30.30
+   1995-12-22T09:05:02 = 22.12.1995 9.05.02
+  -0010-09-15T04:44:23 = 15.9.-010 4.44.23</pre>
+<p>
+</p>
+<h3><a name="short">Short</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 5.2.2008 18.30
+   1995-12-22T09:05:02 = 22.12.1995 9.05
+  -0010-09-15T04:44:23 = 15.9.-010 4.44</pre>
+<p>
+</p>
+<h3><a name="default">Default</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 5.2.2008 18.30.30
+   1995-12-22T09:05:02 = 22.12.1995 9.05.02
+  -0010-09-15T04:44:23 = 15.9.-010 4.44.23</pre>
+<p>
+</p>
+<h2><a name="available_formats">Available Formats</a></h2>
+<p>
+</p>
+<h3><a name="d__d_">d (d)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 5
+   1995-12-22T09:05:02 = 22
+  -0010-09-15T04:44:23 = 15</pre>
+<p>
+</p>
+<h3><a name="eeed__eee_d__">EEEd (EEE d.)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = ti 5.
+   1995-12-22T09:05:02 = pe 22.
+  -0010-09-15T04:44:23 = la 15.</pre>
+<p>
+</p>
+<h3><a name="hhmmss__hh_mm_ss_">HHmmss (HH.mm.ss)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 18.30.30
+   1995-12-22T09:05:02 = 09.05.02
+  -0010-09-15T04:44:23 = 04.44.23</pre>
+<p>
+</p>
+<h3><a name="hm__h_mm_">Hm (H.mm)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 18.30
+   1995-12-22T09:05:02 = 9.05
+  -0010-09-15T04:44:23 = 4.44</pre>
+<p>
+</p>
+<h3><a name="hm__h_mm_a_">hm (h.mm a)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 6.30 ip.
+   1995-12-22T09:05:02 = 9.05 ap.
+  -0010-09-15T04:44:23 = 4.44 ap.</pre>
+<p>
+</p>
+<h3><a name="hms__h_mm_ss_">Hms (H:mm:ss)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 18:30:30
+   1995-12-22T09:05:02 = 9:05:02
+  -0010-09-15T04:44:23 = 4:44:23</pre>
+<p>
+</p>
+<h3><a name="hms__h_mm_ss_a_">hms (h.mm.ss a)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 6.30.30 ip.
+   1995-12-22T09:05:02 = 9.05.02 ap.
+  -0010-09-15T04:44:23 = 4.44.23 ap.</pre>
+<p>
+</p>
+<h3><a name="m__l_">M (L)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2
+   1995-12-22T09:05:02 = 12
+  -0010-09-15T04:44:23 = 9</pre>
+<p>
+</p>
+<h3><a name="md__d_m__">Md (d.M.)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 5.2.
+   1995-12-22T09:05:02 = 22.12.
+  -0010-09-15T04:44:23 = 15.9.</pre>
+<p>
+</p>
+<h3><a name="med__e_d_m__">MEd (E d.M.)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = ti 5.2.
+   1995-12-22T09:05:02 = pe 22.12.
+  -0010-09-15T04:44:23 = la 15.9.</pre>
+<p>
+</p>
+<h3><a name="mmm__lll_">MMM (LLL)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = helmi
+   1995-12-22T09:05:02 = joulu
+  -0010-09-15T04:44:23 = syys</pre>
+<p>
+</p>
+<h3><a name="mmmd__d__mmm_">MMMd (d. MMM)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 5. helmikuuta
+   1995-12-22T09:05:02 = 22. joulukuuta
+  -0010-09-15T04:44:23 = 15. syyskuuta</pre>
+<p>
+</p>
+<h3><a name="mmmed__e_d__mmm_">MMMEd (E d. MMM)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = ti 5. helmikuuta
+   1995-12-22T09:05:02 = pe 22. joulukuuta
+  -0010-09-15T04:44:23 = la 15. syyskuuta</pre>
+<p>
+</p>
+<h3><a name="mmmmd__d__mmmm_">MMMMd (d. MMMM)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 5. helmikuuta
+   1995-12-22T09:05:02 = 22. joulukuuta
+  -0010-09-15T04:44:23 = 15. syyskuuta</pre>
+<p>
+</p>
+<h3><a name="mmmmed__e_d__mmmm_">MMMMEd (E d. MMMM)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = ti 5. helmikuuta
+   1995-12-22T09:05:02 = pe 22. joulukuuta
+  -0010-09-15T04:44:23 = la 15. syyskuuta</pre>
+<p>
+</p>
+<h3><a name="ms__mm_ss_">ms (mm.ss)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 30.30
+   1995-12-22T09:05:02 = 05.02
+  -0010-09-15T04:44:23 = 44.23</pre>
+<p>
+</p>
+<h3><a name="y__y_">y (y)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2008
+   1995-12-22T09:05:02 = 1995
+  -0010-09-15T04:44:23 = -10</pre>
+<p>
+</p>
+<h3><a name="ym__l_yyyy_">yM (L.yyyy)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2.2008
+   1995-12-22T09:05:02 = 12.1995
+  -0010-09-15T04:44:23 = 9.-010</pre>
+<p>
+</p>
+<h3><a name="ymed__eee_d_m_yyyy_">yMEd (EEE d.M.yyyy)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = ti 5.2.2008
+   1995-12-22T09:05:02 = pe 22.12.1995
+  -0010-09-15T04:44:23 = la 15.9.-010</pre>
+<p>
+</p>
+<h3><a name="ymmm__lll_y_">yMMM (LLL y)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = helmi 2008
+   1995-12-22T09:05:02 = joulu 1995
+  -0010-09-15T04:44:23 = syys -10</pre>
+<p>
+</p>
+<h3><a name="ymmmed__eee_d__mmm_y_">yMMMEd (EEE d. MMM y)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = ti 5. helmikuuta 2008
+   1995-12-22T09:05:02 = pe 22. joulukuuta 1995
+  -0010-09-15T04:44:23 = la 15. syyskuuta -10</pre>
+<p>
+</p>
+<h3><a name="ymmmm__llll_y_">yMMMM (LLLL y)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = helmikuu 2008
+   1995-12-22T09:05:02 = joulukuu 1995
+  -0010-09-15T04:44:23 = syyskuu -10</pre>
+<p>
+</p>
+<h3><a name="ymmmmccccd__cccc__d__mmmm_y_">yMMMMccccd (cccc, d. MMMM y)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = tiistai, 5. helmikuuta 2008
+   1995-12-22T09:05:02 = perjantai, 22. joulukuuta 1995
+  -0010-09-15T04:44:23 = lauantai, 15. syyskuuta -10</pre>
+<p>
+</p>
+<h3><a name="yq__q_yyyy_">yQ (Q/yyyy)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 1/2008
+   1995-12-22T09:05:02 = 4/1995
+  -0010-09-15T04:44:23 = 3/-010</pre>
+<p>
+</p>
+<h3><a name="yqqq__qqq_y_">yQQQ (QQQ y)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 1. nelj. 2008
+   1995-12-22T09:05:02 = 4. nelj. 1995
+  -0010-09-15T04:44:23 = 3. nelj. -10</pre>
+<p>
+</p>
+<h3><a name="yymm__m_yy_">yyMM (M/yy)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2/08
+   1995-12-22T09:05:02 = 12/95
+  -0010-09-15T04:44:23 = 9/-10</pre>
+<p>
+</p>
+<h3><a name="yymmm__mmm_yy_">yyMMM (MMM yy)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = helmikuuta 08
+   1995-12-22T09:05:02 = joulukuuta 95
+  -0010-09-15T04:44:23 = syyskuuta -10</pre>
+<p>
+</p>
+<h3><a name="yyq__q_yy_">yyQ (Q/yy)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 1/08
+   1995-12-22T09:05:02 = 4/95
+  -0010-09-15T04:44:23 = 3/-10</pre>
+<p>
+</p>
+<h3><a name="yyyym__m_yyyy_">yyyyM (M/yyyy)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 2/2008
+   1995-12-22T09:05:02 = 12/1995
+  -0010-09-15T04:44:23 = 9/-010</pre>
+<p>
+</p>
+<h3><a name="yyyymeeed__eee_d_m_yyyy_">yyyyMEEEd (EEE d.M.yyyy)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = ti 5.2.2008
+   1995-12-22T09:05:02 = pe 22.12.1995
+  -0010-09-15T04:44:23 = la 15.9.-010</pre>
+<p>
+</p>
+<h3><a name="yyyymmmm__llll_y_">yyyyMMMM (LLLL y)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = helmikuu 2008
+   1995-12-22T09:05:02 = joulukuu 1995
+  -0010-09-15T04:44:23 = syyskuu -10</pre>
+<p>
+</p>
+<h3><a name="yyyyqqqq__qqqq_y_">yyyyQQQQ (QQQQ y)</a></h3>
+<pre>
+   2008-02-05T18:30:30 = 1. neljännes 2008
+   1995-12-22T09:05:02 = 4. neljännes 1995
+  -0010-09-15T04:44:23 = 3. neljännes -10</pre>
+<p>
+</p>
+<h2><a name="miscellaneous">Miscellaneous</a></h2>
+<p>
+</p>
+<h3><a name="prefers_24_hour_time">Prefers 24 hour time?</a></h3>
+<p>Yes</p>
+<p>
+</p>
+<h3><a name="local_first_day_of_the_week">Local first day of the week</a></h3>
+<p>maanantaina</p>
+<p>
+</p>
+<hr />
+<h1><a name="support">SUPPORT</a></h1>
+<p>See <a href="../../../../cpan/build/DateTime-Locale-0.45-rbrrCe/blib/html/site/lib/DateTime/Locale.html">the DateTime::Locale manpage</a>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Dave Rolsky &lt;<a href="mailto:autarch@urth.org">autarch@urth.org</a>&gt;</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (c) 2008 David Rolsky. All rights reserved. This program is
+free software; you can redistribute it and/or modify it under the same
+terms as Perl itself.</p>
+<p>This module was generated from data provided by the CLDR project, see
+the LICENSE.cldr in this distribution for details on the CLDR data's
+license.</p>
+
+</body>
+
+</html>

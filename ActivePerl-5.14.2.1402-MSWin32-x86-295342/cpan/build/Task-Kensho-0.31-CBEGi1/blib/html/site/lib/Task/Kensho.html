@@ -1,0 +1,616 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../scineplex.css">
+<title>Task::Kensho - A Glimpse at an Enlightened Perl</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',3);</script>
+<h1><a>Task::Kensho - A Glimpse at an Enlightened Perl</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#version">VERSION</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description_">DESCRIPTION,</a></li>
+	<ul>
+
+		<li><a href="#basic_toolchain__task__kensho__toolchain">Basic Toolchain: Task::Kensho::Toolchain</a></li>
+		<li><a href="#testing__task__kensho__testing">Testing: Task::Kensho::Testing</a></li>
+		<li><a href="#logging__task__kensho__logging">Logging: Task::Kensho::Logging</a></li>
+		<li><a href="#exception_handling__task__kensho__exceptions">Exception Handling: Task::Kensho::Exceptions</a></li>
+		<li><a href="#object_oriented_programming__task__kensho__oop">Object Oriented Programming: Task::Kensho::OOP</a></li>
+		<li><a href="#asynchronous_programming__task__kensho__async">Asynchronous Programming: Task::Kensho::Async</a></li>
+		<li><a href="#xml_development__task__kensho__xml">XML Development: Task::Kensho::XML</a></li>
+		<li><a href="#web_development__task__kensho__webdev">Web Development: Task::Kensho::WebDev</a></li>
+		<li><a href="#web_crawling__task__kensho__webcrawling">Web Crawling: Task::Kensho::WebCrawling</a></li>
+		<li><a href="#database_development__task__kensho__dbdev">Database Development: Task::Kensho::DBDev</a></li>
+		<li><a href="#excel___csv__task__kensho__excelcsv">Excel / CSV: Task::Kensho::ExcelCSV</a></li>
+		<li><a href="#module_development__task__kensho__moduledev">Module Development: Task::Kensho::ModuleDev</a></li>
+		<li><a href="#email__task__kensho__email">Email: Task::Kensho::Email</a></li>
+		<li><a href="#date_modules__task__kensho__dates">Date Modules: Task::Kensho::Dates</a></li>
+		<li><a href="#scalability__task__kensho__scalability">Scalability: Task::Kensho::Scalability</a></li>
+		<li><a href="#config_modules__task__kensho__config">Config Modules: Task::Kensho::Config</a></li>
+		<li><a href="#useful_command_line_tools__task__kensho__cli">Useful Command-line Tools: Task::Kensho::CLI</a></li>
+		<li><a href="#script_hackery__task__kensho__hackery">Script Hackery: Task::Kensho::Hackery</a></li>
+	</ul>
+
+	<li><a href="#release_schedule">RELEASE SCHEDULE</a></li>
+	<li><a href="#bugs_and_limitations">BUGS AND LIMITATIONS</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#licence_and_copyright">LICENCE AND COPYRIGHT</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<hr />
+<h1><a name="name">NAME</a></h1>
+<p>Task::Kensho - A Glimpse at an Enlightened Perl</p>
+<p>
+</p>
+<hr />
+<h1><a name="version">VERSION</a></h1>
+<p>This document describes Task::Kensho version 0.31</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+    &gt; cpan Task::Kensho</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description_">DESCRIPTION,</a></h1>
+<p>From <a href="http://en.wikipedia.org/wiki/Kensho">http://en.wikipedia.org/wiki/Kensho</a>:</p>
+<pre>
+    Kenshō (見性) (C. Wu) is a Japanese term for enlightenment
+    experiences—most commonly used within the confines of Zen
+    Buddhism—literally meaning &quot;seeing one's nature&quot;[1] or &quot;true
+    self.&quot;[2] It generally &quot;refers to the realization of nonduality of
+    subject and object.&quot;[3]</pre>
+<p>Task::Kensho is a first cut at building a list of recommended modules
+for Enlightened Perl development. CPAN is wonderful, but there are too
+many wheels and you have to pick and choose amongst the various
+competing technologies.</p>
+<p>The plan is for Task::Kensho to be a rough testing ground for ideas that
+go into among other things the Enlightened Perl Organisation Extended
+Core (EPO-EC).</p>
+<p>The modules that are bundled by Task::Kensho are broken down into
+several categories and are still being considered. They are all taken
+from various top 100 most used perl modules lists and from discussions
+with various subject matter experts in the Perl Community. That said,
+this bundle does <em>not</em> follow the guidelines established for the EPO-EC
+for peer review via industry advisers.</p>
+<p>Starting in 2011, Task::Kensho split its sub-groups of modules into
+individually-installable tasks. These individual tasks will always install all
+their modules by default. This facilitates the ease and simplicity the
+distribution aims to achieve. Each Task::Kensho sub-task is listed at the
+beginning of its section in this documentation.</p>
+<p>
+</p>
+<h2><a name="basic_toolchain__task__kensho__toolchain">Basic Toolchain: Task::Kensho::Toolchain</a></h2>
+<dl>
+<dt><strong><a name="app_cpanminus" class="item"><a href="../../../site/lib/App/cpanminus.html">the App::cpanminus manpage</a></a></strong></dt>
+
+<dd>
+<p>Get, unpack, build and install modules from CPAN</p>
+</dd>
+<dt><strong><a name="local_lib_local_lib" class="item"><a href="../../../site/lib/local/lib.html">local::lib</a></a></strong></dt>
+
+<dd>
+<p>Create and use a local lib/ for perl modules with PERL5LIB</p>
+</dd>
+<dt><strong><a name="version_version" class="item"><a href="../../../lib/version.html">version</a></a></strong></dt>
+
+<dd>
+<p>Perl extension for Version Objects</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="testing__task__kensho__testing">Testing: Task::Kensho::Testing</a></h2>
+<dl>
+<dt><strong><a name="test_simple_test_simple" class="item"><a href="../../../lib/Test/Simple.html">Test::Simple</a></a></strong></dt>
+
+<dd>
+<p>Basic utilities for writing tests.</p>
+</dd>
+<dt><strong><a name="test_most_test_most" class="item"><a href="../../../site/lib/Test/Most.html">Test::Most</a></a></strong></dt>
+
+<dd>
+<p>Most commonly needed test functions and features.</p>
+</dd>
+<dt><strong><a name="test_exception_test_exception" class="item"><a href="../../../lib/Test/Exception.html">Test::Exception</a></a></strong></dt>
+
+<dd>
+<p>Test exception based code</p>
+</dd>
+<dt><strong><a name="test_pod_test_pod" class="item"><a href="../../../site/lib/Test/Pod.html">Test::Pod</a></a></strong></dt>
+
+<dd>
+<p>Check for POD errors in files</p>
+</dd>
+<dt><strong><a name="test_pod_coverage_test_pod_coverage" class="item"><a href="../../../site/lib/Test/Pod/Coverage.html">Test::Pod::Coverage</a></a></strong></dt>
+
+<dd>
+<p>Check for pod coverage in your distribution.</p>
+</dd>
+<dt><strong><a name="test_memory_cycle_test_memory_cycle" class="item"><a href="../../../site/lib/Test/Memory/Cycle.html">Test::Memory::Cycle</a></a></strong></dt>
+
+<dd>
+<p>Check for memory leaks and circular memory references</p>
+</dd>
+<dt><strong><a name="devel_cover_devel_cover" class="item"><a href="../../../Devel/Cover.html">Devel::Cover</a></a></strong></dt>
+
+<dd>
+<p>Code coverage metrics for Perl</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="logging__task__kensho__logging">Logging: Task::Kensho::Logging</a></h2>
+<dl>
+<dt><strong><a name="log_dispatch_log_dispatch" class="item"><a href="../../../site/lib/Log/Dispatch.html">Log::Dispatch</a></a></strong></dt>
+
+<dd>
+<p>Dispatches messages to one or more outputs</p>
+</dd>
+<dt><strong><a name="log_log4perl_log_log4perl" class="item"><a href="../../../site/lib/Log/Log4perl.html">Log::Log4perl</a></a></strong></dt>
+
+<dd>
+<p>Log4j implementation for Perl</p>
+</dd>
+<dt><strong><a name="log_contextual_log_contextual" class="item"><a href="../../../site/lib/Log/Contextual.html">Log::Contextual</a></a></strong></dt>
+
+<dd>
+<p>Simple logging interface with a contextual log</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="exception_handling__task__kensho__exceptions">Exception Handling: Task::Kensho::Exceptions</a></h2>
+<dl>
+<dt><strong><a name="try_tiny_try_tiny" class="item"><a href="../../../lib/Try/Tiny.html">Try::Tiny</a></a></strong></dt>
+
+<dd>
+<p>Lightweight exception handling that handles the vagaries of $@.</p>
+</dd>
+<dt><strong><a name="trycatch_trycatch" class="item"><em>TryCatch</em></a></strong></dt>
+
+<dd>
+<p>Flexible exception handling without source filters, handles $@ properly.</p>
+</dd>
+<dt><strong><a name="autodie_autodie" class="item"><a href="../../../lib/autodie.html">autodie</a></a></strong></dt>
+
+<dd>
+<p>Make builtins and other functions die instead of returning undef on failure.</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="object_oriented_programming__task__kensho__oop">Object Oriented Programming: Task::Kensho::OOP</a></h2>
+<dl>
+<dt><strong><a name="task_moose_task_moose" class="item"><a href="../../../site/lib/Task/Moose.html">Task::Moose</a></a></strong></dt>
+
+<dd>
+<p>Moose is a postmodern object system for Perl5. Task::Moose installs
+Moose and optionally a list of recommended modules that extend Moose.</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="asynchronous_programming__task__kensho__async">Asynchronous Programming: Task::Kensho::Async</a></h2>
+<dl>
+<dt><strong><a name="poe" class="item"><a href="#poe">POE</a></a></strong></dt>
+
+<dd>
+<p>Multitasking and networking framework for Perl</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="xml_development__task__kensho__xml">XML Development: Task::Kensho::XML</a></h2>
+<dl>
+<dt><strong><a name="xml_libxml_xml_libxml" class="item"><a href="../../../XML/LibXML.html">XML::LibXML</a></a></strong></dt>
+
+<dd>
+<p>Perl Binding for libxml2</p>
+</dd>
+<dt><strong><a name="xml_libxslt_xml_libxslt" class="item"><a href="../../../XML/LibXSLT.html">XML::LibXSLT</a></a></strong></dt>
+
+<dd>
+<p>Interface to the gnome libxslt library</p>
+</dd>
+<dt><strong><a name="xml_sax_xml_sax" class="item"><a href="../../../XML/SAX.html">XML::SAX</a></a></strong></dt>
+
+<dd>
+<p>Simple/Streaming API for XML</p>
+</dd>
+<dt><strong><a name="xml_generator_perldata_xml_generator_perldata" class="item"><a href="../../../XML/Generator/PerlData.html">XML::Generator::PerlData</a></a></strong></dt>
+
+<dd>
+<p>Perl extension for generating SAX2 events from nested Perl data
+structures.</p>
+</dd>
+<dt><strong><a name="xml_sax_writer_xml_sax_writer" class="item"><a href="../../../XML/SAX/Writer.html">XML::SAX::Writer</a></a></strong></dt>
+
+<dd>
+<p>Output XML from SAX2 Events</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="web_development__task__kensho__webdev">Web Development: Task::Kensho::WebDev</a></h2>
+<dl>
+<dt><strong><a name="task_catalyst_task_catalyst" class="item"><a href="../../../Task/Catalyst.html">Task::Catalyst</a></a></strong></dt>
+
+<dd>
+<p><a href="../../../site/lib/Log/Log4perl/Catalyst.html">Catalyst</a> is The Elegant MVC Web Application Framework.
+Task::Catalyst is all you need to start with Catalyst.</p>
+</dd>
+<dt><strong><a name="template_toolkit_template_toolkit" class="item"><a href="../../../Template/Toolkit.html">Template::Toolkit</a></a></strong></dt>
+
+<dd>
+<p>Template Processing System</p>
+</dd>
+<dt><strong><a name="cgi_formbuilder_source_perl_cgi_formbuilder_source_perl" class="item"><a href="../../../CGI/FormBuilder/Source/Perl.html">CGI::FormBuilder::Source::Perl</a></a></strong></dt>
+
+<dd>
+<p>Build CGI::FormBuilder configs from Perl syntax files.</p>
+</dd>
+<dt><strong><a name="xml_rss_xml_rss" class="item"><a href="../../../XML/RSS.html">XML::RSS</a></a></strong></dt>
+
+<dd>
+<p>Creates and updates RSS files</p>
+</dd>
+<dt><strong><a name="xml_atom_xml_atom" class="item"><a href="../../../XML/Atom.html">XML::Atom</a></a></strong></dt>
+
+<dd>
+<p>Atom feed and API implementation</p>
+</dd>
+<dt><strong><a name="mime_types_mime_types" class="item"><a href="../../../MIME/Types.html">MIME::Types</a></a></strong></dt>
+
+<dd>
+<p>Definition of MIME types</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="web_crawling__task__kensho__webcrawling">Web Crawling: Task::Kensho::WebCrawling</a></h2>
+<dl>
+<dt><strong><a name="http_lite_http_lite" class="item"><a href="../../../HTTP/Lite.html">HTTP::Lite</a></a></strong></dt>
+
+<dd>
+<p>Lightweight HTTP client implementation</p>
+</dd>
+<dt><strong><a name="lwp_useragent_lwp_useragent" class="item"><a href="../../../lib/CPAN/LWP/UserAgent.html">LWP::UserAgent</a></a></strong></dt>
+
+<dd>
+<p>Web user agent class</p>
+</dd>
+<dt><strong><a name="lwp_simple_lwp_simple" class="item"><a href="../../../lib/LWP/Simple.html">LWP::Simple</a></a></strong></dt>
+
+<dd>
+<p>Simple procedural interface to LWP</p>
+</dd>
+<dt><strong><a name="www_mechanize_www_mechanize" class="item"><a href="../../../lib/WWW/Mechanize.html">WWW::Mechanize</a></a></strong></dt>
+
+<dd>
+<p>Handy web browsing in a Perl object</p>
+</dd>
+<dt><strong><a name="www_mechanize_treebuilder_www_mechanize_treebuilder" class="item"><a href="../../../WWW/Mechanize/TreeBuilder.html">WWW::Mechanize::TreeBuilder</a></a></strong></dt>
+
+<dd>
+<p>This module combines <a href="../../../lib/WWW/Mechanize.html">WWW::Mechanize</a> and
+<a href="../../../lib/HTML/TreeBuilder.html">HTML::TreeBuilder</a>.</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="database_development__task__kensho__dbdev">Database Development: Task::Kensho::DBDev</a></h2>
+<dl>
+<dt><strong><a name="dbi" class="item"><a href="../../../lib/DBI.html">the DBI manpage</a></a></strong></dt>
+
+<dd>
+<p>Database independent interface for Perl</p>
+</dd>
+<dt><strong><a name="dbd_sqlite_dbd_sqlite" class="item"><a href="../../../lib/DBD/SQLite.html">DBD::SQLite</a></a></strong></dt>
+
+<dd>
+<p>Self Contained RDBMS in a DBI Driver</p>
+</dd>
+<dt><strong><a name="dbix_class_dbix_class" class="item"><a href="../../../DBIx/Class.html">DBIx::Class</a></a></strong></dt>
+
+<dd>
+<p>Extensible and flexible object &lt;-&gt; relational mapper.</p>
+</dd>
+<dt><strong><a name="dbix_class_schema_loader_dbix_class_schema_loader" class="item"><a href="../../../DBIx/Class/Schema/Loader.html">DBIx::Class::Schema::Loader</a></a></strong></dt>
+
+<dd>
+<p>Dynamic definition of a DBIx::Class::Schema</p>
+</dd>
+<dt><strong><a name="sql_translator_sql_translator" class="item"><a href="../../../SQL/Translator.html">SQL::Translator</a></a></strong></dt>
+
+<dd>
+<p>Manipulate structured data definitions (SQL and more)</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="excel___csv__task__kensho__excelcsv">Excel / CSV: Task::Kensho::ExcelCSV</a></h2>
+<dl>
+<dt><strong><a name="text_csv_xs_text_csv_xs" class="item"><a href="../../../lib/Text/CSV_XS.html">Text::CSV_XS</a></a></strong></dt>
+
+<dd>
+<p>Manipulate comma-separated values (CSV)</p>
+</dd>
+<dt><strong><a name="spreadsheet_parseexcel_simple_spreadsheet_parseexcel_simple" class="item"><a href="../../../Spreadsheet/ParseExcel/Simple.html">Spreadsheet::ParseExcel::Simple</a></a></strong></dt>
+
+<dd>
+<p>A simple interface to Excel data</p>
+</dd>
+<dt><strong><a name="spreadsheet_writeexcel_simple_spreadsheet_writeexcel_simple" class="item"><a href="../../../Spreadsheet/WriteExcel/Simple.html">Spreadsheet::WriteExcel::Simple</a></a></strong></dt>
+
+<dd>
+<p>Create Excel documents easily</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="module_development__task__kensho__moduledev">Module Development: Task::Kensho::ModuleDev</a></h2>
+<dl>
+<dt><strong><a name="dist_zilla_dist_zilla" class="item"><a href="../../../Dist/Zilla.html">Dist::Zilla</a></a></strong></dt>
+
+<dd>
+<p>Builds distributions of code to be uploaded to the CPAN.</p>
+</dd>
+<dt><strong><a name="module_install_module_install" class="item"><a href="../../../Module/Install.html">Module::Install</a></a></strong></dt>
+
+<dd>
+<p>Standalone, extensible Perl module installer</p>
+</dd>
+<dt><strong><a name="devel_nytprof_devel_nytprof" class="item"><a href="../../../lib/Devel/NYTProf.html">Devel::NYTProf</a></a></strong></dt>
+
+<dd>
+<p>Powerful feature-rich perl source code profiler</p>
+</dd>
+<dt><strong><a name="perl_tidy_perl_tidy" class="item"><a href="../../../Perl/Tidy.html">Perl::Tidy</a></a></strong></dt>
+
+<dd>
+<p>Parses and beautifies perl source</p>
+</dd>
+<dt><strong><a name="perl_critic_perl_critic" class="item"><a href="../../../lib/Perl/Critic.html">Perl::Critic</a></a></strong></dt>
+
+<dd>
+<p>Critique Perl source code for best-practices.</p>
+</dd>
+<dt><strong><a name="carp_always_carp_always" class="item"><a href="../../../Carp/Always.html">Carp::Always</a></a></strong></dt>
+
+<dd>
+<p>Warns and dies noisily with stack backtraces</p>
+</dd>
+<dt><strong><a name="modern_perl_modern_perl" class="item"><a href="../../../Modern/Perl.html">Modern::Perl</a></a></strong></dt>
+
+<dd>
+<p>enable all of the features of Modern Perl with one command</p>
+</dd>
+<dt><strong><a name="perl_version_perl_version" class="item"><a href="../../../Perl/Version.html">Perl::Version</a></a></strong></dt>
+
+<dd>
+<p>Parse and manipulate Perl version strings</p>
+</dd>
+<dt><strong><a name="software_license_software_license" class="item"><a href="../../../Software/License.html">Software::License</a></a></strong></dt>
+
+<dd>
+<p>Packages that provide templated software licenses</p>
+</dd>
+<dt><strong><a name="pod_readme_pod_readme" class="item"><a href="../../../Pod/Readme.html">Pod::Readme</a></a></strong></dt>
+
+<dd>
+<p>Convert POD to README file</p>
+</dd>
+<dt><strong><a name="cpan_uploader_cpan_uploader" class="item"><a href="../../../CPAN/Uploader.html">CPAN::Uploader</a></a></strong></dt>
+
+<dd>
+<p>Upload things to the CPAN</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="email__task__kensho__email">Email: Task::Kensho::Email</a></h2>
+<dl>
+<dt><strong><a name="email_simple_email_simple" class="item"><a href="../../../Email/Simple.html">Email::Simple</a></a></strong></dt>
+
+<dd>
+<p>A <strong>simple</strong> email object. No, really!</p>
+</dd>
+<dt><strong><a name="email_valid_email_valid" class="item"><a href="../../../Email/Valid.html">Email::Valid</a></a></strong></dt>
+
+<dd>
+<p>Check validity of Internet email addresses</p>
+</dd>
+<dt><strong><a name="email_sender_email_sender" class="item"><a href="../../../Email/Sender.html">Email::Sender</a></a></strong></dt>
+
+<dd>
+<p>A library for sending email</p>
+</dd>
+<dt><strong><a name="email_mime_kit_email_mime_kit" class="item"><a href="../../../Email/MIME/Kit.html">Email::MIME::Kit</a></a></strong></dt>
+
+<dd>
+<p>The Swiss army chainsaw of assembling email messages</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="date_modules__task__kensho__dates">Date Modules: Task::Kensho::Dates</a></h2>
+<dl>
+<dt><strong><a name="datetime" class="item"><a href="../../../lib/ActiveState/DateTime.html">the DateTime manpage</a></a></strong></dt>
+
+<dd>
+<p>A date and time object</p>
+</dd>
+<dt><strong><a name="date_tiny_date_tiny" class="item"><a href="../../../Date/Tiny.html">Date::Tiny</a></a></strong></dt>
+
+<dd>
+<p>A date object with as little code as possible</p>
+</dd>
+<dt><strong><a name="time_tiny_time_tiny" class="item"><a href="../../../Time/Tiny.html">Time::Tiny</a></a></strong></dt>
+
+<dd>
+<p>A time object with as little code as possible</p>
+</dd>
+<dt><strong><a name="datetime_tiny_datetime_tiny" class="item"><a href="../../../DateTime/Tiny.html">DateTime::Tiny</a></a></strong></dt>
+
+<dd>
+<p>A date object with as little code as possible</p>
+</dd>
+<dt><strong><a name="time_parsedate_time_parsedate" class="item"><a href="../../../Time/ParseDate.html">Time::ParseDate</a></a></strong></dt>
+
+<dd>
+<p>Date parsing both relative and absolute</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="scalability__task__kensho__scalability">Scalability: Task::Kensho::Scalability</a></h2>
+<dl>
+<dt><strong><a name="chi" class="item"><a href="#chi">CHI</a></a></strong></dt>
+
+<dd>
+<p>A unified cache interface, like DBI</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="config_modules__task__kensho__config">Config Modules: Task::Kensho::Config</a></h2>
+<dl>
+<dt><strong><a name="config_any_config_any" class="item"><a href="../../../Config/Any.html">Config::Any</a></a></strong></dt>
+
+<dd>
+<p>Load configuration from different file formats, transparently</p>
+</dd>
+<dt><strong><a name="config_general_config_general" class="item"><a href="../../../Config/General.html">Config::General</a></a></strong></dt>
+
+<dd>
+<p>Generic Config Module</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="useful_command_line_tools__task__kensho__cli">Useful Command-line Tools: Task::Kensho::CLI</a></h2>
+<dl>
+<dt><strong><a name="app_ack_app_ack" class="item"><a href="../../../App/Ack.html">App::Ack</a></a></strong></dt>
+
+<dd>
+<p>A grep-like text finder</p>
+</dd>
+<dt><strong><a name="app_nopaste_app_nopaste" class="item"><a href="../../../App/Nopaste.html">App::Nopaste</a></a></strong></dt>
+
+<dd>
+<p>Easy access to any pastebin</p>
+</dd>
+<dt><strong><a name="devel_repl_devel_repl" class="item"><a href="../../../Devel/REPL.html">Devel::REPL</a></a></strong></dt>
+
+<dd>
+<p>A modern perl interactive shell</p>
+</dd>
+<dt><strong><a name="module_corelist_module_corelist" class="item"><a href="../../../Module/Corelist.html">Module::Corelist</a></a></strong></dt>
+
+<dd>
+<p>What modules shipped with versions of perl</p>
+</dd>
+<dt><strong><a name="app_perlbrew" class="item"><a href="../../../App/perlbrew.html">the App::perlbrew manpage</a></a></strong></dt>
+
+<dd>
+<p>Manage perl installations in your $HOME</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="script_hackery__task__kensho__hackery">Script Hackery: Task::Kensho::Hackery</a></h2>
+<p>These packages are included less for production work and more for
+whippitupitude. They reflect packages that people have found incredibly
+useful for prototyping and debugging before reducing down to a
+production script.</p>
+<dl>
+<dt><strong><a name="smart_comments_smart_comments" class="item"><a href="../../../Smart/Comments.html">Smart::Comments</a></a></strong></dt>
+
+<dd>
+<p>Comments that do more than just sit there</p>
+</dd>
+<dt><strong><a name="term_progressbar_simple_term_progressbar_simple" class="item"><a href="../../../Term/ProgressBar/Simple.html">Term::ProgressBar::Simple</a></a></strong></dt>
+
+<dd>
+<p>Simple progress bars</p>
+</dd>
+<dt><strong><a name="io_all_io_all" class="item"><a href="../../../IO/All.html">IO::All</a></a></strong></dt>
+
+<dd>
+<p>IO::All combines all of the best Perl IO modules into a single nifty
+object oriented interface to greatly simplify your everyday Perl IO
+idioms.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="release_schedule">RELEASE SCHEDULE</a></h1>
+<p>Starting with release 0.18 Task::Kensho was moved to a monthly release
+cycle. This will facilitate a consistent schedule for upstream vendors
+to track the changes in Task::Kensho.</p>
+<p>
+</p>
+<hr />
+<h1><a name="bugs_and_limitations">BUGS AND LIMITATIONS</a></h1>
+<p>This list is by no means comprehensive of the &quot;Good&quot; Modules on CPAN.
+Nor is this neccessarily the correct path for all developers. Each of
+these modules has a perfectly acceptable replacement that may work
+better for you. This is however a path to good perl practics, and a
+starting place on the road to Enlightened Perl programming.</p>
+<p>Please report any bugs or feature requests to
+<code>bug-task-kensho@rt.cpan.org</code>, or through the web interface at
+<a href="http://rt.cpan.org">http://rt.cpan.org</a>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="http://www.enlightenedperl.org/">http://www.enlightenedperl.org/</a>,
+<a href="../../../Perl/Dist/Strawberry.html">Perl::Dist::Strawberry</a></p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Chris Prather  <code>&lt;chris@prather.org&gt;</code></p>
+<p>
+</p>
+<hr />
+<h1><a name="licence_and_copyright">LICENCE AND COPYRIGHT</a></h1>
+<p>Copyright (c) 2008, 2009, Chris Prather <code>&lt;chris@prather.org&gt;</code>. Some
+rights reserved.</p>
+<p>This module is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself. See <a href="../../../lib/pods/perlartistic.html">the perlartistic manpage</a>.</p>
+
+</body>
+
+</html>

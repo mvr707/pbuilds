@@ -1,0 +1,278 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../scineplex.css">
+<title>ExtUtils::Depends - Easily build XS extensions that depend on XS extensions</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',3);</script>
+<h1><a>ExtUtils::Depends - Easily build XS extensions that depend on XS extensions</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#maintainer">MAINTAINER</a></li>
+	<li><a href="#license">LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>ExtUtils::Depends - Easily build XS extensions that depend on XS extensions</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+        <span class="keyword">use</span> <span class="variable">ExtUtils::Depends</span><span class="operator">;</span>
+        <span class="variable">$package</span> <span class="operator">=</span> <span class="variable">new</span> <span class="variable">ExtUtils::Depends</span> <span class="operator">(</span><span class="string">'pkg::name'</span><span class="operator">,</span> <span class="string">'base::package'</span><span class="operator">)</span>
+        <span class="comment"># set the flags and libraries to compile and link the module</span>
+        <span class="variable">$package</span><span class="operator">-&gt;</span><span class="variable">set_inc</span><span class="operator">(</span><span class="string">"-I/opt/blahblah"</span><span class="operator">);</span>
+        <span class="variable">$package</span><span class="operator">-&gt;</span><span class="variable">set_libs</span><span class="operator">(</span><span class="string">"-lmylib"</span><span class="operator">);</span>
+        <span class="comment"># add a .c and an .xs file to compile</span>
+        <span class="variable">$package</span><span class="operator">-&gt;</span><span class="variable">add_c</span><span class="operator">(</span><span class="string">'code.c'</span><span class="operator">);</span>
+        <span class="variable">$package</span><span class="operator">-&gt;</span><span class="variable">add_xs</span><span class="operator">(</span><span class="string">'module-code.xs'</span><span class="operator">);</span>
+        <span class="comment"># add the typemaps to use</span>
+        <span class="variable">$package</span><span class="operator">-&gt;</span><span class="variable">add_typemaps</span><span class="operator">(</span><span class="string">"typemap"</span><span class="operator">);</span>
+        <span class="comment"># install some extra data files and headers</span>
+        <span class="variable">$package</span><span class="operator">-&gt;</span><span class="variable">install</span> <span class="operator">(</span><span class="string">qw/foo.h data.txt/</span><span class="operator">);</span>
+        <span class="comment"># save the info</span>
+        <span class="variable">$package</span><span class="operator">-&gt;</span><span class="variable">save_config</span><span class="operator">(</span><span class="string">'Files.pm'</span><span class="operator">);</span>
+</pre>
+<pre>
+        <span class="variable">WriteMakefile</span><span class="operator">(</span>
+                <span class="string">'NAME'</span> <span class="operator">=&gt;</span> <span class="string">'Mymodule'</span><span class="operator">,</span>
+                <span class="variable">$package</span><span class="operator">-&gt;</span><span class="variable">get_makefile_vars</span><span class="operator">()</span>
+        <span class="operator">);</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This module tries to make it easy to build Perl extensions that use
+functions and typemaps provided by other perl extensions. This means
+that a perl extension is treated like a shared library that provides
+also a C and an XS interface besides the perl one.</p>
+<p>This works as long as the base extension is loaded with the RTLD_GLOBAL
+flag (usually done with a</p>
+<pre>
+        <span class="keyword">sub</span><span class="variable"> dl_load_flags </span><span class="operator">{</span><span class="number">0x01</span><span class="operator">}</span>
+</pre>
+<p>in the main .pm file) if you need to use functions defined in the module.</p>
+<p>The basic scheme of operation is to collect information about a module
+in the instance, and then store that data in the Perl library where it
+may be retrieved later.  The object can also reformat this information
+into the data structures required by ExtUtils::MakeMaker's WriteMakefile
+function.</p>
+<p>When creating a new Depends object, you give it a name, which is the name
+of the module you are building.   You can also specify the names of modules
+on which this module depends.  These dependencies will be loaded
+automatically, and their typemaps, header files, etc merged with your new
+object's stuff.  When you store the data for your object, the list of
+dependencies are stored with it, so that another module depending on your
+needn't know on exactly which modules yours depends.</p>
+<p>For example:</p>
+<pre>
+  Gtk2 depends on Glib</pre>
+<pre>
+  Gnome2::Canvas depends on Gtk2</pre>
+<pre>
+  <span class="variable">ExtUtils::Depends</span><span class="operator">-&gt;</span><span class="variable">new</span> <span class="operator">(</span><span class="string">'Gnome2::Canvas'</span><span class="operator">,</span> <span class="string">'Gtk2'</span><span class="operator">);</span>
+     <span class="variable">this</span> <span class="variable">command</span> <span class="variable">automatically</span> <span class="variable">brings</span> <span class="variable">in</span> <span class="variable">all</span> <span class="variable">the</span> <span class="variable">stuff</span> <span class="variable">needed</span>
+     <span class="keyword">for</span> <span class="variable">Glib</span><span class="operator">,</span> <span class="variable">since</span> <span class="variable">Gtk2</span> <span class="variable">depends</span> <span class="variable">on</span> <span class="variable">it</span><span class="operator">.</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<dl>
+<dt><strong><a name="new" class="item">$object = ExtUtils::Depends-&gt;new($name, @deps)</a></strong></dt>
+
+<dd>
+<p>Create a new depends object named <em>$name</em>.  Any modules listed in <em>@deps</em>
+(which may be empty) are added as dependencies and their dependency
+information is loaded.  An exception is raised if any dependency information
+cannot be loaded.</p>
+</dd>
+<dt><strong><a name="add_deps" class="item">$depends-&gt;add_deps (@deps)</a></strong></dt>
+
+<dd>
+<p>Add modules listed in <em>@deps</em> as dependencies.</p>
+</dd>
+<dt><strong><a name="get_deps" class="item">(hashes) = $depends-&gt;get_deps</a></strong></dt>
+
+<dd>
+<p>Fetch information on the dependencies of <em>$depends</em> as a hash of hashes,
+which are dependency information indexed by module name.  See <a href="#load"><code>load</code></a>.</p>
+</dd>
+<dt><strong><a name="set_inc" class="item">$depends-&gt;set_inc (@newinc)</a></strong></dt>
+
+<dd>
+<p>Add strings to the includes or cflags variables.</p>
+</dd>
+<dt><strong><a name="set_libs" class="item">$depends-&gt;set_libs (@newlibs)</a></strong></dt>
+
+<dd>
+<p>Add strings to the libs (linker flags) variable.</p>
+</dd>
+<dt><strong><a name="add_pm" class="item">$depends-&gt;add_pm (%pm_files)</a></strong></dt>
+
+<dd>
+<p>Add files to the hash to be passed through ExtUtils::WriteMakefile's
+PM key.</p>
+</dd>
+<dt><strong><a name="add_xs" class="item">$depends-&gt;add_xs (@xs_files)</a></strong></dt>
+
+<dd>
+<p>Add xs files to be compiled.</p>
+</dd>
+<dt><strong><a name="add_c" class="item">$depends-&gt;add_c (@c_files)</a></strong></dt>
+
+<dd>
+<p>Add C files to be compiled.</p>
+</dd>
+<dt><strong><a name="add_typemaps" class="item">$depends-&gt;add_typemaps (@typemaps)</a></strong></dt>
+
+<dd>
+<p>Add typemap files to be used and installed.</p>
+</dd>
+<dt><strong><a name="add_headers" class="item">$depends-&gt;add_headers (list)</a></strong></dt>
+
+<dd>
+<p>No-op, for backward compatibility.</p>
+</dd>
+<dt><strong><a name="install" class="item">$depends-&gt;install (@files)</a></strong></dt>
+
+<dd>
+<p>Install <em>@files</em> to the data directory for <em>$depends</em>.</p>
+<p>This actually works by adding them to the hash of pm files that gets
+passed through WriteMakefile's PM key.</p>
+</dd>
+<dt><strong><a name="save_config" class="item">$depends-&gt;save_config ($filename)</a></strong></dt>
+
+<dd>
+<p>Save the important information from <em>$depends</em> to <em>$filename</em>, and
+set it up to be installed as <em>name</em>::Install::Files.</p>
+<p>Note: the actual value of <em>$filename</em> seems to be irrelevant, but its
+usage is kept for backward compatibility.</p>
+</dd>
+<dt><strong><a name="get_makefile_vars" class="item">hash = $depends-&gt;get_makefile_vars</a></strong></dt>
+
+<dd>
+<p>Return the information in <em>$depends</em> in a format digestible by
+WriteMakefile.</p>
+<p>This sets at least the following keys:</p>
+<pre>
+        INC
+        LIBS
+        TYPEMAPS
+        PM</pre>
+<p>And these if there is data to fill them:</p>
+<pre>
+        clean
+        OBJECT
+        XS</pre>
+</dd>
+<dt><strong><a name="load" class="item">hashref = ExtUtils::Depends::load (name)</a></strong></dt>
+
+<dd>
+<p>Load and return dependency information for <em>name</em>.  Croaks if no such
+information can be found.  The information is returned as an anonymous
+hash containing these keys:</p>
+<dl>
+<dt><strong><a name="instpath" class="item">instpath</a></strong></dt>
+
+<dd>
+<p>The absolute path to the data install directory for this module.</p>
+</dd>
+<dt><strong><a name="typemaps" class="item">typemaps</a></strong></dt>
+
+<dd>
+<p>List of absolute pathnames for this module's typemap files.</p>
+</dd>
+<dt><strong><a name="inc" class="item">inc</a></strong></dt>
+
+<dd>
+<p>CFLAGS string for this module.</p>
+</dd>
+<dt><strong><a name="libs" class="item">libs</a></strong></dt>
+
+<dd>
+<p>LIBS string for this module.</p>
+</dd>
+<dt><strong><a name="deps" class="item">deps</a></strong></dt>
+
+<dd>
+<p>List of modules on which this one depends.  This key will not exist when
+loading files created by old versions of ExtUtils::Depends.</p>
+</dd>
+</dl>
+</dd>
+<dt><strong><a name="load_deps" class="item">$depends-&gt;load_deps</a></strong></dt>
+
+<dd>
+<p>Load <em>$depends</em> dependencies, by calling <a href="#load"><code>load</code></a> on each dependency module.
+This is usually done for you, and should only be needed if you want to call
+<a href="#get_deps"><code>get_deps</code></a> after calling <a href="#add_deps"><code>add_deps</code></a> manually.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p>Version 0.2 discards some of the more esoteric features provided by the
+older versions.  As they were completely undocumented, and this module
+has yet to reach 1.0, this may not exactly be a bug.</p>
+<p>This module is tightly coupled to the ExtUtils::MakeMaker architecture.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p>ExtUtils::MakeMaker.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Paolo Molaro &lt;lupus at debian dot org&gt; wrote the original version for
+Gtk-Perl.  muppet &lt;scott at asofyet dot org&gt; rewrote the innards for
+version 0.2, borrowing liberally from Paolo's code.</p>
+<p>
+</p>
+<hr />
+<h1><a name="maintainer">MAINTAINER</a></h1>
+<p>The Gtk2 project, <a href="http://gtk2-perl.sf.net/">http://gtk2-perl.sf.net/</a></p>
+<p>
+</p>
+<hr />
+<h1><a name="license">LICENSE</a></h1>
+<p>This library is free software; you may redistribute it and/or modify it
+under the same terms as Perl itself.</p>
+
+</body>
+
+</html>

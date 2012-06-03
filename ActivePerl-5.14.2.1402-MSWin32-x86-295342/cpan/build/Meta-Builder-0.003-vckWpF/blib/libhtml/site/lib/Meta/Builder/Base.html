@@ -1,0 +1,371 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../scineplex.css">
+<title>Meta::Builder::Base - Base class for Meta::Builder Meta Objects.</title>
+<link rel="stylesheet" href="../../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',4);</script>
+<h1><a>Meta::Builder::Base - Base class for Meta::Builder Meta Objects.</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#package_metric">PACKAGE METRIC</a></li>
+	<li><a href="#hash_metrics">HASH METRICS</a></li>
+	<li><a href="#lists_metrics">LISTS METRICS</a></li>
+	<li><a href="#class_methods">CLASS METHODS</a></li>
+	<li><a href="#object_methods">OBJECT METHODS</a></li>
+	<li><a href="#action_and_hook_methods">ACTION AND HOOK METHODS</a></li>
+	<li><a href="#default_action_methods">DEFAULT ACTION METHODS</a></li>
+	<li><a href="#authors">AUTHORS</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Meta::Builder::Base - Base class for Meta::Builder Meta Objects.</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>Base class for all <a href="../../../../Meta/Builder.html">the Meta::Builder manpage</a> Meta objects. This is where the methods
+used to define new metrics and actions live. This class allows for the creation
+of dynamic meta objects.</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>My/Meta.pm:</p>
+<pre>
+    <span class="keyword">package</span> <span class="variable">My::Meta</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">strict</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">warnings</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">use</span> <span class="variable">base</span> <span class="string">'Meta::Builder::Base'</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="comment"># Name the accessor that will be defined in the class that uses the meta object</span>
+    <span class="comment"># It is used to retrieve the classes meta object.</span>
+    <span class="keyword">__PACKAGE__</span><span class="operator">-&gt;</span><span class="variable">set_accessor</span><span class="operator">(</span> <span class="string">"mymeta"</span> <span class="operator">);</span>
+</pre>
+<pre>
+    <span class="comment"># Add a metric with two actions</span>
+    <span class="keyword">__PACKAGE__</span><span class="operator">-&gt;</span><span class="variable">add_metric</span><span class="operator">(</span>
+        <span class="string">mymetric</span> <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="operator">[]</span> <span class="operator">},</span>
+        <span class="string">pop</span> <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+            <span class="keyword">my</span> <span class="variable">$self</span> <span class="operator">=</span> <span class="keyword">shift</span><span class="operator">;</span>
+            <span class="keyword">my</span> <span class="operator">(</span> <span class="variable">$data</span> <span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span>
+            <span class="keyword">pop</span> <span class="variable">@$data</span><span class="operator">;</span>
+        <span class="operator">},</span>
+        <span class="string">push</span> <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+            <span class="keyword">my</span> <span class="variable">$self</span> <span class="operator">=</span> <span class="keyword">shift</span><span class="operator">;</span>
+            <span class="keyword">my</span> <span class="operator">(</span> <span class="variable">$data</span><span class="operator">,</span> <span class="variable">$metric</span><span class="operator">,</span> <span class="variable">$action</span><span class="operator">,</span> <span class="variable">@args</span> <span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span>
+            <span class="keyword">push</span> <span class="variable">@$data</span> <span class="operator">=&gt;</span> <span class="variable">@args</span><span class="operator">;</span>
+        <span class="operator">}</span>
+    <span class="operator">);</span>
+</pre>
+<pre>
+    <span class="comment"># Add an additional action to the metric</span>
+    <span class="keyword">__PACKAGE__</span><span class="operator">-&gt;</span><span class="variable">add_action</span><span class="operator">(</span> <span class="string">'mymetric'</span><span class="operator">,</span> <span class="string">get_ref</span> <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="keyword">shift</span> <span class="operator">});</span>
+</pre>
+<pre>
+    <span class="comment"># Add some predefined metric types + actions</span>
+    <span class="keyword">__PACKAGE__</span><span class="operator">-&gt;</span><span class="variable">add_hash_metric</span><span class="operator">(</span> <span class="string">'my_hashmetric'</span> <span class="operator">);</span>
+    <span class="keyword">__PACKAGE__</span><span class="operator">-&gt;</span><span class="variable">add_lists_metric</span><span class="operator">(</span> <span class="string">'my_listsmetric'</span> <span class="operator">);</span>
+</pre>
+<p>My.pm:</p>
+<pre>
+    <span class="keyword">package</span> <span class="variable">My</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">strict</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">warnings</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">use</span> <span class="variable">My::Meta</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="variable">My::Meta</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span> <span class="keyword">__PACKAGE__</span> <span class="operator">);</span>
+</pre>
+<pre>
+    <span class="comment"># My::Meta defines mymeta() as the accessor we use to get our meta object.</span>
+    <span class="comment"># this is the ONLY way to get the meta object for this class.</span>
+</pre>
+<pre>
+    <span class="variable">mymeta</span><span class="operator">()-&gt;</span><span class="variable">mymetric_push</span><span class="operator">(</span> <span class="string">"some data"</span> <span class="operator">);</span>
+    <span class="variable">mymeta</span><span class="operator">()-&gt;</span><span class="variable">my_hashmetric_add</span><span class="operator">(</span> <span class="string">key</span> <span class="operator">=&gt;</span> <span class="string">'value'</span> <span class="operator">);</span>
+    <span class="variable">mymeta</span><span class="operator">()-&gt;</span><span class="variable">my_listsmetric_push</span><span class="operator">(</span> <span class="string">list</span> <span class="operator">=&gt;</span> <span class="string">qw/valueA valueB/</span> <span class="operator">);</span>
+</pre>
+<pre>
+    <span class="comment"># It works fine as an object/class method as well.</span>
+    <span class="keyword">__PACKAGE__</span><span class="operator">-&gt;</span><span class="variable">mymeta</span><span class="operator">-&gt;</span><span class="variable">do_thing</span><span class="operator">(...);</span>
+</pre>
+<pre>
+    <span class="operator">...;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="package_metric">PACKAGE METRIC</a></h1>
+<p>Whenever you create a new instance of a meta-object you must provide the name
+of the package to which the meta-object belongs. The 'package' metric will be
+set to this package name, and can be retirved via the 'package' method:
+<code>$meta-</code>package()&gt;.</p>
+<p>
+</p>
+<hr />
+<h1><a name="hash_metrics">HASH METRICS</a></h1>
+<p>Hash metrics are metrics that hold key/value pairs. A hash metric is defined
+using either the <code>hash_metric()</code> function, or the <code>$meta-</code>add_hash_metric()&gt;
+method. The following actions are automatically defined for hash metrics:</p>
+<dl>
+<dt><strong><a name="add_metric" class="item">$meta-&gt;add_METRIC( $key, $value )</a></strong></dt>
+
+<dd>
+<p>Add a key/value pair to the metric. Will throw an exception if the metric
+already has a value for the specified key.</p>
+</dd>
+<dt><strong><a name="get_metric" class="item">$value = $meta-&gt;get_METRIC( $key )</a></strong></dt>
+
+<dd>
+<p>Get the value for a specified key.</p>
+</dd>
+<dt><strong><a name="has_metric" class="item">$bool = $meta-&gt;has_METRIC( $key )</a></strong></dt>
+
+<dd>
+<p>Check that the metric has the specified key defined.</p>
+</dd>
+<dt><strong><a name="clear_metric" class="item">$meta-&gt;clear_METRIC( $key )</a></strong></dt>
+
+<dd>
+<p>Clear the specified key/value pair in the metric. (returns nothing)</p>
+</dd>
+<dt><strong><a name="pull_metric" class="item">$value = $meta-&gt;pull_METRIC( $key )</a></strong></dt>
+
+<dd>
+<p>Get the value for the specified key, then clear the pair form the metric.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="lists_metrics">LISTS METRICS</a></h1>
+<dl>
+<dt><strong><a name="push_metric" class="item">$meta-&gt;push_METRIC( $key, @values )</a></strong></dt>
+
+<dd>
+<p>Push values into the specified list for the given metric.</p>
+</dd>
+<dt><strong>@values = $meta-&gt;get_METRIC( $key )</strong></dt>
+
+<dd>
+<p>Get the values for a specified key.</p>
+</dd>
+<dt><strong>$bool = $meta-&gt;has_METRIC( $key )</strong></dt>
+
+<dd>
+<p>Check that the metric has the specified list.</p>
+</dd>
+<dt><strong>$meta-&gt;clear_METRIC( $key )</strong></dt>
+
+<dd>
+<p>Clear the specified list in the metric. (returns nothing)</p>
+</dd>
+<dt><strong>@values = $meta-&gt;pull_METRIC( $key )</strong></dt>
+
+<dd>
+<p>Get the values for the specified list in the metric, then clear the list.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="class_methods">CLASS METHODS</a></h1>
+<dl>
+<dt><strong><a name="new" class="item">$meta = $class-&gt;new( $package, %metrics )</a></strong></dt>
+
+<dd>
+<p>Create a new instance of the meta-class, and apply it to $package.</p>
+</dd>
+<dt><strong><a name="meta_meta" class="item">$metadata = $class-&gt;<code>meta_meta()</code></a></strong></dt>
+
+<dd>
+<p>Get the meta data for the meta-class itself. (The meta-class is build using
+meta-data)</p>
+</dd>
+<dt><strong><a name="gen_hash" class="item">$new_hashref = $class-&gt;<code>gen_hash()</code></a></strong></dt>
+
+<dd>
+<p>Generate a new empty hashref.</p>
+</dd>
+<dt><strong><a name="action_method_name" class="item">$name = $class-&gt;action_method_name( $metric, $action )</a></strong></dt>
+
+<dd>
+<p>Generate the name of the method for the given metric and action. Override this
+if you do not like the <code>METRIC_ACTION()</code> method names.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="object_methods">OBJECT METHODS</a></h1>
+<dl>
+<dt><strong><a name="package" class="item">$package = $meta-&gt;<code>package()</code></a></strong></dt>
+
+<dd>
+<p>Get the name of the package to which this meta-class applies.</p>
+</dd>
+<dt><strong><a name="set_accessor" class="item">$meta-&gt;set_accessor( $name )</a></strong></dt>
+
+<dd>
+<p>Set the accessor that is used to retrieve the meta-object from the class to
+which it applies.</p>
+</dd>
+<dt><strong><a name="add_hash_metric" class="item">$meta-&gt;add_hash_metric( $metric, %actions )</a></strong></dt>
+
+<dd>
+<p>Add a hash metric (see <a href="#hash_metrics">HASH METRICS</a>).</p>
+<p>%actions should contain <code>action =&lt;gt</code> sub {...}&gt; pairs for constructing
+actions (See add_action()).</p>
+</dd>
+<dt><strong><a name="add_lists_metric" class="item">$meta-&gt;add_lists_metric( $metric, %actions )</a></strong></dt>
+
+<dd>
+<p>Add a lists metric (see <a href="#lists_metrics">LISTS METRICS</a>)</p>
+<p>%actions should contain <code>action =&lt;gt</code> sub {...}&gt; pairs for constructing
+actions (See add_action()).</p>
+</dd>
+<dt><strong><a name="add_metric" class="item">$meta-&gt;add_metric( $metric, \&amp;generator, %actions )</a></strong></dt>
+
+<dd>
+<p>Add a custom metric. The second argument should be a sub that generates a
+default value for the metric.</p>
+<p>%actions should contain <code>action =&lt;gt</code> sub {...}&gt; pairs for constructing
+actions (See add_action()).</p>
+</dd>
+<dt><strong><a name="add_action" class="item">$meta-&gt;add_action( $metric, $action =&gt; sub { ... } )</a></strong></dt>
+
+<dd>
+<p>Add an action for the specified metric. See <a href="#action_and_hook_methods">ACTION AND HOOK METHODS</a> for
+details on how to write an action coderef.</p>
+</dd>
+<dt><strong><a name="hook_before" class="item">$meta-&gt;hook_before( $metric, $action, sub { ... })</a></strong></dt>
+
+<dd>
+<p>Add a hook for the specified metric. See <a href="#action_and_hook_methods">ACTION AND HOOK METHODS</a> for
+details on how to write a hook coderef.</p>
+</dd>
+<dt><strong><a name="hook_after" class="item">$meta-&gt;hook_after( $metric, $action, sub { ... })</a></strong></dt>
+
+<dd>
+<p>Add a hook for the specified metric. See <a href="#action_and_hook_methods">ACTION AND HOOK METHODS</a> for
+details on how to write a hook coderef.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="action_and_hook_methods">ACTION AND HOOK METHODS</a></h1>
+<pre>
+    <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+        <span class="keyword">my</span> <span class="variable">$self</span> <span class="operator">=</span> <span class="keyword">shift</span><span class="operator">;</span>
+        <span class="keyword">my</span> <span class="operator">(</span> <span class="variable">$data</span><span class="operator">,</span> <span class="variable">$metric</span><span class="operator">,</span> <span class="variable">$action</span><span class="operator">,</span> <span class="variable">@args</span> <span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span>
+        <span class="operator">...;</span>
+    <span class="operator">}</span>
+</pre>
+<p>Action and hook methods are called when someone calls
+<code>$meta-&lt;gt</code>metric_action(...)&gt;. First all before hooks will be called, the the
+action itself, and finally the after hooks will be called. All methods in the
+chain get the exact same unaltered arguments. Only the main action sub can
+return anything.</p>
+<p>Arguments are:</p>
+<ol>
+<li><strong><a name="self" class="item">: $self</a></strong>
+
+<p>These are methods, so the first argument is the meta object itself.</p>
+</li>
+<li><strong><a name="data" class="item">: $data</a></strong>
+
+<p>This is the data structure stored for the metric. This is the same as calling
+$meta-&gt;<a href="#metric"><code>metric()</code></a></p>
+</li>
+<li><strong><a name="metric" class="item">: $metric</a></strong>
+
+<p>Name of the metric</p>
+</li>
+<li><strong><a name="action" class="item">: $action</a></strong>
+
+<p>Name of the action</p>
+</li>
+<li><strong><a name="args" class="item">+: @args</a></strong>
+
+<p>Arguments that <code>metric_action()</code> was called with.</p>
+</li>
+</ol>
+<p>
+</p>
+<hr />
+<h1><a name="default_action_methods">DEFAULT ACTION METHODS</a></h1>
+<p>There are the default action methods used by hashmetrics and listsmetrics.</p>
+<dl>
+<dt><strong><a name="default_hash_add" class="item">$meta-&gt;default_hash_add( $data, $metric, $action, $item, $value )</a></strong></dt>
+
+<dt><strong><a name="default_hash_get" class="item">$value = $meta-&gt;default_hash_get( $data, $metric, $action, $item )</a></strong></dt>
+
+<dt><strong><a name="default_hash_has" class="item">$bool = $meta-&gt;default_hash_has( $data, $metric, $action, $item )</a></strong></dt>
+
+<dt><strong><a name="default_hash_clear" class="item">$meta-&gt;default_hash_clear( $data, $metric, $action, $item )</a></strong></dt>
+
+<dt><strong><a name="default_hash_pull" class="item">$value = $meta-&gt;default_hash_pull( $data, $metric, $action, $item )</a></strong></dt>
+
+<dt><strong><a name="default_list_push" class="item">$meta-&gt;default_list_push( $data, $metric, $action, $item, @values )</a></strong></dt>
+
+<dt><strong><a name="default_list_get" class="item">@values = $meta-&gt;default_list_get( $data, $metric, $action, $item )</a></strong></dt>
+
+<dt><strong><a name="default_list_has" class="item">$bool = $meta-&gt;default_list_has( $data, $metric, $action, $item )</a></strong></dt>
+
+<dt><strong><a name="default_list_clear" class="item">$meta-&gt;default_list_clear( $data, $metric, $action, $item )</a></strong></dt>
+
+<dt><strong><a name="default_list_pull" class="item">@values = $meta-&gt;default_list_pull( $data, $metric, $action, $item )</a></strong></dt>
+
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="authors">AUTHORS</a></h1>
+<p>Chad Granum <em><a href="mailto:exodist7@gmail.com">exodist7@gmail.com</a></em></p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (C) 2010 Chad Granum</p>
+<p>Meta-Builder is free software; Standard perl licence.</p>
+<p>Meta-Builder is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the license for more details.</p>
+
+</body>
+
+</html>

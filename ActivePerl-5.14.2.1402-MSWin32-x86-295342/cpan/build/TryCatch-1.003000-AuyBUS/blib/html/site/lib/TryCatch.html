@@ -1,0 +1,172 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../displayToc.js"></script>
+<script language="JavaScript" src="../../tocParas.js"></script>
+<script language="JavaScript" src="../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../scineplex.css">
+<title>TryCatch - first class try catch semantics for Perl, without source filters.</title>
+<link rel="stylesheet" href="../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',2);</script>
+<h1><a>TryCatch - first class try catch semantics for Perl, without source filters.</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#syntax">SYNTAX</a></li>
+	<li><a href="#benefits">BENEFITS</a></li>
+	<li><a href="#todo">TODO</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#thanks">THANKS</a></li>
+	<li><a href="#license">LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>TryCatch - first class try catch semantics for Perl, without source filters.</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This module aims to provide a nicer syntax and method to catch errors in Perl,
+similar to what is found in other languages (such as Java, Python or C++).  The
+standard method of using <code>eval {}; if ($@) {}</code> is often prone to subtle
+bugs, primarily that its far too easy to stomp on the error in error handlers.
+And also eval/if isn't the nicest idiom.</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+ <span class="keyword">use</span> <span class="variable">TryCatch</span><span class="operator">;</span>
+</pre>
+<pre>
+ <span class="keyword">sub</span><span class="variable"> foo </span><span class="operator">{</span>
+   <span class="keyword">my</span> <span class="operator">(</span><span class="variable">$self</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span>
+</pre>
+<pre>
+   <span class="variable">try</span> <span class="operator">{</span>
+     <span class="keyword">die</span> <span class="variable">Some::Class</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="string">code</span> <span class="operator">=&gt;</span> <span class="number">404</span> <span class="operator">)</span> <span class="keyword">if</span> <span class="variable">$self</span><span class="operator">-&gt;</span><span class="variable">not_found</span><span class="operator">;</span>
+     <span class="keyword">return</span> <span class="string">"return value from foo"</span><span class="operator">;</span>
+   <span class="operator">}</span>
+   <span class="variable">catch</span> <span class="operator">(</span><span class="variable">Some::Class</span> <span class="variable">$e</span> <span class="variable">where</span> <span class="operator">{</span> <span class="variable">$_</span><span class="operator">-&gt;</span><span class="variable">code</span> <span class="operator">&gt;</span> <span class="number">100</span> <span class="operator">}</span> <span class="operator">)</span> <span class="operator">{</span>
+   <span class="operator">}</span>
+    <span class="operator">}</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="syntax">SYNTAX</a></h1>
+<p>This module aims to give first class exception handling to perl via 'try' and
+'catch' keywords. The basic syntax this module provides is <code>try { # block }</code>
+followed by zero or more catch blocks. Each catch block has an optional type
+constraint on it the resembles Perl6's method signatures.</p>
+<p>Also worth noting is that the error variable (<a href="../../lib/pods/perlvar.html#__"><code>$@</code></a>) is localised to the
+try/catch blocks and will not leak outside the scope, or stomp on a previous
+value of <a href="../../lib/pods/perlvar.html#__"><code>$@</code></a>.</p>
+<p>The simplest case of a catch block is just</p>
+<pre>
+ <span class="variable">catch</span> <span class="operator">{</span> <span class="operator">...</span> <span class="operator">}</span>
+</pre>
+<p>where upon the error is available in the standard <a href="../../lib/pods/perlvar.html#__"><code>$@</code></a> variable and no type
+checking is performed. The exception can instead be accessed via a named
+lexical variable by providing a simple signature to the catch block as follows:</p>
+<pre>
+ <span class="variable">catch</span> <span class="operator">(</span><span class="variable">$err</span><span class="operator">)</span> <span class="operator">{</span> <span class="operator">...</span> <span class="operator">}</span>
+</pre>
+<p>Type checking of the exception can be performed by specifing a type constraint
+or where clauses in the signature as follows:</p>
+<pre>
+ <span class="variable">catch</span> <span class="operator">(</span><span class="variable">TypeFoo</span> <span class="variable">$e</span><span class="operator">)</span> <span class="operator">{</span> <span class="operator">...</span> <span class="operator">}</span>
+ <span class="variable">catch</span> <span class="operator">(</span><span class="variable">Dict</span><span class="operator">[</span><span class="string">code</span> <span class="operator">=&gt;</span> <span class="variable">Int</span><span class="operator">,</span> <span class="string">message</span> <span class="operator">=&gt;</span> <span class="variable">Str</span><span class="operator">]</span> <span class="variable">$err</span><span class="operator">)</span> <span class="operator">{</span> <span class="operator">...</span> <span class="operator">}</span>
+</pre>
+<p>As shown in the above example, complex Moose types can be used, including
+<a href="../../site/lib/MooseX/Types.html">the MooseX::Types manpage</a> style of type constraints</p>
+<p>In addition to type checking via Moose type constraints, you can also use where
+clauses to only match a certain sub-condition on an error. For example,
+assuming that <code>HTTPError</code> is a suitably defined TC:</p>
+<pre>
+ <span class="variable">catch</span> <span class="operator">(</span><span class="variable">HTTPError</span> <span class="variable">$e</span> <span class="variable">where</span> <span class="operator">{</span> <span class="variable">$_</span><span class="operator">-&gt;</span><span class="variable">code</span> <span class="operator">&gt;=</span> <span class="number">400</span> <span class="operator">&amp;&amp;</span> <span class="variable">$_</span><span class="operator">-&gt;</span><span class="variable">code</span> <span class="operator">&lt;=</span> <span class="number">499</span> <span class="operator">}</span> <span class="operator">)</span> <span class="operator">{</span> 
+   <span class="keyword">return</span> <span class="string">"4XX error"</span><span class="operator">;</span>
+ <span class="operator">}</span>
+ <span class="variable">catch</span> <span class="operator">(</span><span class="variable">HTTPError</span> <span class="variable">$e</span><span class="operator">)</span> <span class="operator">{</span>
+   <span class="keyword">return</span> <span class="string">"other http code"</span><span class="operator">;</span>
+ <span class="operator">}</span>
+</pre>
+<p>would return &quot;4XX error&quot; in the case of a 404 error, and &quot;other http code&quot; in
+the case of a 302.</p>
+<p>In the case where multiple catch blocks are present, the first one that matches
+the type constraints (if any) will executed.</p>
+<p>
+</p>
+<hr />
+<h1><a name="benefits">BENEFITS</a></h1>
+<p><strong>return</strong>. You can put a return in a try block, and it would do the right thing
+- namely return a value from the subroutine you are in, instead of just from
+the eval block.</p>
+<p><strong>Type Checking</strong>. This is nothing you couldn't do manually yourself, it does it
+for you using Moose type constraints.</p>
+<p>
+</p>
+<hr />
+<h1><a name="todo">TODO</a></h1>
+<ul>
+<li>
+<p>Decide on <code>finally</code> semantics w.r.t return values.</p>
+</li>
+<li>
+<p>Write some more documentation</p>
+</li>
+<li>
+<p>Split out the dependancy on Moose</p>
+</li>
+</ul>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../site/lib/MooseX/Types.html">the MooseX::Types manpage</a>, <a href="../../lib/Moose/Util/TypeConstraints.html">the Moose::Util::TypeConstraints manpage</a>, <a href="../../Parse/Method/Signatures.html">the Parse::Method::Signatures manpage</a>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Ash Berlin &lt;<a href="mailto:ash@cpan.org">ash@cpan.org</a>&gt;</p>
+<p>
+</p>
+<hr />
+<h1><a name="thanks">THANKS</a></h1>
+<p>Thanks to Matt S Trout and Florian Ragwitz for work on <a href="../../site/lib/Devel/Declare.html">the Devel::Declare manpage</a> and
+various B::Hooks modules</p>
+<p>Vincent Pit for <a href="../../Scope/Upper.html">the Scope::Upper manpage</a> that makes the return from block possible.</p>
+<p>Zefram for providing support and XS guidance.</p>
+<p>Xavier Bergade for the impetus to finally fix this module in 5.12.</p>
+<p>
+</p>
+<hr />
+<h1><a name="license">LICENSE</a></h1>
+<p>Licensed under the same terms as Perl itself.</p>
+
+</body>
+
+</html>

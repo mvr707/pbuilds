@@ -1,0 +1,71 @@
+0&&<<''; # this PGP-signed message is also valid perl
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+# CHECKSUMS file written on Thu Mar  8 05:40:15 2012 GMT by CPAN::Checksums (v2.05)
+$cksum = {
+  'Crypt-Blowfish-2.12.meta' => {
+    'md5' => 'efcb2cc438e6c04df7c0713c91d16851',
+    'mtime' => '2010-03-04',
+    'sha256' => 'abd49c8323766d0fe917aabd2af1708e25b65f5d6d88b46c98f011a8e9289ecf',
+    'size' => '339'
+  },
+  'Crypt-Blowfish-2.12.tar.gz' => {
+    'md5' => 'a0eca17addc8bdaf38c044c365a8800c',
+    'md5-ungz' => 'e4c27a4394070230ee75872c2a34c024',
+    'mtime' => '2010-03-04',
+    'sha256' => '7b54eb96e2e91ca83b7b4099a2ff9a21986ec8e6bf4804245376ebed98e23ac4',
+    'sha256-ungz' => 'b95b24c6601664678765c24a1f03f9a139f869d8af10080c3bd36b3c70b82f7c',
+    'size' => '17895'
+  },
+  'Crypt-DES-2.05.meta' => {
+    'md5' => 'addc580dbca675e60e6f0c83ba01fe35',
+    'mtime' => '2005-12-08',
+    'sha256' => '7e14e4b350a95c9a85d2697b883d7322726f17c780315782fecb8d906c32c93a',
+    'size' => '292'
+  },
+  'Crypt-DES-2.05.tar.gz' => {
+    'md5' => 'a8a0bea7064e11d2af434f3e468c17bb',
+    'md5-ungz' => '56b224c239ac22d134c1ce1d8b09d8c6',
+    'mtime' => '2005-12-08',
+    'sha256' => 'b7be9e4113eea37554a33c4d738a9226662c3ee53a5f0f281e1b1974569822f0',
+    'sha256-ungz' => 'd1c328fc049a9892ebb837766d2ce543f2dbcf4d7de48d3cc6ece4df44dda920',
+    'size' => '15369'
+  },
+  'Crypt-IDEA-1.08.meta' => {
+    'md5' => 'af0f958ac4f02a9722e99d5002ee492c',
+    'mtime' => '2006-04-21',
+    'sha256' => 'ec64877c1b8a45a3489e6a5f8b746dde751b88b90c833a2fe51f258db5b147ef',
+    'size' => '294'
+  },
+  'Crypt-IDEA-1.08.tar.gz' => {
+    'md5' => '6718c630fa8ac28cb989b7db763ed97c',
+    'md5-ungz' => 'd42de6a48f54a49c228cc5aa6a27be72',
+    'mtime' => '2006-04-21',
+    'sha256' => 'b96c16599b2064c2239d3f1922e18b17bfc2e3e6a836e91d93dbb9c469f78d4f',
+    'sha256-ungz' => '1c7bfba3e6238da625258fb069c3f5fb1b048c5c4163695110a97e20143614ac',
+    'size' => '7045'
+  },
+  'HTTP-CryptoCookie-1.14.meta' => {
+    'md5' => 'c5f40312be395cd0f11a806a3e9a432c',
+    'mtime' => '2008-02-25',
+    'sha256' => '81d9f1757479ce1e4de175a5eb74511ea9dc0dbad39351236edc8ee84cacb5e7',
+    'size' => '652'
+  },
+  'HTTP-CryptoCookie-1.14.tar.gz' => {
+    'md5' => '0d6ec63a87f751c29c55d083bb37b26a',
+    'md5-ungz' => '617b4773fb6290c07bf1c7adba157032',
+    'mtime' => '2008-02-25',
+    'sha256' => '251cc1f4e263bfc985267f78400e2f624c55693dcc2af2dc8c3904ba9c472476',
+    'sha256-ungz' => 'b1e5b59b0d5d3aee54f3c30aa97e38bb6b11f631127c9ea6debbedce7b5b8bfe',
+    'size' => '6083'
+  }
+};
+__END__
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.9 (GNU/Linux)
+
+iEYEARECAAYFAk9YRj8ACgkQMo2oZ0UPiex/DwCfYgD8StQyWbPCnAgDTcwYX4B1
+k8cAn3Isp5TTRygMyUc08G6eqvHjssg0
+=+82Q
+-----END PGP SIGNATURE-----

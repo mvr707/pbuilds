@@ -1,0 +1,55 @@
+0.15
+    - Bump dependency on namespace::clean to 0.20, as requested by doy++.
+
+0.14
+    - Don't go into an infinite loop when dumping references to references.
+      Also, dump LVALUE references properly. (doy)
+
+0.13
+    - Merge NUFFIN/Devel-PartialDump-0.12.tar.gz and
+      FLORA/Devel-PartialDump-0.12.tar.gz.
+    - Add Test::Warn to PREREQ_PM - patch by Ranguard
+
+0.12 (NUFFIN)
+    - no more Any::Moose
+
+0.12 (FLORA)
+    - Update example output in the docs with the JSON-like format
+
+0.11
+    - unbreak tests
+
+0.10
+    - Make formatting configurable, and change to resemble JSON by default
+
+0.09
+    - Add some example output to the documentation
+    - Update version control notice
+
+0.08
+    - Switch to Any::Moose (rafl)
+
+0.07
+    - Skip tests if Test::Warn is not installed
+
+0.06
+    - add override_carp import option, which replaces Carp's argument
+      formatting with Devel::PartialDump::dump
+
+0.05
+    - Ugh... another dep fix
+
+0.04
+    - Fix bad deps
+
+0.03
+    - use Mouse & Sub::Exporter
+    - optional Carp replacement exports
+
+0.02
+    - fixed DESCRIPTION, which just trailed off mid sentance
+    - Add the C<warn> method
+    - Add optional exports
+
+0.01
+    - Initial release

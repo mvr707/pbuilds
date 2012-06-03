@@ -1,0 +1,60 @@
+---
+distribution: !!perl/hash:CPAN::Distribution
+  CALLED_FOR: F/FR/FREW/Log-Contextual-0.004100.tar.gz
+  CHECKSUM_STATUS: OK
+  ID: F/FR/FREW/Log-Contextual-0.004100.tar.gz
+  RO:
+    CPAN_COMMENT: ~
+    CPAN_USERID: FREW
+  archived: tar
+  build_dir: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\build\Log-Contextual-0.004100-W98muH
+  incommandcolor: 2
+  install: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691884
+  localfile: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\sources\authors\id\F\FR\FREW\Log-Contextual-0.004100.tar.gz
+  make: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691881
+  make_test: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691883
+  negative_prefs_cache: 4
+  prefs:
+    install: {}
+  prereq_pm:
+    build_requires:
+      ExtUtils::MakeMaker: '6.59'
+      Test::Fatal: '0'
+    requires:
+      Carp: '0'
+      Data::Dumper::Concise: '0'
+      Exporter::Declare: '0.105'
+      Scalar::Util: '0'
+      perl: '5.006'
+  reqtype: r
+  sponsored_mods:
+    Data::Dumper::Concise: 1
+    Exporter::Declare: 1
+  unwrapped: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691840
+  writemakefile: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691840
+perl:
+  $^X: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\bin\perl.exe
+  mtime_$^X: 1318029070
+  mtime_dll: 0
+  sitearchexp: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib
+time: 1338691884

@@ -1,0 +1,105 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../scineplex.css">
+<title>C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\build\MooseX-Types-0.35-0YdK7U\blib/lib/MooseX/Types/UndefinedType.pm</title>
+<link rel="stylesheet" href="../../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',4);</script>
+<h1><a>C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\build\MooseX-Types-0.35-0YdK7U\blib/lib/MooseX/Types/UndefinedType.pm</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<ul>
+
+		<li><a href="#new">new</a></li>
+		<li><a href="#name">name</a></li>
+		<li><a href="#__autovivify">__autovivify</a></li>
+		<li><a href="#can_be_inlined">can_be_inlined</a></li>
+		<li><a href="#autoload">AUTOLOAD</a></li>
+		<li><a href="#destroy">DESTROY</a></li>
+	</ul>
+
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#license">LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>Whenever a type handle function (e.g. <code>Int()</code> can't find a type 
+constraint under it's full name, it assumes it has not yet been defined.
+It will then return an instance of this class, handling only 
+stringification, name and possible identification of undefined types.</p>
+<p>Later, when you try to use the Undefined Type Constraint, autovivification will
+be attempted.</p>
+<p>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<p>
+</p>
+<h2><a name="new">new</a></h2>
+<p>Takes a full type name as argument and returns an instance of this
+class.</p>
+<p>
+</p>
+<h2><a name="name">name</a></h2>
+<p>Returns the stored type name.</p>
+<p>
+</p>
+<h2><a name="__autovivify">__autovivify</a></h2>
+<p>Try to see if the type constraint has yet been defined and if so create it.</p>
+<p>
+</p>
+<h2><a name="can_be_inlined">can_be_inlined</a></h2>
+<p>Make sure that if a type hasn't been defined yet when Moose wants to inline it,
+we don't allow inlining.</p>
+<p>
+</p>
+<h2><a name="autoload">AUTOLOAD</a></h2>
+<p>Try to autovivify and delegate</p>
+<p>
+</p>
+<h2><a name="destroy">DESTROY</a></h2>
+<p>Moose::Meta::TypeConstraint::Parameterizable complains if this isn't here. TODO
+to find out why.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../../../cpan/build/MooseX-Types-0.35-0YdK7U/blib/html/site/lib/MooseX/Types/Moose.html">the MooseX::Types::Moose manpage</a>,
+<a href="../../../../lib/Moose/Util/TypeConstraints.html">the Moose::Util::TypeConstraints manpage</a>, 
+<a href="../../../../lib/Moose/Meta/TypeConstraint.html">the Moose::Meta::TypeConstraint manpage</a>,
+<a href="../../../../lib/Carp/Clan.html">the Carp::Clan manpage</a></p>
+<p>
+</p>
+<hr />
+<h1><a name="license">LICENSE</a></h1>
+<p>This program is free software; you can redistribute it and/or modify
+it under the same terms as perl itself.</p>
+
+</body>
+
+</html>

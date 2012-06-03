@@ -1,0 +1,1341 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../scineplex.css">
+<title>Tree::DAG_Node -class for representing nodes in a tree</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',3);</script>
+<h1><a>Tree::DAG_Node -class for representing nodes in a tree</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#a_note_to_the_reader">A NOTE TO THE READER</a></li>
+	<li><a href="#object_contents">OBJECT CONTENTS</a></li>
+	<ul>
+
+		<li><a href="#about_the_documented_interface">ABOUT THE DOCUMENTED INTERFACE</a></li>
+	</ul>
+
+	<li><a href="#main_constructor__and_initializer">MAIN CONSTRUCTOR, AND INITIALIZER</a></li>
+	<li><a href="#linkage_related_methods">LINKAGE-RELATED METHODS</a></li>
+	<li><a href="#other_attribute_methods">OTHER ATTRIBUTE METHODS</a></li>
+	<li><a href="#other_methods_to_do_with_relationships">OTHER METHODS TO DO WITH RELATIONSHIPS</a></li>
+	<li><a href="#yet_more_methods">YET MORE METHODS</a></li>
+	<ul>
+
+		<li><a href="#when_and_how_to_destroy">When and How to Destroy</a></li>
+	</ul>
+
+	<li><a href="#bug_reports">BUG REPORTS</a></li>
+	<li><a href="#help_">HELP!</a></li>
+	<li><a href="#ramblings">RAMBLINGS</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#maintainer">MAINTAINER</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright__license__and_disclaimer">COPYRIGHT, LICENSE, AND DISCLAIMER</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Tree::DAG_Node - (super)class for representing nodes in a tree</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>Using as a base class:</p>
+<pre>
+  <span class="keyword">package</span> <span class="variable">Game::Tree::Node</span><span class="operator">;</span> <span class="comment"># or whatever you're doing</span>
+  <span class="keyword">use</span> <span class="variable">Tree::DAG_Node</span><span class="operator">;</span>
+  <span class="variable">@ISA</span> <span class="operator">=</span> <span class="string">qw(Tree::DAG_Node)</span><span class="operator">;</span>
+  <span class="operator">...</span><span class="variable">your</span> <span class="variable">own</span> <span class="variable">methods</span> <span class="variable">overriding</span><span class="operator">/</span><span class="variable">extending</span>
+    <span class="variable">the</span> <span class="variable">methods</span> <span class="variable">in</span> <span class="variable">Tree::DAG_Node</span><span class="operator">...</span>
+</pre>
+<p>Using as a class of its own:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">Tree::DAG_Node</span><span class="operator">;</span>
+  <span class="keyword">my</span> <span class="variable">$root</span> <span class="operator">=</span> <span class="variable">Tree::DAG_Node</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">();</span>
+  <span class="variable">$root</span><span class="operator">-&gt;</span><span class="variable">name</span><span class="operator">(</span><span class="string">"I'm the tops"</span><span class="operator">);</span>
+  <span class="keyword">my</span> <span class="variable">$new_daughter</span> <span class="operator">=</span> <span class="variable">$root</span><span class="operator">-&gt;</span><span class="variable">new_daughter</span><span class="operator">;</span>
+  <span class="variable">$new_daughter</span><span class="operator">-&gt;</span><span class="variable">name</span><span class="operator">(</span><span class="string">"More"</span><span class="operator">);</span>
+  <span class="operator">...</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This class encapsulates/makes/manipulates objects that represent nodes
+in a tree structure. The tree structure is not an object itself, but
+is emergent from the linkages you create between nodes.  This class
+provides the methods for making linkages that can be used to build up
+a tree, while preventing you from ever making any kinds of linkages
+which are not allowed in a tree (such as having a node be its own
+mother or ancestor, or having a node have two mothers).</p>
+<p>This is what I mean by a &quot;tree structure&quot;, a bit redundantly stated:</p>
+<p>* A tree is a special case of an acyclic directed graph.</p>
+<p>* A tree is a network of nodes where there's exactly one root
+node (i.e., 'the top'), and the only primary relationship between nodes
+is the mother-daugher relationship.</p>
+<p>* No node can be its own mother, or its mother's mother, etc.</p>
+<p>* Each node in the tree has exactly one &quot;parent&quot; (node in the &quot;up&quot;
+direction) -- except the root, which is parentless.</p>
+<p>* Each node can have any number (0 to any finite number) of daughter
+nodes.  A given node's daughter nodes constitute an <em>ordered</em> list.
+(However, you are free to consider this ordering irrelevant.
+Some applications do need daughters to be ordered, so I chose to
+consider this the general case.)</p>
+<p>* A node can appear in only one tree, and only once in that tree.
+Notably (notable because it doesn't follow from the two above points),
+a node cannot appear twice in its mother's daughter list.</p>
+<p>* In other words, there's an idea of up (toward the root) versus
+down (away from the root), and left (i.e., toward the start (index 0)
+of a given node's daughter list) versus right (toward the end of a
+given node's daughter list).</p>
+<p>Trees as described above have various applications, among them:
+representing syntactic constituency, in formal linguistics;
+representing contingencies in a game tree; representing abstract
+syntax in the parsing of any computer language -- whether in
+expression trees for programming languages, or constituency in the
+parse of a markup language document.  (Some of these might not use the
+fact that daughters are ordered.)</p>
+<p>(Note: B-Trees are a very special case of the above kinds of trees,
+and are best treated with their own class.  Check CPAN for modules
+encapsulating B-Trees; or if you actually want a database, and for
+some reason ended up looking here, go look at <a href="../../../lib/AnyDBM_File.html">the AnyDBM_File manpage</a>.)</p>
+<p>Many base classes are not usable except as such -- but Tree::DAG_Node
+can be used as a normal class.  You can go ahead and say:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">Tree::DAG_Node</span><span class="operator">;</span>
+  <span class="keyword">my</span> <span class="variable">$root</span> <span class="operator">=</span> <span class="variable">Tree::DAG_Node</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">();</span>
+  <span class="variable">$root</span><span class="operator">-&gt;</span><span class="variable">name</span><span class="operator">(</span><span class="string">"I'm the tops"</span><span class="operator">);</span>
+  <span class="variable">$new_daughter</span> <span class="operator">=</span> <span class="variable">Tree::DAG_Node</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">();</span>
+  <span class="variable">$new_daughter</span><span class="operator">-&gt;</span><span class="variable">name</span><span class="operator">(</span><span class="string">"More"</span><span class="operator">);</span>
+  <span class="variable">$root</span><span class="operator">-&gt;</span><span class="variable">add_daughter</span><span class="operator">(</span><span class="variable">$new_daughter</span><span class="operator">);</span>
+</pre>
+<p>and so on, constructing and linking objects from Tree::DAG_Node and
+making useful tree structures out of them.</p>
+<p>
+</p>
+<hr />
+<h1><a name="a_note_to_the_reader">A NOTE TO THE READER</a></h1>
+<p>This class is big and provides lots of methods.  If your problem is
+simple (say, just representing a simple parse tree), this class might
+seem like using an atomic sledgehammer to swat a fly.  But the
+complexity of this module's bells and whistles shouldn't detract from
+the efficiency of using this class for a simple purpose.  In fact, I'd
+be very surprised if any one user ever had use for more that even a
+third of the methods in this class.  And remember: an atomic
+sledgehammer <strong>will</strong> kill that fly.</p>
+<p>
+</p>
+<hr />
+<h1><a name="object_contents">OBJECT CONTENTS</a></h1>
+<p>Implementationally, each node in a tree is an object, in the sense of
+being an arbitrarily complex data structure that belongs to a class
+(presumably Tree::DAG_Node, or ones derived from it) that provides
+methods.</p>
+<p>The attributes of a node-object are:</p>
+<dl>
+<dt><strong><a name="mother_this_node_s_mother_undef_if_this_is_a_root" class="item">mother -- this node's mother.  undef if this is a root.</a></strong></dt>
+
+<dt><strong><a name="the" class="item">daughters -- the (possibly empty) list of daughters of this node.</a></strong></dt>
+
+<dt><strong><a name="name_the_name_for_this_node" class="item">name -- the name for this node.</a></strong></dt>
+
+<dd>
+<p>Need not be unique, or even printable.  This is printed in some of the
+various dumper methods, but it's up to you if you don't put anything
+meaningful or printable here.</p>
+</dd>
+<dt><strong><a name="attributes_whatever_the_user_wants_to_use_it_for" class="item">attributes -- whatever the user wants to use it for.</a></strong></dt>
+
+<dd>
+<p>Presumably a hashref to whatever other attributes the user wants to
+store without risk of colliding with the object's real attributes.
+(Example usage: attributes to an SGML tag -- you definitely wouldn't
+want the existence of a &quot;mother=foo&quot; pair in such a tag to collide with
+a node object's 'mother' attribute.)</p>
+<p>Aside from (by default) initializing it to {}, and having the access
+method called &quot;attributes&quot; (described a ways below), I don't do
+anything with the &quot;attributes&quot; in this module.  I basically intended
+this so that users who don't want/need to bother deriving a class
+from Tree::DAG_Node, could still attach whatever data they wanted in a
+node.</p>
+</dd>
+</dl>
+<p>&quot;mother&quot; and &quot;daughters&quot; are attributes that relate to linkage -- they
+are never written to directly, but are changed as appropriate by the
+&quot;linkage methods&quot;, discussed below.</p>
+<p>The other two (and whatever others you may add in derived classes) are
+simply accessed thru the same-named methods, discussed further below.</p>
+<p>
+</p>
+<h2><a name="about_the_documented_interface">ABOUT THE DOCUMENTED INTERFACE</a></h2>
+<p>Stick to the documented interface (and comments in the source --
+especially ones saying &quot;undocumented!&quot; and/or &quot;disfavored!&quot; -- do not
+count as documentation!), and don't rely on any behavior that's not in
+the documented interface.</p>
+<p>Specifically, unless the documentation for a particular method says
+&quot;this method returns thus-and-such a value&quot;, then you should not rely on
+it returning anything meaningful.</p>
+<p>A <em>passing</em> acquintance with at least the broader details of the source
+code for this class is assumed for anyone using this class as a base
+class -- especially if you're overriding existing methods, and
+<strong>definitely</strong> if you're overriding linkage methods.</p>
+<p>
+</p>
+<hr />
+<h1><a name="main_constructor__and_initializer">MAIN CONSTRUCTOR, AND INITIALIZER</a></h1>
+<dl>
+<dt><strong><a name="new" class="item">the constructor CLASS-&gt;<code>new()</code> or CLASS-&gt;new({...options...})</a></strong></dt>
+
+<dd>
+<p>This creates a new node object, calls $object-&gt;_init({...options...})
+to provide it sane defaults (like: undef name, undef mother, no
+daughters, 'attributes' setting of a new empty hashref), and returns
+the object created.  (If you just said &quot;CLASS-&gt;new()&quot; or &quot;CLASS-&gt;new&quot;,
+then it pretends you called &quot;CLASS-&gt;new({})&quot;.)</p>
+<p>Currently no options for putting in {...options...} are part
+of the documented interface, but the options is here in case
+you want to add such behavior in a derived class.</p>
+<p>Read on if you plan on using Tree::DAG_New as a base class.
+(Otherwise feel free to skip to the description of _init.)</p>
+<p>There are, in my mind, two ways to do object construction:</p>
+<p>Way 1: create an object, knowing that it'll have certain uninteresting
+sane default values, and then call methods to change those values to
+what you want.  Example:</p>
+<pre>
+    <span class="variable">$node</span> <span class="operator">=</span> <span class="variable">Tree::DAG_Node</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">;</span>
+    <span class="variable">$node</span><span class="operator">-&gt;</span><span class="variable">name</span><span class="operator">(</span><span class="string">'Supahnode!'</span><span class="operator">);</span>
+    <span class="variable">$root</span><span class="operator">-&gt;</span><span class="variable">add_daughter</span><span class="operator">(</span><span class="variable">$node</span><span class="operator">);</span>
+    <span class="variable">$node</span><span class="operator">-&gt;</span><span class="variable">add_daughters</span><span class="operator">(</span><span class="variable">@some_others</span><span class="operator">)</span>
+</pre>
+<p>Way 2: be able to specify some/most/all the object's attributes in
+the call to the constructor.  Something like:</p>
+<pre>
+    <span class="variable">$node</span> <span class="operator">=</span> <span class="variable">Tree::DAG_Node</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="operator">{</span>
+      <span class="string">name</span> <span class="operator">=&gt;</span> <span class="string">'Supahnode!'</span><span class="operator">,</span>
+      <span class="string">mother</span> <span class="operator">=&gt;</span> <span class="variable">$root</span><span class="operator">,</span>
+      <span class="string">daughters</span> <span class="operator">=&gt;</span> <span class="operator">\</span><span class="variable">@some_others</span>
+    <span class="operator">}</span><span class="operator">);</span>
+</pre>
+<p>After some deliberation, I've decided that the second way is a Bad
+Thing.  First off, it is <strong>not</strong> markedly more concise than the first
+way.  Second off, it often requires subtly different syntax (e.g.,
+\@some_others vs @some_others).  It just complicates things for the
+programmer and the user, without making either appreciably happier.</p>
+<p>(This is not to say that options in general for a constructor are bad
+-- <a href="#random_network"><code>random_network</code></a>, discussed far below, necessarily takes options.
+But note that those are not options for the default values of
+attributes.)</p>
+<p>Anyway, if you use Tree::DAG_Node as a superclass, and you add
+attributes that need to be initialized, what you need to do is provide
+an _init method that calls $this-&gt;SUPER::_init($options) to use its
+superclass's _init method, and then initializes the new attributes:</p>
+<pre>
+  <span class="keyword">sub</span><span class="variable"> _init </span><span class="operator">{</span>
+    <span class="keyword">my</span><span class="operator">(</span><span class="variable">$this</span><span class="operator">,</span> <span class="variable">$options</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">[</span><span class="number">0</span><span class="operator">,</span><span class="number">1</span><span class="operator">]</span><span class="operator">;</span>
+    <span class="variable">$this</span><span class="operator">-&gt;</span><span class="variable">SUPER::_init</span><span class="operator">(</span><span class="variable">$options</span><span class="operator">);</span> <span class="comment"># call my superclass's _init to</span>
+      <span class="comment"># init all the attributes I'm inheriting</span>
+    
+    <span class="comment"># Now init /my/ new attributes:</span>
+    <span class="variable">$this</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">'amigos'</span><span class="operator">}</span> <span class="operator">=</span> <span class="operator">[]</span><span class="operator">;</span> <span class="comment"># for example</span>
+  <span class="operator">}</span>
+</pre>
+<p>...or, as I prefer when I'm being a neat freak:</p>
+<pre>
+  <span class="keyword">sub</span><span class="variable"> _init </span><span class="operator">{</span>
+    <span class="keyword">my</span><span class="operator">(</span><span class="variable">$this</span><span class="operator">,</span> <span class="variable">$options</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">[</span><span class="number">0</span><span class="operator">,</span><span class="number">1</span><span class="operator">]</span><span class="operator">;</span>
+    <span class="variable">$this</span><span class="operator">-&gt;</span><span class="variable">SUPER::_init</span><span class="operator">(</span><span class="variable">$options</span><span class="operator">);</span>
+    
+    <span class="variable">$this</span><span class="operator">-&gt;</span><span class="variable">_init_amigos</span><span class="operator">(</span><span class="variable">$options</span><span class="operator">);</span>
+  <span class="operator">}</span>
+  
+  <span class="keyword">sub</span><span class="variable"> _init_amigos </span><span class="operator">{</span>
+    <span class="keyword">my</span> <span class="variable">$this</span> <span class="operator">=</span> <span class="variable">$_</span><span class="operator">[</span><span class="number">0</span><span class="operator">]</span><span class="operator">;</span>
+    <span class="comment"># Or my($this,$options) = @_[0,1]; if I'm using $options</span>
+    <span class="variable">$this</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">'amigos'</span><span class="operator">}</span> <span class="operator">=</span> <span class="operator">[]</span><span class="operator">;</span>
+  <span class="operator">}</span>
+</pre>
+<p>In other words, I like to have each attribute initialized thru a
+method named _init_[attribute], which should expect the object as
+$_[0] and the the options hashref (or {} if none was given) as $_[1].
+If you insist on having your _init recognize options for setting
+attributes, you might as well have them dealt with by the appropriate
+_init_[attribute] method, like this:</p>
+<pre>
+  <span class="keyword">sub</span><span class="variable"> _init </span><span class="operator">{</span>
+    <span class="keyword">my</span><span class="operator">(</span><span class="variable">$this</span><span class="operator">,</span> <span class="variable">$options</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">[</span><span class="number">0</span><span class="operator">,</span><span class="number">1</span><span class="operator">]</span><span class="operator">;</span>
+    <span class="variable">$this</span><span class="operator">-&gt;</span><span class="variable">SUPER::_init</span><span class="operator">(</span><span class="variable">$options</span><span class="operator">);</span>
+    
+    <span class="variable">$this</span><span class="operator">-&gt;</span><span class="variable">_init_amigos</span><span class="operator">(</span><span class="variable">$options</span><span class="operator">);</span>
+  <span class="operator">}</span>
+  
+  <span class="keyword">sub</span><span class="variable"> _init_amigos </span><span class="operator">{</span>
+    <span class="keyword">my</span><span class="operator">(</span><span class="variable">$this</span><span class="operator">,</span><span class="variable">$options</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">[</span><span class="number">0</span><span class="operator">,</span><span class="number">1</span><span class="operator">]</span><span class="operator">;</span> <span class="comment"># I need options this time</span>
+    <span class="variable">$this</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">'amigos'</span><span class="operator">}</span> <span class="operator">=</span> <span class="operator">[]</span><span class="operator">;</span>
+    <span class="variable">$this</span><span class="operator">-&gt;</span><span class="variable">amigos</span><span class="operator">(</span><span class="variable">@</span><span class="operator">{</span><span class="variable">$options</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">'amigos'</span><span class="operator">}}</span><span class="operator">)</span> <span class="keyword">if</span> <span class="variable">$options</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">'amigos'</span><span class="operator">}</span><span class="operator">;</span>
+  <span class="operator">}</span>
+</pre>
+<p>All this bookkeeping looks silly with just one new attribute in a
+class derived straight from Tree::DAG_Node, but if there's lots of new
+attributes running around, and if you're deriving from a class derived
+from a class derived from Tree::DAG_Node, then tidy
+stratification/modularization like this can keep you sane.</p>
+</dd>
+<dt><strong>the constructor $obj-&gt;<code>new()</code> or $obj-&gt;new({...options...})</strong></dt>
+
+<dd>
+<p>Just another way to get at the <a href="#new"><code>new</code></a> method. This <strong>does not copy</strong>
+$obj, but merely constructs a new object of the same class as it.
+Saves you the bother of going $class = ref $obj; $obj2 = $class-&gt;new;</p>
+</dd>
+<dt><strong><a name="_init" class="item">the method $node-&gt;_init({...options...})</a></strong></dt>
+
+<dd>
+<p>Initialize the object's attribute values.  See the discussion above.
+Presumably this should be called only by the guts of the <a href="#new"><code>new</code></a>
+constructor -- never by the end user.</p>
+<p>Currently there are no documented options for putting in
+{...options...}, but (in case you want to disregard the above rant)
+the option exists for you to use {...options...} for something useful
+in a derived class.</p>
+<p>Please see the source for more information.</p>
+</dd>
+<dt><strong><a name="also" class="item">see also (below) the constructors &quot;new_daughter&quot; and &quot;new_daughter_left&quot;</a></strong></dt>
+
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="linkage_related_methods">LINKAGE-RELATED METHODS</a></h1>
+<dl>
+<dt><strong><a name="daughters" class="item">$node-&gt;daughters</a></strong></dt>
+
+<dd>
+<p>This returns the (possibly empty) list of daughters for $node.</p>
+</dd>
+<dt><strong><a name="mother" class="item">$node-&gt;mother</a></strong></dt>
+
+<dd>
+<p>This returns what node is $node's mother.  This is undef if $node has
+no mother -- i.e., if it is a root.</p>
+</dd>
+<dt><strong><a name="add_daughters" class="item">$mother-&gt;add_daughters( LIST )</a></strong></dt>
+
+<dd>
+<p>This method adds the node objects in LIST to the (right) end of
+$mother's <code>daughter</code> list.  Making a node N1 the daughter of another
+node N2 also means that N1's <a href="#mother"><code>mother</code></a> attribute is &quot;automatically&quot; set
+to N2; it also means that N1 stops being anything else's daughter as
+it becomes N2's daughter.</p>
+<p>If you try to make a node its own mother, a fatal error results.  If
+you try to take one of a a node N1's ancestors and make it also a
+daughter of N1, a fatal error results.  A fatal error results if
+anything in LIST isn't a node object.</p>
+<p>If you try to make N1 a daughter of N2, but it's <strong>already</strong> a daughter
+of N2, then this is a no-operation -- it won't move such nodes to the
+end of the list or anything; it just skips doing anything with them.</p>
+</dd>
+<dt><strong><a name="add_daughter" class="item">$node-&gt;add_daughter( LIST )</a></strong></dt>
+
+<dd>
+<p>An exact synonym for $node-&gt;add_daughters(LIST)</p>
+</dd>
+<dt><strong><a name="add_daughters_left" class="item">$mother-&gt;add_daughters_left( LIST )</a></strong></dt>
+
+<dd>
+<p>This method is just like <a href="#add_daughters"><code>add_daughters</code></a>, except that it adds the
+node objects in LIST to the (left) beginning of $mother's daughter
+list, instead of the (right) end of it.</p>
+</dd>
+<dt><strong><a name="add_daughter_left" class="item">$node-&gt;add_daughter_left( LIST )</a></strong></dt>
+
+<dd>
+<p>An exact synonym for $node-&gt;add_daughters_left( LIST )</p>
+</dd>
+<dt><strong><a name="note" class="item">Note:</a></strong></dt>
+
+<dd>
+<p>The above link-making methods perform basically an <a href="../../../lib/pods/perlfunc.html#unshift"><code>unshift</code></a> or
+<a href="../../../lib/pods/perlfunc.html#push"><code>push</code></a> on the mother node's daughter list.  To get the full range of
+list-handling functionality, copy the daughter list, and change it,
+and then call <a href="#set_daughters"><code>set_daughters</code></a> on the result:</p>
+<pre>
+          <span class="variable">@them</span> <span class="operator">=</span> <span class="variable">$mother</span><span class="operator">-&gt;</span><span class="variable">daughters</span><span class="operator">;</span>
+          <span class="variable">@removed</span> <span class="operator">=</span> <span class="keyword">splice</span><span class="operator">(</span><span class="variable">@them</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span><span class="number">2</span><span class="operator">,</span> <span class="variable">@new_nodes</span><span class="operator">);</span>
+          <span class="variable">$mother</span><span class="operator">-&gt;</span><span class="variable">set_daughters</span><span class="operator">(</span><span class="variable">@them</span><span class="operator">);</span>
+</pre>
+<p>Or consider a structure like:</p>
+<pre>
+          <span class="variable">$mother</span><span class="operator">-&gt;</span><span class="variable">set_daughters</span><span class="operator">(</span>
+                                 <span class="keyword">grep</span><span class="operator">(</span><span class="variable">$_</span><span class="operator">-&gt;</span><span class="variable">name</span> <span class="operator">=~</span> <span class="regex">/NP/</span> <span class="operator">,</span>
+                                      <span class="variable">$mother</span><span class="operator">-&gt;</span><span class="variable">daughters</span>
+                                     <span class="operator">)</span>
+                                <span class="operator">);</span>
+</pre>
+</dd>
+<dt><strong><a name="new_daughter" class="item">the constructor $daughter = $mother-&gt;new_daughter, or</a></strong></dt>
+
+<dt><strong>the constructor $daughter = $mother-&gt;new_daughter({...options...})</strong></dt>
+
+<dd>
+<p>This <strong>constructs</strong> a <strong>new</strong> node (of the same class as $mother), and
+adds it to the (right) end of the daughter list of $mother. This is
+essentially the same as going</p>
+<pre>
+      <span class="variable">$daughter</span> <span class="operator">=</span> <span class="variable">$mother</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">;</span>
+      <span class="variable">$mother</span><span class="operator">-&gt;</span><span class="variable">add_daughter</span><span class="operator">(</span><span class="variable">$daughter</span><span class="operator">);</span>
+</pre>
+<p>but is rather more efficient because (since $daughter is guaranteed new
+and isn't linked to/from anything), it doesn't have to check that
+$daughter isn't an ancestor of $mother, isn't already daughter to a
+mother it needs to be unlinked from, isn't already in $mother's 
+daughter list, etc.</p>
+<p>As you'd expect for a constructor, it returns the node-object created.</p>
+</dd>
+<dt><strong><a name="new_daughter_left" class="item">the constructor $mother-&gt;new_daughter_left, or</a></strong></dt>
+
+<dt><strong>$mother-&gt;new_daughter_left({...options...})</strong></dt>
+
+<dd>
+<p>This is just like $mother-&gt;new_daughter, but adds the new daughter
+to the left (start) of $mother's daughter list.</p>
+</dd>
+<dt><strong><a name="remove_daughters" class="item">$mother-&gt;remove_daughters( LIST )</a></strong></dt>
+
+<dd>
+<p>This removes the nodes listed in LIST from $mother's daughter list.
+This is a no-operation if LIST is empty.  If there are things in LIST
+that aren't a current daughter of $mother, they are ignored.</p>
+<p>Not to be confused with $mother-&gt;clear_daughters.</p>
+</dd>
+<dt><strong><a name="remove_daughter" class="item">$node-&gt;remove_daughter( LIST )</a></strong></dt>
+
+<dd>
+<p>An exact synonym for $node-&gt;remove_daughters( LIST )</p>
+</dd>
+<dt><strong><a name="unlink_from_mother" class="item">$node-&gt;unlink_from_mother</a></strong></dt>
+
+<dd>
+<p>This removes node from the daughter list of its mother.  If it has no
+mother, this is a no-operation.</p>
+<p>Returns the mother unlinked from (if any).</p>
+</dd>
+<dt><strong><a name="clear_daughters" class="item">$mother-&gt;clear_daughters</a></strong></dt>
+
+<dd>
+<p>This unlinks all $mother's daughters.
+Returns the the list of what used to be $mother's daughters.</p>
+<p>Not to be confused with $mother-&gt;remove_daughters( LIST ).</p>
+</dd>
+<dt><strong><a name="set_daughters" class="item">$mother-&gt;set_daughters( LIST )</a></strong></dt>
+
+<dd>
+<p>This unlinks all $mother's daughters, and replaces them with the
+daughters in LIST.</p>
+<p>Currently implemented as just $mother-&gt;clear_daughters followed by
+$mother-&gt;add_daughters( LIST ).</p>
+</dd>
+<dt><strong><a name="replace_with" class="item">$node-&gt;replace_with( LIST )</a></strong></dt>
+
+<dd>
+<p>This replaces $node in its mother's daughter list, by unlinking $node
+and replacing it with the items in LIST.  This returns a list consisting
+of $node followed by LIST, i.e., the nodes that replaced it.</p>
+<p>LIST can include $node itself (presumably at most once).  LIST can
+also be empty-list.  However, if any items in LIST are sisters to
+$node, they are ignored, and are not in the copy of LIST passed as the
+return value.</p>
+<p>As you might expect for any linking operation, the items in LIST
+cannot be $node's mother, or any ancestor to it; and items in LIST are,
+of course, unlinked from their mothers (if they have any) as they're
+linked to $node's mother.</p>
+<p>(In the special (and bizarre) case where $node is root, this simply calls
+$this-&gt;unlink_from_mother on all the items in LIST, making them roots of
+their own trees.)</p>
+<p>Note that the daughter-list of $node is not necessarily affected; nor
+are the daughter-lists of the items in LIST.  I mention this in case you
+think replace_with switches one node for another, with respect to its
+mother list <strong>and</strong> its daughter list, leaving the rest of the tree
+unchanged. If that's what you want, replacing $Old with $New, then you
+want:</p>
+<pre>
+  <span class="variable">$New</span><span class="operator">-&gt;</span><span class="variable">set_daughters</span><span class="operator">(</span><span class="variable">$Old</span><span class="operator">-&gt;</span><span class="variable">clear_daughters</span><span class="operator">);</span>
+  <span class="variable">$Old</span><span class="operator">-&gt;</span><span class="variable">replace_with</span><span class="operator">(</span><span class="variable">$New</span><span class="operator">);</span>
+</pre>
+<p>(I can't say $node's and LIST-items' daughter lists are <strong>never</strong>
+affected my replace_with -- they can be affected in this case:</p>
+<pre>
+  <span class="variable">$N1</span> <span class="operator">=</span> <span class="operator">(</span><span class="variable">$node</span><span class="operator">-&gt;</span><span class="variable">daughters</span><span class="operator">)</span><span class="operator">[</span><span class="number">0</span><span class="operator">]</span><span class="operator">;</span> <span class="comment"># first daughter of $node</span>
+  <span class="variable">$N2</span> <span class="operator">=</span> <span class="operator">(</span><span class="variable">$N1</span><span class="operator">-&gt;</span><span class="variable">daughters</span><span class="operator">)</span><span class="operator">[</span><span class="number">0</span><span class="operator">]</span><span class="operator">;</span>   <span class="comment"># first daughter of $N1;</span>
+  <span class="variable">$N3</span> <span class="operator">=</span> <span class="variable">Tree::DAG_Node</span><span class="operator">-&gt;</span><span class="variable">random_network</span><span class="operator">;</span> <span class="comment"># or whatever</span>
+  <span class="variable">$node</span><span class="operator">-&gt;</span><span class="variable">replace_with</span><span class="operator">(</span><span class="variable">$N1</span><span class="operator">,</span> <span class="variable">$N2</span><span class="operator">,</span> <span class="variable">$N3</span><span class="operator">);</span>
+</pre>
+<p>As a side affect of attaching $N1 and $N2 to $node's mother, they're
+unlinked from their parents ($node, and $N1, replectively).
+But N3's daughter list is unaffected.</p>
+<p>In other words, this method does what it has to, as you'd expect it
+to.</p>
+</dd>
+<dt><strong><a name="replace_with_daughters" class="item">$node-&gt;replace_with_daughters</a></strong></dt>
+
+<dd>
+<p>This replaces $node in its mother's daughter list, by unlinking $node
+and replacing it with its daughters.  In other words, $node becomes
+motherless and daughterless as its daughters move up and take its place.
+This returns a list consisting of $node followed by the nodes that were
+its daughters.</p>
+<p>In the special (and bizarre) case where $node is root, this simply
+unlinks its daughters from it, making them roots of their own trees.</p>
+<p>Effectively the same as $node-&gt;replace_with($node-&gt;daughters), but more
+efficient, since less checking has to be done.  (And I also think
+$node-&gt;replace_with_daughters is a more common operation in
+tree-wrangling than $node-&gt;replace_with(LIST), so deserves a named
+method of its own, but that's just me.)</p>
+</dd>
+<dt><strong><a name="add_left_sisters" class="item">$node-&gt;add_left_sisters( LIST )</a></strong></dt>
+
+<dd>
+<p>This adds the elements in LIST (in that order) as immediate left sisters of
+$node.  In other words, given that B's mother's daughter-list is (A,B,C,D),
+calling B-&gt;add_left_sisters(X,Y) makes B's mother's daughter-list
+(A,X,Y,B,C,D).</p>
+<p>If LIST is empty, this is a no-op, and returns empty-list.</p>
+<p>This is basically implemented as a call to $node-&gt;replace_with(LIST,
+$node), and so all replace_with's limitations and caveats apply.</p>
+<p>The return value of $node-&gt;add_left_sisters( LIST ) is the elements of
+LIST that got added, as returned by replace_with -- minus the copies
+of $node you'd get from a straight call to $node-&gt;replace_with(LIST,
+$node).</p>
+</dd>
+<dt><strong><a name="add_left_sister" class="item">$node-&gt;add_left_sister( LIST )</a></strong></dt>
+
+<dd>
+<p>An exact synonym for $node-&gt;add_left_sisters(LIST)</p>
+</dd>
+<dt><strong><a name="add_right_sisters" class="item">$node-&gt;add_right_sisters( LIST )</a></strong></dt>
+
+<dd>
+<p>Just like add_left_sisters (which see), except that the the elements
+in LIST (in that order) as immediate <strong>right</strong> sisters of $node;</p>
+<p>In other words, given that B's mother's daughter-list is (A,B,C,D),
+calling B-&gt;add_right_sisters(X,Y) makes B's mother's daughter-list
+(A,B,X,Y,C,D).</p>
+</dd>
+<dt><strong><a name="add_right_sister" class="item">$node-&gt;add_right_sister( LIST )</a></strong></dt>
+
+<dd>
+<p>An exact synonym for $node-&gt;add_right_sisters(LIST)</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="other_attribute_methods">OTHER ATTRIBUTE METHODS</a></h1>
+<dl>
+<dt><strong><a name="name" class="item">$node-&gt;name or $node-&gt;name(SCALAR)</a></strong></dt>
+
+<dd>
+<p>In the first form, returns the value of the node object's &quot;name&quot;
+attribute.  In the second form, sets it to the value of SCALAR.</p>
+</dd>
+<dt><strong><a name="attributes" class="item">$node-&gt;attributes or $node-&gt;attributes(SCALAR)</a></strong></dt>
+
+<dd>
+<p>In the first form, returns the value of the node object's &quot;attributes&quot;
+attribute.  In the second form, sets it to the value of SCALAR.  I
+intend this to be used to store a reference to a (presumably
+anonymous) hash the user can use to store whatever attributes he
+doesn't want to have to store as object attributes.  In this case, you
+needn't ever set the value of this.  (_init has already initialized it
+to {}.)  Instead you can just do...</p>
+<pre>
+  <span class="variable">$node</span><span class="operator">-&gt;</span><span class="variable">attributes</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">'foo'</span><span class="operator">}</span> <span class="operator">=</span> <span class="string">'bar'</span><span class="operator">;</span>
+</pre>
+<p>...to write foo =&gt; bar.</p>
+</dd>
+<dt><strong><a name="attribute" class="item">$node-&gt;attribute or $node-&gt;attribute(SCALAR)</a></strong></dt>
+
+<dd>
+<p>An exact synonym for $node-&gt;attributes or $node-&gt;attributes(SCALAR)</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="other_methods_to_do_with_relationships">OTHER METHODS TO DO WITH RELATIONSHIPS</a></h1>
+<dl>
+<dt><strong><a name="is_node" class="item">$node-&gt;is_node</a></strong></dt>
+
+<dd>
+<p>This always returns true.  More pertinently, $object-&gt;can('is_node')
+is true (regardless of what <a href="#is_node"><code>is_node</code></a> would do if called) for objects
+belonging to this class or for any class derived from it.</p>
+</dd>
+<dt><strong><a name="ancestors" class="item">$node-&gt;ancestors</a></strong></dt>
+
+<dd>
+<p>Returns the list of this node's ancestors, starting with its mother,
+then grandmother, and ending at the root.  It does this by simply
+following the 'mother' attributes up as far as it can.  So if $item IS
+the root, this returns an empty list.</p>
+<p>Consider that scalar($node-&gt;ancestors) returns the ply of this node
+within the tree -- 2 for a granddaughter of the root, etc., and 0 for
+root itself.</p>
+</dd>
+<dt><strong><a name="root" class="item">$node-&gt;root</a></strong></dt>
+
+<dd>
+<p>Returns the root of whatever tree $node is a member of.  If $node is
+the root, then the result is $node itself.</p>
+</dd>
+<dt><strong><a name="is_daughter_of" class="item">$node-&gt;<code>is_daughter_of($node2)</code></a></strong></dt>
+
+<dd>
+<p>Returns true iff $node is a daughter of $node2.
+Currently implemented as just a test of ($it-&gt;mother eq $node2).</p>
+</dd>
+<dt><strong><a name="self_and_descendants" class="item">$node-&gt;self_and_descendants</a></strong></dt>
+
+<dd>
+<p>Returns a list consisting of itself (as element 0) and all the
+descendants of $node.  Returns just itself if $node is a
+terminal_node.</p>
+<p>(Note that it's spelled &quot;descendants&quot;, not &quot;descendents&quot;.)</p>
+</dd>
+<dt><strong><a name="descendants" class="item">$node-&gt;descendants</a></strong></dt>
+
+<dd>
+<p>Returns a list consisting of all the descendants of $node.  Returns
+empty-list if $node is a terminal_node.</p>
+<p>(Note that it's spelled &quot;descendants&quot;, not &quot;descendents&quot;.)</p>
+</dd>
+<dt><strong><a name="leaves_under" class="item">$node-&gt;leaves_under</a></strong></dt>
+
+<dd>
+<p>Returns a list (going left-to-right) of all the leaf nodes under
+$node.  (&quot;Leaf nodes&quot; are also called &quot;terminal nodes&quot; -- i.e., nodes
+that have no daughters.)  Returns $node in the degenerate case of
+$node being a leaf itself.</p>
+</dd>
+<dt><strong><a name="depth_under" class="item">$node-&gt;depth_under</a></strong></dt>
+
+<dd>
+<p>Returns an integer representing the number of branches between this
+$node and the most distant leaf under it.  (In other words, this
+returns the ply of subtree starting of $node.  Consider
+scalar($it-&gt;ancestors) if you want the ply of a node within the whole
+tree.)</p>
+</dd>
+<dt><strong><a name="generation" class="item">$node-&gt;generation</a></strong></dt>
+
+<dd>
+<p>Returns a list of all nodes (going left-to-right) that are in $node's
+generation -- i.e., that are the some number of nodes down from
+the root.  $root-&gt;generation is just $root.</p>
+<p>Of course, $node is always in its own generation.</p>
+</dd>
+<dt><strong><a name="generation_under" class="item">$node-&gt;generation_under(NODE2)</a></strong></dt>
+
+<dd>
+<p>Like $node-&gt;generation, but returns only the nodes in $node's generation
+that are also descendants of NODE2 -- in other words,</p>
+<pre>
+    <span class="variable">@us</span> <span class="operator">=</span> <span class="variable">$node</span><span class="operator">-&gt;</span><span class="variable">generation_under</span><span class="operator">(</span> <span class="variable">$node</span><span class="operator">-&gt;</span><span class="variable">mother</span><span class="operator">-&gt;</span><span class="variable">mother</span> <span class="operator">);</span>
+</pre>
+<p>is all $node's first cousins (to borrow yet more kinship terminology) --
+assuming $node does indeed have a grandmother.  Actually &quot;cousins&quot; isn't
+quite an apt word, because <code>@us</code> ends up including $node's siblings and
+$node.</p>
+<p>Actually, <a href="#generation_under"><code>generation_under</code></a> is just an alias to <a href="#generation"><code>generation</code></a>, but I
+figure that this:</p>
+<pre>
+   <span class="variable">@us</span> <span class="operator">=</span> <span class="variable">$node</span><span class="operator">-&gt;</span><span class="variable">generation_under</span><span class="operator">(</span><span class="variable">$way_upline</span><span class="operator">);</span>
+</pre>
+<p>is a bit more readable than this:</p>
+<pre>
+   <span class="variable">@us</span> <span class="operator">=</span> <span class="variable">$node</span><span class="operator">-&gt;</span><span class="variable">generation</span><span class="operator">(</span><span class="variable">$way_upline</span><span class="operator">);</span>
+</pre>
+<p>But it's up to you.</p>
+<p>$node-&gt;<a href="#generation_under"><code>generation_under($node)</code></a> returns just $node.</p>
+<p>If you call $node-&gt;<a href="#generation_under"><code>generation_under($node)</code></a> but NODE2 is not $node or an
+ancestor of $node, it behaves as if you called just $node-&gt;<a href="#generation"><code>generation()</code></a>.</p>
+</dd>
+<dt><strong><a name="self_and_sisters" class="item">$node-&gt;self_and_sisters</a></strong></dt>
+
+<dd>
+<p>Returns a list of all nodes (going left-to-right) that have the same
+mother as $node -- including $node itself. This is just like
+$node-&gt;mother-&gt;daughters, except that that fails where $node is root,
+whereas $root-&gt;self_and_siblings, as a special case, returns $root.</p>
+<p>(Contrary to how you may interpret how this method is named, &quot;self&quot; is
+not (necessarily) the first element of what's returned.)</p>
+</dd>
+<dt><strong><a name="sisters" class="item">$node-&gt;sisters</a></strong></dt>
+
+<dd>
+<p>Returns a list of all nodes (going left-to-right) that have the same
+mother as $node -- <strong>not including</strong> $node itself.  If $node is root,
+this returns empty-list.</p>
+</dd>
+<dt><strong><a name="left_sister" class="item">$node-&gt;left_sister</a></strong></dt>
+
+<dd>
+<p>Returns the node that's the immediate left sister of $node.  If $node
+is the leftmost (or only) daughter of its mother (or has no mother),
+then this returns undef.</p>
+<p>(See also $node-&gt;add_left_sisters(LIST).)</p>
+</dd>
+<dt><strong><a name="left_sisters" class="item">$node-&gt;left_sisters</a></strong></dt>
+
+<dd>
+<p>Returns a list of nodes that're sisters to the left of $node.  If
+$node is the leftmost (or only) daughter of its mother (or has no
+mother), then this returns an empty list.</p>
+<p>(See also $node-&gt;add_left_sisters(LIST).)</p>
+</dd>
+<dt><strong><a name="right_sister" class="item">$node-&gt;right_sister</a></strong></dt>
+
+<dd>
+<p>Returns the node that's the immediate right sister of $node.  If $node
+is the rightmost (or only) daughter of its mother (or has no mother),
+then this returns undef.</p>
+<p>(See also $node-&gt;add_right_sisters(LIST).)</p>
+</dd>
+<dt><strong><a name="right_sisters" class="item">$node-&gt;right_sisters</a></strong></dt>
+
+<dd>
+<p>Returns a list of nodes that're sisters to the right of $node. If
+$node is the rightmost (or only) daughter of its mother (or has no
+mother), then this returns an empty list.</p>
+<p>(See also $node-&gt;add_right_sisters(LIST).)</p>
+</dd>
+<dt><strong><a name="my_daughter_index" class="item">$node-&gt;my_daughter_index</a></strong></dt>
+
+<dd>
+<p>Returns what index this daughter is, in its mother's <code>daughter</code> list.
+In other words, if $node is ($node-&gt;mother-&gt;daughters)[3], then
+$node-&gt;my_daughter_index returns 3.</p>
+<p>As a special case, returns 0 if $node has no mother.</p>
+</dd>
+<dt><strong><a name="address" class="item">$node-&gt;address or $anynode-&gt;address(ADDRESS)</a></strong></dt>
+
+<dd>
+<p>With the first syntax, returns the address of $node within its tree,
+based on its position within the tree.  An address is formed by noting
+the path between the root and $node, and concatenating the
+daughter-indices of the nodes this passes thru (starting with 0 for
+the root, and ending with $node).</p>
+<p>For example, if to get from node ROOT to node $node, you pass thru
+ROOT, A, B, and $node, then the address is determined as:</p>
+<p>* ROOT's my_daughter_index is 0.</p>
+<p>* A's my_daughter_index is, suppose, 2. (A is index 2 in ROOT's
+daughter list.)</p>
+<p>* B's my_daughter_index is, suppose, 0. (B is index 0 in A's
+daughter list.)</p>
+<p>* $node's my_daughter_index is, suppose, 4. ($node is index 4 in
+B's daughter list.)</p>
+<p>The address of the above-described $node is, therefore, &quot;0:2:0:4&quot;.</p>
+<p>(As a somewhat special case, the address of the root is always &quot;0&quot;;
+and since addresses start from the root, all addresses start with a
+&quot;0&quot;.)</p>
+<p>The second syntax, where you provide an address, starts from the root
+of the tree $anynode belongs to, and returns the node corresponding to
+that address.  Returns undef if no node corresponds to that address.
+Note that this routine may be somewhat liberal in its interpretation
+of what can constitute an address; i.e., it accepts &quot;0.2.0.4&quot;, besides
+&quot;0:2:0:4&quot;.</p>
+<p>Also note that the address of a node in a tree is meaningful only in
+that tree as currently structured.</p>
+<p>(Consider how ($address1 cmp $address2) may be magically meaningful
+to you, if you mant to figure out what nodes are to the right of what
+other nodes.)</p>
+</dd>
+<dt><strong><a name="common" class="item">$node-&gt;common(LIST)</a></strong></dt>
+
+<dd>
+<p>Returns the lowest node in the tree that is ancestor-or-self to the
+nodes $node and LIST.</p>
+<p>If the nodes are far enough apart in the tree, the answer is just the
+root.</p>
+<p>If the nodes aren't all in the same tree, the answer is undef.</p>
+<p>As a degenerate case, if LIST is empty, returns $node.</p>
+</dd>
+<dt><strong><a name="common_ancestor" class="item">$node-&gt;common_ancestor(LIST)</a></strong></dt>
+
+<dd>
+<p>Returns the lowest node that is ancestor to all the nodes given (in
+nodes $node and LIST).  In other words, it answers the question: &quot;What
+node in the tree, as low as possible, is ancestor to the nodes given
+($node and LIST)?&quot;</p>
+<p>If the nodes are far enough apart, the answer is just the root --
+except if any of the nodes are the root itself, in which case the
+answer is undef (since the root has no ancestor).</p>
+<p>If the nodes aren't all in the same tree, the answer is undef.</p>
+<p>As a degenerate case, if LIST is empty, returns $node's mother;
+that'll be undef if $node is root.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="yet_more_methods">YET MORE METHODS</a></h1>
+<dl>
+<dt><strong><a name="walk_down" class="item">$node-&gt;walk_down({ callback =&gt; \&amp;foo, callbackback =&gt; \&amp;foo, ... })</a></strong></dt>
+
+<dd>
+<p>Performs a depth-first traversal of the structure at and under $node.
+What it does at each node depends on the value of the options hashref,
+which you must provide.  There are three options, &quot;callback&quot; and
+&quot;callbackback&quot; (at least one of which must be defined, as a sub
+reference), and &quot;_depth&quot;.  This is what <a href="#walk_down"><code>walk_down</code></a> does, in
+pseudocode form:</p>
+<p>* Start at the $node given.</p>
+<p>* If there's a <code>callback</code>, call it with $node as the first argument,
+and the options hashref as the second argument (which contains the
+potentially useful <code>_depth</code>, remember).  This function must return
+true or false -- if false, it will block the next step:</p>
+<p>* If $node has any daughter nodes, increment <code>_depth</code>, and call
+$daughter-&gt;walk_down(options_hashref) for each daughter (in order, of
+course), where options_hashref is the same hashref it was called with.
+When this returns, decrements <code>_depth</code>.</p>
+<p>* If there's a <code>callbackback</code>, call just it as with <code>callback</code> (but
+tossing out the return value).  Note that <code>callback</code> returning false
+blocks traversal below $node, but doesn't block calling callbackback
+for $node.  (Incidentally, in the unlikely case that $node has stopped
+being a node object, <code>callbackback</code> won't get called.)</p>
+<p>* Return.</p>
+<p>$node-&gt;walk_down is the way to recursively do things to a tree (if you
+start at the root) or part of a tree; if what you're doing is best done
+via pre-pre order traversal, use <code>callback</code>; if what you're doing is
+best done with post-order traversal, use <code>callbackback</code>.
+<a href="#walk_down"><code>walk_down</code></a> is even the basis for plenty of the methods in this
+class.  See the source code for examples both simple and horrific.</p>
+<p>Note that if you don't specify <code>_depth</code>, it effectively defaults to
+0.  You should set it to scalar($node-&gt;ancestors) if you want
+<code>_depth</code> to reflect the true depth-in-the-tree for the nodes called,
+instead of just the depth below $node.  (If $node is the root, there's
+difference, of course.)</p>
+<p>And <strong>by the way</strong>, it's a bad idea to modify the tree from the callback.
+Unpredictable things may happen.  I instead suggest having your callback
+add to a stack of things that need changing, and then, once <a href="#walk_down"><code>walk_down</code></a>
+is all finished, changing those nodes from that stack.</p>
+<p>Note that the existence of <a href="#walk_down"><code>walk_down</code></a> doesn't mean you can't write
+you own special-use traversers.</p>
+</dd>
+<dt><strong><a name="dump_names" class="item">@lines = $node-&gt;dump_names({ ...options... });</a></strong></dt>
+
+<dd>
+<p>Dumps, as an indented list, the names of the nodes starting at $node,
+and continuing under it.  Options are:</p>
+<p>* _depth -- A nonnegative number.  Indicating the depth to consider
+$node as being at (and so the generation under that is that plus one,
+etc.).  Defaults to 0.  You may choose to use set _depth =&gt;
+scalar($node-&gt;ancestors).</p>
+<p>* tick -- a string to preface each entry with, between the
+indenting-spacing and the node's name.  Defaults to empty-string.  You
+may prefer &quot;*&quot; or &quot;-&gt; &quot; or someting.</p>
+<p>* indent -- the string used to indent with.  Defaults to &quot;  &quot; (two
+spaces).  Another sane value might be &quot;. &quot; (period, space).  Setting it
+to empty-string suppresses indenting.</p>
+<p>The dump is not printed, but is returned as a list, where each
+item is a line, with a &quot;\n&quot; at the end.</p>
+</dd>
+<dt><strong><a name="random_network" class="item">the constructor CLASS-&gt;random_network({...options...})</a></strong></dt>
+
+<dt><strong>the method $node-&gt;random_network({...options...})</strong></dt>
+
+<dd>
+<p>In the first case, constructs a randomly arranged network under a new
+node, and returns the root node of that tree.  In the latter case,
+constructs the network under $node.</p>
+<p>Currently, this is implemented a bit half-heartedly, and
+half-wittedly.  I basically needed to make up random-looking networks
+to stress-test the various tree-dumper methods, and so wrote this.  If
+you actually want to rely on this for any application more
+serious than that, I suggest examining the source code and seeing if
+this does really what you need (say, in reliability of randomness);
+and feel totally free to suggest changes to me (especially in the form
+of &quot;I rewrote <a href="#random_network"><code>random_network</code></a>, here's the code...&quot;)</p>
+<p>It takes four options:</p>
+<p>* max_node_count -- maximum number of nodes this tree will be allowed
+to have (counting the root).  Defaults to 25.</p>
+<p>* min_depth -- minimum depth for the tree.  Defaults to 2.  Leaves can
+be generated only after this depth is reached, so the tree will be at
+least this deep -- unless max_node_count is hit first.</p>
+<p>* max_depth -- maximum depth for the tree.  Defaults to 3 plus
+min_depth.  The tree will not be deeper than this.</p>
+<p>* max_children -- maximum number of children any mother in the tree
+can have.  Defaults to 4.</p>
+</dd>
+<dt><strong><a name="lol_to_tree" class="item">the constructor CLASS-&gt;<code>lol_to_tree($lol)</code>;</a></strong></dt>
+
+<dd>
+<p>Converts something like bracket-notation for &quot;Chomsky trees&quot; (or
+rather, the closest you can come with Perl
+list-of-lists(-of-lists(-of-lists))) into a tree structure.  Returns
+the root of the tree converted.</p>
+<p>The conversion rules are that:  1) if the last (possibly the only) item
+in a given list is a scalar, then that is used as the &quot;name&quot; attribute
+for the node based on this list.  2) All other items in the list
+represent daughter nodes of the current node -- recursively so, if
+they are list references; otherwise, (non-terminal) scalars are
+considered to denote nodes with that name.  So ['Foo', 'Bar', 'N'] is
+an alternate way to represent [['Foo'], ['Bar'], 'N'].</p>
+<p>An example will illustrate:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">Tree::DAG_Node</span><span class="operator">;</span>
+  <span class="variable">$lol</span> <span class="operator">=</span>
+    <span class="operator">[</span>
+      <span class="operator">[</span>
+        <span class="operator">[</span> <span class="operator">[</span> <span class="string">'Det:The'</span> <span class="operator">]</span><span class="operator">,</span>
+          <span class="operator">[</span> <span class="operator">[</span> <span class="string">'dog'</span> <span class="operator">]</span><span class="operator">,</span> <span class="string">'N'</span><span class="operator">]</span><span class="operator">,</span> <span class="string">'NP'</span><span class="operator">]</span><span class="operator">,</span>
+        <span class="operator">[</span> <span class="string">'/with rabies\\'</span><span class="operator">,</span> <span class="string">'PP'</span><span class="operator">]</span><span class="operator">,</span>
+        <span class="string">'NP'</span>
+      <span class="operator">]</span><span class="operator">,</span>
+      <span class="operator">[</span> <span class="string">'died'</span><span class="operator">,</span> <span class="string">'VP'</span><span class="operator">]</span><span class="operator">,</span>
+      <span class="string">'S'</span>
+    <span class="operator">]</span><span class="operator">;</span>
+   <span class="variable">$tree</span> <span class="operator">=</span> <span class="variable">Tree::DAG_Node</span><span class="operator">-&gt;</span><span class="variable">lol_to_tree</span><span class="operator">(</span><span class="variable">$lol</span><span class="operator">);</span>
+   <span class="variable">$diagram</span> <span class="operator">=</span> <span class="variable">$tree</span><span class="operator">-&gt;</span><span class="variable">draw_ascii_tree</span><span class="operator">;</span>
+   <span class="keyword">print</span> <span class="keyword">map</span> <span class="string">"</span><span class="variable">$_</span><span class="string">\n"</span><span class="operator">,</span> <span class="variable">@$diagram</span><span class="operator">;</span>
+</pre>
+<p>...returns this tree:</p>
+<pre>
+                   |                   
+                  &lt;S&gt;                  
+                   |                   
+                /------------------\   
+                |                  |   
+              &lt;NP&gt;                &lt;VP&gt; 
+                |                  |   
+        /---------------\        &lt;died&gt;
+        |               |              
+      &lt;NP&gt;            &lt;PP&gt;             
+        |               |              
+     /-------\   &lt;/with rabies\&gt;       
+     |       |                         
+ &lt;Det:The&gt;  &lt;N&gt;                        
+             |                         
+           &lt;dog&gt;</pre>
+<p>By the way (and this rather follows from the above rules), when
+denoting a LoL tree consisting of just one node, this:</p>
+<pre>
+  <span class="variable">$tree</span> <span class="operator">=</span> <span class="variable">Tree::DAG_Node</span><span class="operator">-&gt;</span><span class="variable">lol_to_tree</span><span class="operator">(</span> <span class="string">'Lonely'</span> <span class="operator">);</span>
+</pre>
+<p>is okay, although it'd probably occur to you to denote it only as:</p>
+<pre>
+  <span class="variable">$tree</span> <span class="operator">=</span> <span class="variable">Tree::DAG_Node</span><span class="operator">-&gt;</span><span class="variable">lol_to_tree</span><span class="operator">(</span> <span class="operator">[</span><span class="string">'Lonely'</span><span class="operator">]</span> <span class="operator">);</span>
+</pre>
+<p>which is of course fine, too.</p>
+</dd>
+<dt><strong><a name="tree_to_lol_notation" class="item">$node-&gt;tree_to_lol_notation({...options...})</a></strong></dt>
+
+<dd>
+<p>Dumps a tree (starting at $node) as the sort of LoL-like bracket
+notation you see in the above example code.  Returns just one big
+block of text.  The only option is &quot;multiline&quot; -- if true, it dumps
+the text as the sort of indented structure as seen above; if false
+(and it defaults to false), dumps it all on one line (with no
+indenting, of course).</p>
+<p>For example, starting with the tree from the above example,
+this:</p>
+<pre>
+  <span class="keyword">print</span> <span class="variable">$tree</span><span class="operator">-&gt;</span><span class="variable">tree_to_lol_notation</span><span class="operator">,</span> <span class="string">"\n"</span><span class="operator">;</span>
+</pre>
+<p>prints the following (which I've broken over two lines for sake of
+printablitity of documentation):</p>
+<pre>
+  [[[['Det:The'], [['dog'], 'N'], 'NP'], [[&quot;/with rabies\x5c&quot;],
+  'PP'], 'NP'], [['died'], 'VP'], 'S'],</pre>
+<p>Doing this:</p>
+<pre>
+  <span class="keyword">print</span> <span class="variable">$tree</span><span class="operator">-&gt;</span><span class="variable">tree_to_lol_notation</span><span class="operator">(</span><span class="operator">{</span> <span class="string">multiline</span> <span class="operator">=&gt;</span> <span class="number">1</span> <span class="operator">}</span><span class="operator">);</span>
+</pre>
+<p>prints the same content, just spread over many lines, and prettily
+indented.</p>
+</dd>
+<dt><strong><a name="tree_to_lol" class="item">$node-&gt;tree_to_lol</a></strong></dt>
+
+<dd>
+<p>Returns that tree (starting at $node) represented as a LoL, like what
+$lol, above, holds.  (This is as opposed to <a href="#tree_to_lol_notation"><code>tree_to_lol_notation</code></a>,
+which returns the viewable code like what gets evaluated and stored in
+$lol, above.)</p>
+<p>Lord only knows what you use this for -- maybe for feeding to
+Data::Dumper, in case <a href="#tree_to_lol_notation"><code>tree_to_lol_notation</code></a> doesn't do just what you
+want?</p>
+</dd>
+<dt><strong><a name="simple_lol_to_tree" class="item">the constructor CLASS-&gt;<code>simple_lol_to_tree($simple_lol)</code>;</a></strong></dt>
+
+<dd>
+<p>This is like lol_to_tree, except that rule 1 doesn't apply -- i.e.,
+all scalars (or really, anything not a listref) in the LoL-structure
+end up as named terminal nodes, and only terminal nodes get names
+(and, of course, that name comes from that scalar value).  This method
+is useful for making things like expression trees, or at least
+starting them off.  Consider that this:</p>
+<pre>
+    <span class="variable">$tree</span> <span class="operator">=</span> <span class="variable">Tree::DAG_Node</span><span class="operator">-&gt;</span><span class="variable">simple_lol_to_tree</span><span class="operator">(</span>
+      <span class="operator">[</span> <span class="string">'foo'</span><span class="operator">,</span> <span class="operator">[</span><span class="string">'bar'</span><span class="operator">,</span> <span class="operator">[</span><span class="string">'baz'</span><span class="operator">]</span><span class="operator">,</span> <span class="string">'quux'</span><span class="operator">]</span><span class="operator">,</span> <span class="string">'zaz'</span><span class="operator">,</span> <span class="string">'pati'</span> <span class="operator">]</span>
+    <span class="operator">);</span>
+</pre>
+<p>converts from something like a Lispish or Iconish tree, if you pretend
+the brackets are parentheses.</p>
+<p>Note that there is a (possibly surprising) degenerate case of what I'm
+calling a &quot;simple-LoL&quot;, and it's like this:</p>
+<pre>
+  <span class="variable">$tree</span> <span class="operator">=</span> <span class="variable">Tree::DAG_Node</span><span class="operator">-&gt;</span><span class="variable">simple_lol_to_tree</span><span class="operator">(</span><span class="string">'Lonely'</span><span class="operator">);</span>
+</pre>
+<p>This is the (only) way you can specify a tree consisting of only a
+single node, which here gets the name 'Lonely'.</p>
+</dd>
+<dt><strong><a name="tree_to_simple_lol" class="item">$node-&gt;tree_to_simple_lol</a></strong></dt>
+
+<dd>
+<p>Returns that tree (starting at $node) represented as a simple-LoL --
+i.e., one where non-terminal nodes are represented as listrefs, and
+terminal nodes are gotten from the contents of those nodes' &quot;name'
+attributes.</p>
+<p>Note that in the case of $node being terminal, what you get back is
+the same as $node-&gt;name.</p>
+<p>Compare to tree_to_simple_lol_notation.</p>
+</dd>
+<dt><strong><a name="tree_to_simple_lol_notation" class="item">$node-&gt;tree_to_simple_lol_notation({...options...})</a></strong></dt>
+
+<dd>
+<p>A simple-LoL version of tree_to_lol_notation (which see); takes the
+same options.</p>
+</dd>
+<dt><strong><a name="draw_ascii_tree" class="item">$list_r = $node-&gt;draw_ascii_tree({ ... options ... })</a></strong></dt>
+
+<dd>
+<p>Draws a nice ASCII-art representation of the tree structure
+at-and-under $node, with $node at the top.  Returns a reference to the
+list of lines (with no &quot;\n&quot;s or anything at the end of them) that make
+up the picture.</p>
+<p>Example usage:</p>
+<pre>
+  <span class="keyword">print</span> <span class="keyword">map</span><span class="operator">(</span><span class="string">"</span><span class="variable">$_</span><span class="string">\n"</span><span class="operator">,</span> <span class="variable">@</span><span class="operator">{</span><span class="variable">$tree</span><span class="operator">-&gt;</span><span class="variable">draw_ascii_tree</span><span class="operator">}</span><span class="operator">);</span>
+</pre>
+<p>draw_ascii_tree takes parameters you set in the options hashref:</p>
+<p>* &quot;no_name&quot; -- if true, <a href="#draw_ascii_tree"><code>draw_ascii_tree</code></a> doesn't print the name of
+the node; simply prints a &quot;*&quot;.  Defaults to 0 (i.e., print the node
+name.)</p>
+<p>* &quot;h_spacing&quot; -- number 0 or greater.  Sets the number of spaces
+inserted horizontally between nodes (and groups of nodes) in a tree.
+Defaults to 1.</p>
+<p>* &quot;h_compact&quot; -- number 0 or 1.  Sets the extent to which
+<a href="#draw_ascii_tree"><code>draw_ascii_tree</code></a> tries to save horizontal space.  Defaults to 1.  If
+I think of a better scrunching algorithm, there'll be a &quot;2&quot; setting
+for this.</p>
+<p>* &quot;v_compact&quot; -- number 0, 1, or 2.  Sets the degree to which
+<a href="#draw_ascii_tree"><code>draw_ascii_tree</code></a> tries to save vertical space.  Defaults to 1.</p>
+<p>This occasionally returns trees that are a bit cock-eyed in parts; if
+anyone can suggest a better drawing algorithm, I'd be appreciative.</p>
+</dd>
+<dt><strong><a name="copy_tree" class="item">$node-&gt;copy_tree or $node-&gt;copy_tree({...options...})</a></strong></dt>
+
+<dd>
+<p>This returns the root of a copy of the tree that $node is a member of.
+If you pass no options, copy_tree pretends you've passed {}.</p>
+<p>This method is currently implemented as just a call to
+$this-&gt;root-&gt;copy_at_and_under({...options...}), but magic may be
+added in the future.</p>
+<p>Options you specify are passed down to calls to $node-&gt;copy.</p>
+</dd>
+<dt><strong><a name="copy_at_and_under" class="item">$node-&gt;copy_at_and_under or $node-&gt;copy_at_and_under({...options...})</a></strong></dt>
+
+<dd>
+<p>This returns a copy of the subtree consisting of $node and everything
+under it.</p>
+<p>If you pass no options, copy_at_and_under pretends you've passed {}.</p>
+<p>This works by recursively building up the new tree from the leaves,
+duplicating nodes using $orig_node-&gt;<a href="#copy"><code>copy($options_ref)</code></a> and then
+linking them up into a new tree of the same shape.</p>
+<p>Options you specify are passed down to calls to $node-&gt;copy.</p>
+</dd>
+<dt><strong><a name="copy" class="item">the constructor $node-&gt;copy or $node-&gt;copy({...options...})</a></strong></dt>
+
+<dd>
+<p>Returns a copy of $node, <strong>minus</strong> its daughter or mother attributes
+(which are set back to default values).</p>
+<p>If you pass no options, <a href="#copy"><code>copy</code></a> pretends you've passed {}.</p>
+<p>Magic happens with the 'attributes' attribute: if it's a hashref (and
+it usually is), the new node doesn't end up with the same hashref, but
+with ref to a hash with the content duplicated from the original's
+hashref.  If 'attributes' is not a hashref, but instead an object that
+belongs to a class that provides a method called &quot;copy&quot;, then that
+method is called, and the result saved in the clone's 'attribute'
+attribute.  Both of these kinds of magic are disabled if the options
+you pass to <a href="#copy"><code>copy</code></a> (maybe via <a href="#copy_tree"><code>copy_tree</code></a>, or <a href="#copy_at_and_under"><code>copy_at_and_under</code></a>)
+includes (<code>no_attribute_copy</code> =&gt; 1).</p>
+<p>The options hashref you pass to <a href="#copy"><code>copy</code></a> (derictly or indirectly) gets
+changed slightly after you call <a href="#copy"><code>copy</code></a> -- it gets an entry called
+&quot;from_to&quot; added to it.  Chances are you would never know nor care, but
+this is reserved for possible future use.  See the source if you are
+wildly curious.</p>
+<p>Note that if you are using $node-&gt;copy (whether directly or via
+$node-&gt;copy_tree or $node-&gt;copy_at_or_under), and it's not properly
+copying object attributes containing references, you probably
+shouldn't fight it or try to fix it -- simply override copy_tree with:</p>
+<pre>
+  <span class="keyword">sub</span><span class="variable"> copy_tree </span><span class="operator">{</span>
+    <span class="keyword">use</span> <span class="variable">Storable</span> <span class="string">qw(dclone)</span><span class="operator">;</span> 
+    <span class="keyword">my</span> <span class="variable">$this</span> <span class="operator">=</span> <span class="variable">$_</span><span class="operator">[</span><span class="number">0</span><span class="operator">]</span><span class="operator">;</span>
+    <span class="keyword">return</span> <span class="variable">dclone</span><span class="operator">(</span><span class="variable">$this</span><span class="operator">-&gt;</span><span class="variable">root</span><span class="operator">);</span>
+     <span class="comment"># d for "deep"</span>
+  <span class="operator">}</span>
+</pre>
+<p>or</p>
+<pre>
+  <span class="keyword">sub</span><span class="variable"> copy_tree </span><span class="operator">{</span>
+    <span class="keyword">use</span> <span class="variable">Data::Dumper</span><span class="operator">;</span>
+    <span class="keyword">my</span> <span class="variable">$this</span> <span class="operator">=</span> <span class="variable">$_</span><span class="operator">[</span><span class="number">0</span><span class="operator">]</span><span class="operator">;</span>
+    <span class="variable">$Data::Dumper::Purity</span> <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+    <span class="keyword">return</span> <span class="keyword">eval</span><span class="operator">(</span><span class="variable">Dumper</span><span class="operator">(</span><span class="variable">$this</span><span class="operator">-&gt;</span><span class="variable">root</span><span class="operator">));</span>
+  <span class="operator">}</span>
+</pre>
+<p>Both of these avoid you having to reinvent the wheel.</p>
+<p>How to override copy_at_or_under with something that uses Storable
+or Data::Dumper is left as an exercise to the reader.</p>
+<p>Consider that if in a derived class, you add attributes with really
+bizarre contents (like a unique-for-all-time-ID), you may need to
+override <a href="#copy"><code>copy</code></a>.  Consider:</p>
+<pre>
+  <span class="keyword">sub</span><span class="variable"> copy </span><span class="operator">{</span>
+    <span class="keyword">my</span><span class="operator">(</span><span class="variable">$it</span><span class="operator">,</span> <span class="variable">@etc</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span>
+    <span class="variable">$it</span><span class="operator">-&gt;</span><span class="variable">SUPER::copy</span><span class="operator">(</span><span class="variable">@etc</span><span class="operator">);</span>
+    <span class="variable">$it</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="string">'UID'</span><span class="operator">}</span> <span class="operator">=</span> <span class="operator">&amp;</span><span class="variable">get_new_UID</span><span class="operator">;</span>
+  <span class="operator">}</span>
+</pre>
+<p>...or the like.  See the source of Tree::DAG_Node::copy for
+inspiration.</p>
+</dd>
+<dt><strong><a name="delete_tree" class="item">$node-&gt;delete_tree</a></strong></dt>
+
+<dd>
+<p>Destroys the entire tree that $node is a member of (starting at the
+root), by nulling out each node-object's attributes (including, most
+importantly, its linkage attributes -- hopefully this is more than
+sufficient to eliminate all circularity in the data structure), and
+then moving it into the class DEADNODE.</p>
+<p>Use this when you're finished with the tree in question, and want to
+free up its memory.  (If you don't do this, it'll get freed up anyway
+when your program ends.)</p>
+<p>If you try calling any methods on any of the node objects in the tree
+you've destroyed, you'll get an error like:</p>
+<pre>
+  Can't locate object method &quot;leaves_under&quot;
+    via package &quot;DEADNODE&quot;.</pre>
+<p>So if you see that, that's what you've done wrong.  (Actually, the
+class DEADNODE does provide one method: a no-op method &quot;delete_tree&quot;.
+So if you want to delete a tree, but think you may have deleted it
+already, it's safe to call $node-&gt;delete_tree on it (again).)</p>
+<p>The <a href="#delete_tree"><code>delete_tree</code></a> method is needed because Perl's garbage collector
+would never (as currently implemented) see that it was time to
+de-allocate the memory the tree uses -- until either you call
+$node-&gt;delete_tree, or until the program stops (at &quot;global
+destruction&quot; time, when <strong>everything</strong> is unallocated).</p>
+<p>Incidentally, there are better ways to do garbage-collecting on a
+tree, ways which don't require the user to explicitly call a method
+like <a href="#delete_tree"><code>delete_tree</code></a> -- they involve dummy classes, as explained at
+<code>http://mox.perl.com/misc/circle-destroy.pod</code></p>
+<p>However, introducing a dummy class concept into Tree::DAG_Node would
+be rather a distraction.  If you want to do this with your derived
+classes, via a DESTROY in a dummy class (or in a tree-metainformation
+class, maybe), then feel free to.</p>
+<p>The only case where I can imagine <a href="#delete_tree"><code>delete_tree</code></a> failing to totally
+void the tree, is if you use the hashref in the &quot;attributes&quot; attribute
+to store (presumably among other things) references to other nodes'
+&quot;attributes&quot; hashrefs -- which 1) is maybe a bit odd, and 2) is your
+problem, because it's your hash structure that's circular, not the
+tree's.  Anyway, consider:</p>
+<pre>
+      <span class="comment"># null out all my "attributes" hashes</span>
+      <span class="variable">$anywhere</span><span class="operator">-&gt;</span><span class="variable">root</span><span class="operator">-&gt;</span><span class="variable">walk_down</span><span class="operator">(</span><span class="operator">{</span>
+        <span class="string">'callback'</span> <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+          <span class="variable">$hr</span> <span class="operator">=</span> <span class="variable">$_</span><span class="operator">[</span><span class="number">0</span><span class="operator">]</span><span class="operator">-&gt;</span><span class="variable">attributes</span><span class="operator">;</span> <span class="variable">%$hr</span> <span class="operator">=</span> <span class="operator">();</span> <span class="keyword">return</span> <span class="number">1</span><span class="operator">;</span>
+        <span class="operator">}</span>
+      <span class="operator">}</span><span class="operator">);</span>
+      <span class="comment"># And then:</span>
+      <span class="variable">$anywhere</span><span class="operator">-&gt;</span><span class="variable">delete_tree</span><span class="operator">;</span>
+</pre>
+<p>(I suppose <a href="#delete_tree"><code>delete_tree</code></a> is a &quot;destructor&quot;, or as close as you can
+meaningfully come for a circularity-rich data structure in Perl.)</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="when_and_how_to_destroy">When and How to Destroy</a></h2>
+<p>It should be clear to you that if you've built a big parse tree or
+something, and then you're finished with it, you should call
+$some_node-&gt;delete_tree on it if you want the memory back.</p>
+<p>But consider this case:  you've got this tree:</p>
+<pre>
+      A
+    / | \
+   B  C  D
+   |     | \
+   E     X  Y</pre>
+<p>Let's say you decide you don't want D or any of its descendants in the
+tree, so you call D-&gt;unlink_from_mother.  This does NOT automagically
+destroy the tree D-X-Y.  Instead it merely splits the tree into two:</p>
+<pre>
+     A                        D
+    / \                      / \
+   B   C                    X   Y
+   | 
+   E</pre>
+<p>To destroy D and its little tree, you have to explicitly call
+delete_tree on it.</p>
+<p>Note, however, that if you call C-&gt;unlink_from_mother, and if you don't
+have a link to C anywhere, then it <strong>does</strong> magically go away.  This is
+because nothing links to C -- whereas with the D-X-Y tree, D links to
+X and Y, and X and Y each link back to D. Note that calling
+C-&gt;delete_tree is harmless -- after all, a tree of only one node is
+still a tree.</p>
+<p>So, this is a surefire way of getting rid of all $node's children and
+freeing up the memory associated with them and their descendants:</p>
+<pre>
+  <span class="keyword">foreach</span> <span class="keyword">my</span> <span class="variable">$it</span> <span class="operator">(</span><span class="variable">$node</span><span class="operator">-&gt;</span><span class="variable">clear_daughters</span><span class="operator">)</span> <span class="operator">{</span> <span class="variable">$it</span><span class="operator">-&gt;</span><span class="variable">delete_tree</span> <span class="operator">}</span>
+</pre>
+<p>Just be sure not to do this:</p>
+<pre>
+  <span class="keyword">foreach</span> <span class="keyword">my</span> <span class="variable">$it</span> <span class="operator">(</span><span class="variable">$node</span><span class="operator">-&gt;</span><span class="variable">daughters</span><span class="operator">)</span> <span class="operator">{</span> <span class="variable">$it</span><span class="operator">-&gt;</span><span class="variable">delete_tree</span> <span class="operator">}</span>
+  <span class="variable">$node</span><span class="operator">-&gt;</span><span class="variable">clear_daughters</span><span class="operator">;</span>
+</pre>
+<p>That's bad; the first call to $_-&gt;delete_tree will climb to the root
+of $node's tree, and nuke the whole tree, not just the bits under $node.
+You might as well have just called $node-&gt;delete_tree.
+(Moreavor, once $node is dead, you can't call clear_daughters on it,
+so you'll get an error there.)</p>
+<p>
+</p>
+<hr />
+<h1><a name="bug_reports">BUG REPORTS</a></h1>
+<p>If you find a bug in this library, report it to me as soon as possible,
+at the address listed in the MAINTAINER section, below.  Please try to
+be as specific as possible about how you got the bug to occur.</p>
+<p>
+</p>
+<hr />
+<h1><a name="help_">HELP!</a></h1>
+<p>If you develop a given routine for dealing with trees in some way, and
+use it a lot, then if you think it'd be of use to anyone else, do email
+me about it; it might be helpful to others to include that routine, or
+something based on it, in a later version of this module.</p>
+<p>It's occurred to me that you might like to (and might yourself develop
+routines to) draw trees in something other than ASCII art.  If you do so
+-- say, for PostScript output, or for output interpretable by some
+external plotting program --  I'd be most interested in the results.</p>
+<p>
+</p>
+<hr />
+<h1><a name="ramblings">RAMBLINGS</a></h1>
+<p>This module uses &quot;strict&quot;, but I never wrote it with -w warnings in
+mind -- so if you use -w, do not be surprised if you see complaints
+from the guts of DAG_Node.  As long as there is no way to turn off -w
+for a given module (instead of having to do it in every single
+subroutine with a &quot;local $^W&quot;), I'm not going to change this. However,
+I do, at points, get bursts of ambition, and I try to fix code in
+DAG_Node that generates warnings, <em>as I come across them</em> -- which is
+only occasionally.  Feel free to email me any patches for any such
+fixes you come up with, tho.</p>
+<p>Currently I don't assume (or enforce) anything about the class
+membership of nodes being manipulated, other than by testing whether
+each one provides a method <a href="#is_node"><code>is_node</code></a>, a la:</p>
+<pre>
+  <span class="keyword">die</span> <span class="string">"Not a node!!!"</span> <span class="keyword">unless</span> <span class="variable">UNIVERSAL::can</span><span class="operator">(</span><span class="variable">$node</span><span class="operator">,</span> <span class="string">"is_node"</span><span class="operator">);</span>
+</pre>
+<p>So, as far as I'm concerned, a given tree's nodes are free to belong to
+different classes, just so long as they provide/inherit <a href="#is_node"><code>is_node</code></a>, the
+few methods that this class relies on to navigate the tree, and have the
+same internal object structure, or a superset of it. Presumably this
+would be the case for any object belonging to a class derived from
+<code>Tree::DAG_Node</code>, or belonging to <code>Tree::DAG_Node</code> itself.</p>
+<p>When routines in this class access a node's &quot;mother&quot; attribute, or its
+&quot;daughters&quot; attribute, they (generally) do so directly (via 
+$node-&gt;{'mother'}, etc.), for sake of efficiency.  But classes derived
+from this class should probably do this instead thru a method (via
+$node-&gt;mother, etc.), for sake of portability, abstraction, and general
+goodness.</p>
+<p>However, no routines in this class (aside from, necessarily, <a href="#_init"><code>_init</code></a>,
+<code>_init_name</code>, and <a href="#name"><code>name</code></a>) access the &quot;name&quot; attribute directly;
+routines (like the various tree draw/dump methods) get the &quot;name&quot; value
+thru a call to $obj-&gt;<a href="#name"><code>name()</code></a>.  So if you want the object's name to not be
+a real attribute, but instead have it derived dynamically from some feature
+of the object (say, based on some of its other attributes, or based on
+its address), you can to override the <a href="#name"><code>name</code></a> method, without causing
+problems.  (Be sure to consider the case of $obj-&gt;name as a write
+method, as it's used in <a href="#lol_to_tree"><code>lol_to_tree</code></a> and <a href="#random_network"><code>random_network</code></a>.)</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../../lib/HTML/Element.html">the HTML::Element manpage</a></p>
+<p>Wirth, Niklaus.  1976.  <em>Algorithms + Data Structures = Programs</em>
+Prentice-Hall, Englewood Cliffs, NJ.</p>
+<p>Knuth, Donald Ervin.  1997.  <em>Art of Computer Programming, Volume 1,
+Third Edition: Fundamental Algorithms</em>.  Addison-Wesley,  Reading, MA.</p>
+<p>Wirth's classic, currently and lamentably out of print, has a good
+section on trees.  I find it clearer than Knuth's (if not quite as
+encyclopedic), probably because Wirth's example code is in a
+block-structured high-level language (basically Pascal), instead
+of in assembler (MIX).</p>
+<p>Until some kind publisher brings out a new printing of Wirth's book,
+try poking around used bookstores (or <code>www.abebooks.com</code>) for a copy.
+I think it was also republished in the 1980s under the title
+<em>Algorithms and Data Structures</em>, and in a German edition called
+<em>Algorithmen und Datenstrukturen</em>.  (That is, I'm sure books by Knuth
+were published under those titles, but I'm <em>assuming</em> that they're just
+later printings/editions of <em>Algorithms + Data Structures =
+Programs</em>.)</p>
+<p>
+</p>
+<hr />
+<h1><a name="maintainer">MAINTAINER</a></h1>
+<p>David Hand, <code>&lt;cogent@cpan.org&gt;</code></p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Sean M. Burke, <code>&lt;sburke@cpan.org&gt;</code></p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright__license__and_disclaimer">COPYRIGHT, LICENSE, AND DISCLAIMER</a></h1>
+<p>Copyright 1998-2001, 2004, 2007 by Sean M. Burke and David Hand.</p>
+<p>This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.</p>
+<p>This program is distributed in the hope that it will be useful, but
+without any warranty; without even the implied warranty of
+merchantability or fitness for a particular purpose.</p>
+
+</body>
+
+</html>

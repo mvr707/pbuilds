@@ -1,0 +1,75 @@
+---
+distribution: !!perl/hash:CPAN::Distribution
+  CALLED_FOR: D/DR/DROLSKY/DateTime-0.74.tar.gz
+  CHECKSUM_STATUS: OK
+  ID: D/DR/DROLSKY/DateTime-0.74.tar.gz
+  RO:
+    CPAN_COMMENT: ~
+    CPAN_USERID: DROLSKY
+  archived: tar
+  badtestcnt: 1
+  build_dir: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\build\DateTime-0.74-slY2ji
+  incommandcolor: 2
+  localfile: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\sources\authors\id\D\DR\DROLSKY\DateTime-0.74.tar.gz
+  make: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691498
+  make_test: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: 1
+    TEXT: NO one dependency not OK (DateTime::TimeZone); additionally test harness
+      failed
+    TIME: 1338691519
+  modulebuild: 1
+  negative_prefs_cache: 4
+  prefs: {}
+  prereq_pm:
+    build_requires:
+      Cwd: '0'
+      ExtUtils::CBuilder: '0'
+      Module::Build: '0.3601'
+      Storable: '0'
+      Test::Fatal: '0'
+      Test::More: '0.88'
+      utf8: '0'
+    requires:
+      Carp: '0'
+      DateTime::Locale: '0.41'
+      DateTime::TimeZone: '1.09'
+      Math::Round: '0'
+      Params::Validate: '0.76'
+      Scalar::Util: '0'
+      Time::Local: '1.04'
+      XSLoader: '0'
+      base: '0'
+      constant: '0'
+      integer: '0'
+      overload: '0'
+      perl: '5.008001'
+      strict: '0'
+      vars: '0'
+      warnings: '0'
+  reqtype: b
+  sponsored_mods:
+    DateTime::Locale: 1
+    DateTime::TimeZone: 2
+    Math::Round: 1
+    Params::Validate: 1
+  unwrapped: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691288
+  writemakefile: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691291
+perl:
+  $^X: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\bin\perl.exe
+  mtime_$^X: 1318029070
+  mtime_dll: 0
+  sitearchexp: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib
+time: 1338691519

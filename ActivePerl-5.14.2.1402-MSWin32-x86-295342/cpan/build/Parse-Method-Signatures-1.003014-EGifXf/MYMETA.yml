@@ -1,0 +1,39 @@
+---
+abstract: 'Perl6 like method signature parser'
+author:
+  - 'Ash Berlin <ash@cpan.org>.'
+build_requires:
+  ExtUtils::MakeMaker: 6.42
+  MooseX::Types::Structured: 0
+  Test::Differences: 0
+  Test::Exception: 0
+  Test::More: 0
+  aliased: 0
+configure_requires:
+  ExtUtils::MakeMaker: 0
+distribution_type: module
+dynamic_config: 0
+generated_by: 'ExtUtils::MakeMaker version 6.57_05'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Parse-Method-Signatures
+no_index:
+  directory:
+    - t
+    - inc
+requires:
+  List::MoreUtils: 0.20
+  Moose: 0
+  MooseX::Traits: 0.06
+  MooseX::Types: 0.17
+  MooseX::Types::Moose: 0
+  MooseX::Types::Structured: 0
+  PPI: 1.203
+  Test::Differences: 0
+  Test::Exception: 0
+  Test::More: 0
+  aliased: 0
+  namespace::clean: 0.10
+version: 1.003014

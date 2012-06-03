@@ -1,0 +1,60 @@
+---
+distribution: !!perl/hash:CPAN::Distribution
+  CALLED_FOR: namespace::autoclean
+  CHECKSUM_STATUS: OK
+  ID: B/BO/BOBTFISH/namespace-autoclean-0.13.tar.gz
+  RO:
+    CPAN_COMMENT: ~
+    CPAN_USERID: BOBTFISH
+  archived: tar
+  build_dir: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\build\namespace-autoclean-0.13-VWTwGc
+  incommandcolor: 2
+  install: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691611
+  localfile: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\sources\authors\id\B\BO\BOBTFISH\namespace-autoclean-0.13.tar.gz
+  make: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691603
+  make_test: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691606
+  negative_prefs_cache: 4
+  prefs:
+    install: {}
+  prereq_pm:
+    build_requires:
+      Moose::Role: '0'
+      Sub::Name: '0'
+      Test::More: '0'
+    requires:
+      B::Hooks::EndOfScope: '0'
+      Class::MOP: '0.80'
+      List::Util: '0'
+      namespace::clean: '0.20'
+      strict: '0'
+      warnings: '0'
+  reqtype: r
+  sponsored_mods: {}
+  unwrapped: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691597
+  writemakefile: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691597
+perl:
+  $^X: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\bin\perl.exe
+  mtime_$^X: 1318029070
+  mtime_dll: 0
+  sitearchexp: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib
+time: 1338691611

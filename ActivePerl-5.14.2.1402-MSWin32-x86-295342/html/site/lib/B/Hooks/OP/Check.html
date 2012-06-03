@@ -1,0 +1,143 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../../scineplex.css">
+<title>B::Hooks::OP::Check - Wrap OP check callbacks</title>
+<link rel="stylesheet" href="../../../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',5);</script>
+<h1><a>B::Hooks::OP::Check - Wrap OP check callbacks</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#types">TYPES</a></li>
+	<ul>
+
+		<li><a href="#typedef_op____hook_op_check_cb___pthx__op____void____">typedef OP *(*hook_op_check_cb) (pTHX_ OP *, void *);</a></li>
+		<li><a href="#typedef_uv_hook_op_check_id">typedef UV hook_op_check_id</a></li>
+	</ul>
+
+	<li><a href="#functions">FUNCTIONS</a></li>
+	<ul>
+
+		<li><a href="#hook_op_check_id_hook_op_check__opcode_type__hook_op_check_cb_cb__void__user_data_">hook_op_check_id hook_op_check (opcode type, hook_op_check_cb cb, void *user_data)</a></li>
+		<li><a href="#void__hook_op_check_remove__opcode_type__hook_op_check_id_id_">void *hook_op_check_remove (opcode type, hook_op_check_id id)</a></li>
+	</ul>
+
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright_and_license">COPYRIGHT AND LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>B::Hooks::OP::Check - Wrap OP check callbacks</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+    <span class="comment"># include "hook_op_check.h"</span>
+</pre>
+<pre>
+    <span class="variable">STATIC</span> <span class="variable">OP</span> <span class="variable">*my_const_check_op</span> <span class="operator">(</span><span class="variable">pTHX_</span> <span class="variable">OP</span> <span class="variable">*op</span><span class="operator">,</span> <span class="variable">void</span> <span class="variable">*user_data</span><span class="operator">)</span> <span class="operator">{</span>
+        <span class="regex">/* ... */</span>
+        <span class="keyword">return</span> <span class="variable">op</span><span class="operator">;</span>
+    <span class="operator">}</span>
+</pre>
+<pre>
+    <span class="variable">STATIC</span> <span class="variable">hook_op_check_id</span> <span class="variable">my_hook_id</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="variable">void</span>
+    <span class="variable">setup</span> <span class="operator">()</span>
+        <span class="variable">CODE</span><span class="operator">:</span>
+            <span class="variable">my_hook_id</span> <span class="operator">=</span> <span class="variable">hook_op_check</span> <span class="operator">(</span><span class="variable">OP_CONST</span><span class="operator">,</span> <span class="variable">my_const_check_op</span><span class="operator">,</span> <span class="variable">NULL</span><span class="operator">);</span>
+</pre>
+<pre>
+    <span class="variable">void</span>
+    <span class="variable">teardown</span> <span class="operator">()</span>
+        <span class="variable">CODE</span><span class="operator">:</span>
+            <span class="variable">hook_op_check_remove</span> <span class="operator">(</span><span class="variable">OP_CONST</span><span class="operator">,</span> <span class="variable">my_hook_id</span><span class="operator">);</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This module provides a c api for XS modules to hook into the callbacks of
+<code>PL_check</code>.</p>
+<p><a href="../../../../../site/lib/ExtUtils/Depends.html">the ExtUtils::Depends manpage</a> is used to export all functions for other XS modules to
+use. Include the following in your Makefile.PL:</p>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$pkg</span> <span class="operator">=</span> <span class="variable">ExtUtils::Depends</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="string">'Your::XSModule'</span><span class="operator">,</span> <span class="string">'B::Hooks::OP::Check'</span><span class="operator">);</span>
+    <span class="variable">WriteMakefile</span><span class="operator">(</span>
+        <span class="operator">...</span> <span class="comment"># your normal makefile flags</span>
+        <span class="variable">$pkg</span><span class="operator">-&gt;</span><span class="variable">get_makefile_vars</span><span class="operator">,</span>
+    <span class="operator">);</span>
+</pre>
+<p>Your XS module can now include <code>hook_op_check.h</code>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="types">TYPES</a></h1>
+<p>
+</p>
+<h2><a name="typedef_op____hook_op_check_cb___pthx__op____void____">typedef OP *(*hook_op_check_cb) (pTHX_ OP *, void *);</a></h2>
+<p>Type that callbacks need to implement.</p>
+<p>
+</p>
+<h2><a name="typedef_uv_hook_op_check_id">typedef UV hook_op_check_id</a></h2>
+<p>Type to identify a callback.</p>
+<p>
+</p>
+<hr />
+<h1><a name="functions">FUNCTIONS</a></h1>
+<p>
+</p>
+<h2><a name="hook_op_check_id_hook_op_check__opcode_type__hook_op_check_cb_cb__void__user_data_">hook_op_check_id hook_op_check (opcode type, hook_op_check_cb cb, void *user_data)</a></h2>
+<p>Register the callback <code>cb</code> to be called after the <code>PL_check</code> function for
+opcodes of the given <code>type</code>. <code>user_data</code> will be passed to the callback as
+the last argument. Returns an id that can be used to remove the callback later
+on.</p>
+<p>
+</p>
+<h2><a name="void__hook_op_check_remove__opcode_type__hook_op_check_id_id_">void *hook_op_check_remove (opcode type, hook_op_check_id id)</a></h2>
+<p>Remove the callback identified by <code>id</code>. Returns the userdata the callback had.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Florian Ragwitz &lt;<a href="mailto:rafl@debian.org">rafl@debian.org</a>&gt;</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright_and_license">COPYRIGHT AND LICENSE</a></h1>
+<p>Copyright (c) 2008 Florian Ragwitz</p>
+<p>This module is free software.</p>
+<p>You may distribute this code under the same terms as Perl itself.</p>
+
+</body>
+
+</html>

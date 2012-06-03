@@ -1,0 +1,4 @@
+EXPORTS
+  boot_Scope__Upper
+  _boot_Scope__Upper = boot_Scope__Upper
+  

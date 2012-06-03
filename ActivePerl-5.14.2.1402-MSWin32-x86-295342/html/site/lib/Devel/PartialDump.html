@@ -1,0 +1,338 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../scineplex.css">
+<title>Devel::PartialDump - Partial dumping of data structures, optimized for argument printing.</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',3);</script>
+<h1><a>Devel::PartialDump - Partial dumping of data structures, optimized for argument printing.</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#sample_output">SAMPLE OUTPUT</a></li>
+	<li><a href="#attributes">ATTRIBUTES</a></li>
+	<li><a href="#exports">EXPORTS</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<li><a href="#version_control">VERSION CONTROL</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<hr />
+<h1><a name="name">NAME</a></h1>
+<p>Devel::PartialDump - Partial dumping of data structures, optimized for argument
+printing.</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+        <span class="keyword">use</span> <span class="variable">Devel::PartialDump</span><span class="operator">;</span>
+</pre>
+<pre>
+        <span class="keyword">sub</span><span class="variable"> foo </span><span class="operator">{</span>
+                <span class="keyword">print</span> <span class="string">"foo called with args: "</span> <span class="operator">.</span> <span class="variable">Devel::PartialDump</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">-&gt;</span><span class="variable">dump</span><span class="operator">(</span><span class="variable">@_</span><span class="operator">);</span>
+        <span class="operator">}</span>
+</pre>
+<pre>
+        <span class="keyword">use</span> <span class="variable">Devel::PartialDump</span> <span class="string">qw(warn)</span><span class="operator">;</span>
+</pre>
+<pre>
+        # warn is overloaded to create a concise dump instead of stringifying $some_bad_data
+        warn &quot;this made a boo boo: &quot;, $some_bad_data</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This module is a data dumper optimized for logging of arbitrary parameters.</p>
+<p>It attempts to truncate overly verbose data, in a way that is hopefully more
+useful for diagnostics warnings than</p>
+<pre>
+        <span class="keyword">warn</span> <span class="variable">Dumper</span><span class="operator">(</span><span class="variable">@stuff</span><span class="operator">);</span>
+</pre>
+<p>Unlike other data dumping modules there are no attempts at correctness or cross
+referencing, this is only meant to provide a slightly deeper look into the data
+in question.</p>
+<p>There is a default recursion limit, and a default truncation of long lists, and
+the dump is formatted on one line (new lines in strings are escaped), to aid in
+readability.</p>
+<p>You can enable it temporarily by importing functions like <a href="#warn"><code>warn</code></a>, <a href="#croak"><code>croak</code></a> etc
+to get more informative errors during development, or even use it as:</p>
+<pre>
+        <span class="keyword">BEGIN</span> <span class="operator">{</span> <span class="keyword">local</span> <span class="variable">$@</span><span class="operator">;</span> <span class="keyword">eval</span> <span class="string">"use Devel::PartialDump qw(...)"</span> <span class="operator">}</span>
+</pre>
+<p>to get DWIM formatting only if it's installed, without introducing a
+dependency.</p>
+<p>
+</p>
+<hr />
+<h1><a name="sample_output">SAMPLE OUTPUT</a></h1>
+<dl>
+<dt><strong><a name="foo" class="item"><code>&quot;foo&quot;</code></a></strong></dt>
+
+<dd>
+<pre>
+    &quot;foo&quot;</pre>
+</dd>
+<dt><strong><a name="foo_bar" class="item"><code>&quot;foo&quot; =&gt; &quot;bar&quot;</code></a></strong></dt>
+
+<dd>
+<pre>
+    foo: &quot;bar&quot;</pre>
+</dd>
+<dt><strong><a name="foo_bar_gorch_1_bah" class="item"><code>foo =&gt; &quot;bar&quot;, gorch =&gt; [ 1, &quot;bah&quot; ]</code></a></strong></dt>
+
+<dd>
+<pre>
+    foo: &quot;bar&quot;, gorch: [ 1, &quot;bah&quot; ]</pre>
+</dd>
+<dt><strong><a name="foo_bar2" class="item"><a href="#foo_bar"><code>[ { foo =&gt; [&quot;bar&quot;] } ]</code></a></a></strong></dt>
+
+<dd>
+<pre>
+    <span class="operator">[</span> <span class="operator">{</span> <span class="variable">foo</span><span class="operator">:</span> <span class="variable">ARRAY</span><span class="operator">(</span><span class="number">0x9b265d0</span><span class="operator">)</span> <span class="operator">}</span> <span class="operator">]</span>
+</pre>
+</dd>
+<dt><strong><a name="1_10" class="item"><code>[ 1 .. 10 ]</code></a></strong></dt>
+
+<dd>
+<pre>
+    [ 1, 2, 3, 4, 5, 6, ... ]</pre>
+</dd>
+<dt><strong><a name="foo_nbar" class="item"><code>&quot;foo\nbar&quot;</code></a></strong></dt>
+
+<dd>
+<pre>
+    &quot;foo\nbar&quot;</pre>
+</dd>
+<dt><strong><a name="chr" class="item"><code>&quot;foo&quot; . chr(1)</code></a></strong></dt>
+
+<dd>
+<pre>
+    <span class="string">"foo\x{1}"</span>
+</pre>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="attributes">ATTRIBUTES</a></h1>
+<dl>
+<dt><strong><a name="max_length" class="item">max_length</a></strong></dt>
+
+<dd>
+<p>The maximum character length of the dump.</p>
+<p>Anything bigger than this will be truncated.</p>
+<p>Not defined by default.</p>
+</dd>
+<dt><strong><a name="max_elements" class="item">max_elements</a></strong></dt>
+
+<dd>
+<p>The maximum number of elements (array elements or pairs in a hash) to print.</p>
+<p>Defualts to 6.</p>
+</dd>
+<dt><strong><a name="max_depth" class="item">max_depth</a></strong></dt>
+
+<dd>
+<p>The maximum level of recursion.</p>
+<p>Defaults to 2.</p>
+</dd>
+<dt><strong><a name="stringify" class="item">stringify</a></strong></dt>
+
+<dd>
+<p>Whether or not to let objects stringify themeslves, instead of using
+<a href="../../../lib/overload/strval.html">StrVal in the overload manpage</a> to avoid sideffects.</p>
+<p>Defaults to false (no overloading).</p>
+</dd>
+<dt><strong><a name="pairs" class="item">pairs</a></strong></dt>
+
+<dd>
+<p>Whether or not to autodetect named args as pairs in the main <a href="#dump"><code>dump</code></a> function.
+If this attribute is true, and the top level value list is even sized, and
+every odd element is not a reference, then it will dumped as pairs instead of a
+list.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="exports">EXPORTS</a></h1>
+<p>All exports are optional, nothing is exported by default.</p>
+<p>This module uses <a href="../../../lib/Sub/Exporter.html">the Sub::Exporter manpage</a>, so exports can be renamed, curried, etc.</p>
+<dl>
+<dt><strong><a name="warn" class="item">warn</a></strong></dt>
+
+<dt><strong><a name="show" class="item">show</a></strong></dt>
+
+<dt><strong><a name="show_scalar" class="item">show_scalar</a></strong></dt>
+
+<dt><strong><a name="croak" class="item">croak</a></strong></dt>
+
+<dt><strong><a name="carp" class="item">carp</a></strong></dt>
+
+<dt><strong><a name="confess" class="item">confess</a></strong></dt>
+
+<dt><strong><a name="cluck" class="item">cluck</a></strong></dt>
+
+<dt><strong><a name="dump" class="item">dump</a></strong></dt>
+
+<dd>
+<p>See the various methods for behavior documentation.</p>
+<p>These methods will use <code>$Devel::PartialDump::default_dumper</code> as the invocant if the
+first argument is not blessed and <code>isa</code> <a href="../../../cpan/build/Devel-PartialDump-0.15-HxhEvK/blib/html/site/lib/Devel/PartialDump.html">the Devel::PartialDump manpage</a>, so they can be
+used as functions too.</p>
+<p>Particularly <a href="#warn"><code>warn</code></a> can be used as a drop in replacement for the built in
+warn:</p>
+<pre>
+        <span class="keyword">warn</span> <span class="string">"blah blah: "</span><span class="operator">,</span> <span class="variable">$some_data</span><span class="operator">;</span>
+</pre>
+<p>by importing</p>
+<pre>
+        <span class="keyword">use</span> <span class="variable">Devel::PartialDump</span> <span class="string">qw(warn)</span><span class="operator">;</span>
+</pre>
+<p><code>$some_data</code> will be have some of it's data dumped.</p>
+</dd>
+<dt><strong><a name="_default_dumper" class="item">$default_dumper</a></strong></dt>
+
+<dd>
+<p>The default dumper object to use for export style calls.</p>
+<p>Can be assigned to to alter behavior globally.</p>
+<p>This is generally useful when using the <a href="#warn"><code>warn</code></a> export as a drop in replacement
+for <code>CORE::warn</code>.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<dl>
+<dt><strong><a name="warn_blah" class="item">warn @blah</a></strong></dt>
+
+<dd>
+<p>A warpper for <a href="#dump"><code>dump</code></a> that prints strings plainly.</p>
+</dd>
+<dt><strong><a name="show_blah" class="item">show @blah</a></strong></dt>
+
+<dt><strong><a name="show_scalar_x" class="item">show_scalar $x</a></strong></dt>
+
+<dd>
+<p>Like <a href="#warn"><code>warn</code></a>, but instead of returning the value from <a href="#warn"><code>warn</code></a> it returns its
+arguments, so it can be used in the middle of an expression.</p>
+<p>Note that</p>
+<pre>
+        <span class="keyword">my</span> <span class="variable">$x</span> <span class="operator">=</span> <span class="variable">show</span> <span class="variable">foo</span><span class="operator">();</span>
+</pre>
+<p>will actually evaluaate <a href="#foo"><code>foo</code></a> in list context, so if you only want to dump a
+single element and retain scalar context use</p>
+<pre>
+        <span class="keyword">my</span> <span class="variable">$x</span> <span class="operator">=</span> <span class="variable">show_scalar</span> <span class="variable">foo</span><span class="operator">();</span>
+</pre>
+<p>which has a prototype of <code>$</code> (as opposed to taking a list).</p>
+<p>This is similar to the venerable Ingy's fabulous and amazing <em>XXX</em> module.</p>
+</dd>
+<dt><strong>carp</strong></dt>
+
+<dt><strong>croak</strong></dt>
+
+<dt><strong>confess</strong></dt>
+
+<dt><strong>cluck</strong></dt>
+
+<dd>
+<p>Drop in replacements for <a href="../../../lib/Carp.html">the Carp manpage</a> exports, that format their arguments like
+<a href="#warn"><code>warn</code></a>.</p>
+</dd>
+<dt><strong><a name="dump_stuff" class="item">dump @stuff</a></strong></dt>
+
+<dd>
+<p>Returns a one line, human readable, concise dump of @stuff.</p>
+<p>If called in void context, will <a href="#warn"><code>warn</code></a> with the dump.</p>
+<p>Truncates the dump according to <a href="#max_length"><code>max_length</code></a> if specified.</p>
+</dd>
+<dt><strong><a name="dump_as_list_depth_stuff" class="item">dump_as_list $depth, @stuff</a></strong></dt>
+
+<dt><strong><a name="dump_as_pairs_depth_stuff" class="item">dump_as_pairs $depth, @stuff</a></strong></dt>
+
+<dd>
+<p>Dump <code>@stuff</code> using the various formatting functions.</p>
+<p>Dump as pairs returns comma delimited pairs with <code>=&gt;</code> between the key and the value.</p>
+<p>Dump as list returns a comma delimited dump of the values.</p>
+</dd>
+<dt><strong><a name="frmat_depth_value" class="item">frmat $depth, $value</a></strong></dt>
+
+<dt><strong><a name="format_key_depth_key" class="item">format_key $depth, $key</a></strong></dt>
+
+<dt><strong><a name="format_object_depth_object" class="item">format_object $depth, $object</a></strong></dt>
+
+<dt><strong><a name="format_ref_depth_ref" class="item">format_ref $depth, $Ref</a></strong></dt>
+
+<dt><strong><a name="format_array_depth_array_ref" class="item">format_array $depth, $array_ref</a></strong></dt>
+
+<dt><strong><a name="format_hash_depth_hash_ref" class="item">format_hash $depth, $hash_ref</a></strong></dt>
+
+<dt><strong><a name="format_undef_depth_undef" class="item">format_undef $depth, undef</a></strong></dt>
+
+<dt><strong><a name="format_string_depth_string" class="item">format_string $depth, $string</a></strong></dt>
+
+<dt><strong><a name="format_number_depth_number" class="item">format_number $depth, $number</a></strong></dt>
+
+<dt><strong><a name="quote_string" class="item">quote $string</a></strong></dt>
+
+<dd>
+<p>The various formatting methods.</p>
+<p>You can override these to provide a custom format.</p>
+<p><code>format_array</code> and <code>format_hash</code> recurse with <code>$depth + 1</code> into
+<code>dump_as_list</code> and <code>dump_as_pairs</code> respectively.</p>
+<p><code>format_ref</code> delegates to <code>format_array</code> and <code>format_hash</code> and does the
+<a href="#max_depth"><code>max_depth</code></a> tracking. It will simply stringify the ref if the recursion limit
+has been reached.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="version_control">VERSION CONTROL</a></h1>
+<p>This module is maintained using git. You can get the latest version from
+<a href="http://github.com/rafl/devel-partialdump">http://github.com/rafl/devel-partialdump</a>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Yuval Kogman &lt;<a href="mailto:nothingmuch@woobling.org">nothingmuch@woobling.org</a>&gt;</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<pre>
+        Copyright (c) 2008, 2009 Yuval Kogman. All rights reserved
+        This program is free software; you can redistribute
+        it and/or modify it under the same terms as Perl itself.</pre>
+
+</body>
+
+</html>

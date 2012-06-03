@@ -1,0 +1,8 @@
+WARN - this is a warning message
+LITEWARN - this is a LITE warning message (2/3 the calories)
+WARN - this is a rootlevel warning message
+LITEWARN - this is a rootlevel  LITE warning message (2/3 the calories)
+WARN - a warning message
+LITEWARN - a LITE warning message
+DEBUG2 - this is a debug2 message
+WARN - after bumping, warning message

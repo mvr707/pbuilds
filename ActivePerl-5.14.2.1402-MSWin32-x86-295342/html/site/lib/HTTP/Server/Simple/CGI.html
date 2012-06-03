@@ -1,0 +1,120 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../../scineplex.css">
+<title>HTTP::Server::Simple::CGI - CGI.pm-style version of HTTP::Server::Simple</title>
+<link rel="stylesheet" href="../../../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',5);</script>
+<h1><a>HTTP::Server::Simple::CGI - CGI.pm-style version of HTTP::Server::Simple</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#accept_hook">accept_hook</a></li>
+		<li><a href="#post_setup_hook">post_setup_hook</a></li>
+		<li><a href="#cgi_class__classname_">cgi_class [Classname]</a></li>
+		<li><a href="#cgi_init__coderef_">cgi_init [CODEREF]</a></li>
+		<li><a href="#setup">setup</a></li>
+		<li><a href="#handle_request_cgi">handle_request CGI</a></li>
+		<li><a href="#handler">handler</a></li>
+	</ul>
+
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>HTTP::Server::Simple::CGI - CGI.pm-style version of HTTP::Server::Simple</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>HTTP::Server::Simple was already simple, but some smart-ass pointed
+out that there is no CGI in HTTP, and so this module was born to
+isolate the CGI.pm-related parts of this handler.</p>
+<p>
+</p>
+<h2><a name="accept_hook">accept_hook</a></h2>
+<p>The accept_hook in this sub-class clears the environment to the
+start-up state.</p>
+<p>
+</p>
+<h2><a name="post_setup_hook">post_setup_hook</a></h2>
+<p>Initializes the global <a href="../../../../../cpan/build/HTTP-Server-Simple-0.44-3p8Bw2/blib/html/site/lib/HTTP/Server/Simple/CGI.html">the CGI manpage</a> object, as well as other environment
+settings.</p>
+<p>
+</p>
+<h2><a name="cgi_class__classname_">cgi_class [Classname]</a></h2>
+<p>Gets or sets the class to use for creating the <code>$cgi</code> object passed to
+<code>handle_request</code>.</p>
+<p>Called with a single argument, it sets the coderef. Called with no arguments, 
+it returns this field's current value.</p>
+<p>To provide an initialization subroutine to be run in the post_setup_hook, 
+see <a href="#cgi_init">cgi_init</a>.</p>
+<p>e.g.</p>
+<pre>
+    <span class="variable">$server</span><span class="operator">-&gt;</span><span class="variable">cgi_class</span><span class="operator">(</span><span class="string">'CGI'</span><span class="operator">);</span>
+</pre>
+<pre>
+    <span class="variable">$server</span><span class="operator">-&gt;</span><span class="variable">cgi_init</span><span class="operator">(</span><span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+        <span class="keyword">require</span> <span class="variable">CGI</span><span class="operator">;</span>
+        <span class="variable">CGI::initialize_globals</span><span class="operator">();</span>
+    <span class="operator">});</span>
+</pre>
+<p>or, if you want to use <a href="../../../../../CGI/Simple.html">the CGI::Simple manpage</a>,</p>
+<pre>
+    <span class="variable">$server</span><span class="operator">-&gt;</span><span class="variable">cgi_class</span><span class="operator">(</span><span class="string">'CGI::Simple'</span><span class="operator">);</span>
+    <span class="variable">$server</span><span class="operator">-&gt;</span><span class="variable">cgi_init</span><span class="operator">(</span><span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+        <span class="keyword">require</span> <span class="variable">CGI::Simple</span><span class="operator">;</span>
+    <span class="operator">});</span>
+</pre>
+<p>
+</p>
+<h2><a name="cgi_init__coderef_">cgi_init [CODEREF]</a></h2>
+<p>A coderef to run in the post_setup_hook.</p>
+<p>Called with a single argument, it sets the coderef. Called with no arguments, 
+it returns this field's current value.</p>
+<p>
+</p>
+<h2><a name="setup">setup</a></h2>
+<p>This method sets up CGI environment variables based on various
+meta-headers, like the protocol, remote host name, request path, etc.</p>
+<p>See the docs in <a href="../../../../../cpan/build/HTTP-Server-Simple-0.44-3p8Bw2/blib/html/site/lib/HTTP/Server/Simple.html">the HTTP::Server::Simple manpage</a> for more detail.</p>
+<p>
+</p>
+<h2><a name="handle_request_cgi">handle_request CGI</a></h2>
+<p>This routine is called whenever your server gets a request it can
+handle.</p>
+<p>It's called with a CGI object that's been pre-initialized.
+You want to override this method in your subclass</p>
+<p>
+</p>
+<h2><a name="handler">handler</a></h2>
+<p>Handler implemented as part of HTTP::Server::Simple API</p>
+
+</body>
+
+</html>

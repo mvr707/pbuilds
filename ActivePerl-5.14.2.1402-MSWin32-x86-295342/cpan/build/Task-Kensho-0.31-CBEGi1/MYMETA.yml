@@ -1,0 +1,27 @@
+---
+abstract: 'A glimpse at an Enlightened Perl.'
+author:
+  - 'Chris Prather <chris@prather.org>'
+build_requires:
+  ExtUtils::MakeMaker: 6.42
+configure_requires:
+  ExtUtils::MakeMaker: 0
+distribution_type: module
+dynamic_config: 0
+generated_by: 'ExtUtils::MakeMaker version 6.57_05'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Task-Kensho
+no_index:
+  directory:
+    - t
+    - inc
+requires:
+  Task::Kensho::Exceptions: 0
+  Task::Kensho::Logging: 0
+  Task::Kensho::OOP: 0
+  Task::Kensho::Testing: 0
+  Task::Kensho::Toolchain: 0
+version: 0.31

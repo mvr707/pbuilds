@@ -1,0 +1,5 @@
+LIBRARY "TryCatch"
+EXPORTS
+  boot_TryCatch
+  _boot_TryCatch = boot_TryCatch
+  

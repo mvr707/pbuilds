@@ -1,0 +1,174 @@
+Revision history for Scope-Upper
+
+0.18    2011-10-10 20:50 UTC
+        + Add : The uid() function returns an unique identifier for each dynamic
+                scope. The validate_uid() function can be used to check whether
+                one such identifier is valid (i.e. that the scope it refers to
+                is still alive).
+        + Chg : It is no longer possible on perl 5.6 to call goto() in an
+                uplevel callback to replace the uplevel call. This change was
+                needed in order to ensure consistency between platforms
+                regarding to the following fix just below.
+        + Fix : The uplevel() tests now pass on Windows.
+                Thanks C.H. Kang for bringing this to my attention.
+
+0.17    2011-10-03 21:45 UTC
+        + Fix : uplevel() will now use the correct pad when executing its
+                callback. This fixes at least two issues :
+                - closures defined inside the uplevel callback can now correctly
+                access lexicals from inside and outside the callback.
+                - state variables in the uplevel callback now work properly.
+        + Fix : It is now generally possible to call goto() in the uplevel'd
+                code to replace the uplevel stack frame. There are two cases
+                for which it is still not possible :
+                - if -D flags were set when running perl (as in "perl -Dt ...").
+                - if the perl runloop has been replaced with a custom one by
+                another module.
+                If uplevel() detects that the replacement code contains a goto
+                statement, and is in one of those two cases, then it will refuse
+                to execute the callback and throw an exception.
+                Note that this fix implies a run-time overhead of uplevel()
+                proportional to the size of the the callback in every case
+                (with a small ratio), and proportional to the size of ALL the
+                code executed as the result of the uplevel call (including
+                subroutine calls inside the callback) when a goto statement is
+                found in the uplevel callback.
+        + Fix : uplevel() has been taught how to handle XS callbacks properly.
+        + Fix : The cause of "Attempt to free unreferenced scalar" warnings
+                when using uplevel() has been addressed.
+        + Fix : [RT #71212] : build failure on Windows.
+                The module does no longer rely on calling Perl_cv_clone, which
+                isn't exported.
+                Thanks C.H. Kang for reporting.
+
+0.16    2011-09-03 23:00 UTC
+        + Add : uplevel($code, @args, $cxt) executes $code with arguments @args
+                in the upper context pointed by $cxt.
+                This is an XS version of the well-known uplevel() routine from
+                Sub::Uplevel. There are a few differences between both
+                implmentations that are listed in the documentation.
+                The XS version is roughly 10 times faster than the pure-Perl
+                version.
+
+0.15    2011-08-24 14:20 UTC
+        + Fix : Localizing subroutines in an higher scope will now correctly
+                update the method cache.
+
+0.14    2011-02-27 00:00 UTC
+        + Fix : [RT #64997] : Compatibility with perl 5.13.10.
+                Thanks Dave Mitchell for the notice.
+        + Tst : Lengthy tests have been ported to Test::Leaner, making the
+                whole test suite about 50% faster.
+
+0.13    2010-12-20 01:00 UTC
+        + Fix : [RT #61904] : Stack corruption when using unwind() under
+                Devel::NYTProf.
+                Thanks Sergey Aleynikov for contributing a fix.
+        + Fix : [RT #63378] : Compatibility with perl 5.13.8.
+                Thanks Andreas J. König for bisecting the issue.
+        + Tst : Threads tests are now only run on perl 5.13.4 and higher.
+                They could segfault randomly because of what seems to be an
+                internal bug of Perl, which has been addressed in 5.13.4.
+                There is also an environment variable that allows you to
+                forcefully run those tests, but it should be set only for
+                author testing and not for end users.
+
+0.12    2010-05-19 00:45 UTC
+        + Fix : Compatibility with perl 5.13.
+        + Fix : Test failures with perl 5.8.0.
+        + Fix : A minor leak of SVs when a non array/hash was passed to
+                localize_elem().
+
+0.11    2010-04-16 23:20 UTC
+        + Chg : It's now forbiddent to pass a reference to a non-glob variable
+                as the localization target of localize(), localize_elem() and
+                localize_delete().
+        + Chg : localize_elem() now only accepts localization of arrays or hashs
+                elements. For other types, it used to be a synonym of localize.
+        + Chg : localize_elem() no longer accepts a glob as the target. You now
+                have to specify the variable as a string. This is because it was
+                impossible in this case to handle meaningfully the array or the
+                hash reference passed as the assigned value.
+        + Doc : The synopsys was revamped, and the rest of the documentation was
+                reviewed.
+        + Fix : [RT #55593] : Segfault when localizing hash or array element to
+                different package in different file.
+                Thanks Dagfinn Ilmari Mannsåker for reporting.
+        + Fix : [RT #56301] : reap loses eval context when dying naturally.
+                Thanks Andrew Main for reporting.
+        + Fix : Scope inconsistencies and segfaults when saving several
+                localizations into the same target scope.
+        + Fix : Stop skipping frames as a pop optimization. This caused breakage
+                under the debugger (and most likely outside as well).
+
+0.10    2010-01-18 23:50 UTC
+        + Fix : Properly handle given/when on 5.10.
+        + Fix : Some stack inconsistencies were fixed, though they were unlikely
+                to have an impact on your real-life code.
+        + Fix : Work around Kwalitee test misfailures.
+
+0.09    2009-05-17 20:20 UTC
+        + Add : The new SU_THREADSAFE constant can be used to know whether the
+                module could have been built with thread safety enabled.
+        + Chg : Thread safety is disabled for perl 5.8 on Win32.
+        + Chg : A saner workaround for the "call_sv() during LEAVE clobbers the
+                still used last popped stack element" issue on 5.10.
+
+0.08    2009-04-16 22:50 UTC
+        + Fix : [RT #44204] : Stack corruption with reap(). Thanks Torsten
+                Foertsch for reporting.
+        + Fix : Building with Solaris CC.
+        + Tst : unwind() in threads.
+
+0.07    2009-02-20 00:20 UTC
+        + Chg : The CLONE method will no longer be defined for non-threaded
+                perls.
+        + Doc : Some examples on how to build the target context from the words.
+        + Fix : Some unlikely possible uninitialized reads, indirectly pointed
+                out in a Redhat review request.
+        + Fix : "localize *x, 'y' => $cxt" now matches Perl's behaviour for
+                "local *x = 'y'".
+        + Fix : Miscellanous code cleanups, courtesy of Florian Ragwitz.
+        + Upd : Resources in META.yml.
+
+0.06    2009-01-17 00:05 UTC
+        + Chg : INCOMPATIBLE CHANGE: The level is now absolute and no longer
+                relative to the current frame - we'll call it "context" from now
+                on. You should replace all your raw levels by combinations of
+                words.
+                The old behaviour of "=> $n" can be easily reobtained by using
+                "=> SCOPE($n)".
+        + Fix : As a result of this change, the module now plays nicely with
+                the debugger.
+
+0.05    2009-01-12 18:15 UTC
+        + Fix : Stack mess when using unwind() in scalar context.
+        + Fix : Returning an automatic variable isn't wise, so let's use a
+                context instead.
+        + Doc : Clarifications.
+        + Tst : Stress tests for unwind().
+
+0.04    2009-01-11 18:40 UTC
+        + Add : unwind(@things, $level), that returns to an upper context.
+        + Add : want_at($level), that gives the wantarray for $level.
+        + Add : Control words, to reliably get the level of the n-th upper
+                subroutine or eval scope. TOPLEVEL was renamed to TOP.
+        + Fix : Tests with 5.6.
+        + Tst : Reordering and factoring some of the stress tests so that they
+                aren't needlessly ran several times.
+
+0.03    2009-01-04 15:55 UTC
+        + Add : localize_delete(), that localize array/hash elements in upper
+                scopes.
+        + Fix : Segfault when localizing array elements with an invalid negative
+                index.
+
+0.02    2008-12-28 18:40 UTC
+        + Doc : Clarifications and improvements.
+        + Fix : Missing compatibility macros.
+        + Fix : Localized nonexistant array elements should be deleted when
+                their time comes so that the array recovers its original length.
+
+0.01    2008-12-26 16:05 UTC
+        First version, released on an unsuspecting world.
+

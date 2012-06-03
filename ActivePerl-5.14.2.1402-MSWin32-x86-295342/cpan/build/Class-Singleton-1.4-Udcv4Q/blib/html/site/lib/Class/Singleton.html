@@ -1,0 +1,339 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../scineplex.css">
+<title>Class::Singleton - Implementation of a &quot;Singleton&quot; class</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',3);</script>
+<h1><a>Class::Singleton - Implementation of a &quot;Singleton&quot; class</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#prerequisites">PREREQUISITES</a></li>
+	<li><a href="#installation">INSTALLATION</a></li>
+	<li><a href="#using_the_class__singleton_module">USING THE CLASS::SINGLETON MODULE</a></li>
+	<li><a href="#deriving_singleton_classes">DERIVING SINGLETON CLASSES</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<ul>
+
+		<li><a href="#instance__"><code>instance()</code></a></li>
+		<li><a href="#has_instance__"><code>has_instance()</code></a></li>
+		<li><a href="#_new_instance__"><code>_new_instance()</code></a></li>
+	</ul>
+
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#version">VERSION</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Class::Singleton - Implementation of a &quot;Singleton&quot; class</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Class::Singleton</span><span class="operator">;</span>
+    
+    <span class="keyword">my</span> <span class="variable">$one</span> <span class="operator">=</span> <span class="variable">Class::Singleton</span><span class="operator">-&gt;</span><span class="variable">instance</span><span class="operator">();</span>   <span class="comment"># returns a new instance</span>
+    <span class="keyword">my</span> <span class="variable">$two</span> <span class="operator">=</span> <span class="variable">Class::Singleton</span><span class="operator">-&gt;</span><span class="variable">instance</span><span class="operator">();</span>   <span class="comment"># returns same instance</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This is the <code>Class::Singleton</code> module.  A Singleton describes an object class
+that can have only one instance in any system.  An example of a Singleton
+might be a print spooler or system registry.  This module implements a
+Singleton class from which other classes can be derived.  By itself, the
+<code>Class::Singleton</code> module does very little other than manage the instantiation
+of a single object.  In deriving a class from <code>Class::Singleton</code>, your module 
+will inherit the Singleton instantiation method and can implement whatever
+specific functionality is required.</p>
+<p>For a description and discussion of the Singleton class, see 
+&quot;Design Patterns&quot;, Gamma et al, Addison-Wesley, 1995, ISBN 0-201-63361-2.</p>
+<p>
+</p>
+<hr />
+<h1><a name="prerequisites">PREREQUISITES</a></h1>
+<p><code>Class::Singleton</code> requires Perl version 5.004 or later. If you have an older
+version of Perl, please upgrade to latest version, available from your nearest
+CPAN site (see <em>INSTALLATION</em> below).</p>
+<p>
+</p>
+<hr />
+<h1><a name="installation">INSTALLATION</a></h1>
+<p>The <code>Class::Singleton</code> module is available from CPAN. As the 'perlmod' man
+page explains:</p>
+<pre>
+    CPAN stands for the Comprehensive Perl Archive Network.
+    This is a globally replicated collection of all known Perl
+    materials, including hundreds of unbunded modules.
+    
+    [...]
+    
+    For an up-to-date listing of CPAN sites, see
+    <a href="http://www.perl.com/perl/">http://www.perl.com/perl/</a> or <a href="ftp://ftp.perl.com/perl/">ftp://ftp.perl.com/perl/</a> .</pre>
+<p>The module is available in the following directories:</p>
+<pre>
+    /modules/by-module/Class/Class-Singleton-&lt;version&gt;.tar.gz
+    /authors/id/ABW/Class-Singleton-&lt;version&gt;.tar.gz</pre>
+<p><code>Class::Singleton</code> is distributed as a single gzipped tar archive file:</p>
+<pre>
+    Class-Singleton-&lt;version&gt;.tar.gz</pre>
+<p>Note that &quot;&lt;version&gt;&quot; represents the current version number, of the 
+form &quot;<code>1.23</code>&quot;.  See <em>VERSION</em> below to determine the current version 
+number for <code>Class::Singleton</code>.</p>
+<p>Unpack the archive to create an installation directory:</p>
+<pre>
+    gunzip Class-Singleton-&lt;version&gt;.tar.gz
+    tar xvf Class-Singleton-&lt;version&gt;.tar</pre>
+<p>'cd' into that directory, make, test and install the module:</p>
+<pre>
+    cd Class-Singleton-&lt;version&gt;
+    perl Makefile.PL
+    make
+    make test
+    make install</pre>
+<p>The '<code>make install</code>' will install the module on your system.  You may need 
+root access to perform this task.  If you install the module in a local 
+directory (for example, by executing &quot;<code>perl Makefile.PL LIB=~/lib</code>&quot; in the 
+above - see <code>perldoc MakeMaker</code> for full details), you will need to ensure 
+that the <a href="../../../lib/pods/perlrun.html#perl5lib"><code>PERL5LIB</code></a> environment variable is set to include the location, or 
+add a line to your scripts explicitly naming the library location:</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">lib</span> <span class="string">'/local/path/to/lib'</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="using_the_class__singleton_module">USING THE CLASS::SINGLETON MODULE</a></h1>
+<p>To import and use the <code>Class::Singleton</code> module the following line should 
+appear in your Perl program:</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Class::Singleton</span><span class="operator">;</span>
+</pre>
+<p>The <em>instance()</em> method is used to create a new <code>Class::Singleton</code> instance,
+or return a reference to an existing instance. Using this method, it is only
+possible to have a single instance of the class in any system.</p>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$highlander</span> <span class="operator">=</span> <span class="variable">Class::Singleton</span><span class="operator">-&gt;</span><span class="variable">instance</span><span class="operator">();</span>
+</pre>
+<p>Assuming that no <code>Class::Singleton</code> object currently exists, this first call
+to <em>instance()</em> will create a new <code>Class::Singleton</code> and return a reference
+to it. Future invocations of <em>instance()</em> will return the same reference.</p>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$macleod</span>    <span class="operator">=</span> <span class="variable">Class::Singleton</span><span class="operator">-&gt;</span><span class="variable">instance</span><span class="operator">();</span>
+</pre>
+<p>In the above example, both <code>$highlander</code> and <code>$macleod</code> contain the same
+reference to a <code>Class::Singleton</code> instance.  There can be only one.</p>
+<p>
+</p>
+<hr />
+<h1><a name="deriving_singleton_classes">DERIVING SINGLETON CLASSES</a></h1>
+<p>A module class may be derived from <code>Class::Singleton</code> and will inherit the 
+<em>instance()</em> method that correctly instantiates only one object.</p>
+<pre>
+    <span class="keyword">package</span> <span class="variable">PrintSpooler</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">base</span> <span class="string">'Class::Singleton'</span><span class="operator">;</span>
+    
+    <span class="comment"># derived class specific code</span>
+    <span class="keyword">sub</span><span class="variable"> submit_job </span><span class="operator">{</span>
+        <span class="operator">...</span>
+    <span class="operator">}</span>
+    
+    <span class="keyword">sub</span><span class="variable"> cancel_job </span><span class="operator">{</span>
+        <span class="operator">...</span>
+    <span class="operator">}</span>
+</pre>
+<p>The <code>PrintSpooler</code> class defined above could be used as follows:</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">PrintSpooler</span><span class="operator">;</span>
+    
+    <span class="keyword">my</span> <span class="variable">$spooler</span> <span class="operator">=</span> <span class="variable">PrintSpooler</span><span class="operator">-&gt;</span><span class="variable">instance</span><span class="operator">();</span>
+    
+    <span class="variable">$spooler</span><span class="operator">-&gt;</span><span class="variable">submit_job</span><span class="operator">(...);</span>
+</pre>
+<p>The <em>instance()</em> method calls the <em>_new_instance()</em> constructor method the
+first and only time a new instance is created. All parameters passed to the
+<em>instance()</em> method are forwarded to <em>_new_instance()</em>. In the base class
+the <em>_new_instance()</em> method returns a blessed reference to a hash array
+containing any arguments passed as either a hash reference or list of named 
+parameters.</p>
+<pre>
+    <span class="keyword">package</span> <span class="variable">MyConfig</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">base</span> <span class="string">'Class::Singleton'</span><span class="operator">;</span>
+    
+    <span class="keyword">sub</span><span class="variable"> foo </span><span class="operator">{</span>
+        <span class="keyword">shift</span><span class="operator">-&gt;</span><span class="operator">{</span> <span class="variable">foo</span> <span class="operator">}</span><span class="operator">;</span>
+    <span class="operator">}</span>
+    
+    <span class="keyword">sub</span><span class="variable"> bar </span><span class="operator">{</span>
+        <span class="keyword">shift</span><span class="operator">-&gt;</span><span class="operator">{</span> <span class="variable">bar</span> <span class="operator">}</span><span class="operator">;</span>
+    <span class="operator">}</span>
+    
+    <span class="keyword">package</span> <span class="variable">main</span><span class="operator">;</span>
+    
+    <span class="comment"># either: hash reference of named parameters</span>
+    <span class="keyword">my</span> <span class="variable">$config</span> <span class="operator">=</span> <span class="variable">MyConfig</span><span class="operator">-&gt;</span><span class="variable">instance</span><span class="operator">(</span><span class="operator">{</span> <span class="string">foo</span> <span class="operator">=&gt;</span> <span class="number">10</span><span class="operator">,</span> <span class="string">bar</span> <span class="operator">=&gt;</span> <span class="number">20</span> <span class="operator">}</span><span class="operator">);</span>
+    
+    <span class="comment"># or: list of named parameters</span>
+    <span class="keyword">my</span> <span class="variable">$config</span> <span class="operator">=</span> <span class="variable">MyConfig</span><span class="operator">-&gt;</span><span class="variable">instance</span><span class="operator">(</span> <span class="string">foo</span> <span class="operator">=&gt;</span> <span class="number">10</span><span class="operator">,</span> <span class="string">bar</span> <span class="operator">=&gt;</span> <span class="number">20</span> <span class="operator">);</span>
+    
+    <span class="keyword">print</span> <span class="variable">$config</span><span class="operator">-&gt;</span><span class="variable">foo</span><span class="operator">();</span>   <span class="comment"># 10</span>
+    <span class="keyword">print</span> <span class="variable">$config</span><span class="operator">-&gt;</span><span class="variable">bar</span><span class="operator">();</span>   <span class="comment"># 20</span>
+</pre>
+<p>Derived classes may redefine the <em>_new_instance()</em> method to provide more
+specific object initialisation or change the underlying object type (to a list
+reference, for example).</p>
+<pre>
+    <span class="keyword">package</span> <span class="variable">MyApp::Database</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">base</span> <span class="string">'Class::Singleton'</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">DBI</span><span class="operator">;</span>
+    
+    <span class="comment"># this only gets called the first time instance() is called</span>
+    <span class="keyword">sub</span><span class="variable"> _new_instance </span><span class="operator">{</span>
+        <span class="keyword">my</span> <span class="variable">$class</span> <span class="operator">=</span> <span class="keyword">shift</span><span class="operator">;</span>
+        <span class="keyword">my</span> <span class="variable">$self</span>  <span class="operator">=</span> <span class="keyword">bless</span> <span class="operator">{</span> <span class="operator">}</span><span class="operator">,</span> <span class="variable">$class</span><span class="operator">;</span>
+        <span class="keyword">my</span> <span class="variable">$db</span>    <span class="operator">=</span> <span class="keyword">shift</span> <span class="operator">||</span> <span class="string">"myappdb"</span><span class="operator">;</span>    
+        <span class="keyword">my</span> <span class="variable">$host</span>  <span class="operator">=</span> <span class="keyword">shift</span> <span class="operator">||</span> <span class="string">"localhost"</span><span class="operator">;</span>
+        
+        <span class="variable">$self</span><span class="operator">-&gt;</span><span class="operator">{</span> <span class="variable">DB</span> <span class="operator">}</span> <span class="operator">=</span> <span class="variable">DBI</span><span class="operator">-&gt;</span><span class="variable">connect</span><span class="operator">(</span><span class="string">"DBI:mSQL:</span><span class="variable">$db</span><span class="string">:</span><span class="variable">$host</span><span class="string">"</span><span class="operator">)</span>
+            <span class="operator">||</span> <span class="keyword">die</span> <span class="string">"Cannot connect to database: </span><span class="variable">$DBI</span><span class="string">::errstr"</span><span class="operator">;</span>
+        
+        <span class="comment"># any other initialisation...</span>
+        
+        <span class="keyword">return</span> <span class="variable">$self</span><span class="operator">;</span>
+    <span class="operator">}</span>
+</pre>
+<p>The above example might be used as follows:</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">MyApp::Database</span><span class="operator">;</span>
+    
+    <span class="comment"># first use - database gets initialised</span>
+    <span class="keyword">my</span> <span class="variable">$database</span> <span class="operator">=</span> <span class="variable">MyApp::Database</span><span class="operator">-&gt;</span><span class="variable">instance</span><span class="operator">();</span>
+</pre>
+<p>Some time later on in a module far, far away...</p>
+<pre>
+    <span class="keyword">package</span> <span class="variable">MyApp::FooBar</span>
+    <span class="keyword">use</span> <span class="variable">MyApp::Database</span><span class="operator">;</span>
+    
+    <span class="comment"># this FooBar object needs access to the database; the Singleton</span>
+    <span class="comment"># approach gives a nice wrapper around global variables.</span>
+    
+    <span class="keyword">sub</span><span class="variable"> new </span><span class="operator">{</span>
+        <span class="keyword">my</span> <span class="variable">$class</span> <span class="operator">=</span> <span class="keyword">shift</span><span class="operator">;</span>
+        <span class="keyword">bless</span> <span class="operator">{</span>
+            <span class="string">database</span> <span class="operator">=&gt;</span> <span class="variable">MyApp::Database</span><span class="operator">-&gt;</span><span class="variable">instance</span><span class="operator">(),</span>
+        <span class="operator">}</span><span class="operator">,</span> <span class="variable">$class</span><span class="operator">;</span>
+    <span class="operator">}</span>
+</pre>
+<p>The <code>Class::Singleton</code> <em>instance()</em> method uses a package variable to store
+a reference to any existing instance of the object. This variable,
+&quot;<code>_instance</code>&quot;, is coerced into the derived class package rather than the base
+class package.</p>
+<p>Thus, in the <code>MyApp::Database</code> example above, the instance variable would
+be:</p>
+<pre>
+    <span class="variable">$MyApp::Database::_instance</span><span class="operator">;</span>
+</pre>
+<p>This allows different classes to be derived from <code>Class::Singleton</code> that can
+co-exist in the same system, while still allowing only one instance of any one
+class to exists. For example, it would be possible to derive both
+'<code>PrintSpooler</code>' and '<code>MyApp::Database</code>' from <code>Class::Singleton</code> and have a
+single instance of <em>each</em> in a system, rather than a single instance of
+<em>either</em>.</p>
+<p>You can use the <em>has_instance()</em> method to find out if a particular class 
+already has an instance defined.  A reference to the instance is returned or
+<a href="../../../lib/pods/perlfunc.html#undef"><code>undef</code></a> if none is currently defined.</p>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$instance</span> <span class="operator">=</span> <span class="variable">MyApp::Database</span><span class="operator">-&gt;</span><span class="variable">has_instance</span><span class="operator">()</span>
+        <span class="operator">||</span> <span class="keyword">warn</span> <span class="string">"No instance is defined yet"</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<p>
+</p>
+<h2><a name="instance__"><code>instance()</code></a></h2>
+<p>This method is called to return a current object instance or create a new
+one by calling <em>_new_instance()</em>.</p>
+<p>
+</p>
+<h2><a name="has_instance__"><code>has_instance()</code></a></h2>
+<p>This method returns a reference to any existing instance or <a href="../../../lib/pods/perlfunc.html#undef"><code>undef</code></a> if none
+is defined.</p>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$testing</span> <span class="operator">=</span> <span class="variable">MySingleton1</span><span class="operator">-&gt;</span><span class="variable">has_instance</span><span class="operator">()</span>
+        <span class="operator">||</span> <span class="keyword">warn</span> <span class="string">"No instance defined for MySingleton1"</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<h2><a name="_new_instance__"><code>_new_instance()</code></a></h2>
+<p>This &quot;private&quot; method is called by <em>instance()</em> to create a new object
+instance if one doesn't already exist. It is not intended to be called
+directly (although there's nothing to stop you from calling it if you're
+really determined to do so).</p>
+<p>It creates a blessed hash reference containing any arguments passed to the
+method as either a hash reference or list of named parameters.</p>
+<pre>
+    <span class="comment"># either: hash reference of named parameters</span>
+    <span class="keyword">my</span> <span class="variable">$example1</span> <span class="operator">=</span> <span class="variable">MySingleton1</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="operator">{</span> <span class="string">pi</span> <span class="operator">=&gt;</span> <span class="number">3.14</span><span class="operator">,</span> <span class="string">e</span> <span class="operator">=&gt;</span> <span class="number">2.718</span> <span class="operator">}</span><span class="operator">);</span>
+</pre>
+<pre>
+    <span class="comment"># or: list of named parameters</span>
+    <span class="keyword">my</span> <span class="variable">$example2</span> <span class="operator">=</span> <span class="variable">MySingleton2</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span> <span class="string">pi</span> <span class="operator">=&gt;</span> <span class="number">3.14</span><span class="operator">,</span> <span class="string">e</span> <span class="operator">=&gt;</span> <span class="number">2.718</span> <span class="operator">);</span>
+</pre>
+<p>It is important to remember that the <em>instance()</em> method will <em>only</em> call
+the <em>_new_instance()</em> method once, so any arguments you pass may be silently
+ignored if an instance already exists. You can use the <em>has_instance()</em>
+method to determine if an instance is already defined.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Andy Wardley &lt;<a href="mailto:abw@wardley.org">abw@wardley.org</a>&gt; <a href="http://wardley.org/">http://wardley.org/</a></p>
+<p>Thanks to Andreas Koenig for providing some significant speedup patches and
+other ideas.</p>
+<p>
+</p>
+<hr />
+<h1><a name="version">VERSION</a></h1>
+<p>This is version 1.4, released September 2007</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright Andy Wardley 1998-2007.  All Rights Reserved.</p>
+<p>This module is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.</p>
+
+</body>
+
+</html>

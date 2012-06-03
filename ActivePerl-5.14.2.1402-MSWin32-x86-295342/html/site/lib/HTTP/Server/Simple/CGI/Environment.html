@@ -1,0 +1,78 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../../../scineplex.css">
+<title>HTTP::Server::Simple::CGI::Environment - a HTTP::Server::Simple mixin to provide the CGI protocol</title>
+<link rel="stylesheet" href="../../../../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',6);</script>
+<h1><a>HTTP::Server::Simple::CGI::Environment - a HTTP::Server::Simple mixin to provide the CGI protocol</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#setup_environment">setup_environment</a></li>
+		<li><a href="#setup_server_url">setup_server_url</a></li>
+		<li><a href="#setup_environment_from_metadata">setup_environment_from_metadata</a></li>
+		<li><a href="#header">header</a></li>
+	</ul>
+
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>HTTP::Server::Simple::CGI::Environment - a HTTP::Server::Simple mixin to provide the CGI protocol</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This mixin abstracts the CGI protocol out from
+<a href="../../../../../../cpan/build/HTTP-Server-Simple-0.44-3p8Bw2/blib/html/site/lib/HTTP/Server/Simple/CGI.html">the HTTP::Server::Simple::CGI manpage</a> so that it's easier to provide your own
+CGI handlers with <a href="../../../../../../cpan/build/HTTP-Server-Simple-0.44-3p8Bw2/blib/html/site/lib/HTTP/Server/Simple.html">the HTTP::Server::Simple manpage</a> which <strong>don't</strong> use CGI.pm</p>
+<p>
+</p>
+<h2><a name="setup_environment">setup_environment</a></h2>
+<p><code>setup_environemnt</code> is usually called in the superclass's accept_hook</p>
+<p>This routine in this sub-class clears the environment to the
+start-up state.</p>
+<p>
+</p>
+<h2><a name="setup_server_url">setup_server_url</a></h2>
+<p>Sets up the <code>SERVER_URL</code> environment variable</p>
+<p>
+</p>
+<h2><a name="setup_environment_from_metadata">setup_environment_from_metadata</a></h2>
+<p>This method sets up CGI environment variables based on various
+meta-headers, like the protocol, remote host name, request path, etc.</p>
+<p>See the docs in <a href="../../../../../../cpan/build/HTTP-Server-Simple-0.44-3p8Bw2/blib/html/site/lib/HTTP/Server/Simple.html">the HTTP::Server::Simple manpage</a> for more detail.</p>
+<p>
+</p>
+<h2><a name="header">header</a></h2>
+<p><code>header</code> turns a single HTTP headers into CGI environment variables.</p>
+
+</body>
+
+</html>

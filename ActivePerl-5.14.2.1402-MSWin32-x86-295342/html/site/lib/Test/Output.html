@@ -1,0 +1,460 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../scineplex.css">
+<title>Test::Output - Utilities to test STDOUT and STDERR messages.</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',3);</script>
+<h1><a>Test::Output - Utilities to test STDOUT and STDERR messages.</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#version">VERSION</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#tests">TESTS</a></li>
+	<ul>
+
+		<li><a href="#stdout">STDOUT</a></li>
+		<li><a href="#stderr">STDERR</a></li>
+		<li><a href="#combined_output">COMBINED OUTPUT</a></li>
+		<li><a href="#output">OUTPUT</a></li>
+	</ul>
+
+	<li><a href="#exports">EXPORTS</a></li>
+	<li><a href="#functions">FUNCTIONS</a></li>
+	<ul>
+
+		<li><a href="#stdout_from">stdout_from</a></li>
+		<li><a href="#stderr_from">stderr_from</a></li>
+		<li><a href="#output_from">output_from</a></li>
+		<li><a href="#combined_from">combined_from</a></li>
+	</ul>
+
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#source_availability">SOURCE AVAILABILITY</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+	<li><a href="#acknowledgements">ACKNOWLEDGEMENTS</a></li>
+	<li><a href="#copyright___license">COPYRIGHT &amp; LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Test::Output - Utilities to test STDOUT and STDERR messages.</p>
+<p>
+</p>
+<hr />
+<h1><a name="version">VERSION</a></h1>
+<p>Version 0.16</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Test::More</span> <span class="string">tests</span> <span class="operator">=&gt;</span> <span class="number">4</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">Test::Output</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">sub</span><span class="variable"> writer </span><span class="operator">{</span>
+      <span class="keyword">print</span> <span class="string">"Write out.\n"</span><span class="operator">;</span>
+      <span class="keyword">print</span> <span class="variable">STDERR</span> <span class="string">"Error out.\n"</span><span class="operator">;</span>
+    <span class="operator">}</span>
+</pre>
+<pre>
+    <span class="variable">stdout_is</span><span class="operator">(\&amp;</span><span class="variable">writer</span><span class="operator">,</span><span class="string">"Write out.\n"</span><span class="operator">,</span><span class="string">'Test STDOUT'</span><span class="operator">);</span>
+</pre>
+<pre>
+    <span class="variable">stderr_isnt</span><span class="operator">(\&amp;</span><span class="variable">writer</span><span class="operator">,</span><span class="string">"No error out.\n"</span><span class="operator">,</span><span class="string">'Test STDERR'</span><span class="operator">);</span>
+</pre>
+<pre>
+    <span class="variable">combined_is</span><span class="operator">(</span>
+                <span class="operator">\&amp;</span><span class="variable">writer</span><span class="operator">,</span>
+                <span class="string">"Write out.\nError out.\n"</span><span class="operator">,</span>
+                <span class="string">'Test STDOUT &amp; STDERR combined'</span>
+               <span class="operator">);</span>
+</pre>
+<pre>
+    <span class="variable">output_is</span><span class="operator">(</span>
+              <span class="operator">\&amp;</span><span class="variable">writer</span><span class="operator">,</span>
+              <span class="string">"Write out.\n"</span><span class="operator">,</span>
+              <span class="string">"Error out.\n"</span><span class="operator">,</span>
+              <span class="string">'Test STDOUT &amp; STDERR'</span>
+            <span class="operator">);</span>
+</pre>
+<pre>
+   <span class="comment"># Use bare blocks.</span>
+</pre>
+<pre>
+   <span class="variable">stdout_is</span> <span class="operator">{</span> <span class="keyword">print</span> <span class="string">"test"</span> <span class="operator">}</span> <span class="string">"test"</span><span class="operator">,</span> <span class="string">"Test STDOUT"</span><span class="operator">;</span>
+   <span class="variable">stderr_isnt</span> <span class="operator">{</span> <span class="keyword">print</span> <span class="string">"bad test"</span> <span class="operator">}</span> <span class="string">"test"</span><span class="operator">,</span> <span class="string">"Test STDERR"</span><span class="operator">;</span>
+   <span class="variable">output_is</span> <span class="operator">{</span> <span class="keyword">print</span> <span class="string">'STDOUT'</span><span class="operator">;</span> <span class="keyword">print</span> <span class="variable">STDERR</span> <span class="string">'STDERR'</span> <span class="operator">}</span>
+     <span class="string">"STDOUT"</span><span class="operator">,</span> <span class="string">"STDERR"</span><span class="operator">,</span> <span class="string">"Test output"</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>Test::Output provides a simple interface for testing output sent to STDOUT
+or STDERR. A number of different utilities are included to try and be as
+flexible as possible to the tester.</p>
+<p>Originally this module was designed not to have external requirements, 
+however, the features provided by <a href="../../../lib/Sub/Exporter.html">the Sub::Exporter manpage</a> over what <a href="../../../lib/Exporter.html">the Exporter manpage</a>
+provides is just to great to pass up.</p>
+<p>Test::Output ties STDOUT and STDERR using Test::Output::Tie.</p>
+<p>
+</p>
+<hr />
+<h1><a name="tests">TESTS</a></h1>
+<p>
+</p>
+<h2><a name="stdout">STDOUT</a></h2>
+<dl>
+<dt><strong><a name="stdout_is" class="item"><strong>stdout_is</strong></a></strong></dt>
+
+<dt><strong><a name="stdout_isnt" class="item"><strong>stdout_isnt</strong></a></strong></dt>
+
+<dd>
+<pre>
+   <span class="variable">stdout_is</span>  <span class="operator">(</span> <span class="variable">$coderef</span><span class="operator">,</span> <span class="variable">$expected</span><span class="operator">,</span> <span class="string">'description'</span> <span class="operator">);</span>
+   <span class="variable">stdout_is</span>    <span class="operator">{</span> <span class="operator">...</span> <span class="operator">}</span> <span class="variable">$expected</span><span class="operator">,</span> <span class="string">'description'</span><span class="operator">;</span>
+   <span class="variable">stdout_isnt</span><span class="operator">(</span> <span class="variable">$coderef</span><span class="operator">,</span> <span class="variable">$expected</span><span class="operator">,</span> <span class="string">'description'</span> <span class="operator">);</span>
+   <span class="variable">stdout_isnt</span>  <span class="operator">{</span> <span class="operator">...</span> <span class="operator">}</span> <span class="variable">$expected</span><span class="operator">,</span> <span class="string">'description'</span><span class="operator">;</span>
+</pre>
+<p><a href="#stdout_is"><code>stdout_is()</code></a> captures output sent to STDOUT from $coderef and compares
+it against $expected. The test passes if equal.</p>
+<p><a href="#stdout_isnt"><code>stdout_isnt()</code></a> passes if STDOUT is not equal to $expected.</p>
+</dd>
+<dt><strong><a name="stdout_like" class="item"><strong>stdout_like</strong></a></strong></dt>
+
+<dt><strong><a name="stdout_unlike" class="item"><strong>stdout_unlike</strong></a></strong></dt>
+
+<dd>
+<pre>
+   <span class="variable">stdout_like</span>  <span class="operator">(</span> <span class="variable">$coderef</span><span class="operator">,</span> <span class="string">qr/</span><span class="variable">$expected</span><span class="string">/</span><span class="operator">,</span> <span class="string">'description'</span> <span class="operator">);</span>
+   <span class="variable">stdout_like</span>    <span class="operator">{</span> <span class="operator">...</span> <span class="operator">}</span> <span class="string">qr/</span><span class="variable">$expected</span><span class="string">/</span><span class="operator">,</span> <span class="string">'description'</span><span class="operator">;</span>
+   <span class="variable">stdout_unlike</span><span class="operator">(</span> <span class="variable">$coderef</span><span class="operator">,</span> <span class="string">qr/</span><span class="variable">$expected</span><span class="string">/</span><span class="operator">,</span> <span class="string">'description'</span> <span class="operator">);</span>
+   <span class="variable">stdout_unlike</span>  <span class="operator">{</span> <span class="operator">...</span> <span class="operator">}</span> <span class="string">qr/</span><span class="variable">$expected</span><span class="string">/</span><span class="operator">,</span> <span class="string">'description'</span><span class="operator">;</span>
+</pre>
+<p><a href="#stdout_like"><code>stdout_like()</code></a> captures the output sent to STDOUT from $coderef and compares
+it to the regex in $expected. The test passes if the regex matches.</p>
+<p><a href="#stdout_unlike"><code>stdout_unlike()</code></a> passes if STDOUT does not match the regex.</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="stderr">STDERR</a></h2>
+<dl>
+<dt><strong><a name="stderr_is" class="item"><strong>stderr_is</strong></a></strong></dt>
+
+<dt><strong><a name="stderr_isnt" class="item"><strong>stderr_isnt</strong></a></strong></dt>
+
+<dd>
+<pre>
+   <span class="variable">stderr_is</span>  <span class="operator">(</span> <span class="variable">$coderef</span><span class="operator">,</span> <span class="variable">$expected</span><span class="operator">,</span> <span class="string">'description'</span> <span class="operator">);</span>
+   <span class="variable">stderr_is</span>    <span class="operator">{...</span> <span class="operator">}</span> <span class="variable">$expected</span><span class="operator">,</span> <span class="string">'description'</span><span class="operator">;</span>
+   <span class="variable">stderr_isnt</span><span class="operator">(</span> <span class="variable">$coderef</span><span class="operator">,</span> <span class="variable">$expected</span><span class="operator">,</span> <span class="string">'description'</span> <span class="operator">);</span>
+   <span class="variable">stderr_isnt</span>  <span class="operator">{...</span> <span class="operator">}</span> <span class="variable">$expected</span><span class="operator">,</span> <span class="string">'description'</span><span class="operator">;</span>
+</pre>
+<p><a href="#stderr_is"><code>stderr_is()</code></a> is similar to stdout_is, except that it captures STDERR. The
+test passes if STDERR from $coderef equals $expected.</p>
+<p><a href="#stderr_isnt"><code>stderr_isnt()</code></a> passes if STDERR is not equal to $expected.</p>
+</dd>
+<dt><strong><a name="stderr_like" class="item"><strong>stderr_like</strong></a></strong></dt>
+
+<dt><strong><a name="stderr_unlike" class="item"><strong>stderr_unlike</strong></a></strong></dt>
+
+<dd>
+<pre>
+   <span class="variable">stderr_like</span>  <span class="operator">(</span> <span class="variable">$coderef</span><span class="operator">,</span> <span class="string">qr/</span><span class="variable">$expected</span><span class="string">/</span><span class="operator">,</span> <span class="string">'description'</span> <span class="operator">);</span>
+   <span class="variable">stderr_like</span>   <span class="operator">{</span> <span class="operator">...}</span> <span class="string">qr/</span><span class="variable">$expected</span><span class="string">/</span><span class="operator">,</span> <span class="string">'description'</span><span class="operator">;</span>
+   <span class="variable">stderr_unlike</span><span class="operator">(</span> <span class="variable">$coderef</span><span class="operator">,</span> <span class="string">qr/</span><span class="variable">$expected</span><span class="string">/</span><span class="operator">,</span> <span class="string">'description'</span> <span class="operator">);</span>
+   <span class="variable">stderr_unlike</span>  <span class="operator">{</span> <span class="operator">...}</span> <span class="string">qr/</span><span class="variable">$expected</span><span class="string">/</span><span class="operator">,</span> <span class="string">'description'</span><span class="operator">;</span>
+</pre>
+<p><a href="#stderr_like"><code>stderr_like()</code></a> is similar to <a href="#stdout_like"><code>stdout_like()</code></a> except that it compares the regex
+$expected to STDERR captured from $codref. The test passes if the regex
+matches.</p>
+<p><a href="#stderr_unlike"><code>stderr_unlike()</code></a> passes if STDERR does not match the regex.</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="combined_output">COMBINED OUTPUT</a></h2>
+<dl>
+<dt><strong><a name="combined_is" class="item"><strong>combined_is</strong></a></strong></dt>
+
+<dt><strong><a name="combined_isnt" class="item"><strong>combined_isnt</strong></a></strong></dt>
+
+<dd>
+<pre>
+   <span class="variable">combined_is</span>   <span class="operator">(</span> <span class="variable">$coderef</span><span class="operator">,</span> <span class="variable">$expected</span><span class="operator">,</span> <span class="string">'description'</span> <span class="operator">);</span>
+   <span class="variable">combined_is</span>   <span class="operator">{...</span> <span class="operator">}</span> <span class="variable">$expected</span><span class="operator">,</span> <span class="string">'description'</span><span class="operator">;</span>
+   <span class="variable">combined_isnt</span> <span class="operator">(</span> <span class="variable">$coderef</span><span class="operator">,</span> <span class="variable">$expected</span><span class="operator">,</span> <span class="string">'description'</span> <span class="operator">);</span>
+   <span class="variable">combined_isnt</span> <span class="operator">{...</span> <span class="operator">}</span> <span class="variable">$expected</span><span class="operator">,</span> <span class="string">'description'</span><span class="operator">;</span>
+</pre>
+<p><a href="#combined_is"><code>combined_is()</code></a> directs STDERR to STDOUT then captures STDOUT. This is
+equivalent to UNIXs 2&gt;&amp;1. The test passes if the combined STDOUT 
+and STDERR from $coderef equals $expected.</p>
+<p><a href="#combined_isnt"><code>combined_isnt()</code></a> passes if combined STDOUT and STDERR are not equal 
+to $expected.</p>
+</dd>
+<dt><strong><a name="combined_like" class="item"><strong>combined_like</strong></a></strong></dt>
+
+<dt><strong><a name="combined_unlike" class="item"><strong>combined_unlike</strong></a></strong></dt>
+
+<dd>
+<pre>
+   <span class="variable">combined_like</span>   <span class="operator">(</span> <span class="variable">$coderef</span><span class="operator">,</span> <span class="string">qr/</span><span class="variable">$expected</span><span class="string">/</span><span class="operator">,</span> <span class="string">'description'</span> <span class="operator">);</span>
+   <span class="variable">combined_like</span>   <span class="operator">{</span> <span class="operator">...}</span> <span class="string">qr/</span><span class="variable">$expected</span><span class="string">/</span><span class="operator">,</span> <span class="string">'description'</span><span class="operator">;</span>
+   <span class="variable">combined_unlike</span> <span class="operator">(</span> <span class="variable">$coderef</span><span class="operator">,</span> <span class="string">qr/</span><span class="variable">$expected</span><span class="string">/</span><span class="operator">,</span> <span class="string">'description'</span> <span class="operator">);</span>
+   <span class="variable">combined_unlike</span> <span class="operator">{</span> <span class="operator">...}</span> <span class="string">qr/</span><span class="variable">$expected</span><span class="string">/</span><span class="operator">,</span> <span class="string">'description'</span><span class="operator">;</span>
+</pre>
+<p><a href="#combined_like"><code>combined_like()</code></a> is similar to <a href="#combined_is"><code>combined_is()</code></a> except that it compares a regex
+($expected) to STDOUT and STDERR captured from $codref. The test passes if 
+the regex matches.</p>
+<p><a href="#combined_unlike"><code>combined_unlike()</code></a> passes if the combined STDOUT and STDERR does not match 
+the regex.</p>
+</dd>
+</dl>
+<p>
+</p>
+<h2><a name="output">OUTPUT</a></h2>
+<dl>
+<dt><strong><a name="output_is" class="item"><strong>output_is</strong></a></strong></dt>
+
+<dt><strong><a name="output_isnt" class="item"><strong>output_isnt</strong></a></strong></dt>
+
+<dd>
+<pre>
+   <span class="variable">output_is</span>  <span class="operator">(</span> <span class="variable">$coderef</span><span class="operator">,</span> <span class="variable">$expected_stdout</span><span class="operator">,</span> <span class="variable">$expected_stderr</span><span class="operator">,</span> <span class="string">'description'</span> <span class="operator">);</span>
+   <span class="variable">output_is</span>    <span class="operator">{...</span> <span class="operator">}</span> <span class="variable">$expected_stdout</span><span class="operator">,</span> <span class="variable">$expected_stderr</span><span class="operator">,</span> <span class="string">'description'</span><span class="operator">;</span>
+   <span class="variable">output_isnt</span><span class="operator">(</span> <span class="variable">$coderef</span><span class="operator">,</span> <span class="variable">$expected_stdout</span><span class="operator">,</span> <span class="variable">$expected_stderr</span><span class="operator">,</span> <span class="string">'description'</span> <span class="operator">);</span>
+   <span class="variable">output_isnt</span>  <span class="operator">{...</span> <span class="operator">}</span> <span class="variable">$expected_stdout</span><span class="operator">,</span> <span class="variable">$expected_stderr</span><span class="operator">,</span> <span class="string">'description'</span><span class="operator">;</span>
+</pre>
+<p>The <a href="#output_is"><code>output_is()</code></a> function is a combination of the <a href="#stdout_is"><code>stdout_is()</code></a> and <a href="#stderr_is"><code>stderr_is()</code></a>
+functions. For example:</p>
+<pre>
+  <span class="variable">output_is</span><span class="operator">(</span><span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span><span class="keyword">print</span> <span class="string">"foo"</span><span class="operator">;</span> <span class="keyword">print</span> <span class="variable">STDERR</span> <span class="string">"bar"</span><span class="operator">;},</span><span class="string">'foo'</span><span class="operator">,</span><span class="string">'bar'</span><span class="operator">);</span>
+</pre>
+<p>is functionally equivalent to</p>
+<pre>
+  <span class="variable">stdout_is</span><span class="operator">(</span><span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span><span class="keyword">print</span> <span class="string">"foo"</span><span class="operator">;},</span><span class="string">'foo'</span><span class="operator">)</span> 
+    <span class="operator">&amp;&amp;</span> <span class="variable">stderr_is</span><span class="operator">(</span><span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span><span class="keyword">print</span> <span class="variable">STDERR</span> <span class="string">"bar"</span><span class="operator">;</span><span class="string">'bar'</span><span class="operator">);</span>
+</pre>
+<p>except that $coderef is only executed once.</p>
+<p>Unlike, <a href="#stdout_is"><code>stdout_is()</code></a> and <a href="#stderr_is"><code>stderr_is()</code></a> which ignore STDERR and STDOUT
+repectively, <a href="#output_is"><code>output_is()</code></a> requires both STDOUT and STDERR to match in order
+to pass. Setting either $expected_stdout or $expected_stderr to <a href="../../../lib/pods/perlfunc.html#undef"><code>undef</code></a>
+ignores STDOUT or STDERR respectively.</p>
+<pre>
+  <span class="variable">output_is</span><span class="operator">(</span><span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span><span class="keyword">print</span> <span class="string">"foo"</span><span class="operator">;</span> <span class="keyword">print</span> <span class="variable">STDERR</span> <span class="string">"bar"</span><span class="operator">;},</span><span class="string">'foo'</span><span class="operator">,</span><span class="keyword">undef</span><span class="operator">);</span>
+</pre>
+<p>is the same as</p>
+<pre>
+  <span class="variable">stdout_is</span><span class="operator">(</span><span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span><span class="keyword">print</span> <span class="string">"foo"</span><span class="operator">;},</span><span class="string">'foo'</span><span class="operator">)</span>
+</pre>
+<p><a href="#output_isnt"><code>output_isnt()</code></a> provides the opposite function of <a href="#output_is"><code>output_is()</code></a>. It is a 
+combination of <a href="#stdout_isnt"><code>stdout_isnt()</code></a> and <a href="#stderr_isnt"><code>stderr_isnt()</code></a>.</p>
+<pre>
+  <span class="variable">output_isnt</span><span class="operator">(</span><span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span><span class="keyword">print</span> <span class="string">"foo"</span><span class="operator">;</span> <span class="keyword">print</span> <span class="variable">STDERR</span> <span class="string">"bar"</span><span class="operator">;},</span><span class="string">'bar'</span><span class="operator">,</span><span class="string">'foo'</span><span class="operator">);</span>
+</pre>
+<p>is functionally equivalent to</p>
+<pre>
+  <span class="variable">stdout_is</span><span class="operator">(</span><span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span><span class="keyword">print</span> <span class="string">"foo"</span><span class="operator">;},</span><span class="string">'bar'</span><span class="operator">)</span> 
+    <span class="operator">&amp;&amp;</span> <span class="variable">stderr_is</span><span class="operator">(</span><span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span><span class="keyword">print</span> <span class="variable">STDERR</span> <span class="string">"bar"</span><span class="operator">;</span><span class="string">'foo'</span><span class="operator">);</span>
+</pre>
+<p>As with <a href="#output_is"><code>output_is()</code></a>, setting either $expected_stdout or $expected_stderr to
+<a href="../../../lib/pods/perlfunc.html#undef"><code>undef</code></a> ignores the output to that facility.</p>
+<pre>
+  <span class="variable">output_isnt</span><span class="operator">(</span><span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span><span class="keyword">print</span> <span class="string">"foo"</span><span class="operator">;</span> <span class="keyword">print</span> <span class="variable">STDERR</span> <span class="string">"bar"</span><span class="operator">;},</span><span class="keyword">undef</span><span class="operator">,</span><span class="string">'foo'</span><span class="operator">);</span>
+</pre>
+<p>is the same as</p>
+<pre>
+  <span class="variable">stderr_is</span><span class="operator">(</span><span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span><span class="keyword">print</span> <span class="variable">STDERR</span> <span class="string">"bar"</span><span class="operator">;},</span><span class="string">'foo'</span><span class="operator">)</span>
+</pre>
+</dd>
+<dt><strong><a name="output_like" class="item"><strong>output_like</strong></a></strong></dt>
+
+<dt><strong><a name="output_unlike" class="item"><strong>output_unlike</strong></a></strong></dt>
+
+<dd>
+<pre>
+  <span class="variable">output_like</span>  <span class="operator">(</span> <span class="variable">$coderef</span><span class="operator">,</span> <span class="variable">$regex_stdout</span><span class="operator">,</span> <span class="variable">$regex_stderr</span><span class="operator">,</span> <span class="string">'description'</span> <span class="operator">);</span>
+  <span class="variable">output_like</span>  <span class="operator">{</span> <span class="operator">...</span> <span class="operator">}</span> <span class="variable">$regex_stdout</span><span class="operator">,</span> <span class="variable">$regex_stderr</span><span class="operator">,</span> <span class="string">'description'</span><span class="operator">;</span>
+  <span class="variable">output_unlike</span><span class="operator">(</span> <span class="variable">$coderef</span><span class="operator">,</span> <span class="variable">$regex_stdout</span><span class="operator">,</span> <span class="variable">$regex_stderr</span><span class="operator">,</span> <span class="string">'description'</span> <span class="operator">);</span>
+  <span class="variable">output_unlike</span> <span class="operator">{</span> <span class="operator">...</span> <span class="operator">}</span> <span class="variable">$regex_stdout</span><span class="operator">,</span> <span class="variable">$regex_stderr</span><span class="operator">,</span> <span class="string">'description'</span><span class="operator">;</span>
+</pre>
+<p><a href="#output_like"><code>output_like()</code></a> and <a href="#output_unlike"><code>output_unlike()</code></a> follow the same principles as <a href="#output_is"><code>output_is()</code></a>
+and <a href="#output_isnt"><code>output_isnt()</code></a> except they use a regular expression for matching.</p>
+<p><a href="#output_like"><code>output_like()</code></a> attempts to match $regex_stdout and $regex_stderr against
+STDOUT and STDERR produced by $coderef. The test passes if both match.</p>
+<pre>
+  <span class="variable">output_like</span><span class="operator">(</span><span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span><span class="keyword">print</span> <span class="string">"foo"</span><span class="operator">;</span> <span class="keyword">print</span> <span class="variable">STDERR</span> <span class="string">"bar"</span><span class="operator">;},</span><span class="string">qr/foo/</span><span class="operator">,</span><span class="string">qr/bar/</span><span class="operator">);</span>
+</pre>
+<p>The above test is successful.</p>
+<p>Like <a href="#output_is"><code>output_is()</code></a>, setting either $regex_stdout or $regex_stderr to
+<a href="../../../lib/pods/perlfunc.html#undef"><code>undef</code></a> ignores the output to that facility.</p>
+<pre>
+  <span class="variable">output_like</span><span class="operator">(</span><span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span><span class="keyword">print</span> <span class="string">"foo"</span><span class="operator">;</span> <span class="keyword">print</span> <span class="variable">STDERR</span> <span class="string">"bar"</span><span class="operator">;},</span><span class="string">qr/foo/</span><span class="operator">,</span><span class="keyword">undef</span><span class="operator">);</span>
+</pre>
+<p>is the same as</p>
+<pre>
+  <span class="variable">stdout_like</span><span class="operator">(</span><span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span><span class="keyword">print</span> <span class="string">"foo"</span><span class="operator">;</span> <span class="keyword">print</span> <span class="variable">STDERR</span> <span class="string">"bar"</span><span class="operator">;},</span><span class="string">qr/foo/</span><span class="operator">);</span>
+</pre>
+<p><a href="#output_unlike"><code>output_unlike()</code></a> test pass if output from $coderef doesn't match 
+$regex_stdout and $regex_stderr.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="exports">EXPORTS</a></h1>
+<p>By default, all tests are exported, however with the switch to <a href="../../../lib/Sub/Exporter.html">the Sub::Exporter manpage</a>
+export groups are now available to better limit imports.</p>
+<p>To import tests for STDOUT:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">Test::Output</span> <span class="string">qw(:stdout)</span><span class="operator">;</span>
+</pre>
+<p>To import tests STDERR:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">Test::Output</span> <span class="string">qw(:stderr)</span><span class="operator">;</span>
+</pre>
+<p>To import just the functions:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">Test::Output</span> <span class="string">qw(:functions)</span><span class="operator">;</span>
+</pre>
+<p>And to import all tests:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">Test::Output</span><span class="operator">;</span>
+</pre>
+<p>The following is a list of group names and which functions are exported:</p>
+<dl>
+<dt><strong><a name="stdout" class="item">stdout</a></strong></dt>
+
+<dd>
+<p>stdout_is stdout_isnt stdout_like stdout_unlike</p>
+</dd>
+<dt><strong><a name="stderr" class="item">stderr</a></strong></dt>
+
+<dd>
+<p>stderr_is stderr_isnt stderr_like stderr_unlike</p>
+</dd>
+<dt><strong><a name="output" class="item">output</a></strong></dt>
+
+<dd>
+<p>output_is output_isnt output_like output_unlike</p>
+</dd>
+<dt><strong><a name="combined" class="item">combined</a></strong></dt>
+
+<dd>
+<p>combined_is combined_isnt combined_like combined_unlike</p>
+</dd>
+<dt><strong><a name="tests" class="item">tests</a></strong></dt>
+
+<dd>
+<p>All of the above, this is the default when no options are given.</p>
+</dd>
+</dl>
+<p><a href="../../../lib/Sub/Exporter.html">the Sub::Exporter manpage</a> allows for many other options, I encourage reading its
+documentation.</p>
+<p>
+</p>
+<hr />
+<h1><a name="functions">FUNCTIONS</a></h1>
+<p>
+</p>
+<h2><a name="stdout_from">stdout_from</a></h2>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$stdout</span> <span class="operator">=</span> <span class="variable">stdout_from</span><span class="operator">(</span><span class="variable">$coderef</span><span class="operator">)</span>
+  <span class="keyword">my</span> <span class="variable">$stdout</span> <span class="operator">=</span> <span class="variable">stdout_from</span> <span class="operator">{</span> <span class="operator">...</span> <span class="operator">};</span>
+</pre>
+<p><code>stdout_from()</code> executes $coderef and captures STDOUT.</p>
+<p>
+</p>
+<h2><a name="stderr_from">stderr_from</a></h2>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$stderr</span> <span class="operator">=</span> <span class="variable">stderr_from</span><span class="operator">(</span><span class="variable">$coderef</span><span class="operator">)</span>
+  <span class="keyword">my</span> <span class="variable">$stderr</span> <span class="operator">=</span> <span class="variable">stderr_from</span> <span class="operator">{</span> <span class="operator">...</span> <span class="operator">};</span>
+</pre>
+<p><code>stderr_from()</code> executes $coderef and captures STDERR.</p>
+<p>
+</p>
+<h2><a name="output_from">output_from</a></h2>
+<pre>
+  <span class="keyword">my</span> <span class="operator">(</span><span class="variable">$stdout</span><span class="operator">,</span> <span class="variable">$stderr</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">output_from</span><span class="operator">(</span><span class="variable">$coderef</span><span class="operator">)</span>
+  <span class="keyword">my</span> <span class="operator">(</span><span class="variable">$stdout</span><span class="operator">,</span> <span class="variable">$stderr</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">output_from</span> <span class="operator">{...};</span>
+</pre>
+<p><code>output_from()</code> executes $coderef one time capturing both STDOUT and STDERR.</p>
+<p>
+</p>
+<h2><a name="combined_from">combined_from</a></h2>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$combined</span> <span class="operator">=</span> <span class="variable">combined_from</span><span class="operator">(</span><span class="variable">$coderef</span><span class="operator">);</span>
+  <span class="keyword">my</span> <span class="variable">$combined</span> <span class="operator">=</span> <span class="variable">combined_from</span> <span class="operator">{...};</span>
+</pre>
+<p><code>combined_from()</code> executes $coderef one time combines STDOUT and STDERR, and
+captures them. <code>combined_from()</code> is equivalent to using 2&gt;&amp;1 in UNIX.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Currently maintained by brian d foy, <code>bdfoy@cpan.org</code>.</p>
+<p>Shawn Sorichetti, <code>&lt;ssoriche@cpan.org&gt;</code></p>
+<p>
+</p>
+<hr />
+<h1><a name="source_availability">SOURCE AVAILABILITY</a></h1>
+<pre>
+
+This module is in Github:</pre>
+<pre>
+        <a href="http://github.com/briandfoy/test-output/tree/master">http://github.com/briandfoy/test-output/tree/master</a></pre>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p>Please report any bugs or feature requests to
+<code>bug-test-output@rt.cpan.org</code>, or through the web interface at
+<a href="http://rt.cpan.org">http://rt.cpan.org</a>.  I will be notified, and then you'll automatically
+be notified of progress on your bug as I make changes.</p>
+<p>
+</p>
+<hr />
+<h1><a name="acknowledgements">ACKNOWLEDGEMENTS</a></h1>
+<p>Thanks to chromatic whose TieOut.pm was the basis for capturing output.</p>
+<p>Also thanks to rjbs for his help cleaning the documention, and pushing me to
+<a href="../../../lib/Sub/Exporter.html">the Sub::Exporter manpage</a>.</p>
+<p>Thanks to David Wheeler for providing code block support and tests.</p>
+<p>Thanks to Michael G Schwern for the solution to combining STDOUT and STDERR.</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright___license">COPYRIGHT &amp; LICENSE</a></h1>
+<p>Copyright 2005-2008 Shawn Sorichetti, All Rights Reserved.</p>
+<p>This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.</p>
+
+</body>
+
+</html>

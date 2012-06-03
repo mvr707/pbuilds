@@ -1,0 +1,216 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../scineplex.css">
+<title>Devel::Symdump - dump symbol names or the symbol table</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',3);</script>
+<h1><a>Devel::Symdump - dump symbol names or the symbol table</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#subclassing">SUBCLASSING</a></li>
+	<li><a href="#authors">AUTHORS</a></li>
+	<li><a href="#copyright__license">COPYRIGHT, LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Devel::Symdump - dump symbol names or the symbol table</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+    <span class="comment"># Constructor</span>
+    <span class="keyword">require</span> <span class="variable">Devel::Symdump</span><span class="operator">;</span>
+    <span class="variable">@packs</span> <span class="operator">=</span> <span class="string">qw(some_package another_package)</span><span class="operator">;</span>
+    <span class="variable">$obj</span> <span class="operator">=</span> <span class="variable">Devel::Symdump</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span><span class="variable">@packs</span><span class="operator">);</span>        <span class="comment"># no recursion</span>
+    <span class="variable">$obj</span> <span class="operator">=</span> <span class="variable">Devel::Symdump</span><span class="operator">-&gt;</span><span class="variable">rnew</span><span class="operator">(</span><span class="variable">@packs</span><span class="operator">);</span>       <span class="comment"># with recursion</span>
+</pre>
+<pre>
+    <span class="comment"># Methods</span>
+    <span class="variable">@array</span> <span class="operator">=</span> <span class="variable">$obj</span><span class="operator">-&gt;</span><span class="variable">packages</span><span class="operator">;</span>
+    <span class="variable">@array</span> <span class="operator">=</span> <span class="variable">$obj</span><span class="operator">-&gt;</span><span class="variable">scalars</span><span class="operator">;</span>
+    <span class="variable">@array</span> <span class="operator">=</span> <span class="variable">$obj</span><span class="operator">-&gt;</span><span class="variable">arrays</span><span class="operator">;</span>
+    <span class="variable">@array</span> <span class="operator">=</span> <span class="variable">$obj</span><span class="operator">-&gt;</span><span class="variable">hashes</span><span class="operator">;</span>
+    <span class="variable">@array</span> <span class="operator">=</span> <span class="variable">$obj</span><span class="operator">-&gt;</span><span class="variable">functions</span><span class="operator">;</span>
+    <span class="variable">@array</span> <span class="operator">=</span> <span class="variable">$obj</span><span class="operator">-&gt;</span><span class="variable">filehandles</span><span class="operator">;</span>  <span class="comment"># deprecated, use ios instead</span>
+    <span class="variable">@array</span> <span class="operator">=</span> <span class="variable">$obj</span><span class="operator">-&gt;</span><span class="variable">dirhandles</span><span class="operator">;</span>   <span class="comment"># deprecated, use ios instead</span>
+    <span class="variable">@array</span> <span class="operator">=</span> <span class="variable">$obj</span><span class="operator">-&gt;</span><span class="variable">ios</span><span class="operator">;</span>
+    <span class="variable">@array</span> <span class="operator">=</span> <span class="variable">$obj</span><span class="operator">-&gt;</span><span class="variable">unknowns</span><span class="operator">;</span>     <span class="comment"># only perl version &lt; 5.003 had some</span>
+</pre>
+<pre>
+    <span class="variable">$string</span> <span class="operator">=</span> <span class="variable">$obj</span><span class="operator">-&gt;</span><span class="variable">as_string</span><span class="operator">;</span>
+    <span class="variable">$string</span> <span class="operator">=</span> <span class="variable">$obj</span><span class="operator">-&gt;</span><span class="variable">as_HTML</span><span class="operator">;</span>
+    <span class="variable">$string</span> <span class="operator">=</span> <span class="variable">$obj1</span><span class="operator">-&gt;</span><span class="variable">diff</span><span class="operator">(</span><span class="variable">$obj2</span><span class="operator">);</span>
+</pre>
+<pre>
+    <span class="variable">$string</span> <span class="operator">=</span> <span class="variable">Devel::Symdump</span><span class="operator">-&gt;</span><span class="variable">isa_tree</span><span class="operator">;</span>    <span class="comment"># or $obj-&gt;isa_tree</span>
+    <span class="variable">$string</span> <span class="operator">=</span> <span class="variable">Devel::Symdump</span><span class="operator">-&gt;</span><span class="variable">inh_tree</span><span class="operator">;</span>    <span class="comment"># or $obj-&gt;inh_tree</span>
+</pre>
+<pre>
+    <span class="comment"># Methods with autogenerated objects</span>
+    <span class="comment"># all of those call new(@packs) internally</span>
+    <span class="variable">@array</span> <span class="operator">=</span> <span class="variable">Devel::Symdump</span><span class="operator">-&gt;</span><span class="variable">packages</span><span class="operator">(</span><span class="variable">@packs</span><span class="operator">);</span>
+    <span class="variable">@array</span> <span class="operator">=</span> <span class="variable">Devel::Symdump</span><span class="operator">-&gt;</span><span class="variable">scalars</span><span class="operator">(</span><span class="variable">@packs</span><span class="operator">);</span>
+    <span class="variable">@array</span> <span class="operator">=</span> <span class="variable">Devel::Symdump</span><span class="operator">-&gt;</span><span class="variable">arrays</span><span class="operator">(</span><span class="variable">@packs</span><span class="operator">);</span>
+    <span class="variable">@array</span> <span class="operator">=</span> <span class="variable">Devel::Symdump</span><span class="operator">-&gt;</span><span class="variable">hashes</span><span class="operator">(</span><span class="variable">@packs</span><span class="operator">);</span>
+    <span class="variable">@array</span> <span class="operator">=</span> <span class="variable">Devel::Symdump</span><span class="operator">-&gt;</span><span class="variable">functions</span><span class="operator">(</span><span class="variable">@packs</span><span class="operator">);</span>
+    <span class="variable">@array</span> <span class="operator">=</span> <span class="variable">Devel::Symdump</span><span class="operator">-&gt;</span><span class="variable">ios</span><span class="operator">(</span><span class="variable">@packs</span><span class="operator">);</span>
+    <span class="variable">@array</span> <span class="operator">=</span> <span class="variable">Devel::Symdump</span><span class="operator">-&gt;</span><span class="variable">unknowns</span><span class="operator">(</span><span class="variable">@packs</span><span class="operator">);</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This little package serves to access the symbol table of perl.</p>
+<dl>
+<dt><strong><a name="rnew" class="item"><code>Devel::Symdump-&gt;rnew(@packages)</code></a></strong></dt>
+
+<dd>
+<p>returns a symbol table object for all subtrees below @packages.
+Nested Modules are analyzed recursively. If no package is given as
+argument, it defaults to <code>main</code>. That means to get the whole symbol
+table, just do a <a href="#rnew"><code>rnew</code></a> without arguments.</p>
+<p>The global variable $Devel::Symdump::MAX_RECURSION limits the
+recursion to prevent contention. The default value is set to 97, just
+low enough to survive the test suite without a warning about deep
+recursion.</p>
+</dd>
+<dt><strong><a name="new" class="item"><code>Devel::Symdump-&gt;new(@packages)</code></a></strong></dt>
+
+<dd>
+<p>does not go into recursion and only analyzes the packages that are
+given as arguments.</p>
+</dd>
+<dt><strong><a name="packages_scalars_arrays_hashes_functions_ios" class="item">packages, scalars, arrays, hashes, functions, ios</a></strong></dt>
+
+<dd>
+<p>The methods <code>packages()</code>, <code>scalars()</code>, <code>arrays()</code>, <code>hashes()</code>, <code>functions()</code>,
+<code>ios()</code>, and (for older perls) <code>unknowns()</code> each return an array of fully
+qualified symbols of the specified type in all packages that are held
+within a Devel::Symdump object, but without the leading <code>$</code>, <code>@</code> or
+<code>%</code>. In a scalar context, they will return the number of such
+symbols. Unknown symbols are usually either formats or variables that
+haven't yet got a defined value.</p>
+</dd>
+<dt><strong><a name="as_string" class="item">as_string</a></strong></dt>
+
+<dt><strong><a name="as_html" class="item">as_HTML</a></strong></dt>
+
+<dd>
+<p><code>As_string()</code> and <a href="#as_html"><code>as_HTML()</code></a> return a simple string/HTML representations
+of the object.</p>
+</dd>
+<dt><strong><a name="diff" class="item">diff</a></strong></dt>
+
+<dd>
+<p><code>Diff()</code> prints the difference between two Devel::Symdump objects in
+human readable form. The format is similar to the one used by the
+as_string method.</p>
+</dd>
+<dt><strong><a name="isa_tree" class="item">isa_tree</a></strong></dt>
+
+<dt><strong><a name="inh_tree" class="item">inh_tree</a></strong></dt>
+
+<dd>
+<p><code>Isa_tree()</code> and <a href="#inh_tree"><code>inh_tree()</code></a> both return a simple string representation
+of the current inheritance tree. The difference between the two
+methods is the direction from which the tree is viewed: top-down or
+bottom-up. As I'm sure, many users will have different expectation
+about what is top and what is bottom, I'll provide an example what
+happens when the Socket module is loaded:</p>
+</dd>
+<dt><strong>% print Devel::Symdump-&gt;inh_tree</strong></dt>
+
+<dd>
+<pre>
+    AutoLoader
+            DynaLoader
+                    Socket
+    DynaLoader
+            Socket
+    Exporter
+            Carp
+            Config
+            Socket</pre>
+<p>The inh_tree method shows on the left hand side a package name and
+indented to the right the packages that use the former.</p>
+</dd>
+<dt><strong>% print Devel::Symdump-&gt;isa_tree</strong></dt>
+
+<dd>
+<pre>
+    Carp
+            Exporter
+    Config
+            Exporter
+    DynaLoader
+            AutoLoader
+    Socket
+            Exporter
+            DynaLoader
+                    AutoLoader</pre>
+<p>The isa_tree method displays from left to right ISA relationships, so
+Socket IS A DynaLoader and DynaLoader IS A AutoLoader. (Actually, they
+were at the time this manpage was written)</p>
+</dd>
+</dl>
+<p>You may call both methods, <a href="#isa_tree"><code>isa_tree()</code></a> and <a href="#inh_tree"><code>inh_tree()</code></a>, with an
+object. If you do that, the object will store the output and retrieve
+it when you call the same method again later. The typical usage would
+be to use them as class methods directly though.</p>
+<p>
+</p>
+<hr />
+<h1><a name="subclassing">SUBCLASSING</a></h1>
+<p>The design of this package is intentionally primitive and allows it to
+be subclassed easily. An example of a (maybe) useful subclass is
+Devel::Symdump::Export, a package which exports all methods of the
+Devel::Symdump package and turns them into functions.</p>
+<p>
+</p>
+<hr />
+<h1><a name="authors">AUTHORS</a></h1>
+<p>Andreas Koenig <em class="file"><a href="mailto:<andk@cpan.org"><andk@cpan.org</a></em> &gt;&gt; and Tom Christiansen
+<em class="file"><a href="mailto:<tchrist@perl.com"><tchrist@perl.com</a></em> &gt;&gt;. Based on the old <em class="file">dumpvar.pl</em> by Larry
+Wall.</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright__license">COPYRIGHT, LICENSE</a></h1>
+<p>This module is</p>
+<p>Copyright (c) 1995, 1997, 2000, 2002, 2005, 2006 Andreas Koenig <code>&lt;andk@cpan.org&gt;</code>.</p>
+<p>All rights reserved.</p>
+<p>This library is free software;
+you may use, redistribute and/or modify it under the same
+terms as Perl itself.</p>
+
+</body>
+
+</html>

@@ -1,0 +1,57 @@
+---
+distribution: !!perl/hash:CPAN::Distribution
+  CALLED_FOR: ExtUtils::MakeMaker
+  CHECKSUM_STATUS: OK
+  ID: M/MS/MSCHWERN/ExtUtils-MakeMaker-6.62.tar.gz
+  RO:
+    CPAN_COMMENT: ~
+    CPAN_USERID: MSCHWERN
+  archived: tar
+  build_dir: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\build\ExtUtils-MakeMaker-6.62-e0hP2d
+  incommandcolor: 2
+  install: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691804
+  localfile: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\sources\authors\id\M\MS\MSCHWERN\ExtUtils-MakeMaker-6.62.tar.gz
+  make: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691665
+  make_test: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691803
+  negative_prefs_cache: 4
+  prefs:
+    install: {}
+  prereq_pm:
+    build_requires:
+      Data::Dumper: '0'
+    requires:
+      DirHandle: '0'
+      File::Basename: '0'
+      File::Spec: '0.8'
+      Pod::Man: '0'
+      perl: '5.006'
+  reqtype: b
+  sponsored_mods: {}
+  unwrapped: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691660
+  writemakefile: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691661
+perl:
+  $^X: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\bin\perl.exe
+  mtime_$^X: 1318029070
+  mtime_dll: 0
+  sitearchexp: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib
+time: 1338691804

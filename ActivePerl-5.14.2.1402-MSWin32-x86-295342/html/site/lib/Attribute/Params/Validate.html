@@ -1,0 +1,134 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../scineplex.css">
+<title>blib\lib\Attribute\Params\Validate.pm</title>
+<link rel="stylesheet" href="../../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',4);</script>
+<h1><a>blib\lib\Attribute\Params\Validate.pm</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#export">EXPORT</a></li>
+		<li><a href="#attributes">ATTRIBUTES</a></li>
+		<li><a href="#oo">OO</a></li>
+		<li><a href="#caveats">CAVEATS</a></li>
+	</ul>
+
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  <span class="keyword">use</span> <span class="variable">Attribute::Params::Validate</span> <span class="string">qw(:all)</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="comment"># takes named params (hash or hashref)</span>
+  <span class="comment"># foo is mandatory, bar is optional</span>
+  <span class="keyword">sub</span><span class="variable"> foo : Validate</span><span class="operator">(</span> foo =&gt; 1, bar =&gt; 0 <span class="operator">)</span>
+  <span class="operator">{</span>
+      <span class="operator">...</span>
+  <span class="operator">}</span>
+</pre>
+<pre>
+  <span class="comment"># takes positional params</span>
+  <span class="comment"># first two are mandatory, third is optional</span>
+  <span class="keyword">sub</span><span class="variable"> bar : ValidatePos</span><span class="operator">(</span> 1, 1, 0 <span class="operator">)</span>
+  <span class="operator">{</span>
+      <span class="operator">...</span>
+  <span class="operator">}</span>
+</pre>
+<pre>
+  <span class="comment"># for some reason Perl insists that the entire attribute be on one line</span>
+  <span class="keyword">sub</span><span class="variable"> foo2 : Validate</span><span class="operator">(</span> foo =&gt; { type =&gt; ARRAYREF }, bar =&gt; { can =&gt; [ 'print', 'flush', 'frobnicate' ] }, baz =&gt; { type =&gt; SCALAR, callbacks =&gt; { 'numbers only' =&gt; sub { shift(<span class="operator">)</span> <span class="operator">=~</span> <span class="regex">/^\d+$/</span> <span class="operator">},</span> <span class="string">'less than 90'</span> <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="keyword">shift</span><span class="operator">()</span> <span class="operator">&lt;</span> <span class="number">90</span> <span class="operator">}</span> <span class="operator">}</span> <span class="operator">}</span> <span class="operator">)</span>
+  <span class="operator">{</span>
+      <span class="operator">...</span>
+  <span class="operator">}</span>
+</pre>
+<pre>
+  <span class="comment"># note that this is marked as a method.  This is very important!</span>
+  <span class="keyword">sub</span><span class="variable"> baz : Validate</span><span class="operator">(</span> foo =&gt; { type =&gt; ARRAYREF }, bar =&gt; { isa =&gt; 'Frobnicator' } <span class="operator">)</span> <span class="variable">method</span>
+  <span class="operator">{</span>
+      <span class="operator">...</span>
+  <span class="operator">}</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>The Attribute::Params::Validate module allows you to validate method
+or function call parameters just like Params::Validate does.  However,
+this module allows you to specify your validation spec as an
+attribute, rather than by calling the <code>validate</code> routine.</p>
+<p>Please see Params::Validate for more information on how you can
+specify what validation is performed.</p>
+<p>
+</p>
+<h2><a name="export">EXPORT</a></h2>
+<p>This module exports everything that Params::Validate does except for
+the <code>validate</code> and <code>validate_pos</code> subroutines.</p>
+<p>
+</p>
+<h2><a name="attributes">ATTRIBUTES</a></h2>
+<ul>
+<li><strong><a name="validate" class="item">Validate</a></strong>
+
+<p>This attribute corresponds to the <code>validate</code> subroutine in
+Params::Validate.</p>
+</li>
+<li><strong><a name="validatepos" class="item">ValidatePos</a></strong>
+
+<p>This attribute corresponds to the <code>validate_pos</code> subroutine in
+Params::Validate.</p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="oo">OO</a></h2>
+<p>If you are using this module to mark <strong>methods</strong> for validation, as
+opposed to subroutines, it is crucial that you mark these methods with
+the <code>:method</code> attribute, as well as the <a href="#validate"><code>Validate</code></a> or <a href="#validatepos"><code>ValidatePos</code></a>
+attribute.</p>
+<p>If you do not do this, then the object or class used in the method
+call will be passed to the validation routines, which is probably not
+what you want.</p>
+<p>
+</p>
+<h2><a name="caveats">CAVEATS</a></h2>
+<p>You <strong>must</strong> put all the arguments to the <a href="#validate"><code>Validate</code></a> or <a href="#validatepos"><code>ValidatePos</code></a>
+attribute on a single line, or Perl will complain.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p>Params::Validate</p>
+
+</body>
+
+</html>

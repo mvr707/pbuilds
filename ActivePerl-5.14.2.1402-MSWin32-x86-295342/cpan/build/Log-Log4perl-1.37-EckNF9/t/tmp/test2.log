@@ -1,0 +1,3 @@
+INFO  cat1 - info message 1 
+WARN  cat1 - warning message 1 
+FATAL cat1 - fatal message 1 

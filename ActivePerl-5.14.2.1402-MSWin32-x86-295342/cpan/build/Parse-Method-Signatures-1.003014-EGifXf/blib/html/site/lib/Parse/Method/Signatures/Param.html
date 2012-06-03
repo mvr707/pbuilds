@@ -1,0 +1,142 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../../scineplex.css">
+<title>Parse::Method::Signatures::Param - a parsed parameter from a signature</title>
+<link rel="stylesheet" href="../../../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',5);</script>
+<h1><a>Parse::Method::Signatures::Param - a parsed parameter from a signature</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#attributes">ATTRIBUTES</a></li>
+	<ul>
+
+		<li><a href="#required">required</a></li>
+		<li><a href="#sigil">sigil</a></li>
+		<li><a href="#type_constraints">type_constraints</a></li>
+		<li><a href="#default_value">default_value</a></li>
+		<li><a href="#constraints">constraints</a></li>
+		<li><a href="#param_traits">param_traits</a></li>
+	</ul>
+
+	<li><a href="#methods">METHODS</a></li>
+	<ul>
+
+		<li><a href="#to_string">to_string</a></li>
+		<li><a href="#meta_type_constraint">meta_type_constraint</a></li>
+	</ul>
+
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#authors">AUTHORS</a></li>
+	<li><a href="#license">LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Parse::Method::Signatures::Param - a parsed parameter from a signature</p>
+<p>
+</p>
+<hr />
+<h1><a name="attributes">ATTRIBUTES</a></h1>
+<p>All attributes of this class are read-only.</p>
+<p>
+</p>
+<h2><a name="required">required</a></h2>
+<p>Is this parameter required (true) or optional (false)?</p>
+<p>
+</p>
+<h2><a name="sigil">sigil</a></h2>
+<p>The effective sigil ('$', '@' or '%') of this parameter.</p>
+<p>
+</p>
+<h2><a name="type_constraints">type_constraints</a></h2>
+<p><strong>Type:</strong> <a href="../../../../../cpan/build/Parse-Method-Signatures-1.003014-EGifXf/blib/lib/Parse/Method/Signatures/TypeConstraint.html">the Parse::Method::Signatures::TypeConstraint manpage</a></p>
+<p><strong>Predicate:</strong> has_type_constraints</p>
+<p>Representation of the type constraint for this parameter. Most commonly you
+will just call <a href="#meta_type_constraint">meta_type_constraint</a> and not access this attribute directly.</p>
+<p>
+</p>
+<h2><a name="default_value">default_value</a></h2>
+<p><strong>Type:</strong> Str</p>
+<p><strong>Predicate:</strong> has_default_value</p>
+<p>A string that should be eval'd or injected to get the default value for this
+parameter. For example:</p>
+<pre>
+ $name = 'bar'</pre>
+<p>Would give a default_value of &quot;'bar'&quot;.</p>
+<p>
+</p>
+<h2><a name="constraints">constraints</a></h2>
+<p><strong>Type:</strong> ArrayRef[Str]</p>
+<p><strong>Predicate:</strong> has_constraints</p>
+<p><code>where</code> constraints for this type. Each member of the array a the string
+(including enclosing braces) of the where constraint block.</p>
+<p>
+</p>
+<h2><a name="param_traits">param_traits</a></h2>
+<p><strong>Type:</strong> ArrayRef[ Tupple[Str,Str] ]</p>
+<p><strong>Predicate:</strong> has_traits</p>
+<p>Traits that this parameter is declared to have. For instance</p>
+<pre>
+ $foo does coerce</pre>
+<p>would have a trait of</p>
+<pre>
+ ['does', 'coerce']</pre>
+<p>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<p>
+</p>
+<h2><a name="to_string">to_string</a></h2>
+<p>
+</p>
+<h2><a name="meta_type_constraint">meta_type_constraint</a></h2>
+<p>Get the <a href="../../../../../lib/Moose/Meta/TypeConstraint.html">the Moose::Meta::TypeConstraint manpage</a> for this parameter. Check first that the
+type has a type constraint:</p>
+<pre>
+ <span class="variable">$tc</span> <span class="operator">=</span> <span class="variable">$param</span><span class="operator">-&gt;</span><span class="variable">meta_type_constraint</span> <span class="keyword">if</span> <span class="variable">$param</span><span class="operator">-&gt;</span><span class="variable">has_type_constraints</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../../../../cpan/build/Parse-Method-Signatures-1.003014-EGifXf/blib/html/site/lib/Parse/Method/Signatures.html">the Parse::Method::Signatures manpage</a>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="authors">AUTHORS</a></h1>
+<p>Ash Berlin &lt;<a href="mailto:ash@cpan.org">ash@cpan.org</a>&gt;.</p>
+<p>Florian Ragwitz &lt;<a href="mailto:rafl@debian.org">rafl@debian.org</a>&gt;.</p>
+<p>
+</p>
+<hr />
+<h1><a name="license">LICENSE</a></h1>
+<p>Licensed under the same terms as Perl itself.</p>
+
+</body>
+
+</html>

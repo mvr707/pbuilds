@@ -1,0 +1,76 @@
+---
+distribution: !!perl/hash:CPAN::Distribution
+  CALLED_FOR: A/AS/ASH/TryCatch-1.003000.tar.gz
+  CHECKSUM_STATUS: OK
+  ID: A/AS/ASH/TryCatch-1.003000.tar.gz
+  RO:
+    CPAN_COMMENT: ~
+    CPAN_USERID: ASH
+  archived: tar
+  badtestcnt: 1
+  build_dir: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\build\TryCatch-1.003000-AuyBUS
+  incommandcolor: 2
+  localfile: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\sources\authors\id\A\AS\ASH\TryCatch-1.003000.tar.gz
+  make: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691830
+  make_test: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: 1
+    TEXT: NO 2 dependencies missing (Scope::Upper,Parse::Method::Signatures); additionally
+      test harness failed
+    TIME: 1338691831
+  negative_prefs_cache: 4
+  prefs: {}
+  prereq_pm:
+    build_requires:
+      B::Hooks::OP::Check: '0.18'
+      B::Hooks::OP::PPAddr: '0.03'
+      ExtUtils::Depends: '0.302'
+      ExtUtils::MakeMaker: '6.42'
+      Test::Exception: '0'
+      Test::More: '0.88'
+    requires:
+      B::Hooks::EndOfScope: '0.08'
+      B::Hooks::OP::Check: '0.18'
+      B::Hooks::OP::PPAddr: '0.03'
+      Devel::Declare: '0.005007'
+      Moose: '0'
+      MooseX::Types: '0'
+      Parse::Method::Signatures: '1.003012'
+      Scope::Upper: '0.06'
+      Sub::Exporter: '0.979'
+      Test::Exception: '0'
+      Test::More: '0.88'
+      Variable::Magic: '0.28'
+      XSLoader: '0'
+      perl: '5.008001'
+  reqtype: r
+  sponsored_mods:
+    B::Hooks::EndOfScope: 1
+    B::Hooks::OP::Check: 1
+    B::Hooks::OP::PPAddr: 1
+    Devel::Declare: 1
+    ExtUtils::Depends: 1
+    MooseX::Types: 1
+    Parse::Method::Signatures: 2
+    Scope::Upper: 2
+    Variable::Magic: 1
+  unwrapped: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338690176
+  writemakefile: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691118
+perl:
+  $^X: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\bin\perl.exe
+  mtime_$^X: 1318029070
+  mtime_dll: 0
+  sitearchexp: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib
+time: 1338691831

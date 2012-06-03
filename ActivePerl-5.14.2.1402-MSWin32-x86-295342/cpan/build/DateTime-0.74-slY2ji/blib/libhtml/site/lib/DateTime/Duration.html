@@ -1,0 +1,347 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../scineplex.css">
+<title>DateTime::Duration - Duration objects for date math</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',3);</script>
+<h1><a>DateTime::Duration - Duration objects for date math</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#version">VERSION</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<ul>
+
+		<li><a href="#overloading">Overloading</a></li>
+	</ul>
+
+	<li><a href="#support">SUPPORT</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright_and_license">COPYRIGHT AND LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<hr />
+<h1><a name="name">NAME</a></h1>
+<p>DateTime::Duration - Duration objects for date math</p>
+<p>
+</p>
+<hr />
+<h1><a name="version">VERSION</a></h1>
+<p>version 0.74</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  <span class="keyword">use</span> <span class="variable">DateTime::Duration</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="variable">$dur</span> <span class="operator">=</span> <span class="variable">DateTime::Duration</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span>
+      <span class="string">years</span>       <span class="operator">=&gt;</span> <span class="number">3</span><span class="operator">,</span>
+      <span class="string">months</span>      <span class="operator">=&gt;</span> <span class="number">5</span><span class="operator">,</span>
+      <span class="string">weeks</span>       <span class="operator">=&gt;</span> <span class="number">1</span><span class="operator">,</span>
+      <span class="string">days</span>        <span class="operator">=&gt;</span> <span class="number">1</span><span class="operator">,</span>
+      <span class="string">hours</span>       <span class="operator">=&gt;</span> <span class="number">6</span><span class="operator">,</span>
+      <span class="string">minutes</span>     <span class="operator">=&gt;</span> <span class="number">15</span><span class="operator">,</span>
+      <span class="string">seconds</span>     <span class="operator">=&gt;</span> <span class="number">45</span><span class="operator">,</span>
+      <span class="string">nanoseconds</span> <span class="operator">=&gt;</span> <span class="number">12000</span>
+  <span class="operator">);</span>
+</pre>
+<pre>
+  <span class="keyword">my</span> <span class="operator">(</span> <span class="variable">$days</span><span class="operator">,</span> <span class="variable">$hours</span><span class="operator">,</span> <span class="variable">$seconds</span> <span class="operator">)</span> <span class="operator">=</span> <span class="variable">$dur</span><span class="operator">-&gt;</span><span class="variable">in_units</span><span class="operator">(</span><span class="string">'days'</span><span class="operator">,</span> <span class="string">'hours'</span><span class="operator">,</span> <span class="string">'seconds'</span><span class="operator">);</span>
+</pre>
+<pre>
+  <span class="comment"># Human-readable accessors, always positive, but consider using</span>
+  <span class="comment"># DateTime::Format::Duration instead</span>
+  <span class="variable">$dur</span><span class="operator">-&gt;</span><span class="variable">years</span><span class="operator">;</span>
+  <span class="variable">$dur</span><span class="operator">-&gt;</span><span class="variable">months</span><span class="operator">;</span>
+  <span class="variable">$dur</span><span class="operator">-&gt;</span><span class="variable">weeks</span><span class="operator">;</span>
+  <span class="variable">$dur</span><span class="operator">-&gt;</span><span class="variable">days</span><span class="operator">;</span>
+  <span class="variable">$dur</span><span class="operator">-&gt;</span><span class="variable">hours</span><span class="operator">;</span>
+  <span class="variable">$dur</span><span class="operator">-&gt;</span><span class="variable">minutes</span><span class="operator">;</span>
+  <span class="variable">$dur</span><span class="operator">-&gt;</span><span class="variable">seconds</span><span class="operator">;</span>
+  <span class="variable">$dur</span><span class="operator">-&gt;</span><span class="variable">nanoseconds</span><span class="operator">;</span>
+</pre>
+<pre>
+  $dur-&gt;is_wrap_mode
+  $dur-&gt;is_limit_mode
+  $dur-&gt;is_preserve_mode</pre>
+<pre>
+  <span class="keyword">print</span> <span class="variable">$dur</span><span class="operator">-&gt;</span><span class="variable">end_of_month_mode</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="comment"># Multiply all values by -1</span>
+  <span class="keyword">my</span> <span class="variable">$opposite</span> <span class="operator">=</span> <span class="variable">$dur</span><span class="operator">-&gt;</span><span class="variable">inverse</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$bigger</span>  <span class="operator">=</span> <span class="variable">$dur1</span> <span class="operator">+</span> <span class="variable">$dur2</span><span class="operator">;</span>
+  <span class="keyword">my</span> <span class="variable">$smaller</span> <span class="operator">=</span> <span class="variable">$dur1</span> <span class="operator">-</span> <span class="variable">$dur2</span><span class="operator">;</span> <span class="comment"># the result could be negative</span>
+  <span class="keyword">my</span> <span class="variable">$bigger</span>  <span class="operator">=</span> <span class="variable">$dur1</span> <span class="operator">*</span> <span class="number">3</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$base_dt</span> <span class="operator">=</span> <span class="variable">DateTime</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span> <span class="string">year</span> <span class="operator">=&gt;</span> <span class="number">2000</span> <span class="operator">);</span>
+  <span class="keyword">my</span> <span class="variable">@sorted</span> <span class="operator">=</span>
+      <span class="keyword">sort</span> <span class="operator">{</span> <span class="variable">DateTime::Duration</span><span class="operator">-&gt;</span><span class="variable">compare</span><span class="operator">(</span> <span class="variable">$a</span><span class="operator">,</span> <span class="variable">$b</span><span class="operator">,</span> <span class="variable">$base_dt</span> <span class="operator">)</span> <span class="operator">}</span> <span class="variable">@durations</span><span class="operator">;</span>
+</pre>
+<pre>
+  <span class="keyword">if</span> <span class="operator">(</span> <span class="variable">$dur</span><span class="operator">-&gt;</span><span class="variable">is_positive</span> <span class="operator">)</span> <span class="operator">{</span> <span class="operator">...</span> <span class="operator">}</span>
+  <span class="keyword">if</span> <span class="operator">(</span> <span class="variable">$dur</span><span class="operator">-&gt;</span><span class="variable">is_zero</span> <span class="operator">)</span>     <span class="operator">{</span> <span class="operator">...</span> <span class="operator">}</span>
+  <span class="keyword">if</span> <span class="operator">(</span> <span class="variable">$dur</span><span class="operator">-&gt;</span><span class="variable">is_negative</span> <span class="operator">)</span> <span class="operator">{</span> <span class="operator">...</span> <span class="operator">}</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This is a simple class for representing duration objects. These
+objects are used whenever you do date math with DateTime.pm.</p>
+<p>See the <a href="../../../site/lib/DateTime/how_date_math_is_done.html">How Date Math is Done</a>
+section of the DateTime.pm documentation for more details. The short
+course:  One cannot in general convert between seconds, minutes, days,
+and months, so this class will never do so. Instead, create the
+duration with the desired units to begin with, for example by calling
+the appropriate subtraction/delta method on a <code>DateTime.pm</code> object.</p>
+<p>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<p>Like <code>DateTime</code> itself, <code>DateTime::Duration</code> returns the object from
+mutator methods in order to make method chaining possible.</p>
+<p><code>DateTime::Duration</code> has the following methods:</p>
+<ul>
+<li><strong><a name="new" class="item">new( ... )</a></strong>
+
+<p>This method takes the parameters &quot;years&quot;, &quot;months&quot;, &quot;weeks&quot;, &quot;days&quot;,
+&quot;hours&quot;, &quot;minutes&quot;, &quot;seconds&quot;, &quot;nanoseconds&quot;, and &quot;end_of_month&quot;. All
+of these except &quot;end_of_month&quot; are numbers. If any of the numbers are
+negative, the entire duration is negative.</p>
+<p>All of the numbers <strong>must be integers</strong>.</p>
+<p>Internally, years as just treated as 12 months. Similarly, weeks are
+treated as 7 days, and hours are converted to minutes. Seconds and
+nanoseconds are both treated separately.</p>
+<p>The &quot;end_of_month&quot; parameter must be either &quot;wrap&quot;, &quot;limit&quot;, or
+&quot;preserve&quot;. This parameter specifies how date math that crosses the
+end of a month is handled.</p>
+<p>In &quot;wrap&quot; mode, adding months or years that result in days beyond the
+end of the new month will roll over into the following month. For
+instance, adding one year to Feb 29 will result in Mar 1.</p>
+<p>If you specify &quot;end_of_month&quot; mode as &quot;limit&quot;, the end of the month is
+never crossed. Thus, adding one year to Feb 29, 2000 will result in
+Feb 28, 2001. If you were to then add three more years this will
+result in Feb 28, 2004.</p>
+<p>If you specify &quot;end_of_month&quot; mode as &quot;preserve&quot;, the same calculation
+is done as for &quot;limit&quot; except that if the original date is at the end
+of the month the new date will also be. For instance, adding one
+month to Feb 29, 2000 will result in Mar 31, 2000.</p>
+<p>For positive durations, the &quot;end_of_month&quot; parameter defaults to wrap.
+For negative durations, the default is &quot;limit&quot;. This should match how
+most people &quot;intuitively&quot; expect datetime math to work.</p>
+</li>
+<li><strong><a name="clone" class="item">clone</a></strong>
+
+<p>Returns a new object with the same properties as the object on which
+this method was called.</p>
+</li>
+<li><strong><a name="in_units" class="item">in_units( ... )</a></strong>
+
+<p>Returns the length of the duration in the units (any of those that can
+be passed to <a href="#new"><code>new</code></a>) given as arguments. All lengths are integral,
+but may be negative. Smaller units are computed from what remains
+after taking away the larger units given, so for example:</p>
+<pre>
+  <span class="keyword">my</span> <span class="variable">$dur</span> <span class="operator">=</span> <span class="variable">DateTime::Duration</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span> <span class="string">years</span> <span class="operator">=&gt;</span> <span class="number">1</span><span class="operator">,</span> <span class="string">months</span> <span class="operator">=&gt;</span> <span class="number">15</span> <span class="operator">);</span>
+</pre>
+<pre>
+  <span class="variable">$dur</span><span class="operator">-&gt;</span><span class="variable">in_units</span><span class="operator">(</span> <span class="string">'years'</span> <span class="operator">);</span>            <span class="comment"># 2</span>
+  <span class="variable">$dur</span><span class="operator">-&gt;</span><span class="variable">in_units</span><span class="operator">(</span> <span class="string">'months'</span> <span class="operator">);</span>           <span class="comment"># 27</span>
+  <span class="variable">$dur</span><span class="operator">-&gt;</span><span class="variable">in_units</span><span class="operator">(</span> <span class="string">'years'</span><span class="operator">,</span> <span class="string">'months'</span> <span class="operator">);</span>  <span class="comment"># (2, 3)</span>
+  <span class="variable">$dur</span><span class="operator">-&gt;</span><span class="variable">in_units</span><span class="operator">(</span> <span class="string">'weeks'</span><span class="operator">,</span> <span class="string">'days'</span> <span class="operator">);</span>    <span class="comment"># (0, 0) !</span>
+</pre>
+<p>The last example demonstrates that there will not be any conversion
+between units which don't have a fixed conversion rate. The only
+conversions possible are:</p>
+<ul>
+<li><strong><a name="years_months" class="item">years &lt;=&gt; months</a></strong>
+
+</li>
+<li><strong><a name="weeks_days" class="item">weeks &lt;=&gt; days</a></strong>
+
+</li>
+<li><strong><a name="hours_minutes" class="item">hours &lt;=&gt; minutes</a></strong>
+
+</li>
+<li><strong><a name="seconds_nanoseconds" class="item">seconds &lt;=&gt; nanoseconds</a></strong>
+
+</li>
+</ul>
+<p>For the explanation of why this is the case, please see the <a href="../../../site/lib/DateTime/how_datetime_math_works.html">How Datetime Math Works</a> section of the DateTime.pm
+documentation</p>
+<p>Note that the numbers returned by this method may not match the values
+given to the constructor.</p>
+<p>In list context, in_units returns the lengths in the order of the units
+given. In scalar context, it returns the length in the first unit (but
+still computes in terms of all given units).</p>
+<p>If you need more flexibility in presenting information about
+durations, please take a look a <code>DateTime::Format::Duration</code>.</p>
+</li>
+<li><strong><a name="is_positive_is_zero_is_negative" class="item">is_positive, is_zero, is_negative</a></strong>
+
+<p>Indicates whether or not the duration is positive, zero, or negative.</p>
+<p>If the duration contains both positive and negative units, then it
+will return false for <strong>all</strong> of these methods.</p>
+</li>
+<li><strong><a name="is_wrap_mode_is_limit_mode_is_preserve_mode" class="item">is_wrap_mode, is_limit_mode, is_preserve_mode</a></strong>
+
+<p>Indicates what mode is used for end of month wrapping.</p>
+</li>
+<li><strong><a name="end_of_month_mode" class="item">end_of_month_mode</a></strong>
+
+<p>Returns one of &quot;wrap&quot;, &quot;limit&quot;, or &quot;preserve&quot;.</p>
+</li>
+<li><strong><a name="calendar_duration" class="item">calendar_duration</a></strong>
+
+<p>Returns a new object with the same <em>calendar</em> delta (months and days
+only) and end of month mode as the current object.</p>
+</li>
+<li><strong><a name="clock_duration" class="item">clock_duration</a></strong>
+
+<p>Returns a new object with the same <em>clock</em> deltas (minutes, seconds,
+and nanoseconds) and end of month mode as the current object.</p>
+</li>
+<li><strong><a name="inverse" class="item">inverse( ... )</a></strong>
+
+<p>Returns a new object with the same deltas as the current object, but
+multiple by -1. The end of month mode for the new object will be the
+default end of month mode, which depends on whether the new duration
+is positive or negative.</p>
+<p>You can set the end of month mode in the inverted duration explicitly by
+passing &quot;end_of_month =&gt; ...&quot; to the <a href="#inverse"><code>inverse()</code></a> method.</p>
+</li>
+<li><strong><a name="add_duration" class="item">add_duration( $duration_object ), subtract_duration( $duration_object )</a></strong>
+
+<p>Adds or subtracts one duration from another.</p>
+</li>
+<li><strong><a name="add" class="item">add( ... ), subtract( ... )</a></strong>
+
+<p>Syntactic sugar for addition and subtraction. The parameters given to
+these methods are used to create a new object, which is then passed to
+<a href="#add_duration"><code>add_duration()</code></a> or <code>subtract_duration()</code>, as appropriate.</p>
+</li>
+<li><strong><a name="multiply" class="item">multiply( $number )</a></strong>
+
+<p>Multiplies each unit in the by the specified number.</p>
+</li>
+<li><strong><a name="compare" class="item">DateTime::Duration-&gt;compare( $duration1, $duration2, $base_datetime )</a></strong>
+
+<p>This is a class method that can be used to compare or sort durations.
+Comparison is done by adding each duration to the specified
+<code>DateTime.pm</code> object and comparing the resulting datetimes. This is
+necessary because without a base, many durations are not comparable.
+For example, 1 month may or may not be longer than 29 days, depending
+on what datetime it is added to.</p>
+<p>If no base datetime is given, then the result of <code>DateTime-&gt;now</code>
+is used instead. Using this default will give non-repeatable results
+if used to compare two duration objects containing different units.
+It will also give non-repeatable results if the durations contain
+multiple types of units, such as months and days.</p>
+<p>However, if you know that both objects only consist of one type of
+unit (months <em>or</em> days <em>or</em> hours, etc.), and each duration contains
+the same type of unit, then the results of the comparison will be
+repeatable.</p>
+</li>
+<li><strong><a name="delta_months_delta_days_delta_minutes_delta_seconds_delta_nanoseconds" class="item">delta_months, delta_days, delta_minutes, delta_seconds, delta_nanoseconds</a></strong>
+
+<p>These methods provide the information <code>DateTime.pm</code> needs for doing date
+math. The numbers returned may be positive or negative. This is mostly useful
+for doing date math in <a href="../../../lib/ActiveState/DateTime.html">the DateTime manpage</a>.</p>
+</li>
+<li><strong><a name="deltas" class="item">deltas</a></strong>
+
+<p>Returns a hash with the keys &quot;months&quot;, &quot;days&quot;, &quot;minutes&quot;, &quot;seconds&quot;, and
+&quot;nanoseconds&quot;, containing all the delta information for the object. This is
+mostly useful for doing date math in <a href="../../../lib/ActiveState/DateTime.html">the DateTime manpage</a>.</p>
+</li>
+<li><strong><a name="years_months_weeks_days_hours_minutes_seconds_nanoseconds" class="item">years, months, weeks, days, hours, minutes, seconds, nanoseconds</a></strong>
+
+<p>These methods return numbers indicating how many of the given unit the
+object represents, after having done a conversion to any larger units.
+For example, days are first converted to weeks, and then the remainder
+is returned. These numbers are always positive.</p>
+<p>Here's what each method returns:</p>
+<pre>
+ $dur-&gt;years()       == abs( $dur-&gt;in_units('years') )
+ $dur-&gt;months()      == abs( ( $dur-&gt;in_units( 'months', 'years' ) )[0] )
+ $dur-&gt;weeks()       == abs( $dur-&gt;in_units( 'weeks' ) )
+ $dur-&gt;days()        == abs( ( $dur-&gt;in_units( 'days', 'weeks' ) )[0] )
+ $dur-&gt;hours()       == abs( $dur-&gt;in_units( 'hours' ) )
+ $dur-&gt;minutes       == abs( ( $dur-&gt;in_units( 'minutes', 'hours' ) )[0] )
+ $dur-&gt;seconds       == abs( $dur-&gt;in_units( 'seconds' ) )
+ $dur-&gt;nanoseconds() == abs( ( $dur-&gt;in_units( 'nanoseconds', 'seconds' ) )[0] )</pre>
+<p>If this seems confusing, remember that you can always use the
+<a href="#in_units"><code>in_units()</code></a> method to specify exactly what you want.</p>
+<p>Better yet, if you are trying to generate output suitable for humans,
+use the <code>DateTime::Format::Duration</code> module.</p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="overloading">Overloading</a></h2>
+<p>This class overloads addition, subtraction, and mutiplication.</p>
+<p>Comparison is <strong>not</strong> overloaded. If you attempt to compare durations
+using <code>&lt;=&gt;</code> or <code>cmp</code>, then an exception will be thrown!  Use the
+<a href="#compare"><code>compare()</code></a> class method instead.</p>
+<p>
+</p>
+<hr />
+<h1><a name="support">SUPPORT</a></h1>
+<p>Support for this module is provided via the <a href="mailto:datetime@perl.org">datetime@perl.org</a> email
+list. See <a href="http://lists.perl.org/">http://lists.perl.org/</a> for more details.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="mailto:datetime@perl.org">datetime@perl.org</a> mailing list</p>
+<p><a href="http://datetime.perl.org/">http://datetime.perl.org/</a></p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Dave Rolsky &lt;<a href="mailto:autarch@urth.org">autarch@urth.org</a>&gt;</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright_and_license">COPYRIGHT AND LICENSE</a></h1>
+<p>This software is Copyright (c) 2012 by Dave Rolsky.</p>
+<p>This is free software, licensed under:</p>
+<pre>
+  The Artistic License 2.0 (GPL Compatible)</pre>
+
+</body>
+
+</html>

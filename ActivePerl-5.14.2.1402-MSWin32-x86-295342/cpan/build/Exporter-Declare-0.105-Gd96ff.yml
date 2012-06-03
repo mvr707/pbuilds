@@ -1,0 +1,62 @@
+---
+distribution: !!perl/hash:CPAN::Distribution
+  CALLED_FOR: E/EX/EXODIST/Exporter-Declare-0.105.tar.gz
+  CHECKSUM_STATUS: OK
+  ID: E/EX/EXODIST/Exporter-Declare-0.105.tar.gz
+  RO:
+    CPAN_COMMENT: ~
+    CPAN_USERID: EXODIST
+  archived: tar
+  build_dir: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\build\Exporter-Declare-0.105-Gd96ff
+  incommandcolor: 2
+  install: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691878
+  localfile: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\cpan\sources\authors\id\E\EX\EXODIST\Exporter-Declare-0.105.tar.gz
+  make: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691872
+  make_test: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691875
+  modulebuild: 1
+  negative_prefs_cache: 4
+  prefs:
+    install: {}
+  prereq_pm:
+    build_requires:
+      Fennec::Lite: '0.004'
+      Test::Exception: '0.29'
+      Test::Simple: '0.88'
+    requires:
+      Carp: '0'
+      Meta::Builder: '0.003'
+      Scalar::Util: '0'
+      aliased: '0'
+      perl: v5.8.0
+  reqtype: r
+  sponsored_mods:
+    Fennec::Lite: 1
+    Meta::Builder: 1
+  unwrapped: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691848
+  writemakefile: !!perl/hash:CPAN::Distrostatus
+    COMMANDID: 4
+    FAILED: ''
+    TEXT: YES
+    TIME: 1338691849
+perl:
+  $^X: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\bin\perl.exe
+  mtime_$^X: 1318029070
+  mtime_dll: 0
+  sitearchexp: C:\pbuilds\ActivePerl-5.14.2.1402-MSWin32-x86-295342\site\lib
+time: 1338691878

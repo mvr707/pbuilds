@@ -1,0 +1,126 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../scineplex.css">
+<title>MooseX::Types::TypeDecorator - Wraps Moose::Meta::TypeConstraint objects with added features</title>
+<link rel="stylesheet" href="../../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',4);</script>
+<h1><a>MooseX::Types::TypeDecorator - Wraps Moose::Meta::TypeConstraint objects with added features</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#version">VERSION</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<ul>
+
+		<li><a href="#new">new</a></li>
+		<li><a href="#__type_constraint___type_constraint_">__type_constraint ($type_constraint)</a></li>
+		<li><a href="#isa">isa</a></li>
+		<li><a href="#can">can</a></li>
+		<li><a href="#_throw_error">_throw_error</a></li>
+		<li><a href="#destroy">DESTROY</a></li>
+		<li><a href="#autoload">AUTOLOAD</a></li>
+	</ul>
+
+	<li><a href="#license">LICENSE</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright_and_license">COPYRIGHT AND LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>MooseX::Types::TypeDecorator - Wraps Moose::Meta::TypeConstraint objects with added features</p>
+<p>
+</p>
+<hr />
+<h1><a name="version">VERSION</a></h1>
+<p>version 0.35</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This is a decorator object that contains an underlying type constraint.  We use
+this to control access to the type constraint and to add some features.</p>
+<p>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<p>This class defines the following methods.</p>
+<p>
+</p>
+<h2><a name="new">new</a></h2>
+<p>Old school instantiation</p>
+<p>
+</p>
+<h2><a name="__type_constraint___type_constraint_">__type_constraint ($type_constraint)</a></h2>
+<p>Set/Get the type_constraint.</p>
+<p>
+</p>
+<h2><a name="isa">isa</a></h2>
+<p>handle $self-&gt;isa since AUTOLOAD can't - this tries both the type constraint,
+and for a class type, the class.</p>
+<p>
+</p>
+<h2><a name="can">can</a></h2>
+<p>handle $self-&gt;can since AUTOLOAD can't.</p>
+<p>
+</p>
+<h2><a name="_throw_error">_throw_error</a></h2>
+<p>properly delegate error messages</p>
+<p>
+</p>
+<h2><a name="destroy">DESTROY</a></h2>
+<p>We might need it later</p>
+<p>
+</p>
+<h2><a name="autoload">AUTOLOAD</a></h2>
+<p>Delegate to the decorator target, unless this is a class type, in which
+case it will try to delegate to the type object, then if that fails try
+the class. The method 'new' is special cased to only be permitted on
+the class; if there is no class, or it does not provide a new method,
+an exception will be thrown.</p>
+<p>
+</p>
+<hr />
+<h1><a name="license">LICENSE</a></h1>
+<p>This program is free software; you can redistribute it and/or modify
+it under the same terms as perl itself.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Robert &quot;phaylon&quot; Sedlacek &lt;<a href="mailto:rs@474.at">rs@474.at</a>&gt;</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright_and_license">COPYRIGHT AND LICENSE</a></h1>
+<p>This software is copyright (c) 2012 by Robert &quot;phaylon&quot; Sedlacek.</p>
+<p>This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.</p>
+
+</body>
+
+</html>

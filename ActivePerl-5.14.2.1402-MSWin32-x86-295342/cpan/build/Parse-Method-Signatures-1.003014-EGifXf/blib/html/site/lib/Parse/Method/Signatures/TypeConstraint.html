@@ -1,0 +1,123 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../../scineplex.css">
+<title>Parse::Method::Signatures::TypeConstraint - turn parsed TC data into Moose TC object</title>
+<link rel="stylesheet" href="../../../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',5);</script>
+<h1><a>Parse::Method::Signatures::TypeConstraint - turn parsed TC data into Moose TC object</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#attributes">ATTRIBUTES</a></li>
+	<ul>
+
+		<li><a href="#tc">tc</a></li>
+		<li><a href="#tc_callback">tc_callback</a></li>
+		<li><a href="#from_namespace">from_namespace</a></li>
+	</ul>
+
+	<li><a href="#methods">METHODS</a></li>
+	<ul>
+
+		<li><a href="#find_registered_constraint">find_registered_constraint</a></li>
+		<li><a href="#to_string">to_string</a></li>
+	</ul>
+
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#authors">AUTHORS</a></li>
+	<li><a href="#license">LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Parse::Method::Signatures::TypeConstraint - turn parsed TC data into Moose TC object</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>Class used to turn PPI elements into <a href="../../../../../lib/Moose/Meta/TypeConstraint.html">the Moose::Meta::TypeConstraint manpage</a> objects.</p>
+<p>
+</p>
+<hr />
+<h1><a name="attributes">ATTRIBUTES</a></h1>
+<p>
+</p>
+<h2><a name="tc">tc</a></h2>
+<p><strong>Lazy Build.</strong></p>
+<p>The <a href="../../../../../lib/Moose/Meta/TypeConstraint.html">the Moose::Meta::TypeConstraint manpage</a> object for this type constraint, built when
+requested. <a href="#tc_callback">tc_callback</a> will be called for each individual component type in
+turn.</p>
+<p>
+</p>
+<h2><a name="tc_callback">tc_callback</a></h2>
+<p><strong>Type:</strong> CodeRef</p>
+<p><strong>Default:</strong> <a href="#find_registered_constraint">find_registered_constraint</a></p>
+<p>Callback used to turn type names into type objects. See
+<a href="../../../../../cpan/build/Parse-Method-Signatures-1.003014-EGifXf/blib/html/site/lib/Parse/Method/Signatures.html#type_constraint_callback">type_constraint_callback in the Parse::Method::Signatures manpage</a> for more details and an
+example.</p>
+<p>
+</p>
+<h2><a name="from_namespace">from_namespace</a></h2>
+<p><strong>Type:</strong> ClassName</p>
+<p>If provided, then the default <code>tc_callback</code> will search for <a href="../../../../../site/lib/MooseX/Types.html">the MooseX::Types manpage</a>
+in this package.</p>
+<p>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<p>
+</p>
+<h2><a name="find_registered_constraint">find_registered_constraint</a></h2>
+<p>Will search for an imported <a href="../../../../../site/lib/MooseX/Types.html">the MooseX::Types manpage</a> in <a href="#from_namespace">from_namespace</a> (if
+provided). Failing that it will ask the <a href="../../../../../lib/Moose/Meta/TypeConstraint/Registry.html">the Moose::Meta::TypeConstraint::Registry manpage</a>
+for a type with the given name.</p>
+<p>If all else fails, it will simple return the type as a string, so that Moose's
+auto-vivification of classnames to type will work.</p>
+<p>
+</p>
+<h2><a name="to_string">to_string</a></h2>
+<p>String representation of the type constraint, approximately as parsed.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../../../../cpan/build/Parse-Method-Signatures-1.003014-EGifXf/blib/html/site/lib/Parse/Method/Signatures.html">the Parse::Method::Signatures manpage</a>, <a href="../../../../../site/lib/MooseX/Types.html">the MooseX::Types manpage</a>, <a href="../../../../../site/lib/MooseX/Types/Util.html">the MooseX::Types::Util manpage</a>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="authors">AUTHORS</a></h1>
+<p>Florian Ragwitz &lt;<a href="mailto:rafl@debian.org">rafl@debian.org</a>&gt;.</p>
+<p>Ash Berlin &lt;<a href="mailto:ash@cpan.org">ash@cpan.org</a>&gt;.</p>
+<p>
+</p>
+<hr />
+<h1><a name="license">LICENSE</a></h1>
+<p>Licensed under the same terms as Perl itself.</p>
+
+</body>
+
+</html>

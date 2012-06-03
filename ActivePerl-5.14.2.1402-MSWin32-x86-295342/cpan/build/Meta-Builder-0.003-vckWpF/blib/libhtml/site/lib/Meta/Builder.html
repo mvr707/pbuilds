@@ -1,0 +1,207 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../scineplex.css">
+<title>Meta::Builder - Tools for creating Meta objects to track custom metrics.</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',3);</script>
+<h1><a>Meta::Builder - Tools for creating Meta objects to track custom metrics.</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#using">USING</a></li>
+	<li><a href="#exports">EXPORTS</a></li>
+	<li><a href="#authors">AUTHORS</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Meta::Builder - Tools for creating Meta objects to track custom metrics.</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>Meta programming is becomming more and more popular. The popularity of Meta
+programming comes from the fact that many problems are made significantly
+easier. There are a few specialized Meta tools out there, for instance
+<em>Class:MOP</em> which is used by <a href="../../../lib/Moose.html">the Moose manpage</a> to track class metadata.</p>
+<p>Meta::Builder is designed to be a generic tool for writing Meta objects. Unlike
+specialized tools, Meta::Builder makes no assumptions about what metrics you
+will care about. Meta::Builder also mkaes it simple for others to extend your
+meta-object based tools by providing hooks for other packages to add metrics to
+your meta object.</p>
+<p>If a specialized Meta object tool is available ot meet your needs please use
+it. However if you need a simple Meta object to track a couple metrics, use
+Meta::Builder.</p>
+<p>Meta::Builder is also low-sugar and low-dep. In most cases you will not want a
+class that needs a meta object to use your meta-object class directly. Rather
+you will usually want to create a sugar class that exports enhanced API
+functions that manipulate the meta object.</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>My/Meta.pm:</p>
+<pre>
+    <span class="keyword">package</span> <span class="variable">My::Meta</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">strict</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">warnings</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Meta::Builder</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="comment"># Name the accessor that will be defined in the class that uses the meta object</span>
+    <span class="comment"># It is used to retrieve the classes meta object.</span>
+    <span class="variable">accessor</span> <span class="string">"mymeta"</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="comment"># Add a metric with two actions</span>
+    <span class="variable">metric</span> <span class="string">mymetric</span> <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="operator">[]</span> <span class="operator">},</span>
+           <span class="string">pop</span> <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+               <span class="keyword">my</span> <span class="variable">$self</span> <span class="operator">=</span> <span class="keyword">shift</span><span class="operator">;</span>
+               <span class="keyword">my</span> <span class="operator">(</span> <span class="variable">$data</span> <span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span>
+               <span class="keyword">pop</span> <span class="variable">@$data</span><span class="operator">;</span>
+           <span class="operator">},</span>
+           <span class="string">push</span> <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+               <span class="keyword">my</span> <span class="variable">$self</span> <span class="operator">=</span> <span class="keyword">shift</span><span class="operator">;</span>
+               <span class="keyword">my</span> <span class="operator">(</span> <span class="variable">$data</span><span class="operator">,</span> <span class="variable">$metric</span><span class="operator">,</span> <span class="variable">$action</span><span class="operator">,</span> <span class="variable">@args</span> <span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span>
+               <span class="keyword">push</span> <span class="variable">@$data</span> <span class="operator">=&gt;</span> <span class="variable">@args</span><span class="operator">;</span>
+           <span class="operator">};</span>
+</pre>
+<pre>
+    <span class="comment"># Add an additional action to the metric</span>
+    <span class="variable">action</span> <span class="string">mymetric</span> <span class="operator">=&gt;</span> <span class="operator">(</span> <span class="string">get_ref</span> <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="keyword">shift</span> <span class="operator">});</span>
+</pre>
+<pre>
+    <span class="comment"># Add some predefined metric types + actions</span>
+    <span class="variable">hash_metric</span> <span class="string">'my_hashmetric'</span><span class="operator">;</span>
+    <span class="variable">lists_metric</span> <span class="string">'my_listsmetric'</span><span class="operator">;</span>
+</pre>
+<p>My.pm:</p>
+<pre>
+    <span class="keyword">package</span> <span class="variable">My</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">strict</span><span class="operator">;</span>
+    <span class="keyword">use</span> <span class="variable">warnings</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="keyword">use</span> <span class="variable">My::Meta</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="variable">My::Meta</span><span class="operator">-&gt;</span><span class="variable">new</span><span class="operator">(</span> <span class="keyword">__PACKAGE__</span> <span class="operator">);</span>
+</pre>
+<pre>
+    <span class="comment"># My::Meta defines mymeta() as the accessor we use to get our meta object.</span>
+    <span class="comment"># this is the ONLY way to get the meta object for this class.</span>
+</pre>
+<pre>
+    <span class="variable">mymeta</span><span class="operator">()-&gt;</span><span class="variable">mymetric_push</span><span class="operator">(</span> <span class="string">"some data"</span> <span class="operator">);</span>
+    <span class="variable">mymeta</span><span class="operator">()-&gt;</span><span class="variable">my_hashmetric_add</span><span class="operator">(</span> <span class="string">key</span> <span class="operator">=&gt;</span> <span class="string">'value'</span> <span class="operator">);</span>
+    <span class="variable">mymeta</span><span class="operator">()-&gt;</span><span class="variable">my_listsmetric_push</span><span class="operator">(</span> <span class="string">list</span> <span class="operator">=&gt;</span> <span class="string">qw/valueA valueB/</span> <span class="operator">);</span>
+</pre>
+<pre>
+    <span class="comment"># It works fine as an object/class method as well.</span>
+    <span class="keyword">__PACKAGE__</span><span class="operator">-&gt;</span><span class="variable">mymeta</span><span class="operator">-&gt;</span><span class="variable">do_thing</span><span class="operator">(...);</span>
+</pre>
+<pre>
+    <span class="operator">...;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="using">USING</a></h1>
+<p>When you use Meta::Builder your class is automatically turned into a subclass
+of <a href="../../../Meta/Builder/Base.html">the Meta::Builder::Base manpage</a>. In addition several &quot;sugar&quot; functions are exported
+into your namespace. To avoid the &quot;sugar&quot; functions you can simply sublass
+<a href="../../../Meta/Builder/Base.html">the Meta::Builder::Base manpage</a> directly.</p>
+<p>
+</p>
+<hr />
+<h1><a name="exports">EXPORTS</a></h1>
+<dl>
+<dt><strong><a name="metric" class="item">metric( $name, \&amp;generator, %actions )</a></strong></dt>
+
+<dd>
+<p>Wraper around <a href="../../../lib/pods/perlfunc.html#caller"><code>caller-</code></a>add_metric()&gt;. See <a href="../../../Meta/Builder/Base.html">the Meta::Builder::Base manpage</a>.</p>
+</dd>
+<dt><strong><a name="action" class="item">action( $metric, $name, $code )</a></strong></dt>
+
+<dd>
+<p>Wraper around <a href="../../../lib/pods/perlfunc.html#caller"><code>caller-</code></a>add_action()&gt;. See <a href="../../../Meta/Builder/Base.html">the Meta::Builder::Base manpage</a>.</p>
+</dd>
+<dt><strong><a name="hash_metric" class="item">hash_metric( $name, %additional_actions )</a></strong></dt>
+
+<dd>
+<p>Wraper around <a href="../../../lib/pods/perlfunc.html#caller"><code>caller-</code></a>add_hash_metric()&gt;. See <a href="../../../Meta/Builder/Base.html">the Meta::Builder::Base manpage</a>.</p>
+</dd>
+<dt><strong><a name="lists_metric" class="item">lists_metric( $name, %additional_actions )</a></strong></dt>
+
+<dd>
+<p>Wraper around <a href="../../../lib/pods/perlfunc.html#caller"><code>caller-</code></a>add_lists_metric()&gt;. See <a href="../../../Meta/Builder/Base.html">the Meta::Builder::Base manpage</a>.</p>
+</dd>
+<dt><strong><a name="before" class="item">before( $metric, $action, $code )</a></strong></dt>
+
+<dd>
+<p>Wraper around <a href="../../../lib/pods/perlfunc.html#caller"><code>caller-</code></a>hook_before()&gt;. See <a href="../../../Meta/Builder/Base.html">the Meta::Builder::Base manpage</a>.</p>
+</dd>
+<dt><strong><a name="after" class="item">after( $metric, $action, $code )</a></strong></dt>
+
+<dd>
+<p>Wraper around <a href="../../../lib/pods/perlfunc.html#caller"><code>caller-</code></a>hook_after()&gt;. See <a href="../../../Meta/Builder/Base.html">the Meta::Builder::Base manpage</a>.</p>
+</dd>
+<dt><strong><a name="accessor" class="item">accessor( $name )</a></strong></dt>
+
+<dd>
+<p>Wraper around <a href="../../../lib/pods/perlfunc.html#caller"><code>caller-</code></a>set_accessor()&gt;. See <a href="../../../Meta/Builder/Base.html">the Meta::Builder::Base manpage</a>.</p>
+</dd>
+<dt><strong><a name="make_immutable" class="item"><code>make_immutable()</code></a></strong></dt>
+
+<dd>
+<p>Overrides all functions/methods that alter the meta objects meta-data. This in
+effect prevents anything from adding new metrics, actions, or hooks without
+directly editing the metadata.</p>
+</dd>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="authors">AUTHORS</a></h1>
+<p>Chad Granum <em><a href="mailto:exodist7@gmail.com">exodist7@gmail.com</a></em></p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (C) 2010 Chad Granum</p>
+<p>Meta-Builder is free software; Standard perl licence.</p>
+<p>Meta-Builder is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the license for more details.</p>
+
+</body>
+
+</html>

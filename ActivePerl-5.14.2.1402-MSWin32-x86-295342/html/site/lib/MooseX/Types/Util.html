@@ -1,0 +1,134 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../../scineplex.css">
+<title>MooseX::Types::Util - Common utility functions for the distribution</title>
+<link rel="stylesheet" href="../../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',4);</script>
+<h1><a>MooseX::Types::Util - Common utility functions for the distribution</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#version">VERSION</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#functions">FUNCTIONS</a></li>
+	<ul>
+
+		<li><a href="#filter_tags">filter_tags</a></li>
+		<li><a href="#has_available_type_export">has_available_type_export</a></li>
+	</ul>
+
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#license">LICENSE</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright_and_license">COPYRIGHT AND LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>MooseX::Types::Util - Common utility functions for the distribution</p>
+<p>
+</p>
+<hr />
+<h1><a name="version">VERSION</a></h1>
+<p>version 0.35</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This package the exportable functions that many parts in 
+<a href="../../../../cpan/build/MooseX-Types-0.35-0YdK7U/blib/html/site/lib/MooseX/Types.html">the MooseX::Types manpage</a> might need.</p>
+<p>
+</p>
+<hr />
+<h1><a name="functions">FUNCTIONS</a></h1>
+<p>
+</p>
+<h2><a name="filter_tags">filter_tags</a></h2>
+<p>Takes a list and returns two references. The first is a hash reference
+containing the tags as keys and the number of their appearance as values.
+The second is an array reference containing all other elements.</p>
+<p>
+</p>
+<h2><a name="has_available_type_export">has_available_type_export</a></h2>
+<pre>
+  <span class="variable">TypeConstraint</span> <span class="operator">|</span> <span class="variable">Undef</span> <span class="operator">=</span> <span class="variable">has_available_type_export</span><span class="operator">(</span><span class="variable">$package</span><span class="operator">,</span> <span class="variable">$name</span><span class="operator">);</span>
+</pre>
+<p>This function allows you to introspect if a given type export is available 
+<em>at this point in time</em>. This means that the <a href="#_package"><code>$package</code></a> must have imported
+a typeconstraint with the name <a href="#_name"><code>$name</code></a>, and it must be still in its symbol
+table.</p>
+<p>Two arguments are expected:</p>
+<dl>
+<dt><strong><a name="_package" class="item">$package</a></strong></dt>
+
+<dd>
+<p>The name of the package to introspect.</p>
+</dd>
+<dt><strong><a name="_name" class="item">$name</a></strong></dt>
+
+<dd>
+<p>The name of the type export to introspect.</p>
+</dd>
+</dl>
+<p><strong>Note</strong> that the <a href="#_name"><code>$name</code></a> is the <em>exported</em> name of the type, not the declared
+one. This means that if you use <a href="../../../../lib/Sub/Exporter.html">the Sub::Exporter manpage</a>s functionality to rename an import
+like this:</p>
+<pre>
+  <span class="keyword">use</span> <span class="variable">MyTypes</span> <span class="string">Str</span> <span class="operator">=&gt;</span> <span class="operator">{</span> <span class="string">-as</span> <span class="operator">=&gt;</span> <span class="string">'MyStr'</span> <span class="operator">}</span><span class="operator">;</span>
+</pre>
+<p>you would have to introspect this type like this:</p>
+<pre>
+  <span class="variable">has_available_type_export</span> <span class="variable">$package</span><span class="operator">,</span> <span class="string">'MyStr'</span><span class="operator">;</span>
+</pre>
+<p>The return value will be either the type constraint that belongs to the export
+or an undefined value.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../../../cpan/build/MooseX-Types-0.35-0YdK7U/blib/html/site/lib/MooseX/Types/Moose.html">the MooseX::Types::Moose manpage</a>, <a href="../../../../lib/Exporter.html">the Exporter manpage</a></p>
+<p>
+</p>
+<hr />
+<h1><a name="license">LICENSE</a></h1>
+<p>This program is free software; you can redistribute it and/or modify
+it under the same terms as perl itself.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Robert &quot;phaylon&quot; Sedlacek &lt;<a href="mailto:rs@474.at">rs@474.at</a>&gt;</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright_and_license">COPYRIGHT AND LICENSE</a></h1>
+<p>This software is copyright (c) 2012 by Robert &quot;phaylon&quot; Sedlacek.</p>
+<p>This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.</p>
+
+</body>
+
+</html>

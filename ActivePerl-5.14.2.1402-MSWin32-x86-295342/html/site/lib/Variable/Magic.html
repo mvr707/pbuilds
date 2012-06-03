@@ -1,0 +1,629 @@
+<?xml version="1.0" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../scineplex.css">
+<title>Variable::Magic - Associate user-defined magic to variables from Perl.</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<script>writelinks('__top__',3);</script>
+<h1><a>Variable::Magic - Associate user-defined magic to variables from Perl.</a></h1>
+<p><a name="__index__"></a></p>
+
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#version">VERSION</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#functions">FUNCTIONS</a></li>
+	<ul>
+
+		<li><a href="#wizard"><code>wizard</code></a></li>
+		<li><a href="#cast"><code>cast</code></a></li>
+		<li><a href="#getdata"><code>getdata</code></a></li>
+		<li><a href="#dispell"><code>dispell</code></a></li>
+	</ul>
+
+	<li><a href="#constants">CONSTANTS</a></li>
+	<ul>
+
+		<li><a href="#mgf_copy"><code>MGf_COPY</code></a></li>
+		<li><a href="#mgf_dup"><code>MGf_DUP</code></a></li>
+		<li><a href="#mgf_local"><code>MGf_LOCAL</code></a></li>
+		<li><a href="#vmg_uvar"><code>VMG_UVAR</code></a></li>
+		<li><a href="#vmg_compat_scalar_length_nolen"><code>VMG_COMPAT_SCALAR_LENGTH_NOLEN</code></a></li>
+		<li><a href="#vmg_compat_array_push_nolen"><code>VMG_COMPAT_ARRAY_PUSH_NOLEN</code></a></li>
+		<li><a href="#vmg_compat_array_push_nolen_void"><code>VMG_COMPAT_ARRAY_PUSH_NOLEN_VOID</code></a></li>
+		<li><a href="#vmg_compat_array_unshift_nolen_void"><code>VMG_COMPAT_ARRAY_UNSHIFT_NOLEN_VOID</code></a></li>
+		<li><a href="#vmg_compat_array_undef_clear"><code>VMG_COMPAT_ARRAY_UNDEF_CLEAR</code></a></li>
+		<li><a href="#vmg_compat_hash_delete_nouvar_void"><code>VMG_COMPAT_HASH_DELETE_NOUVAR_VOID</code></a></li>
+		<li><a href="#vmg_compat_glob_get"><code>VMG_COMPAT_GLOB_GET</code></a></li>
+		<li><a href="#vmg_perl_patchlevel"><code>VMG_PERL_PATCHLEVEL</code></a></li>
+		<li><a href="#vmg_threadsafe"><code>VMG_THREADSAFE</code></a></li>
+		<li><a href="#vmg_forksafe"><code>VMG_FORKSAFE</code></a></li>
+		<li><a href="#vmg_op_info_name"><code>VMG_OP_INFO_NAME</code></a></li>
+		<li><a href="#vmg_op_info_object"><code>VMG_OP_INFO_OBJECT</code></a></li>
+	</ul>
+
+	<li><a href="#cookbook">COOKBOOK</a></li>
+	<ul>
+
+		<li><a href="#associate_an_object_to_any_perl_variable">Associate an object to any perl variable</a></li>
+		<li><a href="#recursively_cast_magic_on_datastructures">Recursively cast magic on datastructures</a></li>
+	</ul>
+
+	<li><a href="#perl_magic_history">PERL MAGIC HISTORY</a></li>
+	<li><a href="#export">EXPORT</a></li>
+	<li><a href="#caveats">CAVEATS</a></li>
+	<li><a href="#dependencies">DEPENDENCIES</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+	<li><a href="#support">SUPPORT</a></li>
+	<li><a href="#copyright___license">COPYRIGHT &amp; LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Variable::Magic - Associate user-defined magic to variables from Perl.</p>
+<p>
+</p>
+<hr />
+<h1><a name="version">VERSION</a></h1>
+<p>Version 0.48</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+    <span class="keyword">use</span> <span class="variable">Variable::Magic</span> <span class="string">qw&lt;wizard cast VMG_OP_INFO_NAME&gt;</span><span class="operator">;</span>
+</pre>
+<pre>
+    <span class="operator">{</span> <span class="comment"># A variable tracer</span>
+     <span class="keyword">my</span> <span class="variable">$wiz</span> <span class="operator">=</span> <span class="variable">wizard</span><span class="operator">(</span>
+      <span class="string">set</span>  <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="keyword">print</span> <span class="string">"now set to ${</span><span class="variable">$_</span><span class="string">[0]}!\n"</span> <span class="operator">},</span>
+      <span class="string">free</span> <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="keyword">print</span> <span class="string">"destroyed!\n"</span> <span class="operator">},</span>
+     <span class="operator">);</span>
+</pre>
+<pre>
+     <span class="keyword">my</span> <span class="variable">$a</span> <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+     <span class="variable">cast</span> <span class="variable">$a</span><span class="operator">,</span> <span class="variable">$wiz</span><span class="operator">;</span>
+     <span class="variable">$a</span> <span class="operator">=</span> <span class="number">2</span><span class="operator">;</span>        <span class="comment"># "now set to 2!"</span>
+         <span class="operator">}</span>               <span class="comment"># "destroyed!"</span>
+</pre>
+<pre>
+    <span class="operator">{</span> <span class="comment"># A hash with a default value</span>
+     <span class="keyword">my</span> <span class="variable">$wiz</span> <span class="operator">=</span> <span class="variable">wizard</span><span class="operator">(</span>
+      <span class="string">data</span>     <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="variable">$_</span><span class="operator">[</span><span class="number">1</span><span class="operator">]</span> <span class="operator">},</span>
+      <span class="string">fetch</span>    <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="variable">$_</span><span class="operator">[</span><span class="number">2</span><span class="operator">]</span> <span class="operator">=</span> <span class="variable">$_</span><span class="operator">[</span><span class="number">1</span><span class="operator">]</span> <span class="keyword">unless</span> <span class="keyword">exists</span> <span class="variable">$_</span><span class="operator">[</span><span class="number">0</span><span class="operator">]</span><span class="operator">-&gt;</span><span class="operator">{</span><span class="variable">$_</span><span class="operator">[</span><span class="number">2</span><span class="operator">]}</span><span class="operator">;</span> <span class="operator">()</span> <span class="operator">},</span>
+      <span class="string">store</span>    <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="keyword">print</span> <span class="string">"key </span><span class="variable">$_</span><span class="string">[2] stored in </span><span class="variable">$_</span><span class="string">[-1]\n"</span> <span class="operator">},</span>
+      <span class="string">copy_key</span> <span class="operator">=&gt;</span> <span class="number">1</span><span class="operator">,</span>
+      <span class="string">op_info</span>  <span class="operator">=&gt;</span> <span class="variable">VMG_OP_INFO_NAME</span><span class="operator">,</span>
+     <span class="operator">);</span>
+</pre>
+<pre>
+     <span class="keyword">my</span> <span class="variable">%h</span> <span class="operator">=</span> <span class="operator">(</span><span class="string">_default</span> <span class="operator">=&gt;</span> <span class="number">0</span><span class="operator">,</span> <span class="string">apple</span> <span class="operator">=&gt;</span> <span class="number">2</span><span class="operator">);</span>
+     <span class="variable">cast</span> <span class="variable">%h</span><span class="operator">,</span> <span class="variable">$wiz</span><span class="operator">,</span> <span class="string">'_default'</span><span class="operator">;</span>
+     <span class="keyword">print</span> <span class="variable">$h</span><span class="operator">{</span><span class="string">banana</span><span class="operator">}</span><span class="operator">,</span> <span class="string">"\n"</span><span class="operator">;</span> <span class="comment"># "0" (there is no 'banana' key in %h)</span>
+     <span class="variable">$h</span><span class="operator">{</span><span class="string">pear</span><span class="operator">}</span> <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>           <span class="comment"># "key pear stored in helem"</span>
+         <span class="operator">}</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>Magic is Perl's way of enhancing variables.
+This mechanism lets the user add extra data to any variable and hook syntactical operations (such as access, assignment or destruction) that can be applied to it.
+With this module, you can add your own magic to any variable without having to write a single line of XS.</p>
+<p>You'll realize that these magic variables look a lot like tied variables.
+It's not surprising, as tied variables are implemented as a special kind of magic, just like any 'irregular' Perl variable : scalars like <a href="../../../lib/pods/perlvar.html#__"><code>$!</code></a>, <a href="../../../lib/pods/perlvar.html#__"><code>$(</code></a> or <a href="../../../lib/pods/perlvar.html#__w"><code>$^W</code></a>, the <a href="../../../lib/pods/perlvar.html#_env"><code>%ENV</code></a> and <a href="../../../lib/pods/perlvar.html#_sig"><code>%SIG</code></a> hashes, the <code>@ISA</code> array,  <a href="../../../lib/pods/perlfunc.html#vec"><code>vec()</code></a> and <a href="../../../lib/pods/perlvar.html#substr"><code>substr()</code></a> lvalues, <a href="../../../lib/threads/shared.html">the threads::shared manpage</a> variables...
+They all share the same underlying C API, and this module gives you direct access to it.</p>
+<p>Still, the magic made available by this module differs from tieing and overloading in several ways :</p>
+<ul>
+<li>
+<p>It isn't copied on assignment.</p>
+<p>You attach it to variables, not values (as for blessed references).</p>
+</li>
+<li>
+<p>It doesn't replace the original semantics.</p>
+<p>Magic callbacks usually get triggered before the original action takes place, and can't prevent it from happening.
+This also makes catching individual events easier than with <a href="../../../lib/pods/perlfunc.html#tie"><code>tie</code></a>, where you have to provide fallbacks methods for all actions by usually inheriting from the correct <code>Tie::Std*</code> class and overriding individual methods in your own class.</p>
+</li>
+<li>
+<p>It's type-agnostic.</p>
+<p>The same magic can be applied on scalars, arrays, hashes, subs or globs.
+But the same hook (see below for a list) may trigger differently depending on the the type of the variable.</p>
+</li>
+<li>
+<p>It's mostly invisible at the Perl level.</p>
+<p>Magical and non-magical variables cannot be distinguished with <a href="../../../lib/pods/perlfunc.html#ref"><code>ref</code></a>, <a href="../../../lib/pods/perlfunc.html#tied"><code>tied</code></a> or another trick.</p>
+</li>
+<li>
+<p>It's notably faster.</p>
+<p>Mainly because perl's way of handling magic is lighter by nature, and because there's no need for any method resolution.
+Also, since you don't have to reimplement all the variable semantics, you only pay for what you actually use.</p>
+</li>
+</ul>
+<p>The operations that can be overloaded are :</p>
+<ul>
+<li>
+<p><code>get</code></p>
+<p>This magic is invoked when the variable is evaluated.
+It is never called for arrays and hashes.</p>
+</li>
+<li>
+<p><code>set</code></p>
+<p>This one is triggered each time the value of the variable changes.
+It is called for array subscripts and slices, but never for hashes.</p>
+</li>
+<li>
+<p><code>len</code></p>
+<p>This magic is a little special : it is called when the 'size' or the 'length' of the variable has to be known by Perl.
+Typically, it's the magic involved when an array is evaluated in scalar context, but also on array assignment and loops (<code>for</code>, <a href="../../../lib/pods/perlfunc.html#map"><code>map</code></a> or <a href="../../../lib/pods/perlfunc.html#grep"><code>grep</code></a>).
+The callback has then to return the length as an integer.</p>
+</li>
+<li>
+<p><code>clear</code></p>
+<p>This magic is invoked when the variable is reset, such as when an array is emptied.
+Please note that this is different from undefining the variable, even though the magic is called when the clearing is a result of the undefine (e.g. for an array, but actually a bug prevent it to work before perl 5.9.5 - see the <a href="#perl_magic_history">history</a>).</p>
+</li>
+<li>
+<p><code>free</code></p>
+<p>This one can be considered as an object destructor.
+It happens when the variable goes out of scope, but not when it is undefined.</p>
+</li>
+<li>
+<p><code>copy</code></p>
+<p>This magic only applies to tied arrays and hashes.
+It fires when you try to access or change their elements.
+It is available on your perl iff <code>MGf_COPY</code> is true.</p>
+</li>
+<li>
+<p><code>dup</code></p>
+<p>Invoked when the variable is cloned across threads.
+Currently not available.</p>
+</li>
+<li>
+<p><a href="../../../lib/pods/perlfunc.html#local"><code>local</code></a></p>
+<p>When this magic is set on a variable, all subsequent localizations of the variable will trigger the callback.
+It is available on your perl iff <code>MGf_LOCAL</code> is true.</p>
+</li>
+</ul>
+<p>The following actions only apply to hashes and are available iff <a href="#vmg_uvar">VMG_UVAR</a> is true.
+They are referred to as <code>uvar</code> magics.</p>
+<ul>
+<li>
+<p><code>fetch</code></p>
+<p>This magic happens each time an element is fetched from the hash.</p>
+</li>
+<li>
+<p><code>store</code></p>
+<p>This one is called when an element is stored into the hash.</p>
+</li>
+<li>
+<p><a href="../../../lib/pods/perlfunc.html#exists"><code>exists</code></a></p>
+<p>This magic fires when a key is tested for existence in the hash.</p>
+</li>
+<li>
+<p><a href="../../../lib/pods/perlfunc.html#delete"><code>delete</code></a></p>
+<p>This last one triggers when a key is deleted in the hash, regardless of whether the key actually exists in it.</p>
+</li>
+</ul>
+<p>You can refer to the tests to have more insight of where the different magics are invoked.</p>
+<p>
+</p>
+<hr />
+<h1><a name="functions">FUNCTIONS</a></h1>
+<p>
+</p>
+<h2><a name="wizard"><code>wizard</code></a></h2>
+<pre>
+    <span class="variable">wizard</span><span class="operator">(</span>
+     <span class="string">data</span>     <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="operator">...</span> <span class="operator">},</span>
+     <span class="string">get</span>      <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="keyword">my</span> <span class="operator">(</span><span class="variable">$ref</span><span class="operator">,</span> <span class="variable">$data</span> <span class="operator">[</span><span class="operator">,</span> <span class="variable">$op</span><span class="operator">]</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span> <span class="operator">...</span> <span class="operator">},</span>
+     <span class="string">set</span>      <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="keyword">my</span> <span class="operator">(</span><span class="variable">$ref</span><span class="operator">,</span> <span class="variable">$data</span> <span class="operator">[</span><span class="operator">,</span> <span class="variable">$op</span><span class="operator">]</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span> <span class="operator">...</span> <span class="operator">},</span>
+     <span class="string">len</span>      <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+      <span class="keyword">my</span> <span class="operator">(</span><span class="variable">$ref</span><span class="operator">,</span> <span class="variable">$data</span><span class="operator">,</span> <span class="variable">$len</span> <span class="operator">[</span><span class="operator">,</span> <span class="variable">$op</span><span class="operator">]</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span> <span class="operator">...</span> <span class="operator">;</span> <span class="keyword">return</span> <span class="variable">$newlen</span>
+     <span class="operator">},</span>
+     <span class="string">clear</span>    <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="keyword">my</span> <span class="operator">(</span><span class="variable">$ref</span><span class="operator">,</span> <span class="variable">$data</span> <span class="operator">[</span><span class="operator">,</span> <span class="variable">$op</span><span class="operator">]</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span> <span class="operator">...</span> <span class="operator">},</span>
+     <span class="string">free</span>     <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="keyword">my</span> <span class="operator">(</span><span class="variable">$ref</span><span class="operator">,</span> <span class="variable">$data</span> <span class="operator">[</span><span class="operator">,</span> <span class="variable">$op</span><span class="operator">]</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">,</span> <span class="operator">...</span> <span class="operator">},</span>
+     <span class="string">copy</span>     <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="keyword">my</span> <span class="operator">(</span><span class="variable">$ref</span><span class="operator">,</span> <span class="variable">$data</span><span class="operator">,</span> <span class="variable">$key</span><span class="operator">,</span> <span class="variable">$elt</span> <span class="operator">[</span><span class="operator">,</span> <span class="variable">$op</span><span class="operator">]</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span> <span class="operator">...</span> <span class="operator">},</span>
+     <span class="string">local</span>    <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="keyword">my</span> <span class="operator">(</span><span class="variable">$ref</span><span class="operator">,</span> <span class="variable">$data</span> <span class="operator">[</span><span class="operator">,</span> <span class="variable">$op</span><span class="operator">]</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span> <span class="operator">...</span> <span class="operator">},</span>
+     <span class="string">fetch</span>    <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="keyword">my</span> <span class="operator">(</span><span class="variable">$ref</span><span class="operator">,</span> <span class="variable">$data</span><span class="operator">,</span> <span class="variable">$key</span> <span class="operator">[</span><span class="operator">,</span> <span class="variable">$op</span><span class="operator">]</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span> <span class="operator">...</span> <span class="operator">},</span>
+     <span class="string">store</span>    <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="keyword">my</span> <span class="operator">(</span><span class="variable">$ref</span><span class="operator">,</span> <span class="variable">$data</span><span class="operator">,</span> <span class="variable">$key</span> <span class="operator">[</span><span class="operator">,</span> <span class="variable">$op</span><span class="operator">]</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span> <span class="operator">...</span> <span class="operator">},</span>
+     <span class="string">exists</span>   <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="keyword">my</span> <span class="operator">(</span><span class="variable">$ref</span><span class="operator">,</span> <span class="variable">$data</span><span class="operator">,</span> <span class="variable">$key</span> <span class="operator">[</span><span class="operator">,</span> <span class="variable">$op</span><span class="operator">]</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span> <span class="operator">...</span> <span class="operator">},</span>
+     <span class="string">delete</span>   <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="keyword">my</span> <span class="operator">(</span><span class="variable">$ref</span><span class="operator">,</span> <span class="variable">$data</span><span class="operator">,</span> <span class="variable">$key</span> <span class="operator">[</span><span class="operator">,</span> <span class="variable">$op</span><span class="operator">]</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span> <span class="operator">...</span> <span class="operator">},</span>
+     <span class="string">copy_key</span> <span class="operator">=&gt;</span> <span class="variable">$bool</span><span class="operator">,</span>
+     <span class="string">op_info</span>  <span class="operator">=&gt;</span> <span class="operator">[</span> <span class="number">0</span> <span class="operator">|</span> <span class="variable">VMG_OP_INFO_NAME</span> <span class="operator">|</span> <span class="variable">VMG_OP_INFO_OBJECT</span> <span class="operator">]</span><span class="operator">,</span>
+    <span class="operator">)</span>
+</pre>
+<p>This function creates a 'wizard', an opaque type that holds the magic information.
+It takes a list of keys / values as argument, whose keys can be :</p>
+<ul>
+<li>
+<p><code>data</code></p>
+<p>A code (or string) reference to a private data constructor.
+It is called each time this magic is cast on a variable, and the scalar returned is used as private data storage for it.
+<code>$_[0]</code> is a reference to the magic object and <code>@_[1 .. @_-1]</code> are all extra arguments that were passed to <a href="#cast">cast</a>.</p>
+</li>
+<li>
+<p><code>get</code>, <code>set</code>, <code>len</code>, <code>clear</code>, <code>free</code>, <code>copy</code>, <a href="../../../lib/pods/perlfunc.html#local"><code>local</code></a>, <code>fetch</code>, <code>store</code>, <a href="../../../lib/pods/perlfunc.html#exists"><code>exists</code></a> and <a href="../../../lib/pods/perlfunc.html#delete"><code>delete</code></a></p>
+<p>Code (or string) references to the corresponding magic callbacks.
+You don't have to specify all of them : the magic associated with undefined entries simply won't be hooked.
+In those callbacks, <code>$_[0]</code> is always a reference to the magic object and <code>$_[1]</code> is always the private data (or <a href="../../../lib/pods/perlfunc.html#undef"><code>undef</code></a> when no private data constructor was supplied).</p>
+<p>Moreover, when you pass <code>op_info =&gt; $num</code> to <code>wizard</code>, the last element of <a href="../../../lib/pods/perlvar.html#__"><code>@_</code></a> will be the current op name if <code>$num == VMG_OP_INFO_NAME</code> and a <code>B::OP</code> object representing the current op if <code>$num == VMG_OP_INFO_OBJECT</code>.
+Both have a performance hit, but just getting the name is lighter than getting the op object.</p>
+<p>Other arguments are specific to the magic hooked :</p>
+<ul>
+<li>
+<p><code>len</code></p>
+<p>When the variable is an array or a scalar, <code>$_[2]</code> contains the non-magical length.
+The callback can return the new scalar or array length to use, or <a href="../../../lib/pods/perlfunc.html#undef"><code>undef</code></a> to default to the normal length.</p>
+</li>
+<li>
+<p><code>copy</code></p>
+<p><code>$_[2]</code> is a either a copy or an alias of the current key, which means that it is useless to try to change or cast magic on it.
+<code>$_[3]</code> is an alias to the current element (i.e. the value).</p>
+</li>
+<li>
+<p><code>fetch</code>, <code>store</code>, <a href="../../../lib/pods/perlfunc.html#exists"><code>exists</code></a> and <a href="../../../lib/pods/perlfunc.html#delete"><code>delete</code></a></p>
+<p><code>$_[2]</code> is an alias to the current key.
+Nothing prevents you from changing it, but be aware that there lurk dangerous side effects.
+For example, it may rightfully be readonly if the key was a bareword.
+You can get a copy instead by passing <code>copy_key =&gt; 1</code> to <a href="#wizard">wizard</a>, which allows you to safely assign to <code>$_[2]</code> in order to e.g. redirect the action to another key.
+This however has a little performance drawback because of the copy.</p>
+</li>
+</ul>
+<p>All the callbacks are expected to return an integer, which is passed straight to the perl magic API.
+However, only the return value of the <code>len</code> callback currently holds a meaning.</p>
+</li>
+</ul>
+<p>Each callback can be specified as :</p>
+<ul>
+<li>
+<p>a code reference, which will be called as a subroutine.</p>
+</li>
+<li>
+<p>a string reference, where the string denotes which subroutine is to be called when magic is triggered.
+If the subroutine name is not fully qualified, then the current package at the time the magic is invoked will be used instead.</p>
+</li>
+<li>
+<p>a reference to <a href="../../../lib/pods/perlfunc.html#undef"><code>undef</code></a>, in which case a no-op magic callback is installed instead of the default one.
+This may especially be helpful for 'local' magic, where an empty callback prevents magic from being copied during localization.</p>
+</li>
+</ul>
+<p>Note that <code>free</code> callbacks are <em>never</em> called during global destruction, as there's no way to ensure that the wizard and the <code>free</code> callback weren't destroyed before the variable.</p>
+<p>Here's a simple usage example :</p>
+<pre>
+    <span class="comment"># A simple scalar tracer</span>
+    <span class="keyword">my</span> <span class="variable">$wiz</span> <span class="operator">=</span> <span class="variable">wizard</span><span class="operator">(</span>
+     <span class="string">get</span>  <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="keyword">print</span> <span class="variable">STDERR</span> <span class="string">"got ${</span><span class="variable">$_</span><span class="string">[0]}\n"</span> <span class="operator">},</span>
+     <span class="string">set</span>  <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="keyword">print</span> <span class="variable">STDERR</span> <span class="string">"set to ${</span><span class="variable">$_</span><span class="string">[0]}\n"</span> <span class="operator">},</span>
+     <span class="string">free</span> <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="keyword">print</span> <span class="variable">STDERR</span> <span class="string">"${</span><span class="variable">$_</span><span class="string">[0]} was deleted\n"</span> <span class="operator">},</span>
+    <span class="operator">);</span>
+</pre>
+<p>
+</p>
+<h2><a name="cast"><code>cast</code></a></h2>
+<pre>
+    cast [$@%&amp;*]var, $wiz, ...</pre>
+<p>This function associates <code>$wiz</code> magic to the variable supplied, without overwriting any other kind of magic.
+It returns true on success or when <code>$wiz</code> magic is already present, and croaks on error.
+All extra arguments specified after <code>$wiz</code> are passed to the private data constructor in <code>@_[1 .. @_-1]</code>.
+If the variable isn't a hash, any <code>uvar</code> callback of the wizard is safely ignored.</p>
+<pre>
+    <span class="comment"># Casts $wiz onto $x, and pass '1' to the data constructor.</span>
+    <span class="keyword">my</span> <span class="variable">$x</span><span class="operator">;</span>
+    <span class="variable">cast</span> <span class="variable">$x</span><span class="operator">,</span> <span class="variable">$wiz</span><span class="operator">,</span> <span class="number">1</span><span class="operator">;</span>
+</pre>
+<p>The <code>var</code> argument can be an array or hash value.
+Magic for those behaves like for any other scalar, except that it is dispelled when the entry is deleted from the container.
+For example, if you want to call <code>POSIX::tzset</code> each time the <code>'TZ'</code> environment variable is changed in <a href="../../../lib/pods/perlvar.html#_env"><code>%ENV</code></a>, you can use :</p>
+<pre>
+    <span class="keyword">use</span> <span class="variable">POSIX</span><span class="operator">;</span>
+    <span class="variable">cast</span> <span class="variable">$ENV</span><span class="operator">{</span><span class="string">TZ</span><span class="operator">}</span><span class="operator">,</span> <span class="variable">wizard</span> <span class="string">set</span> <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="variable">POSIX::tzset</span><span class="operator">();</span> <span class="operator">()</span> <span class="operator">};</span>
+</pre>
+<p>If you want to overcome the possible deletion of the <code>'TZ'</code> entry, you have no choice but to rely on <code>store</code> uvar magic.</p>
+<p>
+</p>
+<h2><a name="getdata"><code>getdata</code></a></h2>
+<pre>
+    getdata [$@%&amp;*]var, $wiz</pre>
+<p>This accessor fetches the private data associated with the magic <code>$wiz</code> in the variable.
+It croaks when <code>$wiz</code> do not represent a valid magic object, and returns an empty list if no such magic is attached to the variable or when the wizard has no data constructor.</p>
+<pre>
+    <span class="comment"># Get the attached data, or undef if the wizard does not attach any.</span>
+    <span class="keyword">my</span> <span class="variable">$data</span> <span class="operator">=</span> <span class="variable">getdata</span> <span class="variable">$x</span><span class="operator">,</span> <span class="variable">$wiz</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<h2><a name="dispell"><code>dispell</code></a></h2>
+<pre>
+    dispell [$@%&amp;*]variable, $wiz</pre>
+<p>The exact opposite of <a href="#cast">cast</a> : it dissociates <code>$wiz</code> magic from the variable.
+This function returns true on success, <code>0</code> when no magic represented by <code>$wiz</code> could be found in the variable, and croaks if the supplied wizard is invalid.</p>
+<pre>
+    <span class="comment"># Dispell now.</span>
+    <span class="keyword">die</span> <span class="string">'no such magic in $x'</span> <span class="keyword">unless</span> <span class="variable">dispell</span> <span class="variable">$x</span><span class="operator">,</span> <span class="variable">$wiz</span><span class="operator">;</span>
+</pre>
+<p>
+</p>
+<hr />
+<h1><a name="constants">CONSTANTS</a></h1>
+<p>
+</p>
+<h2><a name="mgf_copy"><code>MGf_COPY</code></a></h2>
+<p>Evaluates to true iff the 'copy' magic is available.</p>
+<p>
+</p>
+<h2><a name="mgf_dup"><code>MGf_DUP</code></a></h2>
+<p>Evaluates to true iff the 'dup' magic is available.</p>
+<p>
+</p>
+<h2><a name="mgf_local"><code>MGf_LOCAL</code></a></h2>
+<p>Evaluates to true iff the 'local' magic is available.</p>
+<p>
+</p>
+<h2><a name="vmg_uvar"><code>VMG_UVAR</code></a></h2>
+<p>When this constant is true, you can use the <code>fetch,store,exists,delete</code> callbacks on hashes.
+Initial VMG_UVAR capability was introduced in perl 5.9.5, with a fully functional implementation
+shipped with perl 5.10.0.</p>
+<p>
+</p>
+<h2><a name="vmg_compat_scalar_length_nolen"><code>VMG_COMPAT_SCALAR_LENGTH_NOLEN</code></a></h2>
+<p>True for perls that don't call 'len' magic when taking the <a href="../../../lib/pods/perlfunc.html#length"><code>length</code></a> of a magical scalar.</p>
+<p>
+</p>
+<h2><a name="vmg_compat_array_push_nolen"><code>VMG_COMPAT_ARRAY_PUSH_NOLEN</code></a></h2>
+<p>True for perls that don't call 'len' magic when you push an element in a magical array.
+Starting from perl 5.11.0, this only refers to pushes in non-void context and hence is false.</p>
+<p>
+</p>
+<h2><a name="vmg_compat_array_push_nolen_void"><code>VMG_COMPAT_ARRAY_PUSH_NOLEN_VOID</code></a></h2>
+<p>True for perls that don't call 'len' magic when you push in void context an element in a magical array.</p>
+<p>
+</p>
+<h2><a name="vmg_compat_array_unshift_nolen_void"><code>VMG_COMPAT_ARRAY_UNSHIFT_NOLEN_VOID</code></a></h2>
+<p>True for perls that don't call 'len' magic when you unshift in void context an element in a magical array.</p>
+<p>
+</p>
+<h2><a name="vmg_compat_array_undef_clear"><code>VMG_COMPAT_ARRAY_UNDEF_CLEAR</code></a></h2>
+<p>True for perls that call 'clear' magic when undefining magical arrays.</p>
+<p>
+</p>
+<h2><a name="vmg_compat_hash_delete_nouvar_void"><code>VMG_COMPAT_HASH_DELETE_NOUVAR_VOID</code></a></h2>
+<p>True for perls that don't call 'delete' uvar magic when you delete an element from a hash in void context.</p>
+<p>
+</p>
+<h2><a name="vmg_compat_glob_get"><code>VMG_COMPAT_GLOB_GET</code></a></h2>
+<p>True for perls that call 'get' magic for operations on globs.</p>
+<p>
+</p>
+<h2><a name="vmg_perl_patchlevel"><code>VMG_PERL_PATCHLEVEL</code></a></h2>
+<p>The perl patchlevel this module was built with, or <code>0</code> for non-debugging perls.</p>
+<p>
+</p>
+<h2><a name="vmg_threadsafe"><code>VMG_THREADSAFE</code></a></h2>
+<p>True iff this module could have been built with thread-safety features enabled.</p>
+<p>
+</p>
+<h2><a name="vmg_forksafe"><code>VMG_FORKSAFE</code></a></h2>
+<p>True iff this module could have been built with fork-safety features enabled.
+This will always be true except on Windows where it's false for perl 5.10.0 and below .</p>
+<p>
+</p>
+<h2><a name="vmg_op_info_name"><code>VMG_OP_INFO_NAME</code></a></h2>
+<p>Value to pass with <code>op_info</code> to get the current op name in the magic callbacks.</p>
+<p>
+</p>
+<h2><a name="vmg_op_info_object"><code>VMG_OP_INFO_OBJECT</code></a></h2>
+<p>Value to pass with <code>op_info</code> to get a <code>B::OP</code> object representing the current op in the magic callbacks.</p>
+<p>
+</p>
+<hr />
+<h1><a name="cookbook">COOKBOOK</a></h1>
+<p>
+</p>
+<h2><a name="associate_an_object_to_any_perl_variable">Associate an object to any perl variable</a></h2>
+<p>This technique can be useful for passing user data through limited APIs.
+It is similar to using inside-out objects, but without the drawback of having to implement a complex destructor.</p>
+<pre>
+    <span class="operator">{</span>
+     <span class="keyword">package</span> <span class="variable">Magical::UserData</span><span class="operator">;</span>
+</pre>
+<pre>
+     <span class="keyword">use</span> <span class="variable">Variable::Magic</span> <span class="string">qw&lt;wizard cast getdata&gt;</span><span class="operator">;</span>
+</pre>
+<pre>
+     <span class="keyword">my</span> <span class="variable">$wiz</span> <span class="operator">=</span> <span class="variable">wizard</span> <span class="string">data</span> <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="operator">\</span><span class="variable">$_</span><span class="operator">[</span><span class="number">1</span><span class="operator">]</span> <span class="operator">};</span>
+</pre>
+<pre>
+     <span class="keyword">sub</span><span class="variable"> ud </span><span class="operator">(</span>\[$@%*&amp;]<span class="operator">)</span> <span class="operator">:</span> <span class="variable">lvalue</span> <span class="operator">{</span>
+      <span class="keyword">my</span> <span class="operator">(</span><span class="variable">$var</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span>
+      <span class="keyword">my</span> <span class="variable">$data</span> <span class="operator">=</span> <span class="operator">&amp;</span><span class="variable">getdata</span><span class="operator">(</span><span class="variable">$var</span><span class="operator">,</span> <span class="variable">$wiz</span><span class="operator">);</span>
+      <span class="keyword">unless</span> <span class="operator">(</span><span class="keyword">defined</span> <span class="variable">$data</span><span class="operator">)</span> <span class="operator">{</span>
+       <span class="variable">$data</span> <span class="operator">=</span> <span class="operator">\(</span><span class="keyword">my</span> <span class="variable">$slot</span><span class="operator">);</span>
+       <span class="operator">&amp;</span><span class="variable">cast</span><span class="operator">(</span><span class="variable">$var</span><span class="operator">,</span> <span class="variable">$wiz</span><span class="operator">,</span> <span class="variable">$slot</span><span class="operator">)</span>
+                 <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">"Couldn't cast UserData magic onto the variable"</span><span class="operator">;</span>
+      <span class="operator">}</span>
+      <span class="variable">$$data</span><span class="operator">;</span>
+     <span class="operator">}</span>
+         <span class="operator">}</span>
+</pre>
+<pre>
+    <span class="operator">{</span>
+     <span class="keyword">BEGIN</span> <span class="operator">{</span> <span class="variable">*ud</span> <span class="operator">=</span> <span class="operator">\&amp;</span><span class="variable">Magical::UserData::ud</span> <span class="operator">}</span>
+</pre>
+<pre>
+     <span class="keyword">my</span> <span class="variable">$cb</span><span class="operator">;</span>
+     <span class="variable">$cb</span> <span class="operator">=</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span> <span class="keyword">print</span> <span class="string">'Hello, '</span><span class="operator">,</span> <span class="variable">ud</span><span class="operator">(&amp;</span><span class="variable">$cb</span><span class="operator">),</span> <span class="string">"!\n"</span> <span class="operator">};</span>
+</pre>
+<pre>
+     <span class="variable">ud</span><span class="operator">(&amp;</span><span class="variable">$cb</span><span class="operator">)</span> <span class="operator">=</span> <span class="string">'world'</span><span class="operator">;</span>
+     <span class="variable">$cb</span><span class="operator">-&gt;();</span> <span class="comment"># Hello, world!</span>
+         <span class="operator">}</span>
+</pre>
+<p>
+</p>
+<h2><a name="recursively_cast_magic_on_datastructures">Recursively cast magic on datastructures</a></h2>
+<p><code>cast</code> can be called from any magical callback, and in particular from <code>data</code>.
+This allows you to recursively cast magic on datastructures :</p>
+<pre>
+    <span class="keyword">my</span> <span class="variable">$wiz</span><span class="operator">;</span>
+    <span class="variable">$wiz</span> <span class="operator">=</span> <span class="variable">wizard</span> <span class="string">data</span> <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+     <span class="keyword">my</span> <span class="operator">(</span><span class="variable">$var</span><span class="operator">,</span> <span class="variable">$depth</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span>
+     <span class="variable">$depth</span> <span class="operator">||=</span> <span class="number">0</span><span class="operator">;</span>
+     <span class="keyword">my</span> <span class="variable">$r</span> <span class="operator">=</span> <span class="keyword">ref</span> <span class="variable">$var</span><span class="operator">;</span>
+     <span class="keyword">if</span> <span class="operator">(</span><span class="variable">$r</span> <span class="keyword">eq</span> <span class="string">'ARRAY'</span><span class="operator">)</span> <span class="operator">{</span>
+      <span class="operator">&amp;</span><span class="variable">cast</span><span class="operator">((</span><span class="keyword">ref</span><span class="operator">()</span> <span class="operator">?</span> <span class="variable">$_</span> <span class="operator">:</span> <span class="operator">\</span><span class="variable">$_</span><span class="operator">),</span> <span class="variable">$wiz</span><span class="operator">,</span> <span class="variable">$depth</span> <span class="operator">+</span> <span class="number">1</span><span class="operator">)</span> <span class="keyword">for</span> <span class="variable">@$var</span><span class="operator">;</span>
+     <span class="operator">}</span> <span class="keyword">elsif</span> <span class="operator">(</span><span class="variable">$r</span> <span class="keyword">eq</span> <span class="string">'HASH'</span><span class="operator">)</span> <span class="operator">{</span>
+      <span class="operator">&amp;</span><span class="variable">cast</span><span class="operator">((</span><span class="keyword">ref</span><span class="operator">()</span> <span class="operator">?</span> <span class="variable">$_</span> <span class="operator">:</span> <span class="operator">\</span><span class="variable">$_</span><span class="operator">),</span> <span class="variable">$wiz</span><span class="operator">,</span> <span class="variable">$depth</span> <span class="operator">+</span> <span class="number">1</span><span class="operator">)</span> <span class="keyword">for</span> <span class="keyword">values</span> <span class="variable">%$var</span><span class="operator">;</span>
+     <span class="operator">}</span>
+     <span class="keyword">return</span> <span class="variable">$depth</span><span class="operator">;</span>
+    <span class="operator">},</span>
+    <span class="string">free</span> <span class="operator">=&gt;</span> <span class="keyword">sub</span><span class="variable"> </span><span class="operator">{</span>
+     <span class="keyword">my</span> <span class="operator">(</span><span class="variable">$var</span><span class="operator">,</span> <span class="variable">$depth</span><span class="operator">)</span> <span class="operator">=</span> <span class="variable">@_</span><span class="operator">;</span>
+     <span class="keyword">my</span> <span class="variable">$r</span> <span class="operator">=</span> <span class="keyword">ref</span> <span class="variable">$var</span><span class="operator">;</span>
+     <span class="keyword">print</span> <span class="string">"free </span><span class="variable">$r</span><span class="string"> at depth </span><span class="variable">$depth</span><span class="string">\n"</span><span class="operator">;</span>
+     <span class="operator">();</span>
+    <span class="operator">};</span>
+</pre>
+<pre>
+    <span class="operator">{</span>
+     <span class="keyword">my</span> <span class="variable">%h</span> <span class="operator">=</span> <span class="operator">(</span>
+      <span class="string">a</span> <span class="operator">=&gt;</span> <span class="operator">[</span> <span class="number">1</span><span class="operator">,</span> <span class="number">2</span> <span class="operator">]</span><span class="operator">,</span>
+      <span class="string">b</span> <span class="operator">=&gt;</span> <span class="operator">{</span> <span class="string">c</span> <span class="operator">=&gt;</span> <span class="number">3</span> <span class="operator">}</span>
+     <span class="operator">);</span>
+     <span class="variable">cast</span> <span class="variable">%h</span><span class="operator">,</span> <span class="variable">$wiz</span><span class="operator">;</span>
+    <span class="operator">}</span>
+</pre>
+<p>When <code>%h</code> goes out of scope, this will print something among the lines of :</p>
+<pre>
+    free HASH at depth 0
+    free HASH at depth 1
+    free SCALAR at depth 2
+    free ARRAY at depth 1
+    free SCALAR at depth 3
+    free SCALAR at depth 3</pre>
+<p>Of course, this example does nothing with the values that are added after the <code>cast</code>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="perl_magic_history">PERL MAGIC HISTORY</a></h1>
+<p>The places where magic is invoked have changed a bit through perl history.
+Here's a little list of the most recent ones.</p>
+<ul>
+<li>
+<p><strong>5.6.x</strong></p>
+<p><em>p14416</em> : 'copy' and 'dup' magic.</p>
+</li>
+<li>
+<p><strong>5.8.9</strong></p>
+<p><em>p28160</em> : Integration of <em>p25854</em> (see below).</p>
+<p><em>p32542</em> : Integration of <em>p31473</em> (see below).</p>
+</li>
+<li>
+<p><strong>5.9.3</strong></p>
+<p><em>p25854</em> : 'len' magic is no longer called when pushing an element into a magic array.</p>
+<p><em>p26569</em> : 'local' magic.</p>
+</li>
+<li>
+<p><strong>5.9.5</strong></p>
+<p><em>p31064</em> : Meaningful 'uvar' magic.</p>
+<p><em>p31473</em> : 'clear' magic wasn't invoked when undefining an array.
+The bug is fixed as of this version.</p>
+</li>
+<li>
+<p><strong>5.10.0</strong></p>
+<p>Since <code>PERL_MAGIC_uvar</code> is uppercased, <code>hv_magic_check()</code> triggers 'copy' magic on hash stores for (non-tied) hashes that also have 'uvar' magic.</p>
+</li>
+<li>
+<p><strong>5.11.x</strong></p>
+<p><em>p32969</em> : 'len' magic is no longer invoked when calling <a href="../../../lib/pods/perlfunc.html#length"><code>length</code></a> with a magical scalar.</p>
+<p><em>p34908</em> : 'len' magic is no longer called when pushing / unshifting an element into a magical array in void context.
+The <a href="../../../lib/pods/perlfunc.html#push"><code>push</code></a> part was already covered by <em>p25854</em>.</p>
+<p><em>g9cdcb38b</em> : 'len' magic is called again when pushing into a magical array in non-void context.</p>
+</li>
+</ul>
+<p>
+</p>
+<hr />
+<h1><a name="export">EXPORT</a></h1>
+<p>The functions <a href="#wizard">wizard</a>, <a href="#cast">cast</a>, <a href="#getdata">getdata</a> and <a href="#dispell">dispell</a> are only exported on request.
+All of them are exported by the tags <code>':funcs'</code> and <code>':all'</code>.</p>
+<p>All the constants are also only exported on request, either individually or by the tags <code>':consts'</code> and <code>':all'</code>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="caveats">CAVEATS</a></h1>
+<p>If you store a magic object in the private data slot, the magic won't be accessible by <a href="#getdata">getdata</a> since it's not copied by assignment.
+The only way to address this would be to return a reference.</p>
+<p>If you define a wizard with a <code>free</code> callback and cast it on itself, this destructor won't be called because the wizard will be destroyed first.</p>
+<p>In order to define magic on hash members, you need at least <a href="../../../lib/pods/perl.html">the perl manpage</a> 5.10.0 (see <a href="#vmg_uvar">VMG_UVAR</a>)</p>
+<p>
+</p>
+<hr />
+<h1><a name="dependencies">DEPENDENCIES</a></h1>
+<p><a href="../../../lib/pods/perl.html">the perl manpage</a> 5.8.</p>
+<p>A C compiler.
+This module may happen to build with a C++ compiler as well, but don't rely on it, as no guarantee is made in this regard.</p>
+<p><a href="../../../lib/Carp.html">the Carp manpage</a> (standard since perl 5), <a href="../../../lib/XSLoader.html">the XSLoader manpage</a> (standard since perl 5.006).</p>
+<p>Copy tests need <a href="../../../lib/Tie/Array.html">the Tie::Array manpage</a> (standard since perl 5.005) and <a href="../../../lib/Tie/Hash.html">the Tie::Hash manpage</a> (since 5.002).</p>
+<p>Some uvar tests need <a href="../../../lib/Hash/Util/FieldHash.html">the Hash::Util::FieldHash manpage</a> (standard since perl 5.009004).</p>
+<p>Glob tests need <a href="../../../lib/Symbol.html">the Symbol manpage</a> (standard since perl 5.002).</p>
+<p>Threads tests need <a href="../../../lib/threads.html">the threads manpage</a> and <a href="../../../lib/threads/shared.html">the threads::shared manpage</a>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../../lib/pods/perlguts.html">the perlguts manpage</a> and <a href="../../../lib/pods/perlapi.html">the perlapi manpage</a> for internal information about magic.</p>
+<p><a href="../../../lib/pods/perltie.html">the perltie manpage</a> and <a href="../../../lib/overload.html">the overload manpage</a> for other ways of enhancing objects.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Vincent Pit, <code>&lt;perl at profvince.com&gt;</code>, <a href="http://www.profvince.com">http://www.profvince.com</a>.</p>
+<p>You can contact me by mail or on <code>irc.perl.org</code> (vincent).</p>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p>Please report any bugs or feature requests to <code>bug-variable-magic at rt.cpan.org</code>, or through the web interface at <a href="http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Variable-Magic">http://rt.cpan.org/NoAuth/ReportBug.html</a>. I will be notified, and then you'll automatically be notified of progress on your bug as I make changes.</p>
+<p>
+</p>
+<hr />
+<h1><a name="support">SUPPORT</a></h1>
+<p>You can find documentation for this module with the perldoc command.</p>
+<pre>
+    <a href="../../../lib/pods/perldoc.html">perldoc</a> Variable::Magic</pre>
+<p>Tests code coverage report is available at <a href="http://www.profvince.com/perl/cover/Variable-Magic">http://www.profvince.com/perl/cover/Variable-Magic</a>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright___license">COPYRIGHT &amp; LICENSE</a></h1>
+<p>Copyright 2007,2008,2009,2010,2011,2012 Vincent Pit, all rights reserved.</p>
+<p>This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.</p>
+
+</body>
+
+</html>
