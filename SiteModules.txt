@@ -1,0 +1,779 @@
+aliased ==> 0.30
+App::cpanminus ==> 1.5013
+Attribute::Params::Validate ==> 1.07
+B::Hooks::EndOfScope ==> 0.11
+B::Hooks::OP::Check::Install::Files ==> 
+B::Hooks::OP::Check ==> 0.19
+B::Hooks::OP::PPAddr::Install::Files ==> 
+B::Hooks::OP::PPAddr ==> 0.03
+Bundle::DBI ==> 12.008695
+Class::Load::PP ==> 0.19
+Class::Load ==> 0.19
+Class::Singleton ==> 1.4
+Crypt::Blowfish ==> 2.12
+Data::Dumper::Concise::Sugar ==> 
+Data::Dumper::Concise ==> 2.020
+DateTime::Locale::aa ==> 
+DateTime::Locale::aa_DJ ==> 
+DateTime::Locale::aa_ER ==> 
+DateTime::Locale::aa_ER_SAAHO ==> 
+DateTime::Locale::aa_ET ==> 
+DateTime::Locale::af ==> 
+DateTime::Locale::af_NA ==> 
+DateTime::Locale::af_ZA ==> 
+DateTime::Locale::ak ==> 
+DateTime::Locale::ak_GH ==> 
+DateTime::Locale::am ==> 
+DateTime::Locale::am_ET ==> 
+DateTime::Locale::ar ==> 
+DateTime::Locale::ar_AE ==> 
+DateTime::Locale::ar_BH ==> 
+DateTime::Locale::ar_DZ ==> 
+DateTime::Locale::ar_EG ==> 
+DateTime::Locale::ar_IQ ==> 
+DateTime::Locale::ar_JO ==> 
+DateTime::Locale::ar_KW ==> 
+DateTime::Locale::ar_LB ==> 
+DateTime::Locale::ar_LY ==> 
+DateTime::Locale::ar_MA ==> 
+DateTime::Locale::ar_OM ==> 
+DateTime::Locale::ar_QA ==> 
+DateTime::Locale::ar_SA ==> 
+DateTime::Locale::ar_SD ==> 
+DateTime::Locale::ar_SY ==> 
+DateTime::Locale::ar_TN ==> 
+DateTime::Locale::ar_YE ==> 
+DateTime::Locale::as ==> 
+DateTime::Locale::as_IN ==> 
+DateTime::Locale::az ==> 
+DateTime::Locale::az_AZ ==> 
+DateTime::Locale::az_Cyrl ==> 
+DateTime::Locale::az_Cyrl_AZ ==> 
+DateTime::Locale::az_Latn ==> 
+DateTime::Locale::az_Latn_AZ ==> 
+DateTime::Locale::Base ==> 
+DateTime::Locale::be ==> 
+DateTime::Locale::be_BY ==> 
+DateTime::Locale::bg ==> 
+DateTime::Locale::bg_BG ==> 
+DateTime::Locale::bn ==> 
+DateTime::Locale::bn_BD ==> 
+DateTime::Locale::bn_IN ==> 
+DateTime::Locale::bo ==> 
+DateTime::Locale::bo_CN ==> 
+DateTime::Locale::bo_IN ==> 
+DateTime::Locale::bs ==> 
+DateTime::Locale::bs_BA ==> 
+DateTime::Locale::byn ==> 
+DateTime::Locale::byn_ER ==> 
+DateTime::Locale::ca ==> 
+DateTime::Locale::Catalog ==> 
+DateTime::Locale::ca_ES ==> 
+DateTime::Locale::cch ==> 
+DateTime::Locale::cch_NG ==> 
+DateTime::Locale::cop ==> 
+DateTime::Locale::cs ==> 
+DateTime::Locale::cs_CZ ==> 
+DateTime::Locale::cy ==> 
+DateTime::Locale::cy_GB ==> 
+DateTime::Locale::da ==> 
+DateTime::Locale::da_DK ==> 
+DateTime::Locale::de ==> 
+DateTime::Locale::de_AT ==> 
+DateTime::Locale::de_BE ==> 
+DateTime::Locale::de_CH ==> 
+DateTime::Locale::de_DE ==> 
+DateTime::Locale::de_LI ==> 
+DateTime::Locale::de_LU ==> 
+DateTime::Locale::dv ==> 
+DateTime::Locale::dv_MV ==> 
+DateTime::Locale::dz ==> 
+DateTime::Locale::dz_BT ==> 
+DateTime::Locale::ee ==> 
+DateTime::Locale::ee_GH ==> 
+DateTime::Locale::ee_TG ==> 
+DateTime::Locale::el ==> 
+DateTime::Locale::el_CY ==> 
+DateTime::Locale::el_GR ==> 
+DateTime::Locale::el_POLYTON ==> 
+DateTime::Locale::en ==> 
+DateTime::Locale::en_AS ==> 
+DateTime::Locale::en_AU ==> 
+DateTime::Locale::en_BE ==> 
+DateTime::Locale::en_BW ==> 
+DateTime::Locale::en_BZ ==> 
+DateTime::Locale::en_CA ==> 
+DateTime::Locale::en_Dsrt ==> 
+DateTime::Locale::en_Dsrt_US ==> 
+DateTime::Locale::en_GB ==> 
+DateTime::Locale::en_GU ==> 
+DateTime::Locale::en_HK ==> 
+DateTime::Locale::en_IE ==> 
+DateTime::Locale::en_IN ==> 
+DateTime::Locale::en_JM ==> 
+DateTime::Locale::en_MH ==> 
+DateTime::Locale::en_MP ==> 
+DateTime::Locale::en_MT ==> 
+DateTime::Locale::en_NA ==> 
+DateTime::Locale::en_NZ ==> 
+DateTime::Locale::en_PH ==> 
+DateTime::Locale::en_PK ==> 
+DateTime::Locale::en_SG ==> 
+DateTime::Locale::en_Shaw ==> 
+DateTime::Locale::en_TT ==> 
+DateTime::Locale::en_UM ==> 
+DateTime::Locale::en_US ==> 
+DateTime::Locale::en_US_POSIX ==> 
+DateTime::Locale::en_VI ==> 
+DateTime::Locale::en_ZA ==> 
+DateTime::Locale::en_ZW ==> 
+DateTime::Locale::eo ==> 
+DateTime::Locale::es ==> 
+DateTime::Locale::es_AR ==> 
+DateTime::Locale::es_BO ==> 
+DateTime::Locale::es_CL ==> 
+DateTime::Locale::es_CO ==> 
+DateTime::Locale::es_CR ==> 
+DateTime::Locale::es_DO ==> 
+DateTime::Locale::es_EC ==> 
+DateTime::Locale::es_ES ==> 
+DateTime::Locale::es_GT ==> 
+DateTime::Locale::es_HN ==> 
+DateTime::Locale::es_MX ==> 
+DateTime::Locale::es_NI ==> 
+DateTime::Locale::es_PA ==> 
+DateTime::Locale::es_PE ==> 
+DateTime::Locale::es_PR ==> 
+DateTime::Locale::es_PY ==> 
+DateTime::Locale::es_SV ==> 
+DateTime::Locale::es_US ==> 
+DateTime::Locale::es_UY ==> 
+DateTime::Locale::es_VE ==> 
+DateTime::Locale::et ==> 
+DateTime::Locale::et_EE ==> 
+DateTime::Locale::eu ==> 
+DateTime::Locale::eu_ES ==> 
+DateTime::Locale::fa ==> 
+DateTime::Locale::fa_AF ==> 
+DateTime::Locale::fa_IR ==> 
+DateTime::Locale::fi ==> 
+DateTime::Locale::fil ==> 
+DateTime::Locale::fil_PH ==> 
+DateTime::Locale::fi_FI ==> 
+DateTime::Locale::fo ==> 
+DateTime::Locale::fo_FO ==> 
+DateTime::Locale::fr ==> 
+DateTime::Locale::fr_BE ==> 
+DateTime::Locale::fr_CA ==> 
+DateTime::Locale::fr_CH ==> 
+DateTime::Locale::fr_FR ==> 
+DateTime::Locale::fr_LU ==> 
+DateTime::Locale::fr_MC ==> 
+DateTime::Locale::fr_SN ==> 
+DateTime::Locale::fur ==> 
+DateTime::Locale::fur_IT ==> 
+DateTime::Locale::ga ==> 
+DateTime::Locale::gaa ==> 
+DateTime::Locale::gaa_GH ==> 
+DateTime::Locale::ga_IE ==> 
+DateTime::Locale::gez ==> 
+DateTime::Locale::gez_ER ==> 
+DateTime::Locale::gez_ET ==> 
+DateTime::Locale::gl ==> 
+DateTime::Locale::gl_ES ==> 
+DateTime::Locale::gsw ==> 
+DateTime::Locale::gsw_CH ==> 
+DateTime::Locale::gu ==> 
+DateTime::Locale::gu_IN ==> 
+DateTime::Locale::gv ==> 
+DateTime::Locale::gv_GB ==> 
+DateTime::Locale::ha ==> 
+DateTime::Locale::haw ==> 
+DateTime::Locale::haw_US ==> 
+DateTime::Locale::ha_Arab ==> 
+DateTime::Locale::ha_Arab_NG ==> 
+DateTime::Locale::ha_Arab_SD ==> 
+DateTime::Locale::ha_GH ==> 
+DateTime::Locale::ha_Latn ==> 
+DateTime::Locale::ha_Latn_GH ==> 
+DateTime::Locale::ha_Latn_NE ==> 
+DateTime::Locale::ha_Latn_NG ==> 
+DateTime::Locale::ha_NE ==> 
+DateTime::Locale::ha_NG ==> 
+DateTime::Locale::ha_SD ==> 
+DateTime::Locale::he ==> 
+DateTime::Locale::he_IL ==> 
+DateTime::Locale::hi ==> 
+DateTime::Locale::hi_IN ==> 
+DateTime::Locale::hr ==> 
+DateTime::Locale::hr_HR ==> 
+DateTime::Locale::hu ==> 
+DateTime::Locale::hu_HU ==> 
+DateTime::Locale::hy ==> 
+DateTime::Locale::hy_AM ==> 
+DateTime::Locale::hy_AM_REVISED ==> 
+DateTime::Locale::ia ==> 
+DateTime::Locale::id ==> 
+DateTime::Locale::id_ID ==> 
+DateTime::Locale::ig ==> 
+DateTime::Locale::ig_NG ==> 
+DateTime::Locale::ii ==> 
+DateTime::Locale::ii_CN ==> 
+DateTime::Locale::is ==> 
+DateTime::Locale::is_IS ==> 
+DateTime::Locale::it ==> 
+DateTime::Locale::it_CH ==> 
+DateTime::Locale::it_IT ==> 
+DateTime::Locale::iu ==> 
+DateTime::Locale::ja ==> 
+DateTime::Locale::ja_JP ==> 
+DateTime::Locale::ka ==> 
+DateTime::Locale::kaj ==> 
+DateTime::Locale::kaj_NG ==> 
+DateTime::Locale::kam ==> 
+DateTime::Locale::kam_KE ==> 
+DateTime::Locale::ka_GE ==> 
+DateTime::Locale::kcg ==> 
+DateTime::Locale::kcg_NG ==> 
+DateTime::Locale::kfo ==> 
+DateTime::Locale::kfo_CI ==> 
+DateTime::Locale::kk ==> 
+DateTime::Locale::kk_Cyrl ==> 
+DateTime::Locale::kk_Cyrl_KZ ==> 
+DateTime::Locale::kk_KZ ==> 
+DateTime::Locale::kl ==> 
+DateTime::Locale::kl_GL ==> 
+DateTime::Locale::km ==> 
+DateTime::Locale::km_KH ==> 
+DateTime::Locale::kn ==> 
+DateTime::Locale::kn_IN ==> 
+DateTime::Locale::ko ==> 
+DateTime::Locale::kok ==> 
+DateTime::Locale::kok_IN ==> 
+DateTime::Locale::ko_KR ==> 
+DateTime::Locale::kpe ==> 
+DateTime::Locale::kpe_GN ==> 
+DateTime::Locale::kpe_LR ==> 
+DateTime::Locale::ku ==> 
+DateTime::Locale::ku_Arab ==> 
+DateTime::Locale::ku_Arab_IQ ==> 
+DateTime::Locale::ku_Arab_IR ==> 
+DateTime::Locale::ku_Arab_SY ==> 
+DateTime::Locale::ku_IQ ==> 
+DateTime::Locale::ku_IR ==> 
+DateTime::Locale::ku_Latn ==> 
+DateTime::Locale::ku_Latn_TR ==> 
+DateTime::Locale::ku_SY ==> 
+DateTime::Locale::ku_TR ==> 
+DateTime::Locale::kw ==> 
+DateTime::Locale::kw_GB ==> 
+DateTime::Locale::ky ==> 
+DateTime::Locale::ky_KG ==> 
+DateTime::Locale::ln ==> 
+DateTime::Locale::ln_CD ==> 
+DateTime::Locale::ln_CG ==> 
+DateTime::Locale::lo ==> 
+DateTime::Locale::lo_LA ==> 
+DateTime::Locale::lt ==> 
+DateTime::Locale::lt_LT ==> 
+DateTime::Locale::lv ==> 
+DateTime::Locale::lv_LV ==> 
+DateTime::Locale::mk ==> 
+DateTime::Locale::mk_MK ==> 
+DateTime::Locale::ml ==> 
+DateTime::Locale::ml_IN ==> 
+DateTime::Locale::mn ==> 
+DateTime::Locale::mn_CN ==> 
+DateTime::Locale::mn_Cyrl ==> 
+DateTime::Locale::mn_Cyrl_MN ==> 
+DateTime::Locale::mn_MN ==> 
+DateTime::Locale::mn_Mong ==> 
+DateTime::Locale::mn_Mong_CN ==> 
+DateTime::Locale::mo ==> 
+DateTime::Locale::mr ==> 
+DateTime::Locale::mr_IN ==> 
+DateTime::Locale::ms ==> 
+DateTime::Locale::ms_BN ==> 
+DateTime::Locale::ms_MY ==> 
+DateTime::Locale::mt ==> 
+DateTime::Locale::mt_MT ==> 
+DateTime::Locale::my ==> 
+DateTime::Locale::my_MM ==> 
+DateTime::Locale::nb ==> 
+DateTime::Locale::nb_NO ==> 
+DateTime::Locale::nds ==> 
+DateTime::Locale::nds_DE ==> 
+DateTime::Locale::ne ==> 
+DateTime::Locale::ne_IN ==> 
+DateTime::Locale::ne_NP ==> 
+DateTime::Locale::nl ==> 
+DateTime::Locale::nl_BE ==> 
+DateTime::Locale::nl_NL ==> 
+DateTime::Locale::nn ==> 
+DateTime::Locale::nn_NO ==> 
+DateTime::Locale::no ==> 
+DateTime::Locale::nr ==> 
+DateTime::Locale::nr_ZA ==> 
+DateTime::Locale::nso ==> 
+DateTime::Locale::nso_ZA ==> 
+DateTime::Locale::ny ==> 
+DateTime::Locale::ny_MW ==> 
+DateTime::Locale::oc ==> 
+DateTime::Locale::oc_FR ==> 
+DateTime::Locale::om ==> 
+DateTime::Locale::om_ET ==> 
+DateTime::Locale::om_KE ==> 
+DateTime::Locale::or ==> 
+DateTime::Locale::or_IN ==> 
+DateTime::Locale::pa ==> 
+DateTime::Locale::pa_Arab ==> 
+DateTime::Locale::pa_Arab_PK ==> 
+DateTime::Locale::pa_Guru ==> 
+DateTime::Locale::pa_Guru_IN ==> 
+DateTime::Locale::pa_IN ==> 
+DateTime::Locale::pa_PK ==> 
+DateTime::Locale::pl ==> 
+DateTime::Locale::pl_PL ==> 
+DateTime::Locale::ps ==> 
+DateTime::Locale::ps_AF ==> 
+DateTime::Locale::pt ==> 
+DateTime::Locale::pt_BR ==> 
+DateTime::Locale::pt_PT ==> 
+DateTime::Locale::ro ==> 
+DateTime::Locale::root ==> 
+DateTime::Locale::ro_MD ==> 
+DateTime::Locale::ro_RO ==> 
+DateTime::Locale::ru ==> 
+DateTime::Locale::ru_RU ==> 
+DateTime::Locale::ru_UA ==> 
+DateTime::Locale::rw ==> 
+DateTime::Locale::rw_RW ==> 
+DateTime::Locale::sa ==> 
+DateTime::Locale::sa_IN ==> 
+DateTime::Locale::se ==> 
+DateTime::Locale::se_FI ==> 
+DateTime::Locale::se_NO ==> 
+DateTime::Locale::sh ==> 
+DateTime::Locale::sh_BA ==> 
+DateTime::Locale::sh_CS ==> 
+DateTime::Locale::sh_YU ==> 
+DateTime::Locale::si ==> 
+DateTime::Locale::sid ==> 
+DateTime::Locale::sid_ET ==> 
+DateTime::Locale::si_LK ==> 
+DateTime::Locale::sk ==> 
+DateTime::Locale::sk_SK ==> 
+DateTime::Locale::sl ==> 
+DateTime::Locale::sl_SI ==> 
+DateTime::Locale::so ==> 
+DateTime::Locale::so_DJ ==> 
+DateTime::Locale::so_ET ==> 
+DateTime::Locale::so_KE ==> 
+DateTime::Locale::so_SO ==> 
+DateTime::Locale::sq ==> 
+DateTime::Locale::sq_AL ==> 
+DateTime::Locale::sr ==> 
+DateTime::Locale::sr_BA ==> 
+DateTime::Locale::sr_CS ==> 
+DateTime::Locale::sr_Cyrl ==> 
+DateTime::Locale::sr_Cyrl_BA ==> 
+DateTime::Locale::sr_Cyrl_CS ==> 
+DateTime::Locale::sr_Cyrl_ME ==> 
+DateTime::Locale::sr_Cyrl_RS ==> 
+DateTime::Locale::sr_Cyrl_YU ==> 
+DateTime::Locale::sr_Latn ==> 
+DateTime::Locale::sr_Latn_BA ==> 
+DateTime::Locale::sr_Latn_CS ==> 
+DateTime::Locale::sr_Latn_ME ==> 
+DateTime::Locale::sr_Latn_RS ==> 
+DateTime::Locale::sr_Latn_YU ==> 
+DateTime::Locale::sr_ME ==> 
+DateTime::Locale::sr_RS ==> 
+DateTime::Locale::sr_YU ==> 
+DateTime::Locale::ss ==> 
+DateTime::Locale::ss_SZ ==> 
+DateTime::Locale::ss_ZA ==> 
+DateTime::Locale::st ==> 
+DateTime::Locale::st_LS ==> 
+DateTime::Locale::st_ZA ==> 
+DateTime::Locale::sv ==> 
+DateTime::Locale::sv_FI ==> 
+DateTime::Locale::sv_SE ==> 
+DateTime::Locale::sw ==> 
+DateTime::Locale::sw_KE ==> 
+DateTime::Locale::sw_TZ ==> 
+DateTime::Locale::syr ==> 
+DateTime::Locale::syr_SY ==> 
+DateTime::Locale::ta ==> 
+DateTime::Locale::ta_IN ==> 
+DateTime::Locale::te ==> 
+DateTime::Locale::te_IN ==> 
+DateTime::Locale::tg ==> 
+DateTime::Locale::tg_Cyrl ==> 
+DateTime::Locale::tg_Cyrl_TJ ==> 
+DateTime::Locale::tg_TJ ==> 
+DateTime::Locale::th ==> 
+DateTime::Locale::th_TH ==> 
+DateTime::Locale::ti ==> 
+DateTime::Locale::tig ==> 
+DateTime::Locale::tig_ER ==> 
+DateTime::Locale::ti_ER ==> 
+DateTime::Locale::ti_ET ==> 
+DateTime::Locale::tl ==> 
+DateTime::Locale::tn ==> 
+DateTime::Locale::tn_ZA ==> 
+DateTime::Locale::to ==> 
+DateTime::Locale::to_TO ==> 
+DateTime::Locale::tr ==> 
+DateTime::Locale::trv ==> 
+DateTime::Locale::trv_TW ==> 
+DateTime::Locale::tr_TR ==> 
+DateTime::Locale::ts ==> 
+DateTime::Locale::ts_ZA ==> 
+DateTime::Locale::tt ==> 
+DateTime::Locale::tt_RU ==> 
+DateTime::Locale::ug ==> 
+DateTime::Locale::ug_Arab ==> 
+DateTime::Locale::ug_Arab_CN ==> 
+DateTime::Locale::ug_CN ==> 
+DateTime::Locale::uk ==> 
+DateTime::Locale::uk_UA ==> 
+DateTime::Locale::ur ==> 
+DateTime::Locale::ur_IN ==> 
+DateTime::Locale::ur_PK ==> 
+DateTime::Locale::uz ==> 
+DateTime::Locale::uz_AF ==> 
+DateTime::Locale::uz_Arab ==> 
+DateTime::Locale::uz_Arab_AF ==> 
+DateTime::Locale::uz_Cyrl ==> 
+DateTime::Locale::uz_Cyrl_UZ ==> 
+DateTime::Locale::uz_Latn ==> 
+DateTime::Locale::uz_Latn_UZ ==> 
+DateTime::Locale::uz_UZ ==> 
+DateTime::Locale::ve ==> 
+DateTime::Locale::ve_ZA ==> 
+DateTime::Locale::vi ==> 
+DateTime::Locale::vi_VN ==> 
+DateTime::Locale::wal ==> 
+DateTime::Locale::wal_ET ==> 
+DateTime::Locale::wo ==> 
+DateTime::Locale::wo_Latn ==> 
+DateTime::Locale::wo_Latn_SN ==> 
+DateTime::Locale::wo_SN ==> 
+DateTime::Locale::xh ==> 
+DateTime::Locale::xh_ZA ==> 
+DateTime::Locale::yo ==> 
+DateTime::Locale::yo_NG ==> 
+DateTime::Locale::zh ==> 
+DateTime::Locale::zh_CN ==> 
+DateTime::Locale::zh_Hans ==> 
+DateTime::Locale::zh_Hans_CN ==> 
+DateTime::Locale::zh_Hans_HK ==> 
+DateTime::Locale::zh_Hans_MO ==> 
+DateTime::Locale::zh_Hans_SG ==> 
+DateTime::Locale::zh_Hant ==> 
+DateTime::Locale::zh_Hant_HK ==> 
+DateTime::Locale::zh_Hant_MO ==> 
+DateTime::Locale::zh_Hant_TW ==> 
+DateTime::Locale::zh_HK ==> 
+DateTime::Locale::zh_MO ==> 
+DateTime::Locale::zh_SG ==> 
+DateTime::Locale::zh_TW ==> 
+DateTime::Locale::zu ==> 
+DateTime::Locale::zu_ZA ==> 
+DateTime::Locale ==> 0.45
+DateTime::LocaleCatalog ==> 
+DBD::DBM ==> 0.06
+DBD::ExampleP ==> 12.014310
+DBD::File ==> 0.40
+DBD::Gofer::Policy::Base ==> 0.010087
+DBD::Gofer::Policy::classic ==> 0.010087
+DBD::Gofer::Policy::pedantic ==> 0.010087
+DBD::Gofer::Policy::rush ==> 0.010087
+DBD::Gofer::Transport::Base ==> 0.014120
+DBD::Gofer::Transport::corostream ==> 
+DBD::Gofer::Transport::null ==> 0.010087
+DBD::Gofer::Transport::pipeone ==> 0.010087
+DBD::Gofer::Transport::stream ==> 0.014598
+DBD::Gofer ==> 0.015289
+DBD::NullP ==> 12.014714
+DBD::Proxy ==> 
+DBD::Sponge ==> 12.010002
+DBI::Changes ==> 
+DBI::Const::GetInfo::ANSI ==> 
+DBI::Const::GetInfo::ODBC ==> 
+DBI::Const::GetInfoReturn ==> 
+DBI::Const::GetInfoType ==> 
+DBI::DBD::Metadata ==> 2.014213
+DBI::DBD::SqlEngine ==> 0.03
+DBI::DBD ==> 12.015128
+DBI::FAQ ==> 1.014934
+DBI::Gofer::Execute ==> 0.014282
+DBI::Gofer::Request ==> 0.012536
+DBI::Gofer::Response ==> 0.011565
+DBI::Gofer::Serializer::Base ==> 0.009949
+DBI::Gofer::Serializer::DataDumper ==> 0.009949
+DBI::Gofer::Serializer::Storable ==> 0.009949
+DBI::Gofer::Transport::Base ==> 0.012536
+DBI::Gofer::Transport::pipeone ==> 0.012536
+DBI::Gofer::Transport::stream ==> 0.012536
+DBI::Profile ==> 2.015064
+DBI::ProfileData ==> 2.010007
+DBI::ProfileDumper::Apache ==> 
+DBI::ProfileDumper ==> 2.013956
+DBI::ProfileSubs ==> 0.009395
+DBI::ProxyServer ==> 
+DBI::PurePerl ==> 2.014285
+DBI::SQL::Nano ==> 1.014600
+DBI::Util::CacheMemory ==> 0.010314
+DBI::Util::_accessor ==> 0.009478
+DBI::W32ODBC ==> 
+DBI ==> 1.621
+Devel::Cycle ==> 1.11
+Devel::Declare::Context::Simple ==> 0.006011
+Devel::Declare::MethodInstaller::Simple ==> 0.006011
+Devel::Declare ==> 0.006011
+Devel::Dwarn ==> 
+Devel::PartialDump ==> 0.15
+Devel::Symdump::Export ==> 
+Devel::Symdump ==> 2.08
+Exporter::Declare::Export::Alias ==> 
+Exporter::Declare::Export::Generator ==> 
+Exporter::Declare::Export::Sub ==> 
+Exporter::Declare::Export::Variable ==> 
+Exporter::Declare::Export ==> 
+Exporter::Declare::Magic::Parser ==> 
+Exporter::Declare::Magic::Sub ==> 
+Exporter::Declare::Magic ==> 
+Exporter::Declare::Meta ==> 
+Exporter::Declare::Specs ==> 
+Exporter::Declare ==> 0.105
+ExtUtils::Command::MM ==> 6.62
+ExtUtils::Depends ==> 0.304
+ExtUtils::Liblist::Kid ==> 6.62
+ExtUtils::Liblist ==> 6.62
+ExtUtils::MakeMaker::Config ==> 6.62
+ExtUtils::MakeMaker ==> 6.62
+ExtUtils::Mkbootstrap ==> 6.62
+ExtUtils::Mksymlists ==> 6.62
+ExtUtils::MM ==> 6.62
+ExtUtils::MM_AIX ==> 6.62
+ExtUtils::MM_Any ==> 6.62
+ExtUtils::MM_BeOS ==> 6.62
+ExtUtils::MM_Cygwin ==> 6.62
+ExtUtils::MM_Darwin ==> 6.62
+ExtUtils::MM_DOS ==> 6.62
+ExtUtils::MM_MacOS ==> 6.62
+ExtUtils::MM_NW5 ==> 6.62
+ExtUtils::MM_OS2 ==> 6.62
+ExtUtils::MM_QNX ==> 6.62
+ExtUtils::MM_Unix ==> 6.62
+ExtUtils::MM_UWIN ==> 6.62
+ExtUtils::MM_VMS ==> 6.62
+ExtUtils::MM_VOS ==> 6.62
+ExtUtils::MM_Win32 ==> 6.62
+ExtUtils::MM_Win95 ==> 6.62
+ExtUtils::MY ==> 6.62
+ExtUtils::testlib ==> 6.62
+Fennec::Lite ==> 0.004
+File::Copy::Recursive ==> 0.38
+HTTP::Server::Simple::CGI::Environment ==> 0.44
+HTTP::Server::Simple::CGI ==> 0.44
+HTTP::Server::Simple ==> 0.44
+JSON::PP::Compat5006 ==> 
+lib::core::only ==> 
+local::lib ==> 1.008004
+Log::Contextual::SimpleLogger ==> 
+Log::Contextual::TeeLogger ==> 
+Log::Contextual::WarnLogger ==> 
+Log::Contextual ==> 
+Log::Dispatch::ApacheLog ==> 
+Log::Dispatch::Base ==> 2.32
+Log::Dispatch::Email::MailSend ==> 
+Log::Dispatch::Email::MailSender ==> 
+Log::Dispatch::Email::MailSendmail ==> 
+Log::Dispatch::Email::MIMELite ==> 
+Log::Dispatch::Email ==> 2.32
+Log::Dispatch::File::Locked ==> 2.32
+Log::Dispatch::File ==> 2.32
+Log::Dispatch::Handle ==> 2.32
+Log::Dispatch::Null ==> 2.32
+Log::Dispatch::Output ==> 2.32
+Log::Dispatch::Screen ==> 2.32
+Log::Dispatch::Syslog ==> 2.32
+Log::Dispatch ==> 2.32
+Log::Log4perl::Appender::Buffer ==> 1.2
+Log::Log4perl::Appender::DBI ==> 
+Log::Log4perl::Appender::File ==> 
+Log::Log4perl::Appender::Limit ==> 1.7
+Log::Log4perl::Appender::RRDs ==> 
+Log::Log4perl::Appender::Screen ==> 
+Log::Log4perl::Appender::ScreenColoredLevels ==> 
+Log::Log4perl::Appender::Socket ==> 
+Log::Log4perl::Appender::String ==> 
+Log::Log4perl::Appender::Synchronized ==> 
+Log::Log4perl::Appender::TestArrayBuffer ==> 
+Log::Log4perl::Appender::TestBuffer ==> 
+Log::Log4perl::Appender::TestFileCreeper ==> 
+Log::Log4perl::Appender ==> 
+Log::Log4perl::Catalyst ==> 1.37
+Log::Log4perl::Config::BaseConfigurator ==> 
+Log::Log4perl::Config::DOMConfigurator ==> 
+Log::Log4perl::Config::PropertyConfigurator ==> 
+Log::Log4perl::Config::Watch ==> 
+Log::Log4perl::Config ==> 
+Log::Log4perl::DateFormat ==> 
+Log::Log4perl::FAQ ==> 
+Log::Log4perl::Filter::Boolean ==> 
+Log::Log4perl::Filter::LevelMatch ==> 
+Log::Log4perl::Filter::LevelRange ==> 
+Log::Log4perl::Filter::StringMatch ==> 
+Log::Log4perl::Filter ==> 
+Log::Log4perl::InternalDebug ==> 
+Log::Log4perl::JavaMap::ConsoleAppender ==> 
+Log::Log4perl::JavaMap::FileAppender ==> 
+Log::Log4perl::JavaMap::JDBCAppender ==> 
+Log::Log4perl::JavaMap::NTEventLogAppender ==> 
+Log::Log4perl::JavaMap::RollingFileAppender ==> 
+Log::Log4perl::JavaMap::SyslogAppender ==> 
+Log::Log4perl::JavaMap::TestBuffer ==> 
+Log::Log4perl::JavaMap ==> 
+Log::Log4perl::Layout::NoopLayout ==> 
+Log::Log4perl::Layout::PatternLayout::Multiline ==> 
+Log::Log4perl::Layout::PatternLayout ==> 
+Log::Log4perl::Layout::SimpleLayout ==> 
+Log::Log4perl::Layout ==> 
+Log::Log4perl::Level ==> 
+Log::Log4perl::Logger ==> 
+Log::Log4perl::MDC ==> 
+Log::Log4perl::NDC ==> 
+Log::Log4perl::Resurrector ==> 
+Log::Log4perl::Util::Semaphore ==> 
+Log::Log4perl::Util::TimeTracker ==> 
+Log::Log4perl::Util ==> 
+Log::Log4perl ==> 1.37
+LWP::Authen::Basic ==> 
+LWP::Authen::Digest ==> 
+LWP::Authen::Ntlm ==> 
+LWP::ConnCache ==> 6.02
+LWP::Debug ==> 
+LWP::DebugFile ==> 
+LWP::MemberMixin ==> 
+LWP::Protocol::cpan ==> 
+LWP::Protocol::data ==> 
+LWP::Protocol::file ==> 
+LWP::Protocol::ftp ==> 
+LWP::Protocol::GHTTP ==> 
+LWP::Protocol::gopher ==> 
+LWP::Protocol::http ==> 
+LWP::Protocol::loopback ==> 
+LWP::Protocol::mailto ==> 
+LWP::Protocol::nntp ==> 
+LWP::Protocol::nogo ==> 
+LWP::Protocol ==> 6.00
+LWP::RobotUA ==> 6.03
+LWP::Simple ==> 6.00
+LWP::UserAgent ==> 6.04
+LWP ==> 6.04
+LWPx::TimedHTTP ==> 1.8
+Math::Round ==> 0.06
+Meta::Builder::Base ==> 
+Meta::Builder::Util ==> 
+Meta::Builder ==> 0.003
+Module::Implementation ==> 0.06
+Module::Runtime ==> 0.013
+MooseX::Traits::Util ==> 
+MooseX::Traits ==> 0.11
+MooseX::Types::Base ==> 0.35
+MooseX::Types::CheckedUtilExports ==> 0.35
+MooseX::Types::Combine ==> 0.35
+MooseX::Types::Moose ==> 0.35
+MooseX::Types::TypeDecorator ==> 0.35
+MooseX::Types::UndefinedType ==> 0.35
+MooseX::Types::Util ==> 0.35
+MooseX::Types::Wrapper ==> 0.35
+MooseX::Types ==> 0.35
+namespace::autoclean ==> 0.13
+namespace::clean::_PP_OSE ==> 
+namespace::clean::_PP_OSE_5_8 ==> 
+namespace::clean ==> 0.23
+ok ==> 
+PadWalker ==> 1.93
+Params::Validate::Constants ==> 
+Params::Validate::PP ==> 
+Params::Validate::XS ==> 
+Params::Validate ==> 1.06
+Params::ValidatePP ==> 
+Params::ValidateXS ==> 
+Pod::Coverage::CountParents ==> 
+Pod::Coverage::ExportOnly ==> 
+Pod::Coverage::Overloader ==> 
+Pod::Coverage ==> 0.22
+Task::Kensho::Logging ==> 0.01
+Task::Kensho::OOP ==> 0.28
+Task::Kensho::Toolchain ==> 0.28
+Task::Moose ==> 0.03
+Test::Deep::All ==> 
+Test::Deep::Any ==> 
+Test::Deep::Array ==> 
+Test::Deep::ArrayEach ==> 
+Test::Deep::ArrayElementsOnly ==> 
+Test::Deep::ArrayLength ==> 
+Test::Deep::ArrayLengthOnly ==> 
+Test::Deep::Blessed ==> 
+Test::Deep::Boolean ==> 
+Test::Deep::Cache::Simple ==> 
+Test::Deep::Cache ==> 
+Test::Deep::Class ==> 
+Test::Deep::Cmp ==> 
+Test::Deep::Code ==> 
+Test::Deep::Hash ==> -1, set by base.pm
+Test::Deep::HashEach ==> 
+Test::Deep::HashElements ==> -1, set by base.pm
+Test::Deep::HashKeys ==> -1, set by base.pm
+Test::Deep::HashKeysOnly ==> -1, set by base.pm
+Test::Deep::Ignore ==> 
+Test::Deep::Isa ==> 
+Test::Deep::ListMethods ==> 
+Test::Deep::Methods ==> 
+Test::Deep::MM ==> 
+Test::Deep::NoTest ==> 
+Test::Deep::Number ==> 
+Test::Deep::Ref ==> 
+Test::Deep::RefType ==> 
+Test::Deep::Regexp ==> 
+Test::Deep::RegexpMatches ==> 
+Test::Deep::RegexpOnly ==> 
+Test::Deep::RegexpRef ==> 
+Test::Deep::RegexpRefOnly ==> 
+Test::Deep::RegexpVersion ==> 
+Test::Deep::ScalarRef ==> 
+Test::Deep::ScalarRefOnly ==> 
+Test::Deep::Set ==> 
+Test::Deep::Shallow ==> 
+Test::Deep::Stack ==> 
+Test::Deep::String ==> 
+Test::Deep ==> 0.109
+Test::Fatal ==> 0.010
+Test::Memory::Cycle ==> 1.04
+Test::Most::Exception ==> 0.25
+Test::Most ==> 0.25
+Test::NoWarnings::Warning ==> 1.04
+Test::NoWarnings ==> 1.04ok 1 - no warnings
+Test::Output::Tie ==> 1.01
+Test::Output ==> 1.01
+Test::Pod::Coverage ==> 1.08
+Test::Pod ==> 1.45
+Test::Requires ==> 0.06
+Test::Tester::Capture ==> 
+Test::Tester::CaptureRunner ==> 
+Test::Tester::Delegate ==> 
+Test::Tester ==> 0.108
+Test::use::ok ==> 0.02
+Test::Warn ==> 0.24
+Tree::DAG_Node ==> 1.06
+Variable::Magic ==> 0.48
+Win32::DBIODBC ==> 
+WWW::Mechanize::Image ==> 
+WWW::Mechanize::Link ==> 
+WWW::Mechanize ==> 1.72
