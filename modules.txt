@@ -273,8 +273,8 @@ DBD::Gofer::Transport::corostream ==>
 DBD::Gofer::Transport::null ==> 0.010087
 DBD::Gofer::Transport::pipeone ==> 0.010087
 DBD::Gofer::Transport::stream ==> 0.014598
-DBD::Gofer ==> 0.014282
-DBD::NullP ==> 12.014563
+DBD::Gofer ==> 0.015289
+DBD::NullP ==> 12.014714
 DBD::ODBC::Changes ==> 
 DBD::ODBC::FAQ ==> 
 DBD::ODBC::TO_DO ==> 
@@ -293,8 +293,8 @@ DBI::Const::GetInfoReturn ==>
 DBI::Const::GetInfoType ==> 
 DBI::DBD::Metadata ==> 2.014213
 DBI::DBD::SqlEngine ==> 0.03
-DBI::DBD ==> 12.014600
-DBI::FAQ ==> 1.014270
+DBI::DBD ==> 12.015128
+DBI::FAQ ==> 1.014934
 DBI::Gofer::Execute ==> 0.014282
 DBI::Gofer::Request ==> 0.012536
 DBI::Gofer::Response ==> 0.011565
@@ -304,7 +304,7 @@ DBI::Gofer::Serializer::Storable ==> 0.009949
 DBI::Gofer::Transport::Base ==> 0.012536
 DBI::Gofer::Transport::pipeone ==> 0.012536
 DBI::Gofer::Transport::stream ==> 0.012536
-DBI::Profile ==> 2.014123
+DBI::Profile ==> 2.015064
 DBI::ProfileData ==> 2.010007
 DBI::ProfileDumper::Apache ==> 
 DBI::ProfileDumper ==> 2.013956
@@ -315,7 +315,7 @@ DBI::SQL::Nano ==> 1.014600
 DBI::Util::CacheMemory ==> 0.010314
 DBI::Util::_accessor ==> 0.009478
 DBI::W32ODBC ==> 
-DBI ==> 1.616
+DBI ==> 1.621
 DBM_Filter::compress ==> 0.02
 DBM_Filter::encode ==> 0.02
 DBM_Filter::int32 ==> 0.02
@@ -408,7 +408,7 @@ ExtUtils::CBuilder::Platform::Windows::GCC ==> 0.280203
 ExtUtils::CBuilder::Platform::Windows::MSVC ==> 0.280203
 ExtUtils::CBuilder::Platform::Windows ==> 0.280203
 ExtUtils::CBuilder ==> 0.280203
-ExtUtils::Command::MM ==> 6.57_05
+ExtUtils::Command::MM ==> 6.62
 ExtUtils::Command ==> 1.17
 ExtUtils::Constant::Base ==> 0.05
 ExtUtils::Constant::ProxySubs ==> 0.08
@@ -418,39 +418,39 @@ ExtUtils::Constant ==> 0.23
 ExtUtils::Embed ==> 1.3001
 ExtUtils::Install ==> 1.56
 ExtUtils::Installed ==> 1.999001
-ExtUtils::Liblist::Kid ==> 6.5705
-ExtUtils::Liblist ==> 6.57_05
-ExtUtils::MakeMaker::Config ==> 6.57_05
+ExtUtils::Liblist::Kid ==> 6.62
+ExtUtils::Liblist ==> 6.62
+ExtUtils::MakeMaker::Config ==> 6.62
 ExtUtils::MakeMaker::YAML ==> 1.44
-ExtUtils::MakeMaker ==> 6.57_05
+ExtUtils::MakeMaker ==> 6.62
 ExtUtils::Manifest ==> 1.60
 ExtUtils::Miniperl ==> 
-ExtUtils::Mkbootstrap ==> 6.57_05
-ExtUtils::Mksymlists ==> 6.57_05
-ExtUtils::MM ==> 6.57_05
-ExtUtils::MM_AIX ==> 6.57_05
-ExtUtils::MM_Any ==> 6.57_05
-ExtUtils::MM_BeOS ==> 6.57_05
-ExtUtils::MM_Cygwin ==> 6.57_05
-ExtUtils::MM_Darwin ==> 6.57_05
-ExtUtils::MM_DOS ==> 6.5705
-ExtUtils::MM_MacOS ==> 6.5705
-ExtUtils::MM_NW5 ==> 6.57_05
-ExtUtils::MM_OS2 ==> 6.57_05
-ExtUtils::MM_QNX ==> 6.57_05
-ExtUtils::MM_Unix ==> 6.57_05
-ExtUtils::MM_UWIN ==> 6.5705
-ExtUtils::MM_VMS ==> 6.57_05
-ExtUtils::MM_VOS ==> 6.57_05
-ExtUtils::MM_Win32 ==> 6.57_05
-ExtUtils::MM_Win95 ==> 6.57_05
-ExtUtils::MY ==> 6.5705
+ExtUtils::Mkbootstrap ==> 6.62
+ExtUtils::Mksymlists ==> 6.62
+ExtUtils::MM ==> 6.62
+ExtUtils::MM_AIX ==> 6.62
+ExtUtils::MM_Any ==> 6.62
+ExtUtils::MM_BeOS ==> 6.62
+ExtUtils::MM_Cygwin ==> 6.62
+ExtUtils::MM_Darwin ==> 6.62
+ExtUtils::MM_DOS ==> 6.62
+ExtUtils::MM_MacOS ==> 6.62
+ExtUtils::MM_NW5 ==> 6.62
+ExtUtils::MM_OS2 ==> 6.62
+ExtUtils::MM_QNX ==> 6.62
+ExtUtils::MM_Unix ==> 6.62
+ExtUtils::MM_UWIN ==> 6.62
+ExtUtils::MM_VMS ==> 6.62
+ExtUtils::MM_VOS ==> 6.62
+ExtUtils::MM_Win32 ==> 6.62
+ExtUtils::MM_Win95 ==> 6.62
+ExtUtils::MY ==> 6.62
 ExtUtils::Packlist ==> 1.44
 ExtUtils::ParseXS::Constants ==> 3.04
 ExtUtils::ParseXS::CountLines ==> 3.04
 ExtUtils::ParseXS::Utilities ==> 3.04
 ExtUtils::ParseXS ==> 3.04
-ExtUtils::testlib ==> 6.5705
+ExtUtils::testlib ==> 6.62
 ExtUtils::Typemaps::InputMap ==> 
 ExtUtils::Typemaps::OutputMap ==> 
 ExtUtils::Typemaps::Type ==> 0.05
@@ -674,10 +674,10 @@ LWP::Protocol::mailto ==>
 LWP::Protocol::nntp ==> 
 LWP::Protocol::nogo ==> 
 LWP::Protocol ==> 6.00
-LWP::RobotUA ==> 6.00
+LWP::RobotUA ==> 6.03
 LWP::Simple ==> 6.00
-LWP::UserAgent ==> 6.02
-LWP ==> 6.02
+LWP::UserAgent ==> 6.04
+LWP ==> 6.04
 Math::BigFloat::Trace ==> MBF import Math::BigFloat::Trace0.29
 Math::BigFloat ==> 1.997
 Math::BigInt::Calc ==> 1.997
@@ -1606,7 +1606,7 @@ Win32API::Registry ==> 0.30
 Win32CORE ==> 0.02
 WWW::Mechanize::Image ==> 
 WWW::Mechanize::Link ==> 
-WWW::Mechanize ==> 1.70
+WWW::Mechanize ==> 1.72
 WWW::RobotRules::AnyDBM_File ==> 6.00
 WWW::RobotRules ==> 6.01
 XML::Parser::Expat ==> 2.41
